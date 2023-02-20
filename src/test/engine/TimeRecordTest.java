@@ -11,8 +11,11 @@ class TimeRecordTest {
 
     @Test
     void contructorTest1() {
-        float seconds = 4.596f;
-        assert (floatEquals(new TimeRecord(seconds).seconds(), seconds));
+        float elapsed = 4.596f;
+        float total = 52.56f;
+        var r = new TimeRecord(elapsed, total);
+        assertTrue(floatEquals(r.elapsedSeconds(), elapsed));
+        assertTrue(floatEquals(r.totalSeconds(), total));
     }
 
 }

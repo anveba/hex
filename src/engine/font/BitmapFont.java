@@ -20,6 +20,9 @@ public class BitmapFont {
     private int textureHandle;
 
     public BitmapFont(String path, float heightInPx) {
+        
+        //TODO clean up
+        
         File fontFile = new File(path);
         byte[] fontRaw;
         try {

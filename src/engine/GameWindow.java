@@ -88,14 +88,16 @@ public abstract class GameWindow implements GraphicsContext {
         begin();
 
         float timeSinceLast = (float) glfwGetTime();
+        float totalTime = 0.0f;
 
         while (!glfwWindowShouldClose(windowHandle)) {
 
             float currentTime = (float) glfwGetTime();
             float deltaTime = currentTime - timeSinceLast;
             timeSinceLast = currentTime;
+            totalTime += deltaTime;
 
-            update(new TimeRecord(deltaTime));
+            update(new TimeRecord(deltaTime, totalTime));
 
             draw();
 

@@ -10,6 +10,8 @@ import org.lwjgl.BufferUtils;
 import engine.*;
 
 public class Shader {
+    
+    //TODO clean up
 
     private int handle;
 

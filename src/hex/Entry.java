@@ -30,6 +30,7 @@ public class Entry extends GameWindow {
     private Texture tex;
     private Renderer2D r2D;
     private BitmapFont font;
+    private TimeRecord elapsed;
 
     public Entry() {
 
@@ -46,7 +47,7 @@ public class Entry extends GameWindow {
 
     @Override
     protected void update(TimeRecord elapsed) {
-
+        this.elapsed = elapsed;
     }
 
     @Override
@@ -54,9 +55,20 @@ public class Entry extends GameWindow {
 
         clear();
 
-        r2D.drawString(font, "Hello world!", 0.0f, 0.5f, 0.1f);
-        r2D.draw(tex, 0.0f, 0.0f, 0.4f, 0.4f, 0, 0, tex.width(), tex.height());
-
+        r2D.drawString(font, "Hello world!", 0.0f, 0.0f, 0.1f);
+        
+        final int drawCount = 100;
+        
+        for (int i = 0; i < drawCount; i++) {
+            float f = elapsed.totalSeconds() + (float)i / drawCount * 2.0f * (float)Math.PI;
+            int mod = (i % 100);
+            r2D.draw(tex, 
+                    (float)Math.cos(f * 0.01241f * mod + 1.432f * mod), 
+                    (float)Math.sin(f * 0.05234f * mod + 40.4327f * mod), 
+                    (float)Math.cos(f * 0.01444f * mod + 342.0432f * mod) / 5.0f, 
+                    (float)Math.sin(f * 0.00452f * mod + 24.3421f * mod) / 5.0f, 
+                    0, 0, tex.width(), tex.height());
+        }
     }
 
     public static void main(String[] args) {

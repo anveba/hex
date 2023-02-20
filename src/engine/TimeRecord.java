@@ -2,13 +2,19 @@ package engine;
 
 public class TimeRecord {
 
-    private float seconds;
+    private float elapsedSeconds;
+    private float totalSeconds;
 
-    public TimeRecord(float seconds) {
-        this.seconds = seconds;
+    public TimeRecord(float elapsedSeconds, float totalSeconds) {
+        this.elapsedSeconds = elapsedSeconds;
+        this.totalSeconds = totalSeconds;
     }
 
-    public float seconds() {
-        return seconds;
+    public float elapsedSeconds() {
+        return elapsedSeconds;
+    }
+    
+    public float totalSeconds() {
+        return totalSeconds;
     }
 }

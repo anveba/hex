@@ -12,16 +12,16 @@ class Vector2Test {
     @Test
     void contructorTest1() {
         Vector2 v = new Vector2();
-        assert (floatEquals(v.getX(), 0.0f));
-        assert (floatEquals(v.getY(), 0.0f));
+        assertTrue(floatEquals(v.getX(), 0.0f));
+        assertTrue(floatEquals(v.getY(), 0.0f));
     }
 
     @Test
     void contructorTest2() {
         float x = 55.0f, y = 6842.12f;
         Vector2 v = new Vector2(x, y);
-        assert (floatEquals(v.getX(), x));
-        assert (floatEquals(v.getY(), y));
+        assertTrue(floatEquals(v.getX(), x));
+        assertTrue(floatEquals(v.getY(), y));
     }
 
     @Test
@@ -30,7 +30,7 @@ class Vector2Test {
         float x = 782.34f, y = 32.87f;
         v.setX(x);
         v.setY(y);
-        assert (floatEquals(v.getX(), x));
-        assert (floatEquals(v.getY(), y));
+        assertTrue(floatEquals(v.getX(), x));
+        assertTrue(floatEquals(v.getY(), y));
     }
 }

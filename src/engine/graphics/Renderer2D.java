@@ -6,6 +6,8 @@ import engine.*;
 import engine.font.*;
 
 public class Renderer2D {
+    
+    //TODO clean up
 
     public static int[] quadIndices = { 0, 1, 2, 2, 3, 0 };
 
