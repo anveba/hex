@@ -71,7 +71,6 @@ public abstract class GameWindow implements GraphicsContext {
         glfwSetWindowPos(windowHandle, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
 
         glfwMakeContextCurrent(windowHandle);
-
         GL.createCapabilities();
 
         glfwSwapInterval(1);
@@ -118,11 +117,11 @@ public abstract class GameWindow implements GraphicsContext {
         }
 
         if (errors.size() > 0) {
-            String message = "OpenGL error(s) occured:\n";
-            for (int i = 0; i < errors.size(); i++) {
-                message += "Code: " + errors.get(i) + "\n";
+            StringBuilder message = new StringBuilder("OpenGL error(s) occurred:\n");
+            for (Integer integer : errors) {
+                message.append("Code: ").append(integer).append("\n");
             }
-            throw new EngineException(message);
+            throw new EngineException(message.toString());
         }
     }
 
