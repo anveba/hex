@@ -12,6 +12,8 @@ import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -38,6 +40,7 @@ public class Entry extends GameWindow {
 
     @Override
     protected void begin() {
+
         tex = new Texture("res/textures/test_input.jpg");
         r2D = new Renderer2D(this);
         font = new BitmapFont("res/fonts/roboto.ttf", 64.0f);

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBTTBakedChar;
@@ -63,9 +65,9 @@ public class BitmapFont {
         charDataBuffer.free();
 
         textureHandle = glGenTextures();
-        glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, textureHandle);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bitmapWidth, bitmapHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE,
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bitmapWidth, bitmapHeight, 0, GL_RED, GL_UNSIGNED_BYTE,
                 verticallyFlippedBitmap);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

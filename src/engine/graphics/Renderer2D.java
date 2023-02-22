@@ -5,6 +5,9 @@ import static org.lwjgl.opengl.GL33.*;
 import engine.*;
 import engine.font.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Renderer2D {
     
     //TODO clean up
