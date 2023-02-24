@@ -8,6 +8,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import java.nio.IntBuffer;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -15,19 +17,28 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import engine.graphics.GraphicsContext;
+import engine.input.Controls;
+import engine.input.ControlsListener;
+import engine.input.InputType;
 
 public abstract class GameWindow implements GraphicsContext {
 
     private long windowHandle;
     private boolean initialised;
     private int viewportWidth, viewportHeight;
+    private ControlsListener controlsListener;
 
     public GameWindow() {
         initialised = false;
     }
 
     public void startGame(String name, int width, int height) {
+        
+        if (initialised)
+            throw new EngineException("Game already started");
+        
         startWindow(name, width, height);
+        
         startLoop();
 
         glfwFreeCallbacks(windowHandle);
@@ -53,11 +64,6 @@ public abstract class GameWindow implements GraphicsContext {
         if (windowHandle == NULL)
             throw new EngineException("Failed to create the GLFW window");
 
-        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-        });
-
         viewportWidth = width;
         viewportHeight = height;
         glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> {
@@ -74,8 +80,12 @@ public abstract class GameWindow implements GraphicsContext {
         GL.createCapabilities();
 
         glfwSwapInterval(1);
-
+        
         initialised = true;
+        
+        controlsListener = new ControlsListener(
+                this::setControlsCallback,
+                this::setCursorPositionCallback);
 
         glfwShowWindow(windowHandle);
 
@@ -142,6 +152,12 @@ public abstract class GameWindow implements GraphicsContext {
             throw new EngineException("window not initialised");
         glClearColor(r, g, b, 0.0f);
     }
+    
+    public void closeWindow() {
+        if (!initialised)
+            throw new EngineException("window not initialised");
+        glfwSetWindowShouldClose(windowHandle, true);
+    }
 
     public int getViewportWidth() {
         return viewportWidth;
@@ -149,6 +165,116 @@ public abstract class GameWindow implements GraphicsContext {
 
     public int getViewportHeight() {
         return viewportHeight;
+    }
+    
+    public ControlsListener getControlsListener() { 
+        return controlsListener; 
+    }
+    
+    private void setControlsCallback(BiConsumer<Controls, InputType> callback) {
+        glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
+            if (action == GLFW_REPEAT)
+                return;
+            Controls c;
+            InputType t;
+            try {
+                c = mapGLFWInputToControls(key);
+                t = mapGLFWInputTypeToInputType(action);
+            }
+            catch (EngineException ex) {
+                System.out.println("Error in input processing: " + ex.getMessage());
+                return;
+            }
+            callback.accept(c, t);
+        });
+    }
+    
+    private void setCursorPositionCallback(BiConsumer<Float, Float> callback) {
+        glfwSetCursorPosCallback(windowHandle, (window, rawX, rawY) -> {
+            float w = (float)getViewportWidth();
+            float h = (float)getViewportHeight();
+            float cursorX = 2.0f * ((float)rawX - w / 2.0f) / h;
+            float cursorY = 2.0f * (-((float)rawY - h / 2.0f)) / h;
+            callback.accept(cursorX, cursorY);
+        });
+    }
+    
+    private Controls mapGLFWInputToControls(int input) {
+        switch(input) {
+        case GLFW_KEY_Q:
+            return Controls.Q;
+        case GLFW_KEY_W:
+            return Controls.W;
+        case GLFW_KEY_E:
+            return Controls.E;
+        case GLFW_KEY_R:
+            return Controls.R;
+        case GLFW_KEY_T:
+            return Controls.T;
+        case GLFW_KEY_Y:
+            return Controls.Y;
+        case GLFW_KEY_U:
+            return Controls.U;
+        case GLFW_KEY_I:
+            return Controls.I;
+        case GLFW_KEY_O:
+            return Controls.O;
+        case GLFW_KEY_P:
+            return Controls.P;
+        case GLFW_KEY_A:
+            return Controls.A;
+        case GLFW_KEY_S:
+            return Controls.S;
+        case GLFW_KEY_D:
+            return Controls.D;
+        case GLFW_KEY_F:
+            return Controls.F;
+        case GLFW_KEY_G:
+            return Controls.G;
+        case GLFW_KEY_H:
+            return Controls.H;
+        case GLFW_KEY_J:
+            return Controls.J;
+        case GLFW_KEY_K:
+            return Controls.K;
+        case GLFW_KEY_L:
+            return Controls.L;
+        case GLFW_KEY_Z:
+            return Controls.Z;
+        case GLFW_KEY_X:
+            return Controls.X;
+        case GLFW_KEY_C:
+            return Controls.C;
+        case GLFW_KEY_V:
+            return Controls.V;
+        case GLFW_KEY_B:
+            return Controls.B;
+        case GLFW_KEY_N:
+            return Controls.N;
+        case GLFW_KEY_M:
+            return Controls.M;
+        case GLFW_KEY_SPACE:
+            return Controls.SPACE;
+        case GLFW_MOUSE_BUTTON_1:
+            return Controls.LEFT_MOUSE;
+        case GLFW_MOUSE_BUTTON_2:
+            return Controls.RIGHT_MOUSE;
+        case GLFW_KEY_ESCAPE:
+            return Controls.ESCAPE;
+        default:
+            throw new EngineException("No corresponding key for GLFW value: " + input);
+        }
+    }
+    
+    private InputType mapGLFWInputTypeToInputType(int t) {
+        switch (t) {
+        case GLFW_PRESS:
+            return InputType.PRESSED;
+        case GLFW_RELEASE:
+            return InputType.RELEASED;
+            default:
+                throw new EngineException("No corresponding input type for GLFW value: " + t);
+        }
     }
 
 }

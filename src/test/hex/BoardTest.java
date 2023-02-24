@@ -61,11 +61,33 @@ public class BoardTest {
             fail();
         }
     }
+    
+    @Test
+    void getTileAtPosition_XNegative_failure() {
+        try {
+            board.getTileAtPosition(-3, 1);
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
 
     @Test
     void getTileAtPosition_outOfBoundsY_failure() {
         try {
             board.getTileAtPosition(1, 10000);
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+    
+    @Test
+    void getTileAtPosition_YNegative_failure() {
+        try {
+            board.getTileAtPosition(1, -6);
         } catch (HexException e) {
 
         } catch (Exception e) {

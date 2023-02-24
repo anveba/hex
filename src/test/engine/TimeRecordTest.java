@@ -10,7 +10,7 @@ import engine.TimeRecord;
 class TimeRecordTest {
 
     @Test
-    void contructorTest1() {
+    void contructor_ValidValues_ValuesSet() {
         float elapsed = 4.596f;
         float total = 52.56f;
         var r = new TimeRecord(elapsed, total);

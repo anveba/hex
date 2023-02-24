@@ -26,6 +26,7 @@ import engine.*;
 import engine.font.BitmapFont;
 import engine.graphics.Renderer2D;
 import engine.graphics.Texture;
+import engine.input.Controls;
 
 public class Entry extends GameWindow {
 
@@ -46,6 +47,10 @@ public class Entry extends GameWindow {
         font = new BitmapFont("res/fonts/roboto.ttf", 64.0f);
 
         setClearColor(0.4f, 0.2f, 0.5f);
+        
+        getControlsListener().addOnReleaseCallback(Controls.ESCAPE, (args) -> {
+           closeWindow(); 
+        });
     }
 
     @Override
@@ -58,7 +63,10 @@ public class Entry extends GameWindow {
 
         clear();
 
-        r2D.drawString(font, "Hello world!", 0.0f, 0.0f, 0.1f);
+        r2D.drawString(font, "Hello world!", 
+                getControlsListener().getCursorX(), 
+                getControlsListener().getCursorY(), 
+                0.1f);
         
         final int drawCount = 100;
         

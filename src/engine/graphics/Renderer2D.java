@@ -28,7 +28,7 @@ public class Renderer2D {
     private static Shader getTextRendererShader() {
         if (textRendererShader == null) {
             textRendererShader = new Shader("res/shaders/renderer2D_vertex.glsl",
-                    "res/shaders/renderer2D_fragment.glsl");
+                    "res/shaders/renderer2D_text_fragment.glsl");
         }
         return textRendererShader;
     }
