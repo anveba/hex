@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameLogicTest {
-    private Board board;
     private Player player1, player2;
     private GameLogic gameLogic;
 
     @BeforeEach
     void setup() {
-        board = new Board(11);
+        Board board = new Board(11);
         player1 = new Player(Tile.Colour.BLUE);
         player2 = new Player(Tile.Colour.RED);
         gameLogic = new GameLogic(board, player1, player2);
