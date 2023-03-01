@@ -6,8 +6,8 @@ package hex;
 public class Tile {
 
     public enum Colour {
-        WHITE,
-        BLACK,
+        BLUE,
+        RED,
         NONE,
     }
 

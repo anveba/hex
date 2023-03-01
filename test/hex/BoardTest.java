@@ -1,4 +1,4 @@
-package test.hex;
+package hex;
 
 import hex.Board;
 import hex.HexException;
@@ -97,7 +97,7 @@ public class BoardTest {
 
     @Test
     void getTileAtPosition_tileColourSet_success() {
-        board.getTileAtPosition(1, 1).setColour(Tile.Colour.BLACK);
-        assertEquals(board.getTileAtPosition(1, 1).getColour(), Tile.Colour.BLACK);
+        board.getTileAtPosition(1, 1).setColour(Tile.Colour.RED);
+        assertEquals(board.getTileAtPosition(1, 1).getColour(), Tile.Colour.RED);
     }
 }
