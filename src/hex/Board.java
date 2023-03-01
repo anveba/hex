@@ -21,7 +21,7 @@ public class Board implements Drawable2D{
         }
         
         whiteTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/tile_white.png");
+                .loadTexture("textures/board/white_tile.png");
 
     }
 
@@ -42,14 +42,14 @@ public class Board implements Drawable2D{
         for (int x = 0; x < getBoardSize(); x++) {
             for (int y = 0; y < getBoardSize(); y++) {
                 float tileSize = 0.08f;
-                float drawX = ((float)x - (float)getBoardSize() / 2.0f + 0.5f);
-                float drawY = ((float)y - (float)getBoardSize() / 2.0f + 0.5f);
-                
+                float drawX = ((float)x - (float)getBoardSize() / 4.0f + 0.5f) - 0.5f * y;
+                float drawY = ((float)y - (float)getBoardSize() / 2.0f + 0.5f) * 1.1547005f * 0.75f;
+
                 drawX *= tileSize;
                 drawY *= tileSize;
                 
                 renderer.draw(whiteTileTexture, 
-                        drawX, drawY, tileSize, tileSize, 
+                        drawX, drawY, (tileSize), (tileSize * 1.1547005f),
                         0, 0, whiteTileTexture.width(), whiteTileTexture.height());
             }
         }
