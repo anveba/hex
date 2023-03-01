@@ -1,4 +1,4 @@
-package test.hex;
+package hex;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -20,8 +20,8 @@ public class Board implements Drawable2D{
             }
         }
         
-        whiteTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/tile_white.png");
+        //whiteTileTexture = ResourceManager.getInstance()
+        //        .loadTexture("textures/board/tile_white.png");
 
     }
 
