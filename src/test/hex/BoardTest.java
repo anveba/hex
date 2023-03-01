@@ -94,7 +94,7 @@ public class BoardTest {
 
     @Test
     public void getTileAtPosition_tileColourSet_success() {
-        board.getTileAtPosition(1, 1).setColour(Tile.Colour.BLACK);
-        assertEquals(board.getTileAtPosition(1, 1).getColour(), Tile.Colour.BLACK);
+        board.getTileAtPosition(1, 1).setColour(Tile.Colour.RED);
+        assertEquals(board.getTileAtPosition(1, 1).getColour(), Tile.Colour.RED);
     }
 }

@@ -16,8 +16,8 @@ public class TileTest {
 
     @Test
     public void getSetTileColour_someColour_someColour(){
-        tile.setColour(Tile.Colour.WHITE);
-        assertEquals(Tile.Colour.WHITE,tile.getColour());
+        tile.setColour(Tile.Colour.BLUE);
+        assertEquals(Tile.Colour.BLUE,tile.getColour());
     }
 
 }
