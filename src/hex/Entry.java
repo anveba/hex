@@ -30,10 +30,9 @@ import engine.input.Controls;
 
 public class Entry extends GameWindow {
 
-    private Texture tex;
+    private Board board;
     private Renderer2D r2D;
     private BitmapFont font;
-    private TimeRecord elapsed;
 
     public Entry() {
 
@@ -41,10 +40,9 @@ public class Entry extends GameWindow {
 
     @Override
     protected void begin() {
-
-        tex = new Texture("res/textures/test_input.jpg");
         r2D = new Renderer2D(this);
         font = new BitmapFont("res/fonts/roboto.ttf", 64.0f);
+        board = new Board(11);
 
         setClearColor(0.4f, 0.2f, 0.5f);
         
@@ -55,7 +53,6 @@ public class Entry extends GameWindow {
 
     @Override
     protected void update(TimeRecord elapsed) {
-        this.elapsed = elapsed;
     }
 
     @Override
@@ -63,23 +60,14 @@ public class Entry extends GameWindow {
 
         clear();
 
+        board.draw(r2D);
+        
         r2D.drawString(font, "Hello world!", 
                 getControlsListener().getCursorX(), 
                 getControlsListener().getCursorY(), 
                 0.1f);
         
-        final int drawCount = 100;
         
-        for (int i = 0; i < drawCount; i++) {
-            float f = elapsed.totalSeconds() + (float)i / drawCount * 2.0f * (float)Math.PI;
-            int mod = (i % 100);
-            r2D.draw(tex, 
-                    (float)Math.cos(f * 0.01241f * mod + 1.432f * mod), 
-                    (float)Math.sin(f * 0.05234f * mod + 40.4327f * mod), 
-                    (float)Math.cos(f * 0.01444f * mod + 342.0432f * mod) / 5.0f, 
-                    (float)Math.sin(f * 0.00452f * mod + 24.3421f * mod) / 5.0f, 
-                    0, 0, tex.width(), tex.height());
-        }
     }
 
     public static void main(String[] args) {

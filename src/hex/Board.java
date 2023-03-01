@@ -1,16 +1,16 @@
 package hex;
 
-
-import engine.graphics.Renderer2D;
+import engine.*;
+import engine.graphics.*;
 
 import java.util.Arrays;
 
 public class Board implements Drawable2D{
     private Tile[][] board;
+    private Texture whiteTileTexture;
 
     public Board(int size){
         if(size <= 0){ throw new HexException();}
-
 
         board = new Tile[size][size];
 
@@ -19,6 +19,9 @@ public class Board implements Drawable2D{
                 board[x][y] = new Tile();
             }
         }
+        
+        whiteTileTexture = ResourceManager.getInstance()
+                .loadTexture("textures/board/tile_white.png");
 
     }
 
@@ -36,6 +39,19 @@ public class Board implements Drawable2D{
 
     @Override
     public void draw(Renderer2D renderer) {
-        //TODO
+        for (int x = 0; x < getBoardSize(); x++) {
+            for (int y = 0; y < getBoardSize(); y++) {
+                float tileSize = 0.08f;
+                float drawX = ((float)x - (float)getBoardSize() / 2.0f + 0.5f);
+                float drawY = ((float)y - (float)getBoardSize() / 2.0f + 0.5f);
+                
+                drawX *= tileSize;
+                drawY *= tileSize;
+                
+                renderer.draw(whiteTileTexture, 
+                        drawX, drawY, tileSize, tileSize, 
+                        0, 0, whiteTileTexture.width(), whiteTileTexture.height());
+            }
+        }
     }
 }

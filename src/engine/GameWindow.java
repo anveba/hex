@@ -187,6 +187,22 @@ public abstract class GameWindow implements GraphicsContext {
             }
             callback.accept(c, t);
         });
+        
+        glfwSetMouseButtonCallback(windowHandle, (window, key, action, mods) -> {
+            if (action == GLFW_REPEAT)
+                return;
+            Controls c;
+            InputType t;
+            try {
+                c = mapGLFWInputToControls(key);
+                t = mapGLFWInputTypeToInputType(action);
+            }
+            catch (EngineException ex) {
+                System.out.println("Error in input processing: " + ex.getMessage());
+                return;
+            }
+            callback.accept(c, t);
+        });
     }
     
     private void setCursorPositionCallback(BiConsumer<Float, Float> callback) {
