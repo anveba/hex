@@ -1,13 +1,13 @@
 package test.hex;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
-class GameLoopTest {
+public class GameLoopTest {
 
     @Test
-    void test() {
+    public void test() {
         // TODO
     }
 

@@ -1,15 +1,15 @@
 package test.engine;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class Point2Test {
+public class Point2Test {
 
     // TODO
 
     @Test
-    void test() {
+    public void test() {
 
     }
 

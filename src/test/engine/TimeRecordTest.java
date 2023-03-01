@@ -1,16 +1,16 @@
 package test.engine;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static engine.Utility.*;
+import static main.engine.Utility.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import engine.TimeRecord;
+import main.engine.TimeRecord;
 
-class TimeRecordTest {
+public class TimeRecordTest {
 
     @Test
-    void contructor_ValidValues_ValuesSet() {
+    public void contructor_ValidValues_ValuesSet() {
         float elapsed = 4.596f;
         float total = 52.56f;
         var r = new TimeRecord(elapsed, total);

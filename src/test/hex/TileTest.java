@@ -1,17 +1,16 @@
 package test.hex;
 
-import hex.Board;
-import hex.Tile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.*;
+
+import main.hex.*;
 
 public class TileTest {
     private Tile tile;
 
-    @BeforeEach
-    void setup() {
+    @Before
+    public void setup() {
         tile = new Tile();
     }
 

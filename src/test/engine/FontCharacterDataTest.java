@@ -1,16 +1,16 @@
 package test.engine;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static main.engine.Utility.floatEquals;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import engine.font.FontCharacterData;
-import static engine.Utility.floatEquals;
+import main.engine.font.FontCharacterData;
 
-class FontCharacterDataTest {
+public class FontCharacterDataTest {
     
     @Test
-    void constructor_ValidValues_ValuesSet() {
+    public void constructor_ValidValues_ValuesSet() {
         int x0 = 2, x1 = 12, y0 = 20, y1 = 40;
         float advance = 18.1f, xOffset = 3.2f, yOffset = 2.0f;
         FontCharacterData d = new FontCharacterData(x0, x1, y0, y1, advance, xOffset, yOffset);
