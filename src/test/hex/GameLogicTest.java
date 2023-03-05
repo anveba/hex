@@ -1,13 +1,10 @@
 package test.hex;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import main.hex.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.Before;
+import org.junit.*;
 
 public class GameLogicTest {
     private Player player1, player2;

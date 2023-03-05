@@ -57,6 +57,9 @@ public class Entry extends GameWindow {
 
     @Override
     protected void draw() {
+    	
+    	if (!board.hasLoadedDrawingResources())
+    		board.loadDrawingResources();
 
         clear();
 

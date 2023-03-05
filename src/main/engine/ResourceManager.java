@@ -53,7 +53,7 @@ public class ResourceManager {
         path = "res/" + path;
         if (fonts.containsKey(path))
             return fonts.get(path);
-        var cl = ResourceManager.class.getClassLoader();
+        var cl = getClass().getClassLoader();
         var r = cl.getResource(path);
         BitmapFont f = new BitmapFont(r.getPath(), 32.0f);
         fonts.put(path, f);

@@ -7,6 +7,7 @@ import main.engine.graphics.*;
 
 public class Board implements Drawable2D{
     private Tile[][] board;
+    private boolean hasLoadedResources;
     private Texture whiteTileTexture;
 
     public Board(int size){
@@ -20,9 +21,7 @@ public class Board implements Drawable2D{
             }
         }
         
-        //whiteTileTexture = ResourceManager.getInstance()
-          //      .loadTexture("textures/board/white_tile.png");
-
+        hasLoadedResources = false;
     }
 
     public int getBoardSize(){
@@ -54,4 +53,18 @@ public class Board implements Drawable2D{
             }
         }
     }
+
+    
+    
+	@Override
+	public boolean hasLoadedDrawingResources() {
+		return hasLoadedResources;
+	}
+
+	@Override
+	public void loadDrawingResources() {
+        whiteTileTexture = ResourceManager.getInstance()
+                .loadTexture("textures/board/white_tile.png");
+        hasLoadedResources = true;
+	}
 }
