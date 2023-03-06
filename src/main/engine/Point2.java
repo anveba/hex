@@ -28,4 +28,9 @@ public class Point2 {
     public void setY(int y) {
         this.y = y;
     }
+    
+    @Override
+    public String toString() {
+    	return "(" + getX() + ", " + getY() + ")";
+    }
 }

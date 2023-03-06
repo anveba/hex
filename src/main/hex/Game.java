@@ -28,14 +28,22 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import org.lwjgl.stb.*;
 
-public class Entry extends GameWindow {
+public class Game extends GameWindow {
 
     private Board board;
     private Renderer2D r2D;
     private BitmapFont font;
+    
+    private static Game instance;
+    public static Game getInstance() {
+    	return instance;
+    }
 
-    public Entry() {
-
+    private Game() {
+    	if (instance != null) {
+    		throw new HexException("Several instances of the game was created");
+    	}
+    	instance = this;
     }
 
     @Override
@@ -64,17 +72,10 @@ public class Entry extends GameWindow {
         clear();
 
         board.draw(r2D);
-        
-        r2D.drawString(font, "Hello world!", 
-                getControlsListener().getCursorX(), 
-                getControlsListener().getCursorY(), 
-                0.1f);
-        
-        
     }
 
     public static void main(String[] args) {
-        new Entry().startGame("Hex", 800, 800);
+        new Game().startGame("Hex", 800, 800);
     }
 
 }
