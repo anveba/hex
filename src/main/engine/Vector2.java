@@ -1,5 +1,8 @@
 package main.engine;
 
+import java.util.Objects;
+import static main.engine.Utility.floatEquals;
+
 public class Vector2 {
     private float x, y;
 
@@ -31,5 +34,22 @@ public class Vector2 {
     @Override
     public String toString() {
     	return "(" + getX() + ", " + getY() + ")";
+    }
+    
+    public boolean approx(Vector2 other) {
+    	return floatEquals(getX(), other.getX()) && floatEquals(getY(), other.getY());
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	if (other == null || other.getClass() != getClass())
+    		return false;
+    	Vector2 v = (Vector2)other;
+    	return getX() == v.getX() && getY() == v.getY();
+    }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hash(getX(), getY());
     }
 }

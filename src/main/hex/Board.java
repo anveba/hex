@@ -41,13 +41,11 @@ public class Board implements Drawable2D{
     }
 
     public Point2 screenToTile(float screenX, float screenY) {
-    	screenX += tileSize / 2.0;
-    	screenY += tileSize / 2.0;
     	float tileX = screenX / tileSize;
     	float tileY = screenY / tileSize;
     	tileY = tileY / (1.1547005f * 0.75f) - 0.5f + (float)getBoardSize() / 2.0f;
-    	tileX = tileX + 0.5f * tileY - 0.5f + (float)getBoardSize() / 4.0f;
-    	return new Point2((int)tileX, (int)tileY);
+    	tileX = tileX + 0.5f * tileY - 0.25f + (float)getBoardSize() / 4.0f;
+    	return new Point2((int)(tileX + 0.5f), (int)(tileY + 0.5f));
     }
     
     public Vector2 tileToScreen(int tileX, int tileY) {
@@ -94,5 +92,9 @@ public class Board implements Drawable2D{
         blueTileTexture = ResourceManager.getInstance()
                 .loadTexture("textures/board/blue_tile.png");
         hasLoadedResources = true;
+	}
+	
+	public float getTileSize() {
+		return tileSize;
 	}
 }

@@ -1,5 +1,7 @@
 package main.engine;
 
+import java.util.Objects;
+
 public class Point2 {
 
     private int x, y;
@@ -32,5 +34,18 @@ public class Point2 {
     @Override
     public String toString() {
     	return "(" + getX() + ", " + getY() + ")";
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	if (other == null || other.getClass() != getClass())
+    		return false;
+    	Point2 p = (Point2)other;
+    	return getX() == p.getX() && getY() == p.getY();
+    }
+    
+    @Override
+    public int hashCode() {
+    	return Objects.hash(getX(), getY());
     }
 }
