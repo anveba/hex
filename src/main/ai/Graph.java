@@ -61,10 +61,10 @@ public class Graph {
             return;
         }
         float fade = 1;
-        if(t1Colour.equals(Tile.Colour.NONE)){
+        if(t1Colour.equals(Tile.Colour.WHITE)){
             fade -= 0.1;
         }
-        if(t2Colour.equals(Tile.Colour.NONE)){
+        if(t2Colour.equals(Tile.Colour.WHITE)){
             fade -= 0.1;
         }
         connect_xy(x1,y1,x2,y2,fade);

@@ -12,7 +12,7 @@ public class GraphTest {
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(Tile.Colour.WHITE);
             }
         }
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
@@ -27,7 +27,7 @@ public class GraphTest {
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(Tile.Colour.WHITE);
             }
         }
 
@@ -38,7 +38,7 @@ public class GraphTest {
         Tile[][] board2 = new Tile[k][k];
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board2[i][j] = new Tile();
+                board2[i][j] = new Tile(Tile.Colour.WHITE);
                 board2[i][j].setColour(Tile.Colour.BLUE);
             }
         }
@@ -49,7 +49,7 @@ public class GraphTest {
         Tile[][] board3 = new Tile[k][k];
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board3[i][j] = new Tile();
+                board3[i][j] = new Tile(Tile.Colour.WHITE);
                 board3[i][j].setColour(Tile.Colour.RED);
             }
         }
@@ -75,7 +75,7 @@ public class GraphTest {
         for(int i = 0; i<k;i++){
 
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(Tile.Colour.WHITE);
             }
 
         }
@@ -96,7 +96,7 @@ public class GraphTest {
         for(int i = 0; i<k;i++){
 
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(Tile.Colour.WHITE);
             }
 
         }
