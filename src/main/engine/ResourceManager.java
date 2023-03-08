@@ -32,7 +32,12 @@ public class ResourceManager {
             return textures.get(path);
         var cl = ResourceManager.class.getClassLoader();
         var r = cl.getResource(path);
-        Texture t = new Texture(r.getPath());
+        Texture t; 
+        try {
+			t = new Texture(r.toURI().getRawPath());
+		} catch (URISyntaxException e) {
+			throw new EngineException("URI to URL error");
+		}
         textures.put(path, t);
         return t;
     }
@@ -44,7 +49,12 @@ public class ResourceManager {
         var cl = ResourceManager.class.getClassLoader();
         var vert = cl.getResource(path + ".vert");
         var frag = cl.getResource(path + ".frag");
-        Shader s = new Shader(vert.getPath(), frag.getPath());
+        Shader s;
+		try {
+			s = new Shader(vert.toURI().getRawPath(), frag.toURI().getRawPath());
+		} catch (URISyntaxException e) {
+			throw new EngineException("URI to URL error");
+		}
         shaders.put(path, s);
         return s;
     }
@@ -55,7 +65,12 @@ public class ResourceManager {
             return fonts.get(path);
         var cl = getClass().getClassLoader();
         var r = cl.getResource(path);
-        BitmapFont f = new BitmapFont(r.getPath(), 32.0f);
+        BitmapFont f;
+        try {
+        	f = new BitmapFont(r.toURI().getRawPath(), 32.0f);
+		} catch (URISyntaxException e) {
+			throw new EngineException("URI to URL error");
+		}
         fonts.put(path, f);
         return f;
     }
