@@ -11,7 +11,7 @@ public class TileTest {
 
     @Before
     public void setup() {
-        tile = new Tile();
+        tile = new Tile(Tile.Colour.WHITE);
     }
 
     @Test

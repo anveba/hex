@@ -45,53 +45,65 @@ public class BoardTest {
     }
 
     @Test
+    public void isOutOfBounds_inBounds_false() {
+        try {
+            assertFalse(board.isOutOfBounds(1,1));
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void isOutOfBounds_outOfBoundsXPositive_true() {
+        try {
+            assertTrue(board.isOutOfBounds(10000, 1));
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void isOutOfBounds_outOfBoundsXNegative_true() {
+        try {
+            assertTrue(board.isOutOfBounds(-3, 1));
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void isOutOfBounds_outOfBoundsYPositive_true() {
+        try {
+            assertTrue(board.isOutOfBounds(1, 10000));
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void isOutOfBounds_outOfBoundsYNegative_true() {
+        try {
+            assertTrue(board.isOutOfBounds(1, -6));
+        } catch (HexException e) {
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
     public void getTileAtPosition_inBounds_success() {
         assertNotEquals(null, board.getTileAtPosition(1, 1));
     }
 
-    @Test
-    public void getTileAtPosition_outOfBoundsX_failure() {
-        try {
-            board.getTileAtPosition(10000, 1);
-        } catch (HexException e) {
-
-        } catch (Exception e) {
-            fail();
-        }
-    }
-    
-    @Test
-    public void getTileAtPosition_xNegative_failure() {
-        try {
-            board.getTileAtPosition(-3, 1);
-        } catch (HexException e) {
-
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    public void getTileAtPosition_outOfBoundsY_failure() {
-        try {
-            board.getTileAtPosition(1, 10000);
-        } catch (HexException e) {
-
-        } catch (Exception e) {
-            fail();
-        }
-    }
-    
-    @Test
-    public void getTileAtPosition_yNegative_failure() {
-        try {
-            board.getTileAtPosition(1, -6);
-        } catch (HexException e) {
-
-        } catch (Exception e) {
-            fail();
-        }
-    }
     
     @Test
     public void tileToScreen_screenToTileCorrectedCoordinates_Equals() {
