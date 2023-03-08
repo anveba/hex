@@ -24,6 +24,7 @@ public abstract class GameWindow implements GraphicsContext {
     private long windowHandle;
     private boolean initialised;
     private int viewportWidth, viewportHeight;
+    private int framebufferWidth, framebufferHeight;
     private ControlsListener controlsListener;
 
     public GameWindow() {
@@ -57,24 +58,34 @@ public abstract class GameWindow implements GraphicsContext {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+        
 
         windowHandle = glfwCreateWindow(width, height, name, NULL, NULL);
         if (windowHandle == NULL)
-            throw new EngineException("Failed to create the GLFW window");
+            throw new EngineException("Failed to create window");
 
+        viewportWidth = width;
+        viewportHeight = height;
         glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> {
-            viewportWidth = w;
-            viewportHeight = h;
+        	framebufferWidth = w;
+        	framebufferHeight = h;
             glViewport(0, 0, w, h);
         });
         
-        glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> {
+        glfwSetWindowSizeCallback(windowHandle, (window, w, h) -> {
             viewportWidth = w;
             viewportHeight = h;
-            glViewport(0, 0, w, h);
         });
-
+        	
+        int[] wPointer = new int[1];
+        int[] hPointer = new int[1];
+        glfwGetFramebufferSize(windowHandle, wPointer, hPointer);
+        framebufferWidth = wPointer[0];
+        framebufferHeight = hPointer[0];
+        glfwGetWindowSize(windowHandle, wPointer, hPointer);
+        viewportWidth = wPointer[0];
+        viewportHeight = hPointer[0];
+        
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         glfwSetWindowPos(windowHandle, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
@@ -93,12 +104,6 @@ public abstract class GameWindow implements GraphicsContext {
         glfwShowWindow(windowHandle);
 
         setClearColor(0.0f, 0.0f, 0.0f);
-
-        int[] frameBufferWidth = new int[1];
-        int[] frameBufferHeight = new int[1];
-        glfwGetWindowSize(windowHandle, frameBufferWidth, frameBufferHeight);
-        viewportWidth = frameBufferWidth[0];
-        viewportHeight = frameBufferHeight[0];
     }
 
     private void startLoop() {
@@ -174,6 +179,14 @@ public abstract class GameWindow implements GraphicsContext {
 
     public int getViewportHeight() {
         return viewportHeight;
+    }
+    
+    public int getFramebufferWidth() {
+        return framebufferWidth;
+    }
+
+    public int getFramebufferHeight() {
+        return framebufferHeight;
     }
     
     public ControlsListener getControlsListener() { 
