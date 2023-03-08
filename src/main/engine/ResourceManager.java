@@ -32,12 +32,17 @@ public class ResourceManager {
             return textures.get(path);
         var cl = ResourceManager.class.getClassLoader();
         var r = cl.getResource(path);
-        Texture t; 
+        Texture t;
         try {
-			t = new Texture(r.toURI().getRawPath());
-		} catch (URISyntaxException e) {
+            System.out.println(windowsPathFix(r.toURI().getRawPath()));
+            t = new Texture(windowsPathFix(r.toURI().getRawPath()));
+
+
+        } catch (URISyntaxException e) {
 			throw new EngineException("URI to URL error");
 		}
+
+
         textures.put(path, t);
         return t;
     }
@@ -51,7 +56,7 @@ public class ResourceManager {
         var frag = cl.getResource(path + ".frag");
         Shader s;
 		try {
-			s = new Shader(vert.toURI().getRawPath(), frag.toURI().getRawPath());
+			s = new Shader(windowsPathFix(windowsPathFix(vert.toURI().getRawPath())), windowsPathFix(frag.toURI().getRawPath()));
 		} catch (URISyntaxException e) {
 			throw new EngineException("URI to URL error");
 		}
@@ -73,6 +78,13 @@ public class ResourceManager {
 		}
         fonts.put(path, f);
         return f;
+    }
+
+    public String windowsPathFix(String s){
+        if(s.contains(":")){
+            return s.substring(s.indexOf(":")+1);
+        }
+        return s;
     }
     
 }

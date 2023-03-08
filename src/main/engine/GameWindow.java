@@ -57,13 +57,12 @@ public abstract class GameWindow implements GraphicsContext {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
 
         windowHandle = glfwCreateWindow(width, height, name, NULL, NULL);
         if (windowHandle == NULL)
             throw new EngineException("Failed to create the GLFW window");
 
-        viewportWidth = width;
-        viewportHeight = height;
         glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> {
             viewportWidth = w;
             viewportHeight = h;
@@ -94,6 +93,12 @@ public abstract class GameWindow implements GraphicsContext {
         glfwShowWindow(windowHandle);
 
         setClearColor(0.0f, 0.0f, 0.0f);
+
+        int[] frameBufferWidth = new int[1];
+        int[] frameBufferHeight = new int[1];
+        glfwGetWindowSize(windowHandle, frameBufferWidth, frameBufferHeight);
+        viewportWidth = frameBufferWidth[0];
+        viewportHeight = frameBufferHeight[0];
     }
 
     private void startLoop() {

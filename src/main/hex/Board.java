@@ -68,8 +68,13 @@ public class Board implements Drawable2D{
             	
             	Vector2 screenPos = tileToScreen(x, y);
             	if (tileSpaceCursorPosition.getX() == x &&
-            			tileSpaceCursorPosition.getY() == y)
-            		drawTexture = redTileTexture;
+            			tileSpaceCursorPosition.getY() == y) {
+                    drawTexture = redTileTexture;
+                    //System.out.println("x: " + tileSpaceCursorPosition.getX() + "   y: " + tileSpaceCursorPosition.getY());
+                    //System.out.println("mouseX: " + screenSpaceCursorX + "   mouseY: " + screenSpaceCursorY);
+                }
+
+
                 
                 renderer.draw(drawTexture, 
                 		screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
