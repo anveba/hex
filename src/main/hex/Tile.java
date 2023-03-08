@@ -11,7 +11,7 @@ public class Tile {
     private Colour colour;
 
     public Tile(){
-
+        this.colour = Colour.NONE;
     }
 
     public Colour getColour() {
