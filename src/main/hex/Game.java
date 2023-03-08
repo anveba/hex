@@ -52,6 +52,8 @@ public class Game extends GameWindow {
         font = ResourceManager.getInstance().loadFont("fonts/roboto.ttf");
         board = new Board(11);
 
+        GameLogic gameLogic = new GameLogic(board);
+
         setClearColor(0.4f, 0.2f, 0.5f);
         
         getControlsListener().addOnReleaseCallback(Controls.ESCAPE, (args) -> {

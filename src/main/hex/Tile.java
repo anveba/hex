@@ -5,13 +5,19 @@ public class Tile {
     public enum Colour {
         BLUE,
         RED,
-        NONE,
+        WHITE,
     }
 
     private Colour colour;
 
-    public Tile(){
-        this.colour = Colour.NONE;
+
+    public Tile(Colour colour){
+        if (colour == null) {
+            this.colour = Colour.WHITE;
+        } else {
+            this.colour = colour;
+        }
+
     }
 
     public Colour getColour() {

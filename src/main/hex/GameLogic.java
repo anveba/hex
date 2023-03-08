@@ -1,5 +1,9 @@
 package main.hex;
 
+import main.engine.Point2;
+import main.engine.input.Controls;
+import main.engine.input.ControlsArgs;
+
 import java.util.ArrayDeque;
 
 public class GameLogic {
@@ -19,6 +23,8 @@ public class GameLogic {
         this.player2 = player2;
         players.addLast(player1);
         players.addLast(player2);
+
+        Game.getInstance().getControlsListener().addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
     }
 
     public Player getPlayerTurn() {
@@ -28,5 +34,20 @@ public class GameLogic {
     public void nextPlayer() {
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
+    }
+
+    private void handleClick(ControlsArgs args) {
+
+        Point2 tileIndex = board.screenToTile(Game.getInstance().getControlsListener().getCursorX(),
+                Game.getInstance().getControlsListener().getCursorY());
+
+        if (!board.isOutOfBounds(tileIndex.getX(), tileIndex.getY())) {
+            Tile clickedTile = board.getTileAtPosition(tileIndex.getX(), tileIndex.getY());
+
+            if (clickedTile.getColour() == Tile.Colour.WHITE) {
+                clickedTile.setColour(this.getPlayerTurn().getPlayerColor());
+                this.nextPlayer();
+            }
+        }
     }
 }

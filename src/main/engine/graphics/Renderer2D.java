@@ -46,7 +46,7 @@ public class Renderer2D {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        float aspectRatio = (float) context.getViewportWidth() / context.getViewportHeight();
+        float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
 
         float iw = (float) 1.0f / tex.width();
         float ih = (float) 1.0f / tex.height();
@@ -94,7 +94,7 @@ public class Renderer2D {
         getTextRendererShader().setInt("u_tex", 0);
         font.useTexture(0);
 
-        float aspectRatio = (float) context.getViewportWidth() / context.getViewportHeight();
+        float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
 
         float ibw = 1.0f / font.bitmapWidth();
         float ibh = 1.0f / font.bitmapHeight();

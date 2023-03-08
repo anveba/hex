@@ -1,9 +1,8 @@
 package main.engine.graphics;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 public interface GraphicsContext {
     int getViewportWidth();
-
     int getViewportHeight();
+    int getFramebufferWidth();
+    int getFramebufferHeight();
 }

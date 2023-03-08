@@ -22,7 +22,7 @@ public class Board implements Drawable2D{
 
         for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-                board[x][y] = new Tile();
+                board[x][y] = new Tile(Tile.Colour.WHITE);
             }
         }
         
@@ -34,10 +34,14 @@ public class Board implements Drawable2D{
     }
 
     public Tile getTileAtPosition(int x, int y){
-        if(x >= getBoardSize() || y >= getBoardSize() || x < 0 || y < 0){
+        if(isOutOfBounds(x, y)){
             throw new HexException("Out of bounds of board");
         }
         return board[x][y];
+    }
+
+    public boolean isOutOfBounds(int x, int y) {
+        return x >= getBoardSize() || y >= getBoardSize() || x < 0 || y < 0;
     }
 
     public Point2 screenToTile(float screenX, float screenY) {
@@ -64,12 +68,21 @@ public class Board implements Drawable2D{
         for (int x = 0; x < getBoardSize(); x++) {
             for (int y = 0; y < getBoardSize(); y++) {
 
-            	Texture drawTexture = whiteTileTexture;
-            	
+                Tile t = getTileAtPosition(x, y);
+
+                Tile.Colour col = t.getColour();
+                Texture drawTexture;
+                if (col == Tile.Colour.BLUE)
+                    drawTexture = blueTileTexture;
+                else if (col == Tile.Colour.RED)
+                    drawTexture = redTileTexture;
+                else
+                    drawTexture = whiteTileTexture;
+
             	Vector2 screenPos = tileToScreen(x, y);
-            	if (tileSpaceCursorPosition.getX() == x &&
+            	/*if (tileSpaceCursorPosition.getX() == x &&
             			tileSpaceCursorPosition.getY() == y)
-            		drawTexture = redTileTexture;
+            		drawTexture = redTileTexture;*/
                 
                 renderer.draw(drawTexture, 
                 		screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
