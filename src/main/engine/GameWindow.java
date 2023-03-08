@@ -69,6 +69,12 @@ public abstract class GameWindow implements GraphicsContext {
             viewportHeight = h;
             glViewport(0, 0, w, h);
         });
+        
+        glfwSetFramebufferSizeCallback(windowHandle, (window, w, h) -> {
+            viewportWidth = w;
+            viewportHeight = h;
+            glViewport(0, 0, w, h);
+        });
 
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
