@@ -22,7 +22,7 @@ public class GraphTest {
 
 
     @Test
-    public void graph_heuristics(){
+    public void graphHeuristics(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -32,7 +32,7 @@ public class GraphTest {
         }
 
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e1 = g.board_evaluation();
+        float e1 = g.boardEvaluation();
 
 
         Tile[][] board2 = new Tile[k][k];
@@ -44,7 +44,7 @@ public class GraphTest {
         }
 
         Graph g2 = new Graph(board2,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e2 = g2.board_evaluation();
+        float e2 = g2.boardEvaluation();
 
         Tile[][] board3 = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -55,7 +55,7 @@ public class GraphTest {
         }
 
         Graph g3 = new Graph(board3,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e3 = g3.board_evaluation();
+        float e3 = g3.boardEvaluation();
 
         System.out.println(e1);
         System.out.println(e2);
@@ -69,7 +69,7 @@ public class GraphTest {
     }
 
     @Test
-    public void game_won_vertically(){
+    public void gameWonVertically(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -85,12 +85,12 @@ public class GraphTest {
 
 
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        assert(g.check_win_vertical());
+        assert(g.checkWinVertical());
 
     }
 
     @Test
-    public void game_won_horizontally(){
+    public void gameWonHorizontally(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -105,7 +105,7 @@ public class GraphTest {
         }
 
         Graph g = new Graph(board, Tile.Colour.BLUE,Tile.Colour.RED);
-        assert(g.check_win_horizontal());
+        assert(g.checkWinHorizontal());
 
     }
 }
