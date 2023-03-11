@@ -3,6 +3,7 @@ package main.hex;
 import main.engine.Point2;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
+import main.engine.input.ControlsListener;
 
 import java.util.ArrayDeque;
 
@@ -23,8 +24,11 @@ public class GameLogic {
         this.player2 = player2;
         players.addLast(player1);
         players.addLast(player2);
-
-        Game.getInstance().getControlsListener().addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    }
+    
+    public void setupControlsCallback(ControlsListener listener) {
+    	Game.getInstance().getControlsListener()
+    	.addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
     }
 
     public Player getPlayerTurn() {

@@ -23,16 +23,11 @@ public class Graph {
         boardSize = board.length;
         this.board = board;
 
-
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;
 
         adjacencyList = new ArrayList[noOfNodes];
-
-
     }
-
-
 
     public void connect(int a,int b,float fade){
         adjacencyList[a].add(new Edge(a,b,fade));
@@ -40,7 +35,7 @@ public class Graph {
     }
 
     public int xyToNum(int x, int y){
-        return y* boardSize + x;
+        return y * boardSize + x;
     }
 
     public void connectXy(int x1, int y1, int x2, int y2, float fade){
@@ -229,16 +224,13 @@ public class Graph {
 
     public boolean checkWinHorizontal(){
         connectWinCheckHorizontal();
-        return bfs(noOfNodes -2);
+        return bfs(noOfNodes - 2);
     }
 
     public boolean checkWinVertical(){
         connectWinCheckVertical();
-        return bfs(noOfNodes -2);
+        return bfs(noOfNodes - 2);
     }
-
-
-
 
     public boolean bfs(int startNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
@@ -263,12 +255,4 @@ public class Graph {
         }
         return visited[noOfNodes -1];
     }
-
-
-
-
-
-
-
-
 }

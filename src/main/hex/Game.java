@@ -55,6 +55,7 @@ public class Game extends GameWindow {
         FrameStack.getInstance().push(new MainMenu());
 
         GameLogic gameLogic = new GameLogic(board);
+        gameLogic.setupControlsCallback(getControlsListener());
 
         setClearColor(0.4f, 0.2f, 0.5f);
         
