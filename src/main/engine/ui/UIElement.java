@@ -1,9 +1,11 @@
 package main.engine.ui;
 
-import main.engine.Vector2;
+import main.engine.graphics.Renderer2D;
 
-public interface UIElement {
-    Vector2 getPosition();
-
-    boolean containsPosition(float x, float y);
+public abstract class UIElement {
+	public abstract float getX();
+	public abstract float getY();
+	public abstract void setPosition(float x, float y);
+	public abstract boolean containsPosition(float x, float y);
+    abstract void draw(Renderer2D renderer, float offsetX, float offsetY);
 }

@@ -20,7 +20,7 @@ public class ResourceManager {
     Map<String, Shader> shaders;
     Map<String, BitmapFont> fonts;
     
-    public ResourceManager() {
+    private ResourceManager() {
         textures = new HashMap<>();
         shaders = new HashMap<>();
         fonts = new HashMap<>();

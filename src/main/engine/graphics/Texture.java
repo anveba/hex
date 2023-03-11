@@ -36,10 +36,24 @@ public class Texture {
         width = x[0];
         height = y[0];
     }
+    
+    protected Texture(int width, int height) {
+    	if (width < 1 || height < 1) {
+    		throw new EngineException("Illegal texture dimensions");
+    	}
+    	handle = glGenTextures();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, handle);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
 
     @Override
     protected void finalize() {
-        glDeleteTextures(handle);
+    	if (handle != 0)
+    		glDeleteTextures(handle);
     }
 
     public void use(int slot) {

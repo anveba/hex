@@ -9,6 +9,8 @@ import main.engine.*;
 import main.engine.font.*;
 import main.engine.graphics.*;
 import main.engine.input.Controls;
+import main.engine.ui.FrameStack;
+import main.hex.ui.MainMenu;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +33,7 @@ import org.lwjgl.stb.*;
 public class Game extends GameWindow {
 
     private Board board;
-    private Renderer2D r2D;
-    private BitmapFont font;
+    private Renderer2D renderer2D;
     
     private static Game instance;
     public static Game getInstance() {
@@ -48,15 +49,23 @@ public class Game extends GameWindow {
 
     @Override
     protected void begin() {
-        r2D = new Renderer2D(this);
-        font = ResourceManager.getInstance().loadFont("fonts/roboto.ttf");
+    	renderer2D = new Renderer2D(this);
         board = new Board(11);
+        
+        FrameStack.getInstance().push(new MainMenu());
 
         setClearColor(0.4f, 0.2f, 0.5f);
         
         getControlsListener().addOnReleaseCallback(Controls.ESCAPE, (args) -> {
            closeWindow(); 
         });
+        
+        getControlsListener().addOnReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
+            FrameStack.getInstance().clickAt(
+            		getControlsListener().getCursorX(),
+            		getControlsListener().getCursorY()
+            		);
+         });
     }
 
     @Override
@@ -71,7 +80,9 @@ public class Game extends GameWindow {
 
         clear();
 
-        board.draw(r2D);
+        board.draw(renderer2D);
+        
+        FrameStack.getInstance().draw(renderer2D);
     }
 
     public static void main(String[] args) {

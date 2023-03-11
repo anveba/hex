@@ -18,6 +18,7 @@ import org.lwjgl.system.MemoryStack;
 
 import main.engine.graphics.*;
 import main.engine.input.*;
+import main.engine.ui.FrameStack;
 
 public abstract class GameWindow implements GraphicsContext {
 
@@ -27,7 +28,7 @@ public abstract class GameWindow implements GraphicsContext {
     private int framebufferWidth, framebufferHeight;
     private ControlsListener controlsListener;
 
-    public GameWindow() {
+    protected GameWindow() {
         initialised = false;
     }
 
