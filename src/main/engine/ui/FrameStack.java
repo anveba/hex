@@ -5,6 +5,12 @@ import java.util.*;
 import main.engine.EngineException;
 import main.engine.graphics.Renderer2D;
 
+/**
+ * Represents a stack of frames. It is the highest level module of the
+ * UI framework. Only the topmost frame is active.
+ * @author Andreas
+ * @see Frame
+ */
 public class FrameStack {
 	
 	private List<Frame> stack = new ArrayList<Frame>();

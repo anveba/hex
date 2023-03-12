@@ -16,9 +16,9 @@ public class ResourceManager {
         return instance;
     }
     
-    Map<String, Texture> textures;
-    Map<String, Shader> shaders;
-    Map<String, BitmapFont> fonts;
+    private Map<String, Texture> textures;
+    private Map<String, Shader> shaders;
+    private Map<String, BitmapFont> fonts;
     
     private ResourceManager() {
         textures = new HashMap<>();
@@ -27,61 +27,47 @@ public class ResourceManager {
     }
     
     public Texture loadTexture(String path) {
-        path = "res/" + path;
         if (textures.containsKey(path))
             return textures.get(path);
-        var cl = ResourceManager.class.getClassLoader();
-        var r = cl.getResource(path);
-        Texture t;
-        try {
-            t = new Texture(fixPath(r.toURI().getRawPath()));
-        } catch (URISyntaxException e) {
-			throw new EngineException("URI to URL error");
-		}
-
-
+        Texture t = new Texture(getAbsolutePath(path));
         textures.put(path, t);
         return t;
     }
     
     public Shader loadShader(String path) {
-        path = "res/" + path;
         if (shaders.containsKey(path))
             return shaders.get(path);
-        var cl = ResourceManager.class.getClassLoader();
-        var vert = cl.getResource(path + ".vert");
-        var frag = cl.getResource(path + ".frag");
-        Shader s;
-		try {
-			s = new Shader(fixPath(vert.toURI().getRawPath()), fixPath(frag.toURI().getRawPath()));
-		} catch (URISyntaxException e) {
-			throw new EngineException("URI to URL error");
-		}
+        Shader s = new Shader(getAbsolutePath(path + ".vert"), getAbsolutePath(path + ".frag"));
         shaders.put(path, s);
         return s;
     }
     
     public BitmapFont loadFont(String path) {
-        path = "res/" + path;
         if (fonts.containsKey(path))
             return fonts.get(path);
-        var cl = getClass().getClassLoader();
-        var r = cl.getResource(path);
-        BitmapFont f;
-        try {
-        	f = new BitmapFont(fixPath(r.toURI().getRawPath()), 32.0f);
-		} catch (URISyntaxException e) {
-			throw new EngineException("URI to URL error");
-		}
+        BitmapFont f = new BitmapFont(getAbsolutePath(path), 32.0f);
         fonts.put(path, f);
         return f;
     }
 
-    public String fixPath(String s){
+    private static String fixPath(String s){
         if(s.contains(":")){
             return s.substring(s.indexOf(":")+1);
         }
         return s;
+    }
+    
+    private String getAbsolutePath(String path) {
+        path = "res/" + path;
+        var cl = getClass().getClassLoader();
+        var r = cl.getResource(path);
+        if (r == null)
+        	throw new EngineException("Resource not found");
+        try {
+			return fixPath(r.toURI().getRawPath());
+		} catch (URISyntaxException e) {
+			throw new EngineException("URI to URL error");
+		}
     }
     
 }

@@ -4,68 +4,85 @@ import static org.lwjgl.opengl.GL33.*;
 
 import java.io.IOException;
 import java.nio.IntBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import org.lwjgl.BufferUtils;
 
 import main.engine.*;
 
 public class Shader {
-    
-    //TODO clean up
 
     private int handle;
 
     public Shader(String vertex, String fragment) {
-        Path vertexPath = Path.of(vertex);
-        Path fragmentPath = Path.of(fragment);
-        String vertexSource, fragmentSource;
+        String vertexSource = readSource(vertex);
+        String fragmentSource = readSource(fragment);
+
+        handle = createProgram(vertexSource, fragmentSource);        
+    }
+    
+    private static String readSource(String stringPath) {
+    	Path path = Path.of(stringPath);
+        if (!Files.exists(path))
+        	throw new EngineException("Path does not correspond to a file");
         try {
-            vertexSource = Files.readString(vertexPath);
-            fragmentSource = Files.readString(fragmentPath);
+            return Files.readString(path);
         } catch (IOException ex) {
             throw new EngineException(ex);
         }
-
+    }
+    
+    private static int createProgram(String vertexSource, String fragmentSource) {
         int vertexHandle = compileShader(vertexSource, GL_VERTEX_SHADER);
         int fragmentHandle = compileShader(fragmentSource, GL_FRAGMENT_SHADER);
-        handle = glCreateProgram();
-        glAttachShader(handle, vertexHandle);
-        glAttachShader(handle, fragmentHandle);
-        glLinkProgram(handle);
+        int program = glCreateProgram();
+        glAttachShader(program, vertexHandle);
+        glAttachShader(program, fragmentHandle);
+        glLinkProgram(program);
 
         glDeleteShader(vertexHandle);
         glDeleteShader(fragmentHandle);
-
-        IntBuffer linkResult = BufferUtils.createIntBuffer(1);
-        glGetProgramiv(handle, GL_LINK_STATUS, linkResult);
+        
+        checkLinkStatus(program);
+        
+        return program;
+    }
+    
+    private static void checkLinkStatus(int program) {
+    	IntBuffer linkResult = BufferUtils.createIntBuffer(1);
+        glGetProgramiv(program, GL_LINK_STATUS, linkResult);
         if (linkResult.get() == GL_FALSE) {
             IntBuffer messageLength = BufferUtils.createIntBuffer(1);
-            glGetProgramiv(handle, GL_INFO_LOG_LENGTH, messageLength);
-            String log = glGetProgramInfoLog(handle, messageLength.get());
-            throw new EngineException("shader link error: " + log);
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, messageLength);
+            String log = glGetProgramInfoLog(program, messageLength.get());
+            throw new EngineException("Shader link error: " + log);
         }
     }
 
-    private int compileShader(String src, int type) {
+    private static int compileShader(String src, int type) {
         int shader = glCreateShader(type);
         glShaderSource(shader, src);
         glCompileShader(shader);
-
+        
+        checkCompileStatus(shader);
+        
+        return shader;
+    }
+    
+    private static void checkCompileStatus(int shader) {
         IntBuffer compileResult = BufferUtils.createIntBuffer(1);
         glGetShaderiv(shader, GL_COMPILE_STATUS, compileResult);
         if (compileResult.get() == GL_FALSE) {
             IntBuffer messageLength = BufferUtils.createIntBuffer(1);
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, messageLength);
             String log = glGetShaderInfoLog(shader, messageLength.get());
-            throw new EngineException("shader compile error: " + log);
+            throw new EngineException("Shader compile error: " + log);
         }
-        return shader;
     }
 
     @Override
     protected void finalize() {
-        glDeleteProgram(handle);
+    	if (handle != 0)
+    		glDeleteProgram(handle);
     }
 
     public void use() {
@@ -73,8 +90,10 @@ public class Shader {
     }
 
     private int getLocation(String field) {
-        // TODO check uniform validity
-        return glGetUniformLocation(handle, field);
+        int loc = glGetUniformLocation(handle, field);
+        if (loc == -1)
+        	throw new EngineException("No uniform with name: " + field);
+        return loc;
     }
 
     public void setInt(String field, int i) {

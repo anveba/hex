@@ -62,6 +62,9 @@ public class Board implements Drawable2D{
 
     @Override
     public void draw(Renderer2D renderer) {
+    	if (!hasLoadedResources)
+    		loadResources();
+    	
     	float screenSpaceCursorX = Game.getInstance().getControlsListener().getCursorX();
     	float screenSpaceCursorY = Game.getInstance().getControlsListener().getCursorY();
     	Point2 tileSpaceCursorPosition = screenToTile(screenSpaceCursorX, screenSpaceCursorY);
@@ -90,14 +93,8 @@ public class Board implements Drawable2D{
             }
         }
     }
-    
-	@Override
-	public boolean hasLoadedDrawingResources() {
-		return hasLoadedResources;
-	}
 
-	@Override
-	public void loadDrawingResources() {
+	public void loadResources() {
         whiteTileTexture = ResourceManager.getInstance()
                 .loadTexture("textures/board/white_tile.png");
         redTileTexture = ResourceManager.getInstance()

@@ -6,6 +6,11 @@ import main.engine.EngineException;
 import main.engine.Vector2;
 import main.engine.graphics.Renderer2D;
 
+/**
+ * Represents a group of UI elements that itself is a UI element.
+ * @author Andreas
+ *
+ */
 public class UIGroup extends UIElement implements Clickable {
 
 	private float x, y;
@@ -29,6 +34,8 @@ public class UIGroup extends UIElement implements Clickable {
 	public void addChild(UIElement e) {
 		if (e == null)
 			throw new EngineException("null element given");
+		if (e == this)
+			throw new EngineException("A group cannot be a child of itself");
 		children.add(e);
 	}
 	

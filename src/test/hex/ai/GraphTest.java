@@ -1,7 +1,7 @@
-package test.ai;
+package test.hex.ai;
 
-import main.ai.Graph;
 import main.hex.Tile;
+import main.hex.ai.Graph;
 
 import static org.junit.Assert.assertTrue;
 

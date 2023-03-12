@@ -1,11 +1,13 @@
 package test.engine.ui;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
 
 import org.junit.*;
+import org.mockito.Mockito;
 
 import main.engine.EngineException;
 import main.engine.ui.*;
@@ -47,5 +49,18 @@ public class FrameStackTest {
 	public void poppingEmptyStackThrowsException() {
 		assertEquals(0, FrameStack.getInstance().size());
 		FrameStack.getInstance().pop();
+	}
+	
+	@Test
+	public void clickingCallsTopFrameClickHandlingMethod() {
+		Frame f = mock(Frame.class);
+		Mockito.doCallRealMethod().when(f).clickAt(anyFloat(), anyFloat());
+
+		FrameStack.getInstance().clickAt(0.0f, 0.0f);
+		verify(f, times(0)).clickAt(anyFloat(), anyFloat());
+		
+		FrameStack.getInstance().push(f);
+		FrameStack.getInstance().clickAt(0.0f, 0.0f);
+		verify(f, times(1)).clickAt(anyFloat(), anyFloat());
 	}
 }

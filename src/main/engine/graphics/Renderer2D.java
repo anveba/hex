@@ -12,7 +12,7 @@ public class Renderer2D {
     
     //TODO clean up
 
-    public static int[] quadIndices = { 0, 1, 2, 2, 3, 0 };
+    public static final int[] quadIndices = { 0, 1, 2, 2, 3, 0 };
 
     private static Shader imageRendererShader = null;
     private static Shader textRendererShader = null;

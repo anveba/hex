@@ -77,7 +77,8 @@ public class BitmapFont {
 
     @Override
     protected void finalize() {
-        glDeleteTextures(textureHandle);
+    	if (textureHandle != 0)
+    		glDeleteTextures(textureHandle);
     }
 
     public void useTexture(int slot) {

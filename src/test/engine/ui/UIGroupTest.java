@@ -43,6 +43,12 @@ public class UIGroupTest {
 		g.addChild(null);
 	}
 	
+	@Test(expected = EngineException.class)
+	public void addingItselfAsChildThrowsException() {
+		UIGroup g = new UIGroup(999.0f, 999.0f);
+		g.addChild(g);
+	}
+	
 	@Test
 	public void removingChildRemovesChildAndRegistersAsNotBeingContainedInside() {
 		UIGroup g = new UIGroup(999.0f, 999.0f);

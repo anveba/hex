@@ -46,22 +46,17 @@ public class Game extends GameWindow {
     	}
     	instance = this;
     }
-
+    
     @Override
     protected void begin() {
-    	renderer2D = new Renderer2D(this);
-        board = new Board(11);
-        
+    	setupGraphics();
+    	setupUserInterface();
+    	
+    	startGameplay();
+    }
+    
+    private void setupUserInterface() {
         FrameStack.getInstance().push(new MainMenu());
-
-        GameLogic gameLogic = new GameLogic(board);
-        gameLogic.setupControlsCallback(getControlsListener());
-
-        setClearColor(0.4f, 0.2f, 0.5f);
-        
-        getControlsListener().addOnReleaseCallback(Controls.ESCAPE, (args) -> {
-           closeWindow(); 
-        });
         
         getControlsListener().addOnReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
             FrameStack.getInstance().clickAt(
@@ -69,6 +64,17 @@ public class Game extends GameWindow {
             		getControlsListener().getCursorY()
             		);
          });
+    }
+    
+    private void setupGraphics() {
+    	renderer2D = new Renderer2D(this);
+        setClearColor(0.4f, 0.2f, 0.5f);
+    }
+    
+    private void startGameplay() {
+    	board = new Board(11);
+        GameLogic gameLogic = new GameLogic(board);
+        gameLogic.setupControlsCallback(getControlsListener());
     }
 
     @Override
@@ -78,9 +84,6 @@ public class Game extends GameWindow {
     @Override
     protected void draw() {
     	
-    	if (!board.hasLoadedDrawingResources())
-    		board.loadDrawingResources();
-
         clear();
 
         board.draw(renderer2D);

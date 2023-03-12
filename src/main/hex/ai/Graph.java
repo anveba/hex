@@ -1,4 +1,4 @@
-package main.ai;
+package main.hex.ai;
 
 import main.hex.Tile;
 

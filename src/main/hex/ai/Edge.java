@@ -1,4 +1,4 @@
-package main.ai;
+package main.hex.ai;
 
 public class Edge {
     int from;

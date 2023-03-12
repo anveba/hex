@@ -3,6 +3,12 @@ package main.engine.ui;
 import main.engine.*;
 import main.engine.graphics.*;
 
+/**
+ * Represents a menu in the user interface. Only one frame is active at a time
+ * and they are self-contained.
+ * @author Andreas
+ *
+ */
 public class Frame {
 	
 	private UIElement root;
