@@ -10,7 +10,15 @@ public class Tile {
 
     private Colour colour;
 
-
+    public static Colour opposite(Colour c){
+        if(c == Colour.BLUE){
+            return Colour.RED;
+        }
+        if(c == Colour.RED){
+            return Colour.BLUE;
+        }
+        return Colour.WHITE;
+    }
     public Tile(Colour colour){
         if (colour == null) {
             this.colour = Colour.WHITE;
