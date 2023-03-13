@@ -64,7 +64,7 @@ public class GraphTest {
 
     }
 
-    /*
+
     @Test
     public void gameWonVertically(){
         int k = 5;
@@ -105,5 +105,5 @@ public class GraphTest {
         assertTrue(g.checkWinHorizontal());
 
     }
-    */
+
 }

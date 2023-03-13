@@ -164,9 +164,7 @@ public class Graph {
     }
 
     public void connectIfColour(int x1, int y1, int x2, int y2, Tile.Colour colour){
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
+
         Tile.Colour t1Colour = board[x1][y1].getColour();
         Tile.Colour t2Colour = board[x2][y2].getColour();
         if(t1Colour.equals(colour) && t2Colour.equals(colour)){
@@ -174,65 +172,54 @@ public class Graph {
         }
     }
 
-    public void connectWinCheckHorizontal(){
+
+    private void connectNeighboursIfColour(Tile.Colour c) {
         for(int i = 0; i < adjacencyList.length; i++){
             adjacencyList[i] = new ArrayList<Edge>();
         }
-        for(int y = 0; y < boardSize; y++){
-            connectXy(0,y, boardSize, boardSize -1,1);
-            connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
-        }
 
-        for(int x = 0; x< boardSize; x++){
-            for(int y = 0; y< boardSize; y++){
-                if(y+1 < boardSize){
-                    connectIfColour(x,y,x,y+1, horizontalColour);
-                }
-                if(y+1 < boardSize && x-1 >= 0){
-                    connectIfColour(x,y,x-1,y+1, horizontalColour);
-                }
-                if(x+1 < boardSize){
-                    connectIfColour(x,y,x+1,y, horizontalColour);
-                }
+
+        if(c == verticalColour){
+            for(int x = 0; x < boardSize; x++){
+                connectXy(x,0, boardSize, boardSize -1,1);
+                connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
             }
         }
-    }
+        else {
+            for(int y = 0; y < boardSize; y++){
+                connectXy(0,y, boardSize, boardSize -1,1);
+                connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
+            }
+        }
 
-    private void connectWinCheckVertical() {
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
-        for(int x = 0; x < boardSize; x++){
-            connectXy(x,0, boardSize, boardSize -1,1);
-            connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
-        }
+
 
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
-                    connectIfColour(x,y,x,y+1, verticalColour);
+                    connectIfColour(x,y,x,y+1, c);
                 }
                 if(y+1 < boardSize && x-1 >= 0){
-                    connectIfColour(x,y,x-1,y+1, verticalColour);
+                    connectIfColour(x,y,x-1,y+1,c);
                 }
                 if(x+1 < boardSize){
-                    connectIfColour(x,y,x+1,y, verticalColour);
+                    connectIfColour(x,y,x+1,y, c);
                 }
             }
         }
     }
 
     public boolean checkWinHorizontal(){
-        connectWinCheckHorizontal();
-        return bfs(noOfNodes - 2);
+        connectNeighboursIfColour(horizontalColour);
+        return bfs(noOfNodes - 2,noOfNodes-1);
     }
 
     public boolean checkWinVertical(){
-        connectWinCheckVertical();
-        return bfs(noOfNodes - 2);
+        connectNeighboursIfColour(verticalColour);
+        return bfs(noOfNodes - 2,noOfNodes-1);
     }
 
-    public boolean bfs(int startNode){
+    public boolean bfs(int startNode,int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[noOfNodes];
 
@@ -244,8 +231,6 @@ public class Graph {
 
             for(Edge e: adjacencyList[s]){
                 int neighbour = e.to;
-
-
                 if(visited[neighbour]){
                     continue;
                 }
@@ -253,6 +238,6 @@ public class Graph {
                 visited[neighbour] = true;
             }
         }
-        return visited[noOfNodes -1];
+        return visited[endNode];
     }
 }

@@ -40,6 +40,9 @@ public class Game extends GameWindow {
     	return instance;
     }
 
+    public static void main(String[] args) {
+        new Game().startGame("Hex", 800, 800);
+    }
     private Game() {
     	if (instance != null) {
     		throw new HexException("Several instances of the game was created");
@@ -91,8 +94,6 @@ public class Game extends GameWindow {
         FrameStack.getInstance().draw(renderer2D);
     }
 
-    public static void main(String[] args) {
-        new Game().startGame("Hex", 800, 800);
-    }
+
 
 }
