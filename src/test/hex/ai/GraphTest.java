@@ -33,7 +33,7 @@ public class GraphTest {
         }
 
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e1 = g.boardEvaluation();
+        double e1 = g.boardEvaluation();
 
 
         Tile[][] board2 = new Tile[k][k];
@@ -45,7 +45,7 @@ public class GraphTest {
         }
 
         Graph g2 = new Graph(board2,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e2 = g2.boardEvaluation();
+        double e2 = g2.boardEvaluation();
 
         Tile[][] board3 = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -56,9 +56,12 @@ public class GraphTest {
         }
 
         Graph g3 = new Graph(board3,Tile.Colour.BLUE,Tile.Colour.RED);
-        float e3 = g3.boardEvaluation();
+        double e3 = g3.boardEvaluation();
 
-        assertTrue(e1 == 0);
+        System.out.println(e1);
+        System.out.println(e2);
+        System.out.println(e3);
+        assertTrue(e1 == 0.0);
         assertTrue(e2 > 0);
         assertTrue(e3 < 0);
 

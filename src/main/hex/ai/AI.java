@@ -28,35 +28,38 @@ public class AI {
         }
     }
 
-    private double minimax(Tile[][] state, int depth, boolean maximizingPlayer){
+    private Move minimax(Tile[][] state, int depth, boolean maximizingPlayer){
 
         Graph g = new Graph(state,verticalColour,horizontalColour);
         double eval = g.boardEvaluation();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
-            return eval;
+            return new Move(-1,eval);
         }
 
+        int moveIndex = 0;
+
         if (maximizingPlayer){
-            double maxEval = Double.NEGATIVE_INFINITY;
+            Move maxMove = Move.MAX_VALUE_MOVE;
 
             ArrayList<Tile[][]> children = createChildren(state,agentColour);
-            for(Tile[][] c : children){
-                maxEval = Double.max(eval,minimax(c,depth-1,false));
-
+            for(int i = 0; i<children.size();i++){
+                Move iEval = minimax(children.get(i),depth-1,false);
+                maxMove = maxMove.max(iEval);
             }
-            return  maxEval;
+
+            return maxMove;
         }
 
         else {
-            double minEval = Double.POSITIVE_INFINITY;
+            Move minMove = Move.MIN_VALUE_MOVE;
 
             ArrayList<Tile[][]> children = createChildren(state,Tile.opposite(agentColour));
-            for(Tile[][] c : children){
-                minEval = Double.min(eval,minimax(c,depth-1,false));
-
+            for(int i = 0; i<children.size();i++){
+                Move iEval = minimax(children.get(i),depth-1,true);
+                minMove = minMove.min(iEval);
             }
-            return  minEval;
+            return minMove;
         }
 
 

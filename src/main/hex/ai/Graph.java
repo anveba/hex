@@ -123,11 +123,21 @@ public class Graph {
 
     //Positive float: horizontal is favoured
     //Negative float: vertical is favoured
-    public float boardEvaluation(){
+    public double boardEvaluation(){
         connectHorizontalEvaluation();
-        float horizontalSignal = boardEvaluationBfs();
+        double horizontalSignal = boardEvaluationBfs();
+
         connectVerticalEvaluation();
         float verticalSignal = boardEvaluationBfs();
+
+        if(checkWinHorizontal()){
+            return Double.NEGATIVE_INFINITY;
+        }
+        if(checkWinVertical()){
+            return  Double.POSITIVE_INFINITY;
+        }
+
+
 
         return horizontalSignal-verticalSignal;
     }
