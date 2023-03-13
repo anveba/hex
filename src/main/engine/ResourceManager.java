@@ -49,13 +49,6 @@ public class ResourceManager {
         fonts.put(path, f);
         return f;
     }
-
-    private static String fixPath(String s){
-        if(s.contains(":")){
-            return s.substring(s.indexOf(":")+1);
-        }
-        return s;
-    }
     
     private String getAbsolutePath(String path) {
         path = "res/" + path;
@@ -64,7 +57,7 @@ public class ResourceManager {
         if (r == null)
         	throw new EngineException("Resource not found");
         try {
-			return fixPath(r.toURI().getRawPath());
+			return r.toURI().getRawPath();
 		} catch (URISyntaxException e) {
 			throw new EngineException("URI to URL error");
 		}
