@@ -2,9 +2,19 @@ package main.engine.graphics;
 
 import static org.lwjgl.opengl.GL33.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import java.nio.file.Files;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
+import static org.lwjgl.stb.STBImage.*;
+import org.lwjgl.system.*;
+import static org.lwjgl.system.MemoryStack.*;
+
+import static main.engine.Utility.*;
 
 import main.engine.*;
 
@@ -14,27 +24,33 @@ public class Texture {
     private int width, height;
 
     public Texture(String path) {
+        
+        ByteBuffer buffer = pathToByteBuffer(path);
+        
+        try (MemoryStack stack = stackPush()) {
+        	IntBuffer x = stack.mallocInt(1);
+        	IntBuffer y = stack.mallocInt(1);
+        	IntBuffer channels = stack.mallocInt(1);
 
-        int[] x = new int[1];
-        int[] y = new int[1];
-        int[] channels = new int[1];
-
-        STBImage.stbi_set_flip_vertically_on_load(true);
-
-        ByteBuffer data = STBImage.stbi_load(path, x, y, channels, 4);
-        if (data == null)
-            throw new EngineException("texture load failed: " + STBImage.stbi_failure_reason());
-
-        handle = glGenTextures();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, handle);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x[0], y[0], 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
+        	STBImage.stbi_set_flip_vertically_on_load(true);
+        	
+        	if (!stbi_info_from_memory(buffer, x, y, channels))
+        		throw new EngineException("Failed to load texture information: " + stbi_failure_reason());
+        	
+        	ByteBuffer data = STBImage.stbi_load_from_memory(buffer, x, y, channels, 4);
+        	if (data == null)
+        		throw new EngineException("texture load failed: " + STBImage.stbi_failure_reason());
+        	width = x.get(0);
+        	height = y.get(0);
+        	
+        	handle = glGenTextures();
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, handle);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        }
+        
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        width = x[0];
-        height = y[0];
     }
     
     protected Texture(int width, int height) {

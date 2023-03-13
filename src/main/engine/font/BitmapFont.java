@@ -3,6 +3,7 @@ package main.engine.font;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,13 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBTTBakedChar;
 import org.lwjgl.stb.STBTruetype;
+import org.lwjgl.system.MemoryStack;
 
 import main.engine.*;
 
+import static main.engine.Utility.pathToByteBuffer;
 import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 public class BitmapFont {
 
@@ -23,20 +27,10 @@ public class BitmapFont {
     private int textureHandle;
 
     public BitmapFont(String path, float heightInPx) {
-        
-        //TODO clean up
-        
-        File fontFile = new File(path);
-        byte[] fontRaw;
-        try {
-            fontRaw = Files.readAllBytes(fontFile.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new EngineException(e);
-        }
-        ByteBuffer fontBuffer = BufferUtils.createByteBuffer(fontRaw.length);
-        fontBuffer.put(fontRaw);
-        fontBuffer.flip();
+
+    	//TODO clean up
+    	
+    	ByteBuffer buffer = pathToByteBuffer(path);
 
         bitmapWidth = 512;
         bitmapHeight = 512;
@@ -46,7 +40,7 @@ public class BitmapFont {
         int numChars = 96;
         var charDataBuffer = STBTTBakedChar.malloc(numChars);
 
-        int res = STBTruetype.stbtt_BakeFontBitmap(fontBuffer, charHeight, bitmap, bitmapWidth, bitmapHeight, 32,
+        int res = STBTruetype.stbtt_BakeFontBitmap(buffer, charHeight, bitmap, bitmapWidth, bitmapHeight, 32,
                 charDataBuffer);
         // TODO check res
 
