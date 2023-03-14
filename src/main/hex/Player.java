@@ -8,7 +8,9 @@ public class Player {
         this.playerColour = playerColour;
     }
 
-    public Tile.Colour getPlayerColor() {
+    public Tile.Colour getPlayerColour() {
         return playerColour;
     }
+
+    public void setPlayerColour(Tile.Colour newColor) {this.playerColour = newColor;}
 }

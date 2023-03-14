@@ -12,6 +12,8 @@ public class GameLogic {
     private Board board;
     private Player player1, player2;
 
+    private Boolean swapAllowed = true;
+
     private ArrayDeque<Player> players = new ArrayDeque<>();
 
     public GameLogic(Board board) {
@@ -49,9 +51,19 @@ public class GameLogic {
             Tile clickedTile = board.getTileAtPosition(tileIndex.getX(), tileIndex.getY());
 
             if (clickedTile.getColour() == Tile.Colour.WHITE) {
-                clickedTile.setColour(this.getPlayerTurn().getPlayerColor());
+                clickedTile.setColour(this.getPlayerTurn().getPlayerColour());
+                this.nextPlayer();
+            } else if (swapAllowed && clickedTile.getColour() == player1.getPlayerColour()) {
+                swapRule();
                 this.nextPlayer();
             }
         }
+    }
+
+    public void swapRule() {
+        Tile.Colour tempCol = player1.getPlayerColour();
+        player1.setPlayerColour(player2.getPlayerColour());
+        player2.setPlayerColour(tempCol);
+        swapAllowed = false;
     }
 }

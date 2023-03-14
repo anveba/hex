@@ -35,4 +35,13 @@ public class GameLogicTest {
         gameLogic.nextPlayer();
         assertEquals(player1, gameLogic.getPlayerTurn());
     }
+
+    @Test
+    public void swapRule_playerSwap_switchedColours() {
+        Tile.Colour p1StartCol = player1.getPlayerColour();
+        Tile.Colour p2StartCol = player2.getPlayerColour();
+        gameLogic.swapRule();
+        assertEquals(p1StartCol, player2.getPlayerColour());
+        assertEquals(p2StartCol, player1.getPlayerColour());
+    }
 }
