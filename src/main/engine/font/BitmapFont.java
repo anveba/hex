@@ -15,7 +15,7 @@ import org.lwjgl.system.MemoryStack;
 
 import main.engine.*;
 
-import static main.engine.Utility.pathToByteBuffer;
+import static main.engine.Utility.*;
 import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
@@ -26,11 +26,11 @@ public class BitmapFont {
     private float charHeight;
     private int textureHandle;
 
-    public BitmapFont(String path, float heightInPx) {
+    public BitmapFont(byte[] fileData, float heightInPx) {
 
     	//TODO clean up
     	
-    	ByteBuffer buffer = pathToByteBuffer(path);
+    	ByteBuffer buffer = byteArrayToByteBuffer(fileData);
 
         bitmapWidth = 512;
         bitmapHeight = 512;

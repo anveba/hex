@@ -23,9 +23,9 @@ public class Texture {
     private int handle;
     private int width, height;
 
-    public Texture(String path) {
+    public Texture(byte[] fileData) {
         
-        ByteBuffer buffer = pathToByteBuffer(path);
+        ByteBuffer buffer = byteArrayToByteBuffer(fileData);
         
         try (MemoryStack stack = stackPush()) {
         	IntBuffer x = stack.mallocInt(1);

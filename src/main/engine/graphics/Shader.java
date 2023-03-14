@@ -13,22 +13,8 @@ public class Shader {
 
     private int handle;
 
-    public Shader(String vertex, String fragment) {
-        String vertexSource = readSource(vertex);
-        String fragmentSource = readSource(fragment);
-
+    public Shader(String vertexSource, String fragmentSource) {
         handle = createProgram(vertexSource, fragmentSource);        
-    }
-    
-    private static String readSource(String stringPath) {
-    	Path path = Path.of(stringPath);
-        if (!Files.exists(path))
-        	throw new EngineException("Path does not correspond to a file");
-        try {
-            return Files.readString(path);
-        } catch (IOException ex) {
-            throw new EngineException(ex);
-        }
     }
     
     private static int createProgram(String vertexSource, String fragmentSource) {

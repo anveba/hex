@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.lwjgl.BufferUtils;
 
@@ -22,9 +23,24 @@ public class Utility {
             e.printStackTrace();
             throw new EngineException(e);
         }
-        ByteBuffer buffer = BufferUtils.createByteBuffer(fileAsByteArray.length);
-        buffer.put(fileAsByteArray);
+        return byteArrayToByteBuffer(fileAsByteArray);
+    }
+    
+    public static ByteBuffer byteArrayToByteBuffer(byte[] arr) {
+        ByteBuffer buffer = BufferUtils.createByteBuffer(arr.length);
+        buffer.put(arr);
         buffer.flip();
         return buffer;
+    }
+    
+    private static String readFileAsString(String stringPath) {
+    	Path path = Path.of(stringPath);
+        if (!Files.exists(path))
+        	throw new EngineException("Path does not correspond to a file");
+        try {
+            return Files.readString(path);
+        } catch (IOException ex) {
+            throw new EngineException(ex);
+        }
     }
 }

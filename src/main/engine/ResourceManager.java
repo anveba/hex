@@ -1,6 +1,10 @@
 package main.engine;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import main.engine.font.BitmapFont;
@@ -29,7 +33,7 @@ public class ResourceManager {
     public Texture loadTexture(String path) {
         if (textures.containsKey(path))
             return textures.get(path);
-        Texture t = new Texture(getAbsolutePath(path));
+        Texture t = new Texture(getBytesFromRelativePath(path));
         textures.put(path, t);
         return t;
     }
@@ -37,7 +41,9 @@ public class ResourceManager {
     public Shader loadShader(String path) {
         if (shaders.containsKey(path))
             return shaders.get(path);
-        Shader s = new Shader(getAbsolutePath(path + ".vert"), getAbsolutePath(path + ".frag"));
+        Shader s = new Shader(
+        		new String(getBytesFromRelativePath(path + ".vert"), StandardCharsets.UTF_8), 
+        		new String(getBytesFromRelativePath(path + ".frag"), StandardCharsets.UTF_8));
         shaders.put(path, s);
         return s;
     }
@@ -45,21 +51,21 @@ public class ResourceManager {
     public BitmapFont loadFont(String path) {
         if (fonts.containsKey(path))
             return fonts.get(path);
-        BitmapFont f = new BitmapFont(getAbsolutePath(path), 32.0f);
+        BitmapFont f = new BitmapFont(getBytesFromRelativePath(path), 32.0f);
         fonts.put(path, f);
         return f;
     }
     
-    private String getAbsolutePath(String path) {
+    private byte[] getBytesFromRelativePath(String path) {
         path = "res/" + path;
         var cl = getClass().getClassLoader();
-        var r = cl.getResource(path);
+        var r = cl.getResourceAsStream(path);
         if (r == null)
         	throw new EngineException("Resource not found");
         try {
-			return r.toURI().getRawPath();
-		} catch (URISyntaxException e) {
-			throw new EngineException("URI to URL error");
+			return r.readAllBytes();
+		} catch (IOException e) {
+			throw new EngineException("Couldn't read input stream");
 		}
     }
     
