@@ -13,6 +13,7 @@ public class GameLogic {
     private Player player1, player2;
 
     private Boolean swapAllowed = true;
+    private int turnNum = 1;
 
     private ArrayDeque<Player> players = new ArrayDeque<>();
 
@@ -54,13 +55,19 @@ public class GameLogic {
                 clickedTile.setColour(this.getPlayerTurn().getPlayerColour());
                 this.nextPlayer();
             } else if (swapAllowed && clickedTile.getColour() == player1.getPlayerColour()) {
-                swapRule();
+                executeSwapRule();
                 this.nextPlayer();
             }
+
+            if (turnNum == 2) {
+                swapAllowed = false; // Disables swap-rule after player 2's first turn
+            }
+
+            turnNum++;
         }
     }
 
-    public void swapRule() {
+    public void executeSwapRule() {
         Tile.Colour tempCol = player1.getPlayerColour();
         player1.setPlayerColour(player2.getPlayerColour());
         player2.setPlayerColour(tempCol);

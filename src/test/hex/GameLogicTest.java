@@ -37,10 +37,10 @@ public class GameLogicTest {
     }
 
     @Test
-    public void swapRule_playerSwap_switchedColours() {
+    public void executeSwapRule_playerSwap_switchedColours() {
         Tile.Colour p1StartCol = player1.getPlayerColour();
         Tile.Colour p2StartCol = player2.getPlayerColour();
-        gameLogic.swapRule();
+        gameLogic.executeSwapRule();
         assertEquals(p1StartCol, player2.getPlayerColour());
         assertEquals(p2StartCol, player1.getPlayerColour());
     }
