@@ -17,6 +17,8 @@ public class Graph {
 
     private final Tile.Colour horizontalColour;
 
+    private final double fadeConstant = 0.1;
+
 
     public Graph(Tile[][] board,Tile.Colour verticalColour, Tile.Colour horizontalColour){
         noOfNodes = board.length * board.length +2;
@@ -27,6 +29,12 @@ public class Graph {
         this.horizontalColour = horizontalColour;
 
         adjacencyList = new ArrayList[noOfNodes];
+    }
+
+    public void clearAdjacencyList(){
+        for(int i = 0; i < adjacencyList.length; i++){
+            adjacencyList[i] = new ArrayList<Edge>();
+        }
     }
 
     public void connect(int a,int b,float fade){
@@ -57,26 +65,44 @@ public class Graph {
         }
         float fade = 1;
         if(t1Colour.equals(Tile.Colour.WHITE)){
-            fade -= 0.1;
+            fade -= fadeConstant;
         }
         if(t2Colour.equals(Tile.Colour.WHITE)){
-            fade -= 0.1;
+            fade -= fadeConstant;
         }
         connectXy(x1,y1,x2,y2,fade);
 
 
     }
 
+
+    /*
+    Connects the nodes, to prepare for evaluation of the vertical players heuristic
+    Connects all neighbouring tiles, with colour resistance
+    Connects all the topmost tiles to a startnode, and all the bottommost tiles to an endnode
+     */
     public void connectVerticalEvaluation(){
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
+        connectStartAndEndNodesVertical();
+        connectNeighbouringTilesWithResistance(verticalColour);
+    }
 
-        for(int x = 0; x < boardSize; x++){
-            connectXy(x,0, boardSize, boardSize -1,1);
-            connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
-        }
 
+    /*
+    Connects the nodes, to prepare for evaluation of the horizontal players heuristic
+    Connects all neighbouring tiles, with colour resistance
+    Connects all the leftmost tiles to a startnode, and all the rightmost tiles to an endnode
+     */
+    public void connectHorizontalEvaluation(){
+
+        connectStartAndEndNodesHorizontal();
+        connectNeighbouringTilesWithResistance(horizontalColour);
+    }
+
+    
+    /*
+    Calls connect with colour resistance, for all neighbouring tiles
+     */
+    private void connectNeighbouringTilesWithResistance(Tile.Colour verticalColour) {
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
@@ -92,69 +118,43 @@ public class Graph {
         }
     }
 
-    public void connectHorizontalEvaluation(){
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
+    
 
-        //Current version assumes you want to move from top to bottom
-        for(int y = 0; y < boardSize; y++){
-            connectXy(0,y, boardSize, boardSize -1,1);
-            connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
-        }
-
-        for(int x = 0; x< boardSize; x++){
-            for(int y = 0; y< boardSize; y++){
-                if(y+1 < boardSize){
-                    connectWithColourResistance(x,y,x,y+1, horizontalColour);
-                }
-                if(y+1 < boardSize && x-1 >= 0){
-                    connectWithColourResistance(x,y,x-1,y+1, horizontalColour);
-                }
-                if(x+1 < boardSize){
-                    connectWithColourResistance(x,y,x+1,y, horizontalColour);
-                }
-            }
-        }
-    }
-
-
-
-
+    //The main function for the board heuristic
     //Positive float: horizontal is favoured
     //Negative float: vertical is favoured
+    //Returns -+ inf if a player has won
     public double boardEvaluation(){
+        clearAdjacencyList();
         connectHorizontalEvaluation();
-        double horizontalSignal = boardEvaluationBfs();
+        double horizontalSignal = computeSignalHeuristic(noOfNodes-1,noOfNodes-2);
 
+        clearAdjacencyList();
         connectVerticalEvaluation();
-        float verticalSignal = boardEvaluationBfs();
+        float verticalSignal = computeSignalHeuristic(noOfNodes-1,noOfNodes-2);
 
-        if(checkWinHorizontal()){
+        if(hasWonHorizontally()){
             return Double.NEGATIVE_INFINITY;
         }
-        if(checkWinVertical()){
+        if(hasWonVertically()){
             return  Double.POSITIVE_INFINITY;
         }
-
-
-
         return horizontalSignal-verticalSignal;
     }
 
-    public float boardEvaluationBfs(){
+    public float computeSignalHeuristic(int startNode,int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[noOfNodes];
         float[] signal = new float[noOfNodes];
 
-        visited[noOfNodes -2] = true;
+        visited[startNode] = true;
 
         for(int i = 0; i< noOfNodes; i++){
             signal[i]=0;
         }
 
-        signal[noOfNodes -2] = 1;
-        q.add(noOfNodes -2);
+        signal[startNode] = 1;
+        q.add(startNode);
         while(!q.isEmpty()){
             int s = q.poll();
 
@@ -169,12 +169,11 @@ public class Graph {
                 visited[neighbour] = true;
             }
         }
-        return signal[noOfNodes -1];
+        return signal[endNode];
 
     }
 
-    public void connectIfColour(int x1, int y1, int x2, int y2, Tile.Colour colour){
-
+    public void connectIfBothTilesHaveColour(int x1, int y1, int x2, int y2, Tile.Colour colour){
         Tile.Colour t1Colour = board[x1][y1].getColour();
         Tile.Colour t2Colour = board[x2][y2].getColour();
         if(t1Colour.equals(colour) && t2Colour.equals(colour)){
@@ -183,53 +182,52 @@ public class Graph {
     }
 
 
-    private void connectNeighboursIfColour(Tile.Colour c) {
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
+    private void connectStartAndEndNodesHorizontal(){
+        for(int x = 0; x < boardSize; x++){
+            connectXy(x,0, boardSize, boardSize -1,1);
+            connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
         }
+    }
 
-
-        if(c == verticalColour){
-            for(int x = 0; x < boardSize; x++){
-                connectXy(x,0, boardSize, boardSize -1,1);
-                connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
-            }
+    private void connectStartAndEndNodesVertical(){
+        for(int y = 0; y < boardSize; y++){
+            connectXy(0,y, boardSize, boardSize -1,1);
+            connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
         }
-        else {
-            for(int y = 0; y < boardSize; y++){
-                connectXy(0,y, boardSize, boardSize -1,1);
-                connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
-            }
-        }
+    }
 
-
-
+    private void connectNeighboursIfTheyHaveGivenColour(Tile.Colour c) {
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
-                    connectIfColour(x,y,x,y+1, c);
+                    connectIfBothTilesHaveColour(x,y,x,y+1, c);
                 }
                 if(y+1 < boardSize && x-1 >= 0){
-                    connectIfColour(x,y,x-1,y+1,c);
+                    connectIfBothTilesHaveColour(x,y,x-1,y+1,c);
                 }
                 if(x+1 < boardSize){
-                    connectIfColour(x,y,x+1,y, c);
+                    connectIfBothTilesHaveColour(x,y,x+1,y, c);
                 }
             }
         }
     }
 
-    public boolean checkWinHorizontal(){
-        connectNeighboursIfColour(horizontalColour);
-        return bfs(noOfNodes - 2,noOfNodes-1);
+    public boolean hasWonHorizontally(){
+        clearAdjacencyList();
+        connectStartAndEndNodesHorizontal();
+        connectNeighboursIfTheyHaveGivenColour(horizontalColour);
+        return IsConnected(noOfNodes - 2,noOfNodes-1);
     }
 
-    public boolean checkWinVertical(){
-        connectNeighboursIfColour(verticalColour);
-        return bfs(noOfNodes - 2,noOfNodes-1);
+    public boolean hasWonVertically(){
+        clearAdjacencyList();
+        connectStartAndEndNodesVertical();
+        connectNeighboursIfTheyHaveGivenColour(verticalColour);
+        return IsConnected(noOfNodes - 2,noOfNodes-1);
     }
 
-    public boolean bfs(int startNode,int endNode){
+    //BFS a la CSES
+    public boolean IsConnected(int startNode, int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[noOfNodes];
 

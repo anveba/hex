@@ -11,7 +11,7 @@ import org.junit.Test;
 public class GraphTest {
 
     @Test
-    public void constructor_works(){
+    public void constructorWorks(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -24,7 +24,7 @@ public class GraphTest {
 
 
     @Test
-    public void different_board_states_get_evaluated_correctly(){
+    public void differentBoardStatesGetEvaluatedCorrectly(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -68,7 +68,7 @@ public class GraphTest {
 
 
     @Test
-    public void game_won_vertically_when_connected_vertically(){
+    public void gameWonVertically_whenConnectedVertically(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -82,14 +82,13 @@ public class GraphTest {
             board[3][i].setColour(Tile.Colour.BLUE);
         }
 
-
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        assertTrue(g.checkWinVertical());
+        assertTrue(g.hasWonVertically());
 
     }
 
     @Test
-    public void game_not_won_vertically_when_not_connected_vertically(){
+    public void gameNotWonVertically_whenNotConnectedVertically(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -102,12 +101,12 @@ public class GraphTest {
 
 
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        assertFalse(g.checkWinVertical());
+        assertFalse(g.hasWonVertically());
 
     }
 
     @Test
-    public void game_won_horizontally_when_connected_horizontally(){
+    public void gameWonHorizontally_whenConnectedHorizontally(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -122,12 +121,12 @@ public class GraphTest {
         }
 
         Graph g = new Graph(board, Tile.Colour.BLUE,Tile.Colour.RED);
-        assertTrue(g.checkWinHorizontal());
+        assertTrue(g.hasWonHorizontally());
 
     }
 
     @Test
-    public void game_not_won_horizontally_when_not_connected_horizontally(){
+    public void gameNotWonHorizontally_whenNotConnectedHorizontally(){
         int k = 5;
         Tile[][] board = new Tile[k][k];
         for(int i = 0; i<k;i++){
@@ -139,7 +138,7 @@ public class GraphTest {
         }
 
         Graph g = new Graph(board, Tile.Colour.BLUE,Tile.Colour.RED);
-        assertFalse(g.checkWinHorizontal());
+        assertFalse(g.hasWonHorizontally());
 
     }
 
