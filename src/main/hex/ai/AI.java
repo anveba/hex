@@ -2,7 +2,6 @@ package main.hex.ai;
 
 import main.hex.Tile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ public class AI {
 
     private Move minimax(Tile[][] state, int depth, boolean maximizingPlayer){
 
-        Graph g = new Graph(state,verticalColour,horizontalColour);
+        Graph2 g = new Graph2(state,verticalColour,horizontalColour);
         double eval = g.boardEvaluation();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
