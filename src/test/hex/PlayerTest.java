@@ -7,12 +7,11 @@ import main.hex.*;
 
 public class PlayerTest {
 
-    private Player player1, player2;
-    private GameLogic gameLogic;
+    private Player player1;
 
     @Before
     public void setup() {
-        player1 = new Player(Tile.Colour.BLUE);
+        player1 = new Player(Tile.Colour.BLUE, false);
     }
 
     @Test
@@ -21,13 +20,25 @@ public class PlayerTest {
     }
 
     @Test
-    public void getPlayerColour_player1BlueColour_colourReturned() {
+    public void getPlayerColour_playerBlueColour_colourReturned() {
         assertEquals(Tile.Colour.BLUE, player1.getPlayerColour());
     }
 
     @Test
-    public void setPlayerColour_player1RedColour_player1HasRedColour() {
+    public void setPlayerColour_player1RedColour_playerHasRedColour() {
         player1.setPlayerColour(Tile.Colour.RED);
         assertEquals(Tile.Colour.RED, player1.getPlayerColour());
+    }
+    
+    @Test
+    public void constructor_winsHorizontally_playerDoesNotWinVertically() {
+        Player p = new Player(Tile.Colour.RED, false);
+        assertFalse(p.hasWonByVerticalConnection());
+    }
+    
+    @Test
+    public void constructor_winsVertically_playerWinsVertically() {
+        Player p = new Player(Tile.Colour.RED, true);
+        assertTrue(p.hasWonByVerticalConnection());
     }
 }

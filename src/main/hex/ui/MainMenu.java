@@ -19,7 +19,7 @@ public class MainMenu extends Frame {
 		BitmapFont f = ResourceManager.getInstance().loadFont("fonts/roboto.ttf");
 		
 		//Create an image, some text and a button and attach it to the root object
-		root.addChild(new Image(-0.8f, 0.8f, 0.2f, 0.2f, t, 0, 0, t.width(), t.height()));
+		root.addChild(new Image(-0.8f, 0.8f, 0.2f, 0.2f, t, 0, 0, t.width() / 2, t.height() / 2));
 		root.addChild(new Text(0.0f, 0.8f, f, "Welcome to Hex!", 0.1f));
 		ButtonCallback clickFnc = (args) -> { // Example callback function
 			System.out.println("Clicked!");

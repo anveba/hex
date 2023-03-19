@@ -75,9 +75,13 @@ public class Game extends GameWindow {
     }
     
     private void startGameplay() {
-    	board = new Board(11);
-        GameLogic gameLogic = new GameLogic(board);
+    	board = new Board(5);
+        GameLogic gameLogic = new GameLogic(board, this::onPlayerWin);
         gameLogic.setupControlsCallback(getControlsListener());
+    }
+    
+    private void onPlayerWin(Player p) {
+    	System.out.println(p.getPlayerColour() + " has won!");
     }
 
     @Override
@@ -86,10 +90,10 @@ public class Game extends GameWindow {
 
     @Override
     protected void draw() {
-    	
         clear();
 
-        board.draw(renderer2D);
+        if (board != null)
+        	board.draw(renderer2D);
         
         FrameStack.getInstance().draw(renderer2D);
     }

@@ -2,17 +2,22 @@ package test.engine.ui;
 
 import static main.engine.Utility.floatEquals;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import main.engine.EngineException;
 import main.engine.Vector2;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
+import main.engine.ui.ButtonCallback;
+import main.engine.ui.ClickArgs;
 import main.engine.ui.Image;
 import main.engine.ui.RectButton;
 import main.engine.ui.Text;
+import main.engine.ui.UIGroup;
 
 public class RectButtonTest {
 
@@ -202,4 +207,25 @@ public class RectButtonTest {
 		assertFalse(button.containsPosition(x, hHalf + 0.1f));
 	}
 	
+	@Test
+	public void clickingCallsCallback() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		ButtonCallback callback = mock(ButtonCallback.class);
+		RectButton button = new RectButton(
+				x, y, wHalf * 2.0f, hHalf * 2.0f, 
+				t, iw, ih, sx, sy, sw, sh,
+				f, displayedString, th,
+				callback, null);
+
+		verify(callback, times(0)).call(any());
+		ClickArgs args = new ClickArgs(0.0f, 0.0f);
+		button.onClick(args);
+		verify(callback, times(1)).call(any());
+	}
 }

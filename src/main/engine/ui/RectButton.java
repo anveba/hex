@@ -7,9 +7,9 @@ import main.engine.graphics.Texture;
 
 public class RectButton extends RectElement implements Clickable {
 	
-	Image image;
-	Text text;
-	ButtonCallback clickCallback, hoverCallback;
+	private Image image;
+	private Text text;
+	private ButtonCallback clickCallback, hoverCallback;
 	
 	public RectButton(float x, float y, float width, float height,
 			Texture imageTexture, float imageWidth, float imageHeight,

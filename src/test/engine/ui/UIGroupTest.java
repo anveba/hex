@@ -29,7 +29,7 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void addingChildAddsChildAndRegistersAndBeingContainedInside() {
+	public void addingChildAddsChildAndRegistersAsBeingContainedInside() {
 		UIGroup g = new UIGroup(999.0f, 999.0f);
 		var e = mock(UIElement.class);
 		assertFalse(g.containsChild(e));
