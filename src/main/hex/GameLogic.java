@@ -99,15 +99,15 @@ public class GameLogic {
     }
     
     public boolean playerHasWon(Player player) {
-    	boolean[][] target = new boolean[board.getBoardSize()][board.getBoardSize()];
-    	boolean[][] checked = new boolean[board.getBoardSize()][board.getBoardSize()];
-    	for (int i = 0; i < board.getBoardSize(); i++) {
+    	boolean[][] target = new boolean[board.size()][board.size()];
+    	boolean[][] checked = new boolean[board.size()][board.size()];
+    	for (int i = 0; i < board.size(); i++) {
     		target
-    			[player.hasWonByVerticalConnection() ? i : board.getBoardSize() - 1]
-				[player.hasWonByVerticalConnection() ? board.getBoardSize() - 1 : i] = true;
+    			[player.hasWonByVerticalConnection() ? i : board.size() - 1]
+				[player.hasWonByVerticalConnection() ? board.size() - 1 : i] = true;
     	}
     	
-    	for (int i = 0; i < board.getBoardSize(); i++) {
+    	for (int i = 0; i < board.size(); i++) {
     		if (colourConnectsToTarget(player.getPlayerColour(), 
     				player.hasWonByVerticalConnection() ? i : 0,
 					player.hasWonByVerticalConnection() ? 0 : i,

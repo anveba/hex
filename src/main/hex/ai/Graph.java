@@ -1,5 +1,6 @@
 package main.hex.ai;
 
+import main.hex.Board;
 import main.hex.Tile;
 
 import java.util.ArrayDeque;
@@ -9,18 +10,14 @@ public class Graph {
 
     private ArrayList<Edge>[] adjacencyList;
     private int noOfNodes;
-    private int boardSize;
 
-    private Tile[][] board;
+    private Board board;
 
     private final Tile.Colour verticalColour;
-
     private final Tile.Colour horizontalColour;
 
-
-    public Graph(Tile[][] board,Tile.Colour verticalColour, Tile.Colour horizontalColour){
-        noOfNodes = board.length * board.length +2;
-        boardSize = board.length;
+    public Graph(Board board,Tile.Colour verticalColour, Tile.Colour horizontalColour){
+        noOfNodes = board.size() * board.size() +2;
         this.board = board;
 
         this.verticalColour = verticalColour;
@@ -34,12 +31,12 @@ public class Graph {
         adjacencyList[b].add(new Edge(b,a,fade));
     }
 
-    public int xyToNum(int x, int y){
-        return y * boardSize + x;
+    public int coordinatesToIndex(int x, int y){
+        return y * board.size() + x;
     }
 
     public void connectXy(int x1, int y1, int x2, int y2, float fade){
-        connect(xyToNum(x1,y1), xyToNum(x2,y2),fade);
+        connect(coordinatesToIndex(x1,y1), coordinatesToIndex(x2,y2),fade);
     }
 
 
@@ -49,8 +46,8 @@ public class Graph {
     //If one tile is non-coloured, we get 0.9 fade
     //If both tiles are non-coloured, we get 0.8 fade
     public void connectWithColourResistance(int x1, int y1, int x2, int y2, Tile.Colour nonAgentColour){
-        Tile.Colour t1Colour = board[x1][y1].getColour();
-        Tile.Colour t2Colour = board[x2][y2].getColour();
+        Tile.Colour t1Colour = board.getTileAtPosition(x1, y1).getColour();
+        Tile.Colour t2Colour = board.getTileAtPosition(x2, y2).getColour();
 
         if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
             return;
@@ -72,20 +69,20 @@ public class Graph {
             adjacencyList[i] = new ArrayList<Edge>();
         }
 
-        for(int x = 0; x < boardSize; x++){
-            connectXy(x,0, boardSize, boardSize -1,1);
-            connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
+        for(int x = 0; x < board.size(); x++){
+            connectXy(x,0, board.size(), board.size() -1,1);
+            connectXy(x, board.size() -1, board.size() +1, board.size() -1,1);
         }
 
-        for(int x = 0; x< boardSize; x++){
-            for(int y = 0; y< boardSize; y++){
-                if(y+1 < boardSize){
+        for(int x = 0; x< board.size(); x++){
+            for(int y = 0; y< board.size(); y++){
+                if(y+1 < board.size()){
                     connectWithColourResistance(x,y,x,y+1, verticalColour);
                 }
-                if(y+1 < boardSize && x-1 >= 0){
+                if(y+1 < board.size() && x-1 >= 0){
                     connectWithColourResistance(x,y,x-1,y+1, verticalColour);
                 }
-                if(x+1 < boardSize){
+                if(x+1 < board.size()){
                     connectWithColourResistance(x,y,x+1,y, verticalColour);
                 }
             }
@@ -98,20 +95,20 @@ public class Graph {
         }
 
         //Current version assumes you want to move from top to bottom
-        for(int y = 0; y < boardSize; y++){
-            connectXy(0,y, boardSize, boardSize -1,1);
-            connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
+        for(int y = 0; y < board.size(); y++){
+            connectXy(0,y, board.size(), board.size() -1,1);
+            connectXy(board.size() -1,y, board.size() +1, board.size() -1,1);
         }
 
-        for(int x = 0; x< boardSize; x++){
-            for(int y = 0; y< boardSize; y++){
-                if(y+1 < boardSize){
+        for(int x = 0; x< board.size(); x++){
+            for(int y = 0; y< board.size(); y++){
+                if(y+1 < board.size()){
                     connectWithColourResistance(x,y,x,y+1, horizontalColour);
                 }
-                if(y+1 < boardSize && x-1 >= 0){
+                if(y+1 < board.size() && x-1 >= 0){
                     connectWithColourResistance(x,y,x-1,y+1, horizontalColour);
                 }
-                if(x+1 < boardSize){
+                if(x+1 < board.size()){
                     connectWithColourResistance(x,y,x+1,y, horizontalColour);
                 }
             }
@@ -175,8 +172,8 @@ public class Graph {
 
     public void connectIfColour(int x1, int y1, int x2, int y2, Tile.Colour colour){
 
-        Tile.Colour t1Colour = board[x1][y1].getColour();
-        Tile.Colour t2Colour = board[x2][y2].getColour();
+        Tile.Colour t1Colour = board.getTileAtPosition(x1, y1).getColour();
+        Tile.Colour t2Colour = board.getTileAtPosition(x2, y2).getColour();
         if(t1Colour.equals(colour) && t2Colour.equals(colour)){
             connectXy(x1,y1,x2,y2,1);
         }
@@ -190,29 +187,29 @@ public class Graph {
 
 
         if(c == verticalColour){
-            for(int x = 0; x < boardSize; x++){
-                connectXy(x,0, boardSize, boardSize -1,1);
-                connectXy(x, boardSize -1, boardSize +1, boardSize -1,1);
+            for(int x = 0; x < board.size(); x++){
+                connectXy(x,0, board.size(), board.size() -1,1);
+                connectXy(x, board.size() -1, board.size() +1, board.size() -1,1);
             }
         }
         else {
-            for(int y = 0; y < boardSize; y++){
-                connectXy(0,y, boardSize, boardSize -1,1);
-                connectXy(boardSize -1,y, boardSize +1, boardSize -1,1);
+            for(int y = 0; y < board.size(); y++){
+                connectXy(0,y, board.size(), board.size() -1,1);
+                connectXy(board.size() -1,y, board.size() +1, board.size() -1,1);
             }
         }
 
 
 
-        for(int x = 0; x< boardSize; x++){
-            for(int y = 0; y< boardSize; y++){
-                if(y+1 < boardSize){
+        for(int x = 0; x< board.size(); x++){
+            for(int y = 0; y< board.size(); y++){
+                if(y+1 < board.size()){
                     connectIfColour(x,y,x,y+1, c);
                 }
-                if(y+1 < boardSize && x-1 >= 0){
+                if(y+1 < board.size() && x-1 >= 0){
                     connectIfColour(x,y,x-1,y+1,c);
                 }
-                if(x+1 < boardSize){
+                if(x+1 < board.size()){
                     connectIfColour(x,y,x+1,y, c);
                 }
             }

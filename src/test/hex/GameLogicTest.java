@@ -43,7 +43,7 @@ public class GameLogicTest {
     }
 
     @Test
-    public void swapRule_playerSwap_switchedColours() {
+    public void executeSwapRule_playerSwap_switchedColours() {
         Tile.Colour p1StartCol = player1.getPlayerColour();
         Tile.Colour p2StartCol = player2.getPlayerColour();
         gameLogic.swapPlayerColours();
@@ -59,43 +59,43 @@ public class GameLogicTest {
     
     @Test
     public void blueVerticalConnectionFromTopToBottomIsAWinForBlue() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(0, i).setColour(Tile.Colour.BLUE);
     	assertTrue(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void redVerticalConnectionFromTopToBottomIsNotAWinForRed() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(0, i).setColour(Tile.Colour.RED);
     	assertFalse(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void blueHorizontalConnectionFromTopToBottomIsAWinForBlue() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(i, 0).setColour(Tile.Colour.BLUE);
     	assertFalse(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void redHorizontalConnectionFromLeftToRightIsNotAWinForRed() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(i, 0).setColour(Tile.Colour.RED);
     	assertTrue(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void boardWithCenterFilledWithBlueAndWithBlueConnectionFromTopToBottomIsAWinForBlueAndNotAWinForRed() {
-    	for(int i = 1; i < board.getBoardSize() - 1; i ++) {
-    		for (int j = 1; j < board.getBoardSize() - 1; j++) {
+    	for(int i = 1; i < board.size() - 1; i ++) {
+    		for (int j = 1; j < board.size() - 1; j++) {
     			board.getTileAtPosition(i, j).setColour(Tile.Colour.BLUE);
     		}
     	}
     	
     	board.getTileAtPosition(1, 0).setColour(Tile.Colour.BLUE);
     	board.getTileAtPosition(
-    			board.getBoardSize() - 2, board.getBoardSize() - 1)
+    			board.size() - 2, board.size() - 1)
     	.setColour(Tile.Colour.BLUE);
     	
     	assertTrue(gameLogic.playerHasWon(player1));
@@ -104,29 +104,29 @@ public class GameLogicTest {
     
     @Test
     public void blueDiagonalConnectionFromTopRightToBottomLeftIsAWinForBlue() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(i, i).setColour(Tile.Colour.BLUE);
     	assertTrue(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void redDiagonalConnectionFromTopRightToBottomLeftIsAWinForRed() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
+    	for(int i = 0; i < board.size(); i++)
     		board.getTileAtPosition(i, i).setColour(Tile.Colour.RED);
     	assertTrue(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void redDiagonalConnectionFromTopLeftToBottomRightIsNotAWinForRed() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
-    		board.getTileAtPosition(i, board.getBoardSize() - i - 1).setColour(Tile.Colour.RED);
+    	for(int i = 0; i < board.size(); i++)
+    		board.getTileAtPosition(i, board.size() - i - 1).setColour(Tile.Colour.RED);
     	assertFalse(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void blueDiagonalConnectionFromTopLeftToBottomRightIsNotAWinForBlue() {
-    	for(int i = 0; i < board.getBoardSize(); i++)
-    		board.getTileAtPosition(i, board.getBoardSize() - i - 1).setColour(Tile.Colour.BLUE);
+    	for(int i = 0; i < board.size(); i++)
+    		board.getTileAtPosition(i, board.size() - i - 1).setColour(Tile.Colour.BLUE);
     	assertFalse(gameLogic.playerHasWon(player1));
     }
     

@@ -17,7 +17,7 @@ public class BoardTest {
 
     @Test
     public void constructor_positive_success() {
-        assertEquals(11, board.getBoardSize());
+        assertEquals(11, board.size());
     }
 
     @Test
@@ -113,9 +113,9 @@ public class BoardTest {
     	Vector2 screenSpacePosition = board.tileToScreen(
     			tileSpacePosition.getX(), tileSpacePosition.getY());
     	assertTrue(Math.abs(original.getX() - screenSpacePosition.getX())
-    			< board.getTileSize() / 2.0f + 0.001f
+    			< BoardRenderer2D.tileSize / 2.0f + 0.001f
     			&& Math.abs(original.getY() - screenSpacePosition.getY())
-    			< board.getTileSize() / 2.0f + 0.001f);
+    			< BoardRenderer2D.tileSize / 2.0f + 0.001f);
     }
     
     @Test

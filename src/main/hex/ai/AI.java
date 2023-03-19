@@ -1,5 +1,6 @@
 package main.hex.ai;
 
+import main.hex.Board;
 import main.hex.Tile;
 
 import java.lang.reflect.Array;
@@ -28,7 +29,7 @@ public class AI {
         }
     }
 
-    private Move minimax(Tile[][] state, int depth, boolean maximizingPlayer){
+    private Move minimax(Board state, int depth, boolean maximizingPlayer){
 
         Graph g = new Graph(state,verticalColour,horizontalColour);
         double eval = g.boardEvaluation();
@@ -42,7 +43,7 @@ public class AI {
         if (maximizingPlayer){
             Move maxMove = Move.MAX_VALUE_MOVE;
 
-            ArrayList<Tile[][]> children = createChildren(state,agentColour);
+            ArrayList<Board> children = createChildren(state,agentColour);
             for(int i = 0; i<children.size();i++){
                 Move iEval = minimax(children.get(i),depth-1,false);
                 maxMove = maxMove.max(iEval);
@@ -54,7 +55,7 @@ public class AI {
         else {
             Move minMove = Move.MIN_VALUE_MOVE;
 
-            ArrayList<Tile[][]> children = createChildren(state,Tile.opposite(agentColour));
+            ArrayList<Board> children = createChildren(state,Tile.opposite(agentColour));
             for(int i = 0; i<children.size();i++){
                 Move iEval = minimax(children.get(i),depth-1,true);
                 minMove = minMove.min(iEval);
@@ -65,33 +66,30 @@ public class AI {
 
     }
 
-    private ArrayList<Tile[][]> createChildren(Tile[][] parentState,Tile.Colour agentColour){
-        int max_no_of_children = parentState.length*parentState.length;
-        ArrayList<Tile[][]> children = new ArrayList<>((parentState.length*parentState.length)/2);
+    private ArrayList<Board> createChildren(Board parentState,Tile.Colour agentColour){
+        int max_no_of_children = parentState.size()*parentState.size();
+        ArrayList<Board> children = new ArrayList<>((parentState.size()*parentState.size())/2);
         for(int i = 0; i<max_no_of_children; i++){
-            Optional<Tile[][]> child = createChild(parentState,agentColour,i);
+            Optional<Board> child = createChild(parentState,agentColour,i);
             child.ifPresent(children::add);
         }
         return children;
     }
 
-    private Optional<Tile[][]> createChild(Tile[][] parentState,Tile.Colour agentColour,int childNo){
+    private Optional<Board> createChild(Board parentState,Tile.Colour agentColour,int childNo){
 
-        if(childNo > parentState.length * parentState.length){
+        if(childNo > parentState.size() * parentState.size()){
             throw new AIException("Created too many children");
         }
 
-        int x = childNo % parentState.length;
-        int y = childNo / parentState.length;
+        int x = childNo % parentState.size();
+        int y = childNo / parentState.size();
         if(currentState[x][y].getColour() != Tile.Colour.WHITE){
-            return  Optional.empty();
+            return Optional.empty();
         }
 
-        Tile[][] childState = new Tile[parentState.length][parentState.length];
-        for(int i = 0; i< parentState.length; i++){
-            childState[i] = parentState[i].clone();
-        }
-        childState[x][y].setColour(agentColour);
+        Board childState = parentState.clone();
+        childState.getTileAtPosition(x, y).setColour(agentColour);
         return Optional.of(childState);
     }
 

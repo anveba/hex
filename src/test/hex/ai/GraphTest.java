@@ -1,5 +1,6 @@
 package test.hex.ai;
 
+import main.hex.Board;
 import main.hex.Tile;
 import main.hex.ai.Graph;
 
@@ -11,51 +12,30 @@ public class GraphTest {
 
     @Test
     public void createGraph(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-        }
+    	Board board = new Board(5);
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
     }
 
 
     @Test
     public void graphHeuristics(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-        }
-
+    	Board board = new Board(5);
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
         double e1 = g.boardEvaluation();
 
-
-        Tile[][] board2 = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board2[i][j] = new Tile(Tile.Colour.WHITE);
-                board2[i][j].setColour(Tile.Colour.BLUE);
-            }
-        }
-
-        Graph g2 = new Graph(board2,Tile.Colour.BLUE,Tile.Colour.RED);
+        board = new Board(5);
+        for(int i = 0; i<board.size();i++)
+            for(int j = 0; j<board.size();j++)
+                board.getTileAtPosition(i, j).setColour(Tile.Colour.BLUE);
+        Graph g2 = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
         double e2 = g2.boardEvaluation();
 
-        Tile[][] board3 = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board3[i][j] = new Tile(Tile.Colour.WHITE);
-                board3[i][j].setColour(Tile.Colour.RED);
-            }
-        }
+        board = new Board(5);
+        for(int i = 0; i<board.size();i++)
+            for(int j = 0; j<board.size();j++)
+                board.getTileAtPosition(i, j).setColour(Tile.Colour.RED);
 
-        Graph g3 = new Graph(board3,Tile.Colour.BLUE,Tile.Colour.RED);
+        Graph g3 = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
         double e3 = g3.boardEvaluation();
 
         System.out.println(e1);
@@ -70,19 +50,9 @@ public class GraphTest {
 
     @Test
     public void gameWonVertically(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
-        for(int i = 0; i<k; i++){
-            board[3][i].setColour(Tile.Colour.BLUE);
-        }
-
+        Board board = new Board(5);
+        for(int i = 0; i<board.size(); i++)
+            board.getTileAtPosition(3, i).setColour(Tile.Colour.BLUE);
 
         Graph g = new Graph(board,Tile.Colour.BLUE,Tile.Colour.RED);
         assertTrue(g.checkWinVertical());
@@ -91,22 +61,11 @@ public class GraphTest {
 
     @Test
     public void gameWonHorizontally(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
-        for(int i = 0; i<k; i++){
-            board[i][3].setColour(Tile.Colour.RED);
-        }
+    	Board board = new Board(5);
+        for(int i = 0; i<board.size(); i++)
+            board.getTileAtPosition(i, 3).setColour(Tile.Colour.RED);
 
         Graph g = new Graph(board, Tile.Colour.BLUE,Tile.Colour.RED);
         assertTrue(g.checkWinHorizontal());
-
     }
-
 }

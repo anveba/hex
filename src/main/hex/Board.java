@@ -8,12 +8,12 @@ import main.engine.graphics.*;
 public class Board implements Drawable2D{
 	
     private Tile[][] board;
-    private boolean hasLoadedResources;
-    private Texture whiteTileTexture;
-    private Texture redTileTexture;
-    private Texture blueTileTexture;
-    
-    private float tileSize = 0.08f;
+    private static BoardRenderer2D renderer;
+    private static BoardRenderer2D getRenderer() {
+    	if (renderer == null)
+    		renderer = new BoardRenderer2D();
+    	return renderer;
+    }
 
     public Board(int size){
         if(size <= 0){ throw new HexException("Nonpositive board size was given");}
@@ -25,11 +25,17 @@ public class Board implements Drawable2D{
                 board[x][y] = new Tile(Tile.Colour.WHITE);
             }
         }
-        
-        hasLoadedResources = false;
     }
 
-    public int getBoardSize(){
+    public Board clone() {
+    	Board b = new Board(size());
+    	for (int i = 0; i < size(); i++)
+    		for (int j = 0; j < size(); j++)
+    			b.getTileAtPosition(i, j).setColour(getTileAtPosition(i, j).getColour());
+    	return b;
+    }
+    
+    public int size(){
         return board.length;
     }
 
@@ -41,70 +47,19 @@ public class Board implements Drawable2D{
     }
 
     public boolean isOutOfBounds(int x, int y) {
-        return x >= getBoardSize() || y >= getBoardSize() || x < 0 || y < 0;
+        return x >= size() || y >= size() || x < 0 || y < 0;
     }
 
-    public Point2 screenToTile(float screenX, float screenY) {
-    	float tileX = screenX / tileSize;
-    	float tileY = screenY / tileSize;
-    	tileY = tileY / (1.1547005f * 0.75f) - 0.5f + (float)getBoardSize() / 2.0f;
-    	tileX = tileX + 0.5f * tileY - 0.25f + (float)getBoardSize() / 4.0f;
-    	return new Point2((int)(tileX + 0.5f), (int)(tileY + 0.5f));
-    }
-    
-    public Vector2 tileToScreen(int tileX, int tileY) {
-        float screenX = ((float)tileX - (float)getBoardSize() / 4.0f + 0.25f) - 0.5f * tileY;
-        float screenY = ((float)tileY - (float)getBoardSize() / 2.0f + 0.5f) * 1.1547005f * 0.75f;
-        screenX *= tileSize;
-        screenY *= tileSize;
-        return new Vector2(screenX, screenY);
-    }
-
-    @Override
-    public void draw(Renderer2D renderer) {
-    	if (!hasLoadedResources)
-    		loadResources();
-    	
-    	float screenSpaceCursorX = Game.getInstance().getControlsListener().getCursorX();
-    	float screenSpaceCursorY = Game.getInstance().getControlsListener().getCursorY();
-    	Point2 tileSpaceCursorPosition = screenToTile(screenSpaceCursorX, screenSpaceCursorY);
-        for (int x = 0; x < getBoardSize(); x++) {
-            for (int y = 0; y < getBoardSize(); y++) {
-
-                Tile t = getTileAtPosition(x, y);
-
-                Tile.Colour col = t.getColour();
-                Texture drawTexture;
-                if (col == Tile.Colour.BLUE)
-                    drawTexture = blueTileTexture;
-                else if (col == Tile.Colour.RED)
-                    drawTexture = redTileTexture;
-                else
-                    drawTexture = whiteTileTexture;
-
-            	Vector2 screenPos = tileToScreen(x, y);
-            	/*if (tileSpaceCursorPosition.getX() == x &&
-            			tileSpaceCursorPosition.getY() == y)
-            		drawTexture = redTileTexture;*/
-                
-                renderer.draw(drawTexture, 
-                		screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
-                        0, 0, drawTexture.width(), drawTexture.height());
-            }
-        }
-    }
-
-	public void loadResources() {
-        whiteTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/white_tile.png");
-        redTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/red_tile.png");
-        blueTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/blue_tile.png");
-        hasLoadedResources = true;
+	@Override
+	public void draw(Renderer2D r) {
+		getRenderer().draw(r, this);
 	}
-	
-	public float getTileSize() {
-		return tileSize;
+
+	public Point2 screenToTile(float x, float y) {
+		return getRenderer().screenToTile(x, y, size());
+	}
+
+	public Vector2 tileToScreen(int x, int y) {
+		return getRenderer().tileToScreen(x, y, size());
 	}
 }
