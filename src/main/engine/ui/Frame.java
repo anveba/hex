@@ -28,10 +28,17 @@ public class Frame {
 		if (!(root instanceof Clickable))
 			return;
 		Clickable c = (Clickable)root;
-		if (c != null) {
-			var args = new ClickArgs(x, y);
-			c.onClick(args);
-		}
+		var args = new ClickArgs(x, y);
+		c.onClick(args);
+	}
+	
+
+	public void hoverAt(float x, float y) {
+		if (!(root instanceof Clickable))
+			return;
+		Clickable c = (Clickable)root;
+		var args = new HoverArgs(x, y);
+		c.onHover(args);
 	}
 	
 	void draw(Renderer2D renderer) {

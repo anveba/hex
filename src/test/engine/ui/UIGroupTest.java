@@ -102,4 +102,20 @@ public class UIGroupTest {
 		g.onClick(args);
 		verify(e, times(1)).onClick(any());
 	}
+	
+	@Test
+	public void hoveringCallsChildClickablesHoverHandlingMethod() {
+		UIGroup g = new UIGroup(0.0f, 0.0f);
+		RectButton e = mock(RectButton.class);
+		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
+		Mockito.doCallRealMethod().when(e).onHover(any());
+
+		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		g.onHover(args);
+		verify(e, times(0)).onHover(any());
+		
+		g.addChild(e);
+		g.onHover(args);
+		verify(e, times(1)).onHover(any());
+	}
 }

@@ -83,6 +83,12 @@ public class UIGroup extends UIElement implements Clickable {
 
 	@Override
 	public void onHover(HoverArgs args) {
-		//TODO
+		for (var child : children) {
+			if (!(child instanceof Clickable))
+				continue;
+			Clickable clickable = (Clickable)child;
+			if (child.containsPosition(args.getX(), args.getY()))
+				clickable.onHover(args);
+		}
 	}
 }

@@ -33,4 +33,19 @@ public class FrameTest {
 		f.clickAt(0.0f, 0.0f);
 		verify(e, times(1)).onClick(any());
 	}
+	
+	@Test
+	public void hoveringCallsRootClickableHoverHandlingMethod() {
+		Frame f = new Frame();
+		RectButton e = mock(RectButton.class);
+		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
+		Mockito.doCallRealMethod().when(e).onHover(any());
+
+		f.hoverAt(0.0f, 0.0f);
+		verify(e, times(0)).onHover(any());
+		
+		f.setRoot(e);
+		f.hoverAt(0.0f, 0.0f);
+		verify(e, times(1)).onHover(any());
+	}
 }

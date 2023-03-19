@@ -37,12 +37,13 @@ public class Renderer2D {
 
     public Renderer2D(GraphicsContext context) {
         if (context == null)
-            throw new EngineException("the context is null");
+            throw new EngineException("The context is null");
         this.context = context;
     }
-
-    public void draw(Texture tex, float x, float y, float width, float height, int sourceX, int sourceY,
-            int sourceWidth, int sourceHeight) {
+    
+    public void draw(Texture tex, float x, float y, 
+    		float width, float height, int sourceX, int sourceY,
+            int sourceWidth, int sourceHeight, Colour colour) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -63,6 +64,7 @@ public class Renderer2D {
 
         tex.use(0);
         getImageRendererShader().setInt("u_tex", 0);
+        getImageRendererShader().setVec4("u_col", colour.r(), colour.g(), colour.b(), colour.a());
 
         int vao = glGenVertexArrays();
         glBindVertexArray(vao);
@@ -86,12 +88,14 @@ public class Renderer2D {
         glDeleteVertexArrays(vao);
     }
 
-    public void drawString(BitmapFont font, String text, float x, float y, float height) {
+    public void drawString(BitmapFont font, String text, 
+    		float x, float y, float height, Colour colour) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         getTextRendererShader().use();
         getTextRendererShader().setInt("u_tex", 0);
+        getImageRendererShader().setVec4("u_col", colour.r(), colour.g(), colour.b(), colour.a());
         font.useTexture(0);
 
         float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();

@@ -32,8 +32,8 @@ public class BitmapFont {
     	
     	ByteBuffer buffer = byteArrayToByteBuffer(fileData);
 
-        bitmapWidth = 512;
-        bitmapHeight = 512;
+        bitmapWidth = 1024;
+        bitmapHeight = 1024;
         charHeight = heightInPx;
         var bitmap = BufferUtils.createByteBuffer(bitmapWidth * bitmapHeight);
 
@@ -42,7 +42,8 @@ public class BitmapFont {
 
         int res = STBTruetype.stbtt_BakeFontBitmap(buffer, charHeight, bitmap, bitmapWidth, bitmapHeight, 32,
                 charDataBuffer);
-        // TODO check res
+        assert res > 0;
+        // TODO check res properly
 
         var verticallyFlippedBitmap = BufferUtils.createByteBuffer(bitmapWidth * bitmapHeight);
         for (int y = 0; y < bitmapHeight; y++) {

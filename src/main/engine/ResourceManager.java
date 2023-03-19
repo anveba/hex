@@ -51,7 +51,7 @@ public class ResourceManager {
     public BitmapFont loadFont(String path) {
         if (fonts.containsKey(path))
             return fonts.get(path);
-        BitmapFont f = new BitmapFont(getBytesFromRelativePath(path), 32.0f);
+        BitmapFont f = new BitmapFont(getBytesFromRelativePath(path), 128.0f);
         fonts.put(path, f);
         return f;
     }

@@ -55,4 +55,10 @@ public class FrameStack {
 			stack.get(top - 1).clickAt(x, y);
 		}
 	}
+	
+	public void hoverAt(float x, float y) {
+		if (top > 0) {
+			stack.get(top - 1).hoverAt(x, y);
+		}
+	}
 }

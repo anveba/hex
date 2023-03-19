@@ -2,6 +2,7 @@ package main.engine.ui;
 
 import main.engine.*;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 
 public class Text extends UIElement {
@@ -10,14 +11,16 @@ public class Text extends UIElement {
 	private float height;
 	private BitmapFont font;
 	private String text;
+	private Colour colour;
 	
 	public Text(float x, float y, BitmapFont font, String text, float height) {
 		setPosition(x, y);
 		setFont(font);
 		setText(text);
 		setHeight(height);
+		setColour(Colour.White);
 	}
-	
+
 	@Override
 	public float getX() {
 		return x;
@@ -63,6 +66,16 @@ public class Text extends UIElement {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public Colour getColour() {
+		return colour;
+	}
+	
+	public void setColour(Colour c) {
+		if (c == null)
+			throw new EngineException("Colour was null");
+		colour = c;
+	}
 
 	@Override
 	public boolean containsPosition(float x, float y) {
@@ -75,6 +88,6 @@ public class Text extends UIElement {
 
 	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY) {
-		renderer.drawString(font, text, x + offsetX, y + offsetY, height);
+		renderer.drawString(font, text, x + offsetX, y + offsetY, height, colour);
 	}
 }

@@ -3,6 +3,7 @@ package main.hex;
 import main.engine.Point2;
 import main.engine.ResourceManager;
 import main.engine.Vector2;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 
@@ -10,8 +11,6 @@ public class BoardRenderer2D {
 
     private boolean hasLoadedResources;
     private Texture whiteTileTexture;
-    private Texture redTileTexture;
-    private Texture blueTileTexture;
     
     public static final float tileSize = 0.08f;
 
@@ -47,23 +46,22 @@ public class BoardRenderer2D {
 
                 Tile t = board.getTileAtPosition(x, y);
 
-                Tile.Colour col = t.getColour();
-                Texture drawTexture;
-                if (col == Tile.Colour.BLUE)
-                    drawTexture = blueTileTexture;
-                else if (col == Tile.Colour.RED)
-                    drawTexture = redTileTexture;
+                Tile.Colour tileColour = t.getColour();
+                Colour drawColour;
+                if (tileColour == Tile.Colour.BLUE)
+                	drawColour = Colour.Blue;
+                else if (tileColour == Tile.Colour.RED)
+                	drawColour = Colour.Red;
+                else if (tileSpaceCursorPosition.getX() == x &&
+            			tileSpaceCursorPosition.getY() == y)
+                	drawColour = Colour.Grey;
                 else
-                    drawTexture = whiteTileTexture;
+                	drawColour = Colour.White;
 
             	Vector2 screenPos = tileToScreen(x, y, board.size());
-            	/*if (tileSpaceCursorPosition.getX() == x &&
-            			tileSpaceCursorPosition.getY() == y)
-            		drawTexture = redTileTexture;*/
-                
-                renderer.draw(drawTexture, 
+                renderer.draw(whiteTileTexture, 
                 		screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
-                        0, 0, drawTexture.width(), drawTexture.height());
+                        0, 0, whiteTileTexture.width(), whiteTileTexture.height(), drawColour);
             }
         }
     }
@@ -71,10 +69,6 @@ public class BoardRenderer2D {
 	public void loadResources() {
         whiteTileTexture = ResourceManager.getInstance()
                 .loadTexture("textures/board/white_tile.png");
-        redTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/red_tile.png");
-        blueTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/blue_tile.png");
         hasLoadedResources = true;
 	}
 	

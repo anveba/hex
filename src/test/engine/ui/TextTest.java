@@ -9,6 +9,7 @@ import org.junit.*;
 import main.engine.ui.*;
 import main.engine.*;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 
 import static main.engine.Utility.*;
 
@@ -142,5 +143,23 @@ public class TextTest {
 	@Test(expected = EngineException.class)
 	public void settingTextToNullInConstructorThrowsException() {
 		new Text(0.0f, 0.0f, mock(BitmapFont.class), null, 10.0f);	
+	}
+	
+	@Test
+	public void getAndSetColourGetsAndSetsFont() {
+		String str = "hello world";
+		BitmapFont font = mock(BitmapFont.class);
+		Text text = new Text(999.0f, 999.0f, font, str, 999.0f);
+		Colour col = mock(Colour.class);
+		text.setColour(col);
+		assertEquals(col, text.getColour());
+	}
+	
+	@Test(expected = EngineException.class)
+	public void settingColourToNullThrowsException() {
+		String str = "hello world";
+		BitmapFont font = mock(BitmapFont.class);
+		Text text = new Text(999.0f, 999.0f, font, str, 999.0f);
+		text.setColour(null);
 	}
 }

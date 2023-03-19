@@ -63,4 +63,17 @@ public class FrameStackTest {
 		FrameStack.getInstance().clickAt(0.0f, 0.0f);
 		verify(f, times(1)).clickAt(anyFloat(), anyFloat());
 	}
+	
+	@Test
+	public void hoveringCallsTopFrameHoverHandlingMethod() {
+		Frame f = mock(Frame.class);
+		Mockito.doCallRealMethod().when(f).hoverAt(anyFloat(), anyFloat());
+
+		FrameStack.getInstance().hoverAt(0.0f, 0.0f);
+		verify(f, times(0)).hoverAt(anyFloat(), anyFloat());
+		
+		FrameStack.getInstance().push(f);
+		FrameStack.getInstance().hoverAt(0.0f, 0.0f);
+		verify(f, times(1)).hoverAt(anyFloat(), anyFloat());
+	}
 }

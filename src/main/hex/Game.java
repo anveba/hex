@@ -67,6 +67,10 @@ public class Game extends GameWindow {
             		getControlsListener().getCursorY()
             		);
          });
+        
+        getControlsListener().addOnCursorMoveCallback((x, y) -> {
+            FrameStack.getInstance().hoverAt(x, y);
+         });
     }
     
     private void setupGraphics() {
@@ -97,7 +101,4 @@ public class Game extends GameWindow {
         
         FrameStack.getInstance().draw(renderer2D);
     }
-
-
-
 }

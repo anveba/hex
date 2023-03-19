@@ -85,4 +85,9 @@ public class Shader {
     public void setInt(String field, int i) {
         glUniform1i(getLocation(field), i);
     }
+    
+    public void setVec4(String field, 
+    		float v1, float v2, float v3, float v4) {
+        glUniform4f(getLocation(field), v1, v2, v3, v4);
+    }
 }
