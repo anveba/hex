@@ -73,7 +73,8 @@ public class Texture {
     }
 
     public void use(int slot) {
-        // TODO check bounds
+        if (slot < 0 || slot >= slotCount())
+        	throw new EngineException("No texture slot " + slot);
         glActiveTexture(GL_TEXTURE0 + slot);
         glBindTexture(GL_TEXTURE_2D, handle);
     }
@@ -84,5 +85,9 @@ public class Texture {
 
     public int height() {
         return height;
+    }
+    
+    public static int slotCount() {
+    	return 8;
     }
 }

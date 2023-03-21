@@ -54,12 +54,12 @@ public class BoardRenderer2D {
                 	drawColour = Colour.Red;
                 else if (tileSpaceCursorPosition.getX() == x &&
             			tileSpaceCursorPosition.getY() == y)
-                	drawColour = Colour.Grey;
+                	drawColour = Colour.LightGrey;
                 else
                 	drawColour = Colour.White;
 
             	Vector2 screenPos = tileToScreen(x, y, board.size());
-                renderer.draw(whiteTileTexture, 
+                renderer.drawSprite(whiteTileTexture, 
                 		screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
                         0, 0, whiteTileTexture.width(), whiteTileTexture.height(), drawColour);
             }

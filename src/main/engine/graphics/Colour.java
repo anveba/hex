@@ -28,7 +28,8 @@ public class Colour {
 	public float a() { return a; }
 	
 	public static final Colour White = new Colour(1.0f, 1.0f, 1.0f, 1.0f);
-	public static final Colour Grey = new Colour(0.85f, 0.85f, 0.85f, 1.0f);
+	public static final Colour Grey = new Colour(0.5f, 0.5f, 0.5f, 1.0f);
+	public static final Colour LightGrey = new Colour(0.75f, 0.75f, 0.75f, 1.0f);
 	public static final Colour Red = new Colour(1.0f, 0.0f, 0.0f, 1.0f);
 	public static final Colour Green = new Colour(0.0f, 1.0f, 0.0f, 1.0f);
 	public static final Colour Blue = new Colour(0.0f, 0.0f, 1.0f, 1.0f);

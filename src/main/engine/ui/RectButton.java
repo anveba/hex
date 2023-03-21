@@ -109,7 +109,7 @@ public class RectButton extends RectElement implements Clickable {
 	
 	@Override
 	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-		Colour highlight = isHovering ? Colour.White : Colour.Grey;
+		Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
 		image.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
 		text.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
 	}
