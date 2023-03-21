@@ -62,9 +62,9 @@ public class Image extends RectElement {
 	}
 
 	@Override
-	public void draw(Renderer2D renderer, float offsetX, float offsetY) {
+	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		renderer.draw(getTexture(), getX() + offsetX, getY() + offsetY, getWidth(), getHeight(), 
-				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), Colour.White);
+				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), c);
 	}
 
 }

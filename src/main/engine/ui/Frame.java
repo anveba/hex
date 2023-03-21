@@ -38,11 +38,11 @@ public class Frame {
 			return;
 		Clickable c = (Clickable)root;
 		var args = new HoverArgs(x, y);
-		c.onHover(args);
+		c.updateCursorPosition(args);
 	}
 	
 	void draw(Renderer2D renderer) {
 		if (root != null)
-			root.draw(renderer, 0, 0);
+			root.draw(renderer, 0, 0, Colour.White);
 	}
 }

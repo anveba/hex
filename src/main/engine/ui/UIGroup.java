@@ -4,6 +4,7 @@ import java.util.*;
 
 import main.engine.EngineException;
 import main.engine.Vector2;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 
 /**
@@ -63,9 +64,9 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	public void draw(Renderer2D renderer, float offsetX, float offsetY) {
+	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
-			c.draw(renderer, offsetX + getX(), offsetY + getY());
+			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
 	}
 
 	@Override
@@ -82,13 +83,12 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	public void onHover(HoverArgs args) {
+	public void updateCursorPosition(HoverArgs args) {
 		for (var child : children) {
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
-			if (child.containsPosition(args.getX(), args.getY()))
-				clickable.onHover(args);
+			clickable.updateCursorPosition(args);
 		}
 	}
 }

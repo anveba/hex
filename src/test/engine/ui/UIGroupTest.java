@@ -88,7 +88,7 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void clickingCallsChildClickablesClickHandlingMethod() {
+	public void clickingCallsChildClickablesClickHandlingMethodIfTheyContainTheCursorPosition() {
 		UIGroup g = new UIGroup(0.0f, 0.0f);
 		RectButton e = mock(RectButton.class);
 		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
@@ -104,18 +104,17 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void hoveringCallsChildClickablesHoverHandlingMethod() {
+	public void cursorUpdateCallsChildClickablesCursorUpdateHandlingMethod() {
 		UIGroup g = new UIGroup(0.0f, 0.0f);
 		RectButton e = mock(RectButton.class);
-		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
-		Mockito.doCallRealMethod().when(e).onHover(any());
+		Mockito.doCallRealMethod().when(e).updateCursorPosition(any());
 
 		HoverArgs args = new HoverArgs(0.0f, 0.0f);
-		g.onHover(args);
-		verify(e, times(0)).onHover(any());
+		g.updateCursorPosition(args);
+		verify(e, times(0)).updateCursorPosition(any());
 		
 		g.addChild(e);
-		g.onHover(args);
-		verify(e, times(1)).onHover(any());
+		g.updateCursorPosition(args);
+		verify(e, times(1)).updateCursorPosition(any());
 	}
 }

@@ -14,6 +14,7 @@ import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.ButtonCallback;
 import main.engine.ui.ClickArgs;
+import main.engine.ui.HoverArgs;
 import main.engine.ui.Image;
 import main.engine.ui.RectButton;
 import main.engine.ui.Text;
@@ -33,7 +34,7 @@ public class RectButtonTest {
 				x, y, width, height, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		
 		assertTrue(floatEquals(button.getX(), x));
 		assertTrue(floatEquals(button.getY(), y));
@@ -65,7 +66,7 @@ public class RectButtonTest {
 				999.0f, 999.0f, width, height, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		button.setPosition(x, y);
 		assertTrue(floatEquals(button.getX(), x));
 		assertTrue(floatEquals(button.getY(), y));
@@ -83,7 +84,7 @@ public class RectButtonTest {
 				x, y, 999.0f, 999.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		button.setWidth(width);
 		button.setHeight(height);
 		assertTrue(floatEquals(button.getWidth(), width));
@@ -102,7 +103,7 @@ public class RectButtonTest {
 				x, y, 999.0f, 999.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		try {
 			button.setWidth(width);			
 		} catch(EngineException ex) {
@@ -123,7 +124,7 @@ public class RectButtonTest {
 				x, y, 999.0f, 999.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		try {
 			button.setHeight(height);			
 		} catch(EngineException ex) {
@@ -144,7 +145,7 @@ public class RectButtonTest {
 				x, y, width, height, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 	}
 	
 	@Test(expected = EngineException.class)
@@ -159,7 +160,7 @@ public class RectButtonTest {
 				x, y, width, height, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 	}
 	
 	@Test
@@ -175,7 +176,7 @@ public class RectButtonTest {
 				x, y, wHalf * 2.0f, hHalf * 2.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		assertTrue(button.containsPosition(-wHalf + 0.1f + x, -hHalf + 0.1f + y));
 		assertTrue(button.containsPosition(wHalf - 0.1f + x, -hHalf + 0.1f + y));
 		assertTrue(button.containsPosition(-wHalf + 0.1f + x, hHalf - 0.1f + y));
@@ -196,7 +197,7 @@ public class RectButtonTest {
 				x, y, wHalf * 2.0f, hHalf * 2.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				null, null);
+				null, null, null);
 		assertFalse(button.containsPosition(-wHalf - 0.1f + x, -hHalf - 0.1f + y));
 		assertFalse(button.containsPosition(wHalf + 0.1f + x, -hHalf - 0.1f + y));
 		assertFalse(button.containsPosition(-wHalf - 0.1f + x, hHalf + 0.1f + y));
@@ -208,7 +209,7 @@ public class RectButtonTest {
 	}
 	
 	@Test
-	public void clickingCallsCallback() {
+	public void clickingCallsClickCallback() {
 		Texture t = mock(Texture.class);
 		String displayedString = "hello world";
 		BitmapFont f = mock(BitmapFont.class);
@@ -221,11 +222,140 @@ public class RectButtonTest {
 				x, y, wHalf * 2.0f, hHalf * 2.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				callback, null);
+				callback, null, null);
 
 		verify(callback, times(0)).call(any());
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
 		button.onClick(args);
 		verify(callback, times(1)).call(any());
+	}
+	
+	@Test
+	public void clickCallbackIsIgnoredWhenNoCallbackIsSet() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		RectButton button = new RectButton(
+				x, y, wHalf * 2.0f, hHalf * 2.0f, 
+				t, iw, ih, sx, sy, sw, sh,
+				f, displayedString, th,
+				null, null, null);
+
+		ClickArgs args = new ClickArgs(0.0f, 0.0f);
+		button.onClick(args);
+	}
+	
+	@Test
+	public void hoverEnterCallsHoverEnterCallback() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		ButtonCallback callback = mock(ButtonCallback.class);
+		RectButton bSpy;
+		{
+			RectButton button = new RectButton(
+					x, y, wHalf * 2.0f, hHalf * 2.0f, 
+					t, iw, ih, sx, sy, sw, sh,
+					f, displayedString, th,
+					null, callback, null);
+			bSpy = spy(button);
+		}
+		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		bSpy.updateCursorPosition(args);
+		verify(callback, times(0)).call(any());
+		
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		bSpy.updateCursorPosition(args);
+		verify(callback, times(1)).call(any());
+	}
+	
+	@Test
+	public void hoverEnterCallbackIsIgnoredWhenNoCallbackIsSet() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		RectButton bSpy;
+		{
+			RectButton button = new RectButton(
+					x, y, wHalf * 2.0f, hHalf * 2.0f, 
+					t, iw, ih, sx, sy, sw, sh,
+					f, displayedString, th,
+					null, null, null);
+			bSpy = spy(button);
+		}
+		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		bSpy.updateCursorPosition(args);
+		
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		bSpy.updateCursorPosition(args);
+	}
+	
+	@Test
+	public void hoverExitCallsHoverExitCallback() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		ButtonCallback callback = mock(ButtonCallback.class);
+		RectButton bSpy;
+		{
+			RectButton button = new RectButton(
+					x, y, wHalf * 2.0f, hHalf * 2.0f, 
+					t, iw, ih, sx, sy, sw, sh,
+					f, displayedString, th,
+					null, null, callback);
+			bSpy = spy(button);
+		}
+		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		bSpy.updateCursorPosition(args);
+		verify(callback, times(0)).call(any());
+		
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		bSpy.updateCursorPosition(args);
+		verify(callback, times(1)).call(any());
+	}
+	
+	@Test
+	public void hoverExitCallbackIsIgnoredWhenNoCallbackIsSet() {
+		Texture t = mock(Texture.class);
+		String displayedString = "hello world";
+		BitmapFont f = mock(BitmapFont.class);
+		float wHalf = 1.0f, hHalf = 1.0f;
+		float x = 4.5f, y = 6.82f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		RectButton bSpy;
+		{
+			RectButton button = new RectButton(
+					x, y, wHalf * 2.0f, hHalf * 2.0f, 
+					t, iw, ih, sx, sy, sw, sh,
+					f, displayedString, th,
+					null, null, null);
+			bSpy = spy(button);
+		}
+		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		bSpy.updateCursorPosition(args);
+		
+		when(bSpy.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		bSpy.updateCursorPosition(args);
 	}
 }

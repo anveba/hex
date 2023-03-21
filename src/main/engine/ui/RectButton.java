@@ -2,6 +2,7 @@ package main.engine.ui;
 
 import main.engine.Vector2;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 
@@ -9,30 +10,39 @@ public class RectButton extends RectElement implements Clickable {
 	
 	private Image image;
 	private Text text;
-	private ButtonCallback clickCallback, hoverCallback;
+	private ButtonCallback clickCallback, hoverEnterCallback, hoverExitCallback;
+	private boolean isHovering;
 	
 	public RectButton(float x, float y, float width, float height,
 			Texture imageTexture, float imageWidth, float imageHeight,
 			int sourceX, int sourceY, int sourceWidth, int sourceHeight, 
 			BitmapFont font, String displayedString, float textHeight,
-			ButtonCallback clickCallback, ButtonCallback hoverCallback) {
+			ButtonCallback clickCallback, 
+			ButtonCallback onHoverEnterCallback,
+			ButtonCallback onHoverExitCallback) {
 		super(x, y, width, height);
 		image = new Image(x, y, imageWidth, imageHeight, imageTexture, 
 				sourceX, sourceY, sourceWidth, sourceHeight);
 		text = new Text(x, y, font, displayedString, textHeight);
 		setClickCallback(clickCallback);
-		setHoverCallback(hoverCallback);
+		setHoverEnterCallback(onHoverEnterCallback);
+		setHoverExitCallback(onHoverExitCallback);
 		setWidth(width);
 		setHeight(height);
 		setPosition(x, y);
+		isHovering = false;
 	}
 
 	public void setClickCallback(ButtonCallback callback) {
 		this.clickCallback = callback;
 	}
 	
-	public void setHoverCallback(ButtonCallback callback) {
-		this.hoverCallback = callback;
+	public void setHoverEnterCallback(ButtonCallback callback) {
+		this.hoverEnterCallback = callback;
+	}
+	
+	public void setHoverExitCallback(ButtonCallback callback) {
+		this.hoverExitCallback = callback;
 	}
 	
 	@Override
@@ -43,16 +53,18 @@ public class RectButton extends RectElement implements Clickable {
 	}
 
 	@Override
-	public void onHover(HoverArgs args) {
-		if (hoverCallback != null) {
-			hoverCallback.call(new ButtonCallbackArgs());
+	public void updateCursorPosition(HoverArgs args) {
+		boolean containsPos = containsPosition(args.getX(), args.getY());
+		if (!isHovering && containsPos) {
+			isHovering = true;
+			if (hoverEnterCallback != null)
+				hoverEnterCallback.call(new ButtonCallbackArgs());
 		}
-	}
-
-	@Override
-	void draw(Renderer2D renderer, float offsetX, float offsetY) {
-		image.draw(renderer, offsetX, offsetY);
-		text.draw(renderer, offsetX, offsetY);
+		else if (isHovering && !containsPos) {
+			isHovering = false;
+			if (hoverExitCallback != null)
+				hoverExitCallback.call(new ButtonCallbackArgs());
+		}
 	}
 
 	public float getImageWidth() {
@@ -93,5 +105,12 @@ public class RectButton extends RectElement implements Clickable {
 	
 	public float getTextHeight() {
 		return text.getHeight();
+	}
+	
+	@Override
+	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+		Colour highlight = isHovering ? Colour.White : Colour.Grey;
+		image.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
+		text.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
 	}
 }

@@ -26,7 +26,7 @@ public class MainMenu extends Frame {
 		};
 		root.addChild(new RectButton(0.0f, -0.8f, 0.2f, 0.2f, 
 				t, 0.2f, 0.2f, 0, 0, t.width(), t.height(),
-				f, "Click me!", 0.03f, clickFnc, null));
+				f, "Click me!", 0.03f, clickFnc, null, null));
 	}
     
 }

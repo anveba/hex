@@ -1,7 +1,7 @@
 package main.engine.ui;
 
-public interface Clickable {
+interface Clickable {
     void onClick(ClickArgs args);
 
-    void onHover(HoverArgs args);
+    void updateCursorPosition(HoverArgs args);
 }

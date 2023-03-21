@@ -39,13 +39,13 @@ public class FrameTest {
 		Frame f = new Frame();
 		RectButton e = mock(RectButton.class);
 		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
-		Mockito.doCallRealMethod().when(e).onHover(any());
+		Mockito.doCallRealMethod().when(e).updateCursorPosition(any());
 
 		f.hoverAt(0.0f, 0.0f);
-		verify(e, times(0)).onHover(any());
+		verify(e, times(0)).updateCursorPosition(any());
 		
 		f.setRoot(e);
 		f.hoverAt(0.0f, 0.0f);
-		verify(e, times(1)).onHover(any());
+		verify(e, times(1)).updateCursorPosition(any());
 	}
 }
