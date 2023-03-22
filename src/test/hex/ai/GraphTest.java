@@ -16,7 +16,6 @@ public class GraphTest {
     }
 
 
-
     @Test
     public void adjacencyExistsBetweenNodesAfterConnection(){
         Graph g = new Graph(5);

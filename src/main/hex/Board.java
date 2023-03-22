@@ -34,6 +34,7 @@ public class Board implements Drawable2D{
     			b.getTileAtPosition(i, j).setColour(getTileAtPosition(i, j).getColour());
     	return b;
     }
+
     
     public int size(){
         return board.length;

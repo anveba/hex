@@ -33,12 +33,12 @@ public class PlayerTest {
     @Test
     public void constructor_winsHorizontally_playerDoesNotWinVertically() {
         Player p = new Player(Tile.Colour.RED, false);
-        assertFalse(p.hasWonByVerticalConnection());
+        assertFalse(p.winsByVerticalConnection());
     }
     
     @Test
     public void constructor_winsVertically_playerWinsVertically() {
         Player p = new Player(Tile.Colour.RED, true);
-        assertTrue(p.hasWonByVerticalConnection());
+        assertTrue(p.winsByVerticalConnection());
     }
 }

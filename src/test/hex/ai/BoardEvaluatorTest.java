@@ -1,5 +1,6 @@
 package test.hex.ai;
 
+import main.hex.Board;
 import main.hex.Tile;
 import main.hex.ai.BoardEvaluator;
 import org.junit.Test;
@@ -11,26 +12,17 @@ public class BoardEvaluatorTest {
 
     @Test
     public void boardEvaluatorConstructorWorks(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-        }
+
+        Board board = new Board(5);
         BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
     }
 
 
     @Test
     public void agentColouredTilesAreConnectedWithMaxFadeAfterColourConnection(){
-        int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.RED);
-            }
-        }
+        Board board = new Board(5);
+        board.getTileAtPosition(1,1).setColour(Tile.Colour.RED);
+        board.getTileAtPosition(1,2).setColour(Tile.Colour.RED);
         BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
         b.connectByColour(1,1,1,2, Tile.Colour.RED);
         assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
@@ -48,16 +40,12 @@ public class BoardEvaluatorTest {
     @Test
     public void colourPairsGetConnectedSuchThatTheirFadeTheyRankCorrectly(){
         int k = 7;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-        }
-        board[2][0].setColour(Tile.Colour.RED);
-        board[3][0].setColour(Tile.Colour.RED);
-        board[4][0].setColour(Tile.Colour.BLUE);
-        board[5][0].setColour(Tile.Colour.BLUE);
+        Board board = new Board(k);
+
+        board.getTileAtPosition(2,0).setColour(Tile.Colour.RED);
+        board.getTileAtPosition(3,0).setColour(Tile.Colour.RED);
+        board.getTileAtPosition(4,0).setColour(Tile.Colour.BLUE);
+        board.getTileAtPosition(5,0).setColour(Tile.Colour.BLUE);
 
         BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
 
@@ -84,10 +72,10 @@ public class BoardEvaluatorTest {
     @Test
     public void AgentColouredNeighboursHaveMaxFadeConnectionAfterHorizontalEvaluationConnection(){
         int k = 2;
-        Tile[][] board = new Tile[k][k];
+        Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.RED);
+                board.getTileAtPosition(i,j).setColour(Tile.Colour.RED);
             }
         }
         BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
@@ -99,10 +87,10 @@ public class BoardEvaluatorTest {
     @Test
     public void AgentColouredNeighboursHaveMaxFadeConnectionAfterVerticalEvaluationConnection(){
         int k = 2;
-        Tile[][] board = new Tile[k][k];
+        Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.BLUE);
+                board.getTileAtPosition(i,j).setColour(Tile.Colour.BLUE);
             }
         }
         BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
@@ -116,33 +104,26 @@ public class BoardEvaluatorTest {
     @Test
     public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOther(){
         int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-        }
+        Board board = new Board(k);
 
         BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
         double e1 = b.evaluateBoard();
 
 
-        Tile[][] board2 = new Tile[k][k];
+        Board board2 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board2[i][j] = new Tile(Tile.Colour.WHITE);
-                board2[i][j].setColour(Tile.Colour.BLUE);
+                board2.getTileAtPosition(i,j).setColour(Tile.Colour.BLUE);
             }
         }
 
         BoardEvaluator b2 = new BoardEvaluator(board2,Tile.Colour.BLUE,Tile.Colour.RED);
         double e2 = b2.evaluateBoard();
 
-        Tile[][] board3 = new Tile[k][k];
+        Board board3 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board3[i][j] = new Tile(Tile.Colour.WHITE);
-                board3[i][j].setColour(Tile.Colour.RED);
+                board3.getTileAtPosition(i,j).setColour(Tile.Colour.RED);
             }
         }
 
@@ -158,16 +139,9 @@ public class BoardEvaluatorTest {
     @Test
     public void gameWonVertically_whenConnectedVertically(){
         int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
+        Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board[3][i].setColour(Tile.Colour.BLUE);
+            board.getTileAtPosition(3,i).setColour(Tile.Colour.BLUE);
         }
 
         BoardEvaluator g = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
@@ -178,14 +152,7 @@ public class BoardEvaluatorTest {
     @Test
     public void gameNotWonVertically_whenNotConnectedVertically(){
         int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
+        Board board = new Board(k);
 
 
         BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
@@ -196,16 +163,9 @@ public class BoardEvaluatorTest {
     @Test
     public void gameWonHorizontally_whenConnectedHorizontally(){
         int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
+        Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board[i][3].setColour(Tile.Colour.RED);
+            board.getTileAtPosition(i,3).setColour(Tile.Colour.RED);
         }
 
         BoardEvaluator b = new BoardEvaluator(board, Tile.Colour.BLUE,Tile.Colour.RED);
@@ -216,14 +176,7 @@ public class BoardEvaluatorTest {
     @Test
     public void gameNotWonHorizontally_whenNotConnectedHorizontally(){
         int k = 5;
-        Tile[][] board = new Tile[k][k];
-        for(int i = 0; i<k;i++){
-
-            for(int j = 0; j<k;j++){
-                board[i][j] = new Tile(Tile.Colour.WHITE);
-            }
-
-        }
+        Board board = new Board(k);
 
         BoardEvaluator b = new BoardEvaluator(board, Tile.Colour.BLUE,Tile.Colour.RED);
         assertFalse(b.hasWonHorizontally());

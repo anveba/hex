@@ -3,11 +3,11 @@ package main.hex;
 public class Player {
 
     private Tile.Colour playerColour;
-    private boolean hasWonByVerticalConnection;
+    private boolean winsByVerticalConnection;
 
     public Player (Tile.Colour playerColour, boolean hasWonByVerticalConnection) {
         this.playerColour = playerColour;
-        this.hasWonByVerticalConnection = hasWonByVerticalConnection;
+        this.winsByVerticalConnection = hasWonByVerticalConnection;
     }
 
     public Tile.Colour getPlayerColour() {
@@ -18,7 +18,7 @@ public class Player {
     	this.playerColour = newColor;
 	}
     
-    public boolean hasWonByVerticalConnection() {
-    	return hasWonByVerticalConnection;
+    public boolean winsByVerticalConnection() {
+    	return winsByVerticalConnection;
     }
 }
