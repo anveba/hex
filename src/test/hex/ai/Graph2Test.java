@@ -1,12 +1,7 @@
 package test.hex.ai;
 
-import main.hex.Tile;
-import main.hex.ai.Graph2;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class Graph2Test {
 
