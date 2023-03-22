@@ -141,4 +141,12 @@ public class GameLogic {
     	}
     	return false;
     }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
 }
