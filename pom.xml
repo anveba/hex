@@ -249,6 +249,10 @@
 	</dependency>
 	<dependency>
 		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-openvr</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-opus</artifactId>
 	</dependency>
 	<dependency>
@@ -277,6 +281,10 @@
 	</dependency>
 	<dependency>
 		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-sse</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-stb</artifactId>
 	</dependency>
 	<dependency>
@@ -286,6 +294,10 @@
 	<dependency>
 		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-tinyfd</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-tootle</artifactId>
 	</dependency>
 	<dependency>
 		<groupId>org.lwjgl</groupId>
@@ -394,6 +406,11 @@
 	</dependency>
 	<dependency>
 		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-openvr</artifactId>
+		<classifier>${lwjgl.natives}</classifier>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-opus</artifactId>
 		<classifier>${lwjgl.natives}</classifier>
 	</dependency>
@@ -424,6 +441,11 @@
 	</dependency>
 	<dependency>
 		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-sse</artifactId>
+		<classifier>${lwjgl.natives}</classifier>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-stb</artifactId>
 		<classifier>${lwjgl.natives}</classifier>
 	</dependency>
@@ -435,6 +457,11 @@
 	<dependency>
 		<groupId>org.lwjgl</groupId>
 		<artifactId>lwjgl-tinyfd</artifactId>
+		<classifier>${lwjgl.natives}</classifier>
+	</dependency>
+	<dependency>
+		<groupId>org.lwjgl</groupId>
+		<artifactId>lwjgl-tootle</artifactId>
 		<classifier>${lwjgl.natives}</classifier>
 	</dependency>
 	<dependency>

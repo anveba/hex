@@ -30,20 +30,20 @@ public class GameLogicTest {
     }
 
     @Test
-    public void nextTurn_currentlyPlayer1_player2() {
+    public void nextPlayer_currentlyPlayer1_player2() {
         gameLogic.nextTurn();
         assertEquals(player2, gameLogic.getCurrentTurnsPlayer());
     }
 
     @Test
-    public void nextTurn_runTwiceCurrentlyPlayer1_player1() { // Checks that players are looped
+    public void nextPlayer_runTwiceCurrentlyPlayer1_player1() { // Checks that players are looped
         gameLogic.nextTurn();
         gameLogic.nextTurn();
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
     @Test
-    public void swapPlayerColours_playerSwap_switchedColours() {
+    public void executeSwapRule_playerSwap_switchedColours() {
         Tile.Colour p1StartCol = player1.getPlayerColour();
         Tile.Colour p2StartCol = player2.getPlayerColour();
         gameLogic.swapPlayerColours();

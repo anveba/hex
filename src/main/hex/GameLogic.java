@@ -23,8 +23,8 @@ public class GameLogic {
     public GameLogic(Board board, PlayerCondition playerWinCallback) {
         this(board, 
         		new Player(Tile.Colour.BLUE, true), 
-        		new Player(Tile.Colour.RED, false),
-                playerWinCallback);
+        		new Player(Tile.Colour.RED, false), 
+        		playerWinCallback);
     }
     
     public GameLogic(Board board) {
