@@ -23,8 +23,8 @@ public class GameLogic {
     public GameLogic(Board board, PlayerCondition playerWinCallback) {
         this(board, 
         		new Player(Tile.Colour.BLUE, true), 
-        		new Player(Tile.Colour.RED, false),
-                playerWinCallback);
+        		new Player(Tile.Colour.RED, false), 
+        		playerWinCallback);
     }
     
     public GameLogic(Board board) {
@@ -82,20 +82,23 @@ public class GameLogic {
     		throw new HexException("Out of bounds");
     	if (gameIsOver)
     		return;
-    	Tile clickedTile = board.getTileAtPosition(x, y);
+
+        Tile clickedTile = board.getTileAtPosition(x, y);
         if (clickedTile.getColour() == Tile.Colour.WHITE) {
             clickedTile.setColour(this.getCurrentTurnsPlayer().getPlayerColour());
             this.nextTurn();
-        } else if (currentTurn == 0 && clickedTile.getColour() == player1.getPlayerColour()) {
+        } else if (clickedTile.getColour() == player1.getPlayerColour()) {
         	swapPlayerColours();
-            this.nextTurn();
         }
     }
 
     public void swapPlayerColours() {
-        Tile.Colour tempCol = player1.getPlayerColour();
-        player1.setPlayerColour(player2.getPlayerColour());
-        player2.setPlayerColour(tempCol);
+        if (currentTurn == 1) {
+            Tile.Colour tempCol = player1.getPlayerColour();
+            player1.setPlayerColour(player2.getPlayerColour());
+            player2.setPlayerColour(tempCol);
+            this.nextTurn();
+        }
     }
     
     public boolean playerHasWon(Player player) {
@@ -103,14 +106,14 @@ public class GameLogic {
     	boolean[][] checked = new boolean[board.size()][board.size()];
     	for (int i = 0; i < board.size(); i++) {
     		target
-    			[player.hasWonByVerticalConnection() ? i : board.size() - 1]
-				[player.hasWonByVerticalConnection() ? board.size() - 1 : i] = true;
+    			[player.winsByVerticalConnection() ? i : board.size() - 1]
+				[player.winsByVerticalConnection() ? board.size() - 1 : i] = true;
     	}
     	
     	for (int i = 0; i < board.size(); i++) {
     		if (colourConnectsToTarget(player.getPlayerColour(), 
-    				player.hasWonByVerticalConnection() ? i : 0,
-					player.hasWonByVerticalConnection() ? 0 : i,
+    				player.winsByVerticalConnection() ? i : 0,
+					player.winsByVerticalConnection() ? 0 : i,
 					checked, target))
     			return true;
     	}
@@ -137,5 +140,13 @@ public class GameLogic {
     		}
     	}
     	return false;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }

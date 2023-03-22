@@ -1,5 +1,6 @@
 package main.hex.ai;
 
+import main.hex.Board;
 import main.hex.Tile;
 
 
@@ -11,7 +12,7 @@ public class BoardEvaluator {
     private Tile.Colour verticalColour;
     private Tile.Colour horizontalColour;
 
-    private Tile[][] board;
+    private Board board;
 
     private int boardSize;
 
@@ -25,12 +26,12 @@ public class BoardEvaluator {
 
      */
 
-    public BoardEvaluator(Tile[][] board, Tile.Colour verticalColour, Tile.Colour horizontalColour) {
-        gridGraph = new GridGraph(board.length);
+    public BoardEvaluator(Board board, Tile.Colour verticalColour, Tile.Colour horizontalColour) {
+        gridGraph = new GridGraph(board.size());
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;
         this.board = board;
-        this.boardSize = board.length;
+        this.boardSize = board.size();
     }
 
 
@@ -99,8 +100,8 @@ public class BoardEvaluator {
     public void connectByColour(int fromX, int fromY, int toX, int toY,Tile.Colour agentColour){
         Tile.Colour nonAgentColour = Tile.opposite(agentColour);
 
-        Tile.Colour t1Colour = board[fromX][fromY].getColour();
-        Tile.Colour t2Colour = board[toX][toY].getColour();
+        Tile.Colour t1Colour = board.getTileAtPosition(fromX,fromY).getColour();
+        Tile.Colour t2Colour = board.getTileAtPosition(toX,toY).getColour();
 
         if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
             return;

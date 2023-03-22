@@ -1,13 +1,14 @@
 package main.hex.ai;
-/*
+
 import main.hex.Board;
+import main.hex.Player;
 import main.hex.Tile;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class AI {
-    private final Tile[][] currentState;
+    private final Board currentState;
 
     private Tile.Colour agentColour;
 
@@ -15,10 +16,12 @@ public class AI {
     private Tile.Colour verticalColour;
     private Tile.Colour horizontalColour;
 
-    public AI(Board state,Tile.Colour agentColour, boolean playsVertical){
-        this.currentState = currentState;
-        this.agentColour = agentColour;
-        if(playsVertical){
+    public AI(Board state, Player player){
+        this.currentState = state;
+        this.agentColour = player.getPlayerColour();
+        this.agentPlaysVertical = player.winsByVerticalConnection();
+
+        if(agentPlaysVertical){
             verticalColour = agentColour;
             horizontalColour = Tile.opposite(agentColour);
         }
@@ -28,7 +31,7 @@ public class AI {
         }
     }
 
-    private Move minimax(Tile[][] state, int depth, boolean maximizingPlayer){
+    private Move minimax(Board state, int depth, boolean maximizingPlayer){
 
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
@@ -83,7 +86,7 @@ public class AI {
 
         int x = childNo % parentState.size();
         int y = childNo / parentState.size();
-        if(currentState[x][y].getColour() != Tile.Colour.WHITE){
+        if(currentState.getTileAtPosition(x,y).getColour() != Tile.Colour.WHITE){
             return Optional.empty();
         }
 
@@ -97,4 +100,3 @@ public class AI {
 
 
 }
-*/
