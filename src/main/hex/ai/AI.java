@@ -1,9 +1,8 @@
 package main.hex.ai;
-
+/*
 import main.hex.Board;
 import main.hex.Tile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public class AI {
     private Tile.Colour verticalColour;
     private Tile.Colour horizontalColour;
 
-    public AI(Tile[][] currentState,Tile.Colour agentColour, boolean playsVertical){
+    public AI(Board state,Tile.Colour agentColour, boolean playsVertical){
         this.currentState = currentState;
         this.agentColour = agentColour;
         if(playsVertical){
@@ -29,10 +28,10 @@ public class AI {
         }
     }
 
-    private Move minimax(Board state, int depth, boolean maximizingPlayer){
+    private Move minimax(Tile[][] state, int depth, boolean maximizingPlayer){
 
-        Graph g = new Graph(state,verticalColour,horizontalColour);
-        double eval = g.boardEvaluation();
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
+        double eval = g.evaluateBoard();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
             return new Move(-1,eval);
@@ -98,3 +97,4 @@ public class AI {
 
 
 }
+*/

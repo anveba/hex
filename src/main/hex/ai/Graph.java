@@ -1,234 +1,61 @@
 package main.hex.ai;
 
-import main.hex.Board;
-import main.hex.Tile;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Optional;
+
+
+/*
+Author Nikolaj
+
+A signal graph
+Each edge has a "Fade" value, which is how much the signal gets multiplied by
+When it flows through it
+
+Fade of 1, signal is unchanged
+Fade of 0.5, signal is halved
+
+This way we can compute a BFS type heuristic
+Where some connections don't add to the distance
+And some do
+
+ */
+
 
 public class Graph {
 
-    private ArrayList<Edge>[] adjacencyList;
-    private int noOfNodes;
+    private final int numberOfNodes;
+    ArrayList<Edge>[] adjacencyList;
 
-    private Board board;
 
-    private final Tile.Colour verticalColour;
-    private final Tile.Colour horizontalColour;
 
-    public Graph(Board board,Tile.Colour verticalColour, Tile.Colour horizontalColour){
-        noOfNodes = board.size() * board.size() +2;
-        this.board = board;
+    public Graph(int numberOfNodes){
+        this.numberOfNodes = numberOfNodes;
+        adjacencyList = new ArrayList[numberOfNodes];
+        resetAdjacencyList();
 
-        this.verticalColour = verticalColour;
-        this.horizontalColour = horizontalColour;
-
-        adjacencyList = new ArrayList[noOfNodes];
     }
 
-    public void connect(int a,int b,float fade){
+    public void resetAdjacencyList(){
+        for(int i = 0; i < adjacencyList.length; i++){
+            adjacencyList[i] = new ArrayList<Edge>();
+        }
+    }
+
+    public void connect(int a, int b){
+        adjacencyList[a].add(new Edge(a,b,1.0));
+        adjacencyList[b].add(new Edge(b,a,1.0));
+    }
+
+    public void connectWithFade(int a, int b,double fade){
         adjacencyList[a].add(new Edge(a,b,fade));
         adjacencyList[b].add(new Edge(b,a,fade));
     }
 
-    public int coordinatesToIndex(int x, int y){
-        return y * board.size() + x;
-    }
-
-    public void connectXy(int x1, int y1, int x2, int y2, float fade){
-        connect(coordinatesToIndex(x1,y1), coordinatesToIndex(x2,y2),fade);
-    }
-
-
-    //Tiles are connected with different fade values, based on their colour
-    //If one tile is opponents colour, no connection is made
-    //If both tiles are own colour, a connection with 1 fade (no loss) is made
-    //If one tile is non-coloured, we get 0.9 fade
-    //If both tiles are non-coloured, we get 0.8 fade
-    public void connectWithColourResistance(int x1, int y1, int x2, int y2, Tile.Colour nonAgentColour){
-        Tile.Colour t1Colour = board.getTileAtPosition(x1, y1).getColour();
-        Tile.Colour t2Colour = board.getTileAtPosition(x2, y2).getColour();
-
-        if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
-            return;
-        }
-        float fade = 1;
-        if(t1Colour.equals(Tile.Colour.WHITE)){
-            fade -= 0.1;
-        }
-        if(t2Colour.equals(Tile.Colour.WHITE)){
-            fade -= 0.1;
-        }
-        connectXy(x1,y1,x2,y2,fade);
-
-
-    }
-
-    public void connectVerticalEvaluation(){
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
-
-        for(int x = 0; x < board.size(); x++){
-            connectXy(x,0, board.size(), board.size() -1,1);
-            connectXy(x, board.size() -1, board.size() +1, board.size() -1,1);
-        }
-
-        for(int x = 0; x< board.size(); x++){
-            for(int y = 0; y< board.size(); y++){
-                if(y+1 < board.size()){
-                    connectWithColourResistance(x,y,x,y+1, verticalColour);
-                }
-                if(y+1 < board.size() && x-1 >= 0){
-                    connectWithColourResistance(x,y,x-1,y+1, verticalColour);
-                }
-                if(x+1 < board.size()){
-                    connectWithColourResistance(x,y,x+1,y, verticalColour);
-                }
-            }
-        }
-    }
-
-    public void connectHorizontalEvaluation(){
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
-
-        //Current version assumes you want to move from top to bottom
-        for(int y = 0; y < board.size(); y++){
-            connectXy(0,y, board.size(), board.size() -1,1);
-            connectXy(board.size() -1,y, board.size() +1, board.size() -1,1);
-        }
-
-        for(int x = 0; x< board.size(); x++){
-            for(int y = 0; y< board.size(); y++){
-                if(y+1 < board.size()){
-                    connectWithColourResistance(x,y,x,y+1, horizontalColour);
-                }
-                if(y+1 < board.size() && x-1 >= 0){
-                    connectWithColourResistance(x,y,x-1,y+1, horizontalColour);
-                }
-                if(x+1 < board.size()){
-                    connectWithColourResistance(x,y,x+1,y, horizontalColour);
-                }
-            }
-        }
-    }
-
-
-
-
-    //Positive float: horizontal is favoured
-    //Negative float: vertical is favoured
-    public double boardEvaluation(){
-        connectHorizontalEvaluation();
-        double horizontalSignal = boardEvaluationBfs();
-
-        connectVerticalEvaluation();
-        float verticalSignal = boardEvaluationBfs();
-
-        if(checkWinHorizontal()){
-            return Double.NEGATIVE_INFINITY;
-        }
-        if(checkWinVertical()){
-            return  Double.POSITIVE_INFINITY;
-        }
-
-
-
-        return horizontalSignal-verticalSignal;
-    }
-
-    public float boardEvaluationBfs(){
+    //BFS a la CSES
+    public boolean isConnectedWithMaxFade(int startNode, int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[noOfNodes];
-        float[] signal = new float[noOfNodes];
-
-        visited[noOfNodes -2] = true;
-
-        for(int i = 0; i< noOfNodes; i++){
-            signal[i]=0;
-        }
-
-        signal[noOfNodes -2] = 1;
-        q.add(noOfNodes -2);
-        while(!q.isEmpty()){
-            int s = q.poll();
-
-            for(Edge e: adjacencyList[s]){
-                int neighbour = e.to;
-                signal[neighbour] += signal[s]*e.fade;
-
-                if(visited[neighbour]){
-                    continue;
-                }
-                q.add(neighbour);
-                visited[neighbour] = true;
-            }
-        }
-        return signal[noOfNodes -1];
-
-    }
-
-    public void connectIfColour(int x1, int y1, int x2, int y2, Tile.Colour colour){
-
-        Tile.Colour t1Colour = board.getTileAtPosition(x1, y1).getColour();
-        Tile.Colour t2Colour = board.getTileAtPosition(x2, y2).getColour();
-        if(t1Colour.equals(colour) && t2Colour.equals(colour)){
-            connectXy(x1,y1,x2,y2,1);
-        }
-    }
-
-
-    private void connectNeighboursIfColour(Tile.Colour c) {
-        for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
-        }
-
-
-        if(c == verticalColour){
-            for(int x = 0; x < board.size(); x++){
-                connectXy(x,0, board.size(), board.size() -1,1);
-                connectXy(x, board.size() -1, board.size() +1, board.size() -1,1);
-            }
-        }
-        else {
-            for(int y = 0; y < board.size(); y++){
-                connectXy(0,y, board.size(), board.size() -1,1);
-                connectXy(board.size() -1,y, board.size() +1, board.size() -1,1);
-            }
-        }
-
-
-
-        for(int x = 0; x< board.size(); x++){
-            for(int y = 0; y< board.size(); y++){
-                if(y+1 < board.size()){
-                    connectIfColour(x,y,x,y+1, c);
-                }
-                if(y+1 < board.size() && x-1 >= 0){
-                    connectIfColour(x,y,x-1,y+1,c);
-                }
-                if(x+1 < board.size()){
-                    connectIfColour(x,y,x+1,y, c);
-                }
-            }
-        }
-    }
-
-    public boolean checkWinHorizontal(){
-        connectNeighboursIfColour(horizontalColour);
-        return bfs(noOfNodes - 2,noOfNodes-1);
-    }
-
-    public boolean checkWinVertical(){
-        connectNeighboursIfColour(verticalColour);
-        return bfs(noOfNodes - 2,noOfNodes-1);
-    }
-
-    public boolean bfs(int startNode,int endNode){
-        ArrayDeque<Integer> q = new ArrayDeque<>();
-        boolean[] visited = new boolean[noOfNodes];
+        boolean[] visited = new boolean[numberOfNodes];
 
         visited[startNode] = true;
 
@@ -237,7 +64,10 @@ public class Graph {
             int s = q.poll();
 
             for(Edge e: adjacencyList[s]){
-                int neighbour = e.to;
+                if(e.getFade() < 1){
+                    continue;
+                }
+                int neighbour = e.getTo();
                 if(visited[neighbour]){
                     continue;
                 }
@@ -246,5 +76,71 @@ public class Graph {
             }
         }
         return visited[endNode];
+    }
+
+    public double computeSignalHeuristic(int startNode,int endNode){
+
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        boolean[] visited = new boolean[numberOfNodes];
+        double[] signal = new double[numberOfNodes];
+
+
+        visited[startNode] = true;
+
+        for(int i = 0; i< numberOfNodes; i++){
+            signal[i]=0;
+        }
+
+        signal[startNode] = 1;
+        q.add(startNode);
+        while(!q.isEmpty()){
+            int s = q.poll();
+
+            for(Edge e: adjacencyList[s]){
+                int neighbour = e.getTo();
+                signal[neighbour] += signal[s]*e.getFade();
+
+                if(visited[neighbour]){
+                    continue;
+                }
+                q.add(neighbour);
+                visited[neighbour] = true;
+            }
+        }
+        return signal[endNode];
+
+    }
+
+    public Optional<Double> fadeOfAdjacency(int from, int to){
+        for(Edge e: adjacencyList[from]){
+            if(e.getTo() == to){
+                return Optional.of(e.getFade());
+            }
+        }
+        return Optional.empty();
+    }
+
+    public boolean adjacencyExists(int from, int to){
+        for(Edge e: adjacencyList[from]){
+            if(e.getTo() == to){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getNumberOfNodes(){
+        return numberOfNodes;
+    }
+
+    public void printAdjacencies(){
+        for(int i = 0; i<adjacencyList.length; i++){
+            System.out.println("Node: "+i);
+            for (Edge e: adjacencyList[i]
+                 ) {
+                System.out.println(e.getFrom() + ", F:" + e.getFade() + ", "+e.getTo());
+            }
+            System.out.println();
+        }
     }
 }
