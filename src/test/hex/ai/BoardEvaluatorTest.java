@@ -43,7 +43,6 @@ public class BoardEvaluatorTest {
     AGENT COLOUR-WHITE
     WHITE-WHITE
     Any that contains non-agentcolour -> No connection
-
     */
 
     @Test
@@ -93,13 +92,27 @@ public class BoardEvaluatorTest {
         }
         BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
         b.connectHorizontalEvaluation();
-        assertTrue(b.fadeOfAdjacencyXY(1,1,1,2).isPresent());
-        assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
+        assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
+        assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
+    }
 
+    @Test
+    public void AgentColouredNeighboursHaveMaxFadeConnectionAfterVerticalEvaluationConnection(){
+        int k = 2;
+        Tile[][] board = new Tile[k][k];
+        for(int i = 0; i<k;i++){
+            for(int j = 0; j<k;j++){
+                board[i][j] = new Tile(Tile.Colour.BLUE);
+            }
+        }
+        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        b.connectVerticalEvaluation();
+        assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
+        assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
     }
 
 
-    /*
+
     @Test
     public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOther(){
         int k = 5;
@@ -216,6 +229,6 @@ public class BoardEvaluatorTest {
         assertFalse(b.hasWonHorizontally());
 
     }
-    */
+
 
 }

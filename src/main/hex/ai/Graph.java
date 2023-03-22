@@ -6,8 +6,10 @@ import java.util.Optional;
 
 public class Graph {
 
-    private int numberOfNodes;
-    private ArrayList<Edge>[] adjacencyList;
+    private final int numberOfNodes;
+    ArrayList<Edge>[] adjacencyList;
+
+
 
     public Graph(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
@@ -33,7 +35,7 @@ public class Graph {
     }
 
     //BFS a la CSES
-    public boolean isConnected(int startNode, int endNode){
+    public boolean isConnectedWithMaxFade(int startNode, int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];
 
@@ -44,6 +46,9 @@ public class Graph {
             int s = q.poll();
 
             for(Edge e: adjacencyList[s]){
+                if(e.getFade() < 1){
+                    continue;
+                }
                 int neighbour = e.getTo();
                 if(visited[neighbour]){
                     continue;
@@ -53,6 +58,41 @@ public class Graph {
             }
         }
         return visited[endNode];
+    }
+
+    public double computeSignalHeuristic(){
+
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        boolean[] visited = new boolean[numberOfNodes];
+        double[] signal = new double[numberOfNodes];
+
+        int startNode = numberOfNodes -1 ;
+        int endNode = numberOfNodes -2;
+
+        visited[startNode] = true;
+
+        for(int i = 0; i< numberOfNodes; i++){
+            signal[i]=0;
+        }
+
+        signal[startNode] = 1;
+        q.add(startNode);
+        while(!q.isEmpty()){
+            int s = q.poll();
+
+            for(Edge e: adjacencyList[s]){
+                int neighbour = e.getTo();
+                signal[neighbour] += signal[s]*e.getFade();
+
+                if(visited[neighbour]){
+                    continue;
+                }
+                q.add(neighbour);
+                visited[neighbour] = true;
+            }
+        }
+        return signal[endNode];
+
     }
 
     public Optional<Double> fadeOfAdjacency(int from, int to){
@@ -71,5 +111,20 @@ public class Graph {
             }
         }
         return false;
+    }
+
+    public int getNumberOfNodes(){
+        return numberOfNodes;
+    }
+
+    public void printAdjacencies(){
+        for(int i = 0; i<adjacencyList.length; i++){
+            System.out.println("Node: "+i);
+            for (Edge e: adjacencyList[i]
+                 ) {
+                System.out.println(e.getFrom() + ", F:" + e.getFade() + ", "+e.getTo());
+            }
+            System.out.println();
+        }
     }
 }

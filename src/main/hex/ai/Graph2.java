@@ -225,7 +225,7 @@ public class Graph2 {
         connectNeighboursIfTheyHaveGivenColour(verticalColour);
         return IsConnected(noOfNodes - 2,noOfNodes-1);
     }
-    
+
 
 
 
