@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.*;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import main.engine.EngineException;
@@ -88,33 +89,45 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void clickingCallsChildClickablesClickHandlingMethodIfTheyContainTheCursorPosition() {
-		UIGroup g = new UIGroup(0.0f, 0.0f);
+	public void clickingCallsChildClickablesClickHandlingMethodIfTheyContainTheCursorPositionWithLocalCoordinates() {
+		float gx = 1.2f, gy = 0.242f;
+		float cx = 0.45f, cy = 2.41f;
+		UIGroup g = new UIGroup(gx, gy);
 		RectButton e = mock(RectButton.class);
-		when(e.containsPosition(0.0f, 0.0f)).thenReturn(true);
+		when(e.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
 		Mockito.doCallRealMethod().when(e).onClick(any());
 
-		ClickArgs args = new ClickArgs(0.0f, 0.0f);
+		ClickArgs args = new ClickArgs(cx, cy);
 		g.onClick(args);
 		verify(e, times(0)).onClick(any());
-		
+
 		g.addChild(e);
 		g.onClick(args);
-		verify(e, times(1)).onClick(any());
+		final ArgumentCaptor<ClickArgs> captor = ArgumentCaptor.forClass(ClickArgs.class);		
+		verify(e, times(1)).onClick(captor.capture());
+		final ClickArgs actualArgs = captor.getValue();
+		assertEquals(cx - gx, actualArgs.getX(), 0.001f);
+		assertEquals(cy - gy, actualArgs.getY(), 0.001f);
 	}
 	
 	@Test
-	public void cursorUpdateCallsChildClickablesCursorUpdateHandlingMethod() {
-		UIGroup g = new UIGroup(0.0f, 0.0f);
+	public void cursorUpdateCallsChildClickablesCursorUpdateHandlingMethodWithLocalMousePosition() {
+		float gx = 1.2f, gy = 0.242f;
+		float hx = 0.45f, hy = 2.41f;
+		UIGroup g = new UIGroup(gx, gy);
 		RectButton e = mock(RectButton.class);
 		Mockito.doCallRealMethod().when(e).updateCursorPosition(any());
 
-		HoverArgs args = new HoverArgs(0.0f, 0.0f);
+		HoverArgs args = new HoverArgs(hx, hy);
 		g.updateCursorPosition(args);
 		verify(e, times(0)).updateCursorPosition(any());
 		
 		g.addChild(e);
 		g.updateCursorPosition(args);
-		verify(e, times(1)).updateCursorPosition(any());
+		final ArgumentCaptor<HoverArgs> captor = ArgumentCaptor.forClass(HoverArgs.class);		
+		verify(e, times(1)).updateCursorPosition(captor.capture());
+		final HoverArgs actualArgs = captor.getValue();
+		assertEquals(hx - gx, actualArgs.getX(), 0.001f);
+		assertEquals(hy - gy, actualArgs.getY(), 0.001f);
 	}
 }

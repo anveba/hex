@@ -71,6 +71,7 @@ public class UIGroup extends UIElement implements Clickable {
 
 	@Override
 	public void onClick(ClickArgs args) {
+		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
 			if (!(child instanceof Clickable))
 				continue;
@@ -84,6 +85,7 @@ public class UIGroup extends UIElement implements Clickable {
 
 	@Override
 	public void updateCursorPosition(HoverArgs args) {
+		args = new HoverArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
 			if (!(child instanceof Clickable))
 				continue;
