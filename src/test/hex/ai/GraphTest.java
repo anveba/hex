@@ -5,8 +5,7 @@ import main.hex.ai.Graph;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GraphTest {
 
@@ -43,6 +42,15 @@ public class GraphTest {
     public void nodesNotConnectedWillHaveNoFade(){
         Graph g = new Graph(5);
         assertTrue(g.fadeOfAdjacency(1,2).isEmpty());
+
+    }
+
+    @Test
+    public void signalHeuristicForStraightLineGraphWith1FadeInEachEdgeIs1(){
+        Graph g = new Graph(3);
+        g.connectWithFade(0,1,1);
+        g.connectWithFade(1,2,1);
+        assertEquals(g.computeSignalHeuristic(0,2),1,0.0);
 
     }
 

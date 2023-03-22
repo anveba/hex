@@ -4,6 +4,24 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Optional;
 
+
+/*
+Author Nikolaj
+
+A signal graph
+Each edge has a "Fade" value, which is how much the signal gets multiplied by
+When it flows through it
+
+Fade of 1, signal is unchanged
+Fade of 0.5, signal is halved
+
+This way we can compute a BFS type heuristic
+Where some connections don't add to the distance
+And some do
+
+ */
+
+
 public class Graph {
 
     private final int numberOfNodes;
@@ -60,14 +78,12 @@ public class Graph {
         return visited[endNode];
     }
 
-    public double computeSignalHeuristic(){
+    public double computeSignalHeuristic(int startNode,int endNode){
 
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];
         double[] signal = new double[numberOfNodes];
 
-        int startNode = numberOfNodes -1 ;
-        int endNode = numberOfNodes -2;
 
         visited[startNode] = true;
 

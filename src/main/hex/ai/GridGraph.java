@@ -6,6 +6,14 @@ public class GridGraph extends Graph{
 
     private final int gridSize;
 
+
+    /*
+    Author Nikolaj
+
+    An extension of Graph, that accepts xy-coordinates
+
+     */
+
     public GridGraph(int gridSize) {
         super((gridSize * gridSize) + 2);
         this.gridSize = gridSize;

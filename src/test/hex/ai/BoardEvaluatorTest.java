@@ -18,7 +18,7 @@ public class BoardEvaluatorTest {
                 board[i][j] = new Tile(Tile.Colour.WHITE);
             }
         }
-        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
     }
 
 

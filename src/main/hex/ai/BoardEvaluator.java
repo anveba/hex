@@ -34,20 +34,20 @@ public class BoardEvaluator {
     }
 
 
-
+    //Evaluates current boardstate, using signal heuristics
     //Positive number -> Vertical is favoured
     //Negative number -> Horizontal is favoured
     public double evaluateBoard() {
         gridGraph.resetAdjacencyList();;
         gridGraph.connectStartAndEndNodesVertical();
         connectNeighboursWithColourResistance(verticalColour);
-        double verticalEvaluation = gridGraph.computeSignalHeuristic();
+        double verticalEvaluation = gridGraph.computeSignalHeuristic(gridGraph.getNumberOfNodes()-2, gridGraph.getNumberOfNodes()-1);
 
 
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesHorizontal();
         connectNeighboursWithColourResistance(horizontalColour);
-        double horizontalEvaluation = gridGraph.computeSignalHeuristic();
+        double horizontalEvaluation = gridGraph.computeSignalHeuristic(gridGraph.getNumberOfNodes()-2, gridGraph.getNumberOfNodes()-1);
 
         if(hasWonHorizontally()){
             return Double.NEGATIVE_INFINITY;
@@ -91,6 +91,11 @@ public class BoardEvaluator {
 
     }
 
+    //Connects two tiles with fade based on their colour
+    //If they both have agent colour -> 1
+    //If one has agent colour, other is white -> 1 - fadeConstant
+    //If both are white -> 1- 2*fadeConstant
+    //If one is nonAgentColour -> No edge
     public void connectByColour(int fromX, int fromY, int toX, int toY,Tile.Colour agentColour){
         Tile.Colour nonAgentColour = Tile.opposite(agentColour);
 
@@ -110,6 +115,8 @@ public class BoardEvaluator {
        gridGraph.connectXyWithFade(fromX,fromY,toX,toY,fade);
     }
 
+
+    //Connects all neighbours based on their colours
     public void connectNeighboursWithColourResistance(Tile.Colour agentColour){
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
