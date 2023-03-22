@@ -78,7 +78,7 @@ public class UIGroup extends UIElement implements Clickable {
 			Clickable clickable = (Clickable)child;
 			if (child.containsPosition(args.getX(), args.getY())) {
 				clickable.onClick(args);
-				break;
+				//break; //Has to be revisited. When layering UIGroups, this will break the functionality.
 			}
 		}
 	}

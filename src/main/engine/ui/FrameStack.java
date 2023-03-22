@@ -39,6 +39,12 @@ public class FrameStack {
 		}
 		return stack.remove(--top);
 	}
+
+	public Frame peek() {
+		assert stack.size() == top;
+		if (top == 0) return null;
+		return stack.get(top-1);
+	}
 	
 	public void draw(Renderer2D renderer) {
 		if (top > 0)

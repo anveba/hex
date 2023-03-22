@@ -106,7 +106,11 @@ public class RectButton extends RectElement implements Clickable {
 	public float getTextHeight() {
 		return text.getHeight();
 	}
-	
+
+	public void updateImageTexture(Texture texture) {
+		image.setTexture(texture);
+	}
+
 	@Override
 	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		Colour highlight = isHovering ? Colour.White : Colour.LightGrey;

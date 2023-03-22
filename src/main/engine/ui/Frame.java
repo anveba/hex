@@ -41,7 +41,7 @@ public class Frame {
 		c.updateCursorPosition(args);
 	}
 	
-	void draw(Renderer2D renderer) {
+	protected void draw(Renderer2D renderer) {
 		if (root != null)
 			root.draw(renderer, 0, 0, Colour.White);
 	}

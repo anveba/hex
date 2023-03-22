@@ -1,38 +1,16 @@
 package main.hex;
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import main.hex.ui.GameFrame;
 
 import main.engine.*;
-import main.engine.font.*;
 import main.engine.graphics.*;
 import main.engine.input.Controls;
 import main.engine.ui.FrameStack;
-import main.hex.ui.MainMenu;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.*;
-import java.nio.channels.SeekableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.lwjgl.glfw.Callbacks.*;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
-
-import org.lwjgl.stb.*;
+import main.hex.ui.StartGameFrame;
 
 public class Game extends GameWindow {
 
-    private Board board;
+    private Board board = null;
     private Renderer2D renderer2D;
     
     private static Game instance;
@@ -59,7 +37,8 @@ public class Game extends GameWindow {
     }
     
     private void setupUserInterface() {
-        FrameStack.getInstance().push(new MainMenu());
+        FrameStack.getInstance().push(new GameFrame(board));
+        FrameStack.getInstance().push(new StartGameFrame());
         
         getControlsListener().addOnReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
             FrameStack.getInstance().clickAt(
@@ -95,10 +74,10 @@ public class Game extends GameWindow {
     @Override
     protected void draw() {
         clear();
-
-        if (board != null)
+        if(board != null && FrameStack.getInstance().peek() instanceof GameFrame)
         	board.draw(renderer2D);
-        
+
         FrameStack.getInstance().draw(renderer2D);
+
     }
 }
