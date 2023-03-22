@@ -23,8 +23,8 @@ public class GameLogic {
     public GameLogic(Board board, PlayerCondition playerWinCallback) {
         this(board, 
         		new Player(Tile.Colour.BLUE, true), 
-        		new Player(Tile.Colour.RED, false),
-                playerWinCallback);
+        		new Player(Tile.Colour.RED, false), 
+        		playerWinCallback);
     }
     
     public GameLogic(Board board) {
@@ -82,20 +82,23 @@ public class GameLogic {
     		throw new HexException("Out of bounds");
     	if (gameIsOver)
     		return;
-    	Tile clickedTile = board.getTileAtPosition(x, y);
+
+        Tile clickedTile = board.getTileAtPosition(x, y);
         if (clickedTile.getColour() == Tile.Colour.WHITE) {
             clickedTile.setColour(this.getCurrentTurnsPlayer().getPlayerColour());
             this.nextTurn();
-        } else if (currentTurn == 0 && clickedTile.getColour() == player1.getPlayerColour()) {
+        } else if (clickedTile.getColour() == player1.getPlayerColour()) {
         	swapPlayerColours();
-            this.nextTurn();
         }
     }
 
     public void swapPlayerColours() {
-        Tile.Colour tempCol = player1.getPlayerColour();
-        player1.setPlayerColour(player2.getPlayerColour());
-        player2.setPlayerColour(tempCol);
+        if (currentTurn == 1) {
+            Tile.Colour tempCol = player1.getPlayerColour();
+            player1.setPlayerColour(player2.getPlayerColour());
+            player2.setPlayerColour(tempCol);
+            this.nextTurn();
+        }
     }
     
     public boolean playerHasWon(Player player) {

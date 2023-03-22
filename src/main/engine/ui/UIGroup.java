@@ -37,6 +37,8 @@ public class UIGroup extends UIElement implements Clickable {
 			throw new EngineException("null element given");
 		if (e == this)
 			throw new EngineException("A group cannot be a child of itself");
+		if (containsChild(e))
+			throw new EngineException("Element already child of group");
 		children.add(e);
 	}
 	
@@ -57,7 +59,7 @@ public class UIGroup extends UIElement implements Clickable {
 	@Override
 	public boolean containsPosition(float x, float y) {
 		for (var c : children) {
-			if (c.containsPosition(x, y))
+			if (c.containsPosition(x - getX(), y - getY()))
 				return true;
 		}
 		return false;
