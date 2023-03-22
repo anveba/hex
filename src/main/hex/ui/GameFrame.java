@@ -64,7 +64,7 @@ public class GameFrame extends Frame {
     private UIGroup createUndoView() {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
         //TODO: Find a more suiting icon for return, since this is more like a reload
-        Image undoSymbol = new Image(0.0f, -0.9f, 0.1f, 0.1f,
+        Image undoSymbol = new Image(0.0f, -0.91f, 0.1f, 0.1f,
                 TEXTURE_SMALL_WHITEOUTLINE_RETURN, 0, 0,
                 TEXTURE_SMALL_WHITEOUTLINE_RETURN.width(), TEXTURE_SMALL_WHITEOUTLINE_RETURN.height());
         undoView.addChild(undoSymbol);
