@@ -78,15 +78,6 @@ public class Text extends UIElement {
 	}
 
 	@Override
-	public boolean containsPosition(float x, float y) {
-		Vector2 measurements = font.measureString(text);
-		return this.x - measurements.getX() / 2.0f <= x 
-				&& this.y - measurements.getY() / 2.0f <= y 
-				&& this.x + measurements.getX() / 2.0f >= x
-				&& this.y + measurements.getY() / 2.0f >= y;
-	}
-
-	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		renderer.drawString(font, text, x + offsetX, y + offsetY, height, Colour.multiply(colour, c));
 	}

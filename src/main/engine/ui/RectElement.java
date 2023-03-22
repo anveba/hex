@@ -29,14 +29,6 @@ public abstract class RectElement extends UIElement {
 		this.x = x;
 		this.y = y;
 	}
-
-	@Override
-	public boolean containsPosition(float x, float y) {
-		return this.x - width / 2.0f <= x 
-				&& this.y - height / 2.0f <= y 
-				&& this.x + width / 2.0f >= x
-				&& this.y + height / 2.0f >= y;
-	}
 	
 	public void setWidth(float width) {
 		if (width < 0.0f)

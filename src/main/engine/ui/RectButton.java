@@ -66,6 +66,14 @@ public class RectButton extends RectElement implements Clickable {
 				hoverExitCallback.call(new ButtonCallbackArgs());
 		}
 	}
+	
+	@Override
+	public boolean containsPosition(float x, float y) {
+		return this.getX() - getWidth() / 2.0f <= x 
+				&& this.getY() - getHeight() / 2.0f <= y 
+				&& this.getX() + getWidth() / 2.0f >= x
+				&& this.getY() + getHeight() / 2.0f >= y;
+	}
 
 	public float getImageWidth() {
 		return image.getWidth();

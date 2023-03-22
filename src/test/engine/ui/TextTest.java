@@ -67,39 +67,6 @@ public class TextTest {
 	}
 	
 	@Test
-	public void pointsInsideTextIsReportedAsInside() {
-		String str = "hello world";
-		BitmapFont font = mock(BitmapFont.class);
-		float wHalf = 1.0f, hHalf = 1.0f;
-		float x = 4.5f, y = 6.82f;
-		when(font.measureString(str)).thenReturn(new Vector2(wHalf * 2, hHalf * 2));
-		Text text = new Text(x, y, font, str, 999.0f);
-		assertTrue(text.containsPosition(-wHalf + 0.1f + x, -hHalf + 0.1f + y));
-		assertTrue(text.containsPosition(wHalf - 0.1f + x, -hHalf + 0.1f + y));
-		assertTrue(text.containsPosition(-wHalf + 0.1f + x, hHalf - 0.1f + y));
-		assertTrue(text.containsPosition(wHalf - 0.1f + x, hHalf - 0.1f + y));
-		assertTrue(text.containsPosition(x, y));
-	}
-	
-	@Test
-	public void pointsOutsideTextIsReportedAsOutside() {
-		String str = "hello world";
-		BitmapFont font = mock(BitmapFont.class);
-		float wHalf = 1.0f, hHalf = 1.0f;
-		float x = 0.28f, y = 2.4f;
-		when(font.measureString(str)).thenReturn(new Vector2(wHalf * 2, hHalf * 2));
-		Text text = new Text(x, y, font, str, 999.0f);
-		assertFalse(text.containsPosition(-wHalf - 0.1f + x, -hHalf - 0.1f + y));
-		assertFalse(text.containsPosition(wHalf + 0.1f + x, -hHalf - 0.1f + y));
-		assertFalse(text.containsPosition(-wHalf - 0.1f + x, hHalf + 0.1f + y));
-		assertFalse(text.containsPosition(wHalf + 0.1f + x, hHalf + 0.1f + y));
-		assertFalse(text.containsPosition(-wHalf - 0.1f + x, y));
-		assertFalse(text.containsPosition(wHalf + 0.1f + x, y));
-		assertFalse(text.containsPosition(x, -hHalf - 0.1f));
-		assertFalse(text.containsPosition(x, hHalf + 0.1f));
-	}
-	
-	@Test
 	public void getAndSetFontGetsAndSetsFont() {
 		String str = "hello world";
 		BitmapFont font1 = mock(BitmapFont.class);

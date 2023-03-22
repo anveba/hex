@@ -61,10 +61,10 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void groupContainsPositionsIffOneOrMoreChildrenContainPosition() {
+	public void groupContainsPositionsIffOneOrMoreClickableChildrenContainPosition() {
 		float gx = 5.35f, gy = -1.34f;
 		UIGroup g = new UIGroup(gx, gy);
-		var e1 = mock(UIElement.class);
+		var e1 = mock(RectButton.class);
 		float x1 = 0.2f, y1 = 0.6f, x2 = 12.2f, y2 = -5.5f;
 		when(e1.containsPosition(x1 - gx, y1 - gy)).thenReturn(true);
 		when(e1.containsPosition(x2 - gx, y2 - gy)).thenReturn(false);
@@ -75,7 +75,7 @@ public class UIGroupTest {
 		assertFalse(g.containsPosition(x2, y2));		
 		g.removeChild(e1);
 
-		var e2 = mock(UIElement.class);
+		var e2 = mock(RectButton.class);
 		when(e2.containsPosition(x1 - gx, y1 - gy)).thenReturn(false);
 		when(e2.containsPosition(x2 - gx, y2 - gy)).thenReturn(true);
 		assertFalse(g.containsPosition(x1, y1));

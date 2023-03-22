@@ -101,31 +101,6 @@ public class ImageTest {
 	}
 	
 	@Test
-	public void pointsInsideImageIsReportedAsInside() {
-		Texture t = mock(Texture.class);
-		Image image = new Image(0.5f, 0.5f, 1.0f, 1.0f, t, 0, 0, 1, 1);
-		assertTrue(image.containsPosition(0.1f, 0.1f));
-		assertTrue(image.containsPosition(0.9f, 0.1f));
-		assertTrue(image.containsPosition(0.1f, 0.9f));
-		assertTrue(image.containsPosition(0.9f, 0.9f));
-		assertTrue(image.containsPosition(0.5f, 0.5f));
-	}
-	
-	@Test
-	public void pointsOutsideImageIsReportedAsOutside() {
-		Texture t = mock(Texture.class);
-		Image image = new Image(0.5f, 0.5f, 1.0f, 1.0f, t, 0, 0, 1, 1);
-		assertFalse(image.containsPosition(-0.1f, -0.1f));
-		assertFalse(image.containsPosition(1.1f, -0.1f));
-		assertFalse(image.containsPosition(-0.1f, 1.1f));
-		assertFalse(image.containsPosition(1.1f, 1.1f));
-		assertFalse(image.containsPosition(-0.1f, 0.5f));
-		assertFalse(image.containsPosition(0.5f, -0.1f));
-		assertFalse(image.containsPosition(1.1f, 0.5f));
-		assertFalse(image.containsPosition(0.5f, 1.1f));
-	}
-	
-	@Test
 	public void getAndSetSourcePositionGetsAndSetsSourcePosition() {
 		int sx = 80, sy = 90;
 		Texture t = mock(Texture.class);

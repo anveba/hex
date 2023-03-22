@@ -59,7 +59,10 @@ public class UIGroup extends UIElement implements Clickable {
 	@Override
 	public boolean containsPosition(float x, float y) {
 		for (var c : children) {
-			if (c.containsPosition(x - getX(), y - getY()))
+			if (!(c instanceof Clickable))
+				continue;
+			Clickable clickable = (Clickable)c;
+			if (clickable.containsPosition(x - getX(), y - getY()))
 				return true;
 		}
 		return false;
@@ -78,9 +81,9 @@ public class UIGroup extends UIElement implements Clickable {
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
-			if (child.containsPosition(args.getX(), args.getY())) {
+			if (clickable.containsPosition(args.getX(), args.getY())) {
 				clickable.onClick(args);
-				//break; //Has to be revisited. When layering UIGroups, this will break the functionality.
+				break;
 			}
 		}
 	}
