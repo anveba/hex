@@ -24,33 +24,60 @@ public class GameLogicTest {
         gameLogic = new GameLogic(board, player1, player2);
     }
 
+    // Tests for turns
     @Test
     public void createPlayers_firstPlayerTurn_player1() {
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
     @Test
-    public void nextPlayer_currentlyPlayer1_player2() {
+    public void nextTurn_currentlyPlayer1_player2() {
         gameLogic.nextTurn();
         assertEquals(player2, gameLogic.getCurrentTurnsPlayer());
     }
 
     @Test
-    public void nextPlayer_runTwiceCurrentlyPlayer1_player1() { // Checks that players are looped
+    public void nextTurn_runTwiceCurrentlyPlayer1_player1() { // Checks that players are looped
         gameLogic.nextTurn();
         gameLogic.nextTurn();
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
+    // Tests for swap rule
     @Test
-    public void executeSwapRule_playerSwap_switchedColours() {
+    public void swapRuleSwapsPlayersCorrectly() {
+        gameLogic.nextTurn(); // Turn 1 (Player 2's first turn)
         Tile.Colour p1StartCol = player1.getPlayerColour();
         Tile.Colour p2StartCol = player2.getPlayerColour();
         gameLogic.swapPlayerColours();
         assertEquals(p1StartCol, player2.getPlayerColour());
         assertEquals(p2StartCol, player1.getPlayerColour());
     }
-    
+
+    @Test
+    public void swapRuleNotPossibleOnPlayer1sSecondTurn() {
+        gameLogic.nextTurn();
+        gameLogic.nextTurn(); // Turn 2 (Player 1's second turn)
+        Tile.Colour p1StartCol = player1.getPlayerColour();
+        Tile.Colour p2StartCol = player2.getPlayerColour();
+        gameLogic.swapPlayerColours();
+        assertEquals(p1StartCol, player1.getPlayerColour());
+        assertEquals(p2StartCol, player2.getPlayerColour());
+    }
+
+    @Test
+    public void swapRuleNotPossibleOnPlayer2sSecondTurn() {
+        for (int i = 0; i < 3; i++) { // Turn 3 (Player 1's second turn)
+            gameLogic.nextTurn();
+        }
+        Tile.Colour p1StartCol = player1.getPlayerColour();
+        Tile.Colour p2StartCol = player2.getPlayerColour();
+        gameLogic.swapPlayerColours();
+        assertEquals(p1StartCol, player1.getPlayerColour());
+        assertEquals(p2StartCol, player2.getPlayerColour());
+    }
+
+    // Tests for win
     @Test
     public void whiteBoardIsNotAWinForBothPlayers() {
     	assertFalse(gameLogic.playerHasWon(player1));
