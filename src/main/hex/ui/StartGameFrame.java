@@ -201,7 +201,14 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-		int boardSize = 5; //TODO Should be chosen by player
+		int boardSize = 11; //TODO Should be chosen by player
+		String player1Name = logic.getPlayerName(0);
+		String player2Name = logic.getPlayerName(1);
+		Texture player1Skin = logic.getPlayerSkin(logic.getPlayerSkinIndex(0));
+		Texture player2Skin = logic.getPlayerSkin(logic.getPlayerSkinIndex(1));
+		int timeRestrictionSeconds = 60; //TODO Should be chosen by player
+		boolean swapRule = logic.getSwapRule();
+
 		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize))));
 	}
 
