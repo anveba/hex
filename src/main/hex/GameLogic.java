@@ -18,14 +18,7 @@ public class GameLogic {
     private int currentTurn;
     private boolean gameIsOver;
     
-    PlayerCondition playerWinCallback;
-
-    public GameLogic(Board board, PlayerCondition playerWinCallback) {
-        this(board, 
-        		new Player(Tile.Colour.BLUE, true), 
-        		new Player(Tile.Colour.RED, false), 
-        		playerWinCallback);
-    }
+    private PlayerCondition playerWinCallback;
     
     public GameLogic(Board board) {
         this(board, new Player(Tile.Colour.BLUE, true), new Player(Tile.Colour.RED, false));
@@ -37,6 +30,8 @@ public class GameLogic {
     
     public GameLogic(Board board, Player player1, Player player2, 
     		PlayerCondition playerWinCallback) {
+    	if (board == null || player1 == null || player2 == null)
+    		throw new HexException("null was given");
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
@@ -49,7 +44,16 @@ public class GameLogic {
     
     public void setupControlsCallback(ControlsListener listener) {
     	Game.getInstance().getControlsListener()
-    	.addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    		.addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    }
+    
+    public void removeControlsCallback(ControlsListener listener) {
+    	Game.getInstance().getControlsListener()
+    		.removeOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    }
+    
+    public void setPlayerWinCallback(PlayerCondition callback) {
+    	this.playerWinCallback = callback;
     }
 
     public Player getCurrentTurnsPlayer() {
@@ -148,5 +152,9 @@ public class GameLogic {
 
     public Player getPlayer2() {
         return player2;
+    }
+    
+    public Board getBoard() {
+    	return board;
     }
 }

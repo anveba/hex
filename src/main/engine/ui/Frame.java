@@ -31,7 +31,6 @@ public class Frame {
 		var args = new ClickArgs(x, y);
 		c.onClick(args);
 	}
-	
 
 	public void hoverAt(float x, float y) {
 		if (!(root instanceof Clickable))

@@ -22,25 +22,13 @@ public class GameFrame extends Frame {
 
     public static final float tileSizeX = 0.08f;
     public static final float tileSizeY = tileSizeX * 1.1547005f;
-    private Board board;
-    private GameLogic gameLogic;
 
-    public GameFrame(Board board) {
-
-        this.board = board;
-
+    public GameFrame() {
         //Main menu extends Frame, so it has a UI element as a root
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
         initializeGameFrame(root);
-    }
-
-    @Override
-    public void draw(Renderer2D renderer) {
-        if (board != null)
-            board.draw(renderer);
-        super.draw(renderer);
     }
 
     private void initializeGameFrame(UIGroup root) {

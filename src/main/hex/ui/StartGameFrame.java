@@ -4,6 +4,10 @@ import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.ui.*;
+import main.hex.Board;
+import main.hex.GameLogic;
+import main.hex.scene.GameplayScene;
+import main.hex.scene.SceneDirector;
 
 import java.util.ArrayList;
 
@@ -222,8 +226,8 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-		System.out.println("Popping start game frame");
-		FrameStack.getInstance().pop();
+		int boardSize = 5; //TODO Should be chosen by player
+		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize))));
 	}
     
 }

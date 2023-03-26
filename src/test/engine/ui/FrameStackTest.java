@@ -29,6 +29,15 @@ public class FrameStackTest {
 	}
 	
 	@Test
+	public void clearingStackSetsSizeToZero() {
+		Frame f = mock(Frame.class);
+		FrameStack.getInstance().push(f);
+		assertEquals(1, FrameStack.getInstance().size());
+		FrameStack.getInstance().clear();
+		assertEquals(0, FrameStack.getInstance().size());
+	}
+	
+	@Test
 	public void pushingFrameIncrementsSize() {
 		assertEquals(0, FrameStack.getInstance().size());
 		Frame f = mock(Frame.class);

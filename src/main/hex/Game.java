@@ -1,5 +1,7 @@
 package main.hex;
 
+import main.hex.scene.SceneDirector;
+import main.hex.scene.TitleScene;
 import main.hex.ui.GameFrame;
 
 import main.engine.*;
@@ -10,7 +12,6 @@ import main.hex.ui.StartGameFrame;
 
 public class Game extends GameWindow {
 
-    private Board board = null;
     private Renderer2D renderer2D;
     
     private static Game instance;
@@ -33,13 +34,11 @@ public class Game extends GameWindow {
     	setupGraphics();
     	setupUserInterface();
     	
-    	startGameplay();
+    	SceneDirector.changeScene(new TitleScene());
     }
     
     private void setupUserInterface() {
-        FrameStack.getInstance().push(new GameFrame(board));
-        FrameStack.getInstance().push(new StartGameFrame());
-        
+    	
         getControlsListener().addOnReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
             FrameStack.getInstance().clickAt(
             		getControlsListener().getCursorX(),
@@ -56,28 +55,16 @@ public class Game extends GameWindow {
     	renderer2D = new Renderer2D(this);
         setClearColor(0.4f, 0.2f, 0.5f);
     }
-    
-    private void startGameplay() {
-    	board = new Board(5);
-        GameLogic gameLogic = new GameLogic(board, this::onPlayerWin);
-        gameLogic.setupControlsCallback(getControlsListener());
-    }
-    
-    private void onPlayerWin(Player p) {
-    	System.out.println(p.getPlayerColour() + " has won!");
-    }
 
     @Override
     protected void update(TimeRecord elapsed) {
+    	SceneDirector.updateCurrentScene(elapsed);
     }
 
     @Override
     protected void draw() {
         clear();
-        if(board != null && FrameStack.getInstance().peek() instanceof GameFrame)
-        	board.draw(renderer2D);
-
         FrameStack.getInstance().draw(renderer2D);
-
+        SceneDirector.drawCurrentScene2D(renderer2D);
     }
 }

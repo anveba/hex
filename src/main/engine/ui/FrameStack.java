@@ -32,6 +32,11 @@ public class FrameStack {
 		top++;
 	}
 	
+	public void clear() {
+		stack.clear();
+		top = 0;
+	}
+	
 	public Frame pop() {
 		assert stack.size() == top;
 		if (top == 0) {

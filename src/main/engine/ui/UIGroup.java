@@ -39,15 +39,29 @@ public class UIGroup extends UIElement implements Clickable {
 			throw new EngineException("A group cannot be a child of itself");
 		if (containsChild(e))
 			throw new EngineException("Element already child of group");
+		if (e.getParent() != null)
+			throw new EngineException("Element already has a parent");
 		children.add(e);
+		e.setParent(this);
 	}
 	
 	public boolean removeChild(UIElement e) {
-		return children.remove(e);
+		assertChildParentRelationship(e);
+		boolean removed = children.remove(e);
+		if (removed && e.getParent() == this)
+			e.removeParent();
+		return removed;
 	}
 	
 	public boolean containsChild(UIElement e) {
+		assertChildParentRelationship(e);
 		return children.contains(e);
+	}
+	
+	private void assertChildParentRelationship(UIElement e) {
+		// Checks: this is parent of e <=> e is child of this
+		assert !(e.getParent() == this) || children.contains(e);
+		assert !(children.contains(e)) || e.getParent() == this;
 	}
 	
 	@Override
@@ -69,7 +83,7 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
 			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
 	}

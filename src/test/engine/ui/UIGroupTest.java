@@ -32,10 +32,38 @@ public class UIGroupTest {
 	@Test
 	public void addingChildAddsChildAndRegistersAsBeingContainedInside() {
 		UIGroup g = new UIGroup(999.0f, 999.0f);
-		var e = mock(UIElement.class);
+		var e = new TestUIElementClass();
 		assertFalse(g.containsChild(e));
 		g.addChild(e);
 		assertTrue(g.containsChild(e));
+	}
+	
+	@Test(expected = EngineException.class)
+	public void addingSameChildToSameGroupMoreThanOnceThrowsException() {
+		UIGroup g = new UIGroup(999.0f, 999.0f);
+		var e = new TestUIElementClass();
+		g.addChild(e);
+		g.addChild(e);
+	}
+	
+	@Test(expected = EngineException.class)
+	public void addingSameChildToTwoDifferentGroupsThrowsException() {
+		UIGroup g1 = new UIGroup(999.0f, 999.0f);
+		UIGroup g2 = new UIGroup(999.0f, 999.0f);
+		var e = new TestUIElementClass();
+		g1.addChild(e);
+		g2.addChild(e);
+	}
+	
+	@Test
+	public void addingSameChildToOneGroupAndRemovingItAndAddingToAnotherGroupAddsChildToTheSecondGroup() {
+		UIGroup g1 = new UIGroup(999.0f, 999.0f);
+		UIGroup g2 = new UIGroup(999.0f, 999.0f);
+		var e = new TestUIElementClass();
+		g1.addChild(e);
+		g1.removeChild(e);
+		g2.addChild(e);
+		assertTrue(g2.containsChild(e));
 	}
 	
 	@Test(expected = EngineException.class)
@@ -53,7 +81,7 @@ public class UIGroupTest {
 	@Test
 	public void removingChildRemovesChildAndRegistersAsNotBeingContainedInside() {
 		UIGroup g = new UIGroup(999.0f, 999.0f);
-		var e = mock(UIElement.class);
+		var e = new TestUIElementClass();
 		g.addChild(e);
 		assertTrue(g.containsChild(e));
 		assertTrue(g.removeChild(e));
@@ -64,7 +92,7 @@ public class UIGroupTest {
 	public void groupContainsPositionsIffOneOrMoreClickableChildrenContainPosition() {
 		float gx = 5.35f, gy = -1.34f;
 		UIGroup g = new UIGroup(gx, gy);
-		var e1 = mock(RectButton.class);
+		var e1 = spy(new TestClickableElementClass());
 		float x1 = 0.2f, y1 = 0.6f, x2 = 12.2f, y2 = -5.5f;
 		when(e1.containsPosition(x1 - gx, y1 - gy)).thenReturn(true);
 		when(e1.containsPosition(x2 - gx, y2 - gy)).thenReturn(false);
@@ -75,7 +103,7 @@ public class UIGroupTest {
 		assertFalse(g.containsPosition(x2, y2));		
 		g.removeChild(e1);
 
-		var e2 = mock(RectButton.class);
+		var e2 = spy(new TestClickableElementClass());
 		when(e2.containsPosition(x1 - gx, y1 - gy)).thenReturn(false);
 		when(e2.containsPosition(x2 - gx, y2 - gy)).thenReturn(true);
 		assertFalse(g.containsPosition(x1, y1));
@@ -94,7 +122,7 @@ public class UIGroupTest {
 		float gx = 1.2f, gy = 0.242f;
 		float cx = 0.45f, cy = 2.41f;
 		UIGroup g = new UIGroup(gx, gy);
-		RectButton e = mock(RectButton.class);
+		var e = spy(new TestClickableElementClass());
 		when(e.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
 		Mockito.doCallRealMethod().when(e).onClick(any());
 
@@ -116,7 +144,7 @@ public class UIGroupTest {
 		float gx = 1.2f, gy = 0.242f;
 		float hx = 0.45f, hy = 2.41f;
 		UIGroup g = new UIGroup(gx, gy);
-		RectButton e = mock(RectButton.class);
+		var e = spy(new TestClickableElementClass());
 		Mockito.doCallRealMethod().when(e).updateCursorPosition(any());
 
 		HoverArgs args = new HoverArgs(hx, hy);
