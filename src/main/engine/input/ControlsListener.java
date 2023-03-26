@@ -34,13 +34,13 @@ public class ControlsListener {
         if (t == InputType.PRESSED) {
             if (onPressCallbacks.containsKey(c)) {
                 for (var cb : onPressCallbacks.get(c)) {
-                    cb.onControlsInput(new ControlsArgs());
+                    cb.onControlsInput(new ControlsArgs(c));
                 }
             }
         } else if (t == InputType.RELEASED) {
             if (onReleaseCallbacks.containsKey(c)) {
                 for (var cb : onReleaseCallbacks.get(c)) {
-                    cb.onControlsInput(new ControlsArgs());
+                    cb.onControlsInput(new ControlsArgs(c));
                 }
             }
         }

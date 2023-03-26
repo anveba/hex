@@ -5,7 +5,7 @@ public enum Controls {
     A, S, D, F, G, H, J, K, L, 
     Z, X, C, V, B, N, M,
     
-    SPACE, ESCAPE,
+    SPACE, ESCAPE, BACKSPACE, ENTER,
     
     LEFT_MOUSE, RIGHT_MOUSE
 }

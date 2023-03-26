@@ -294,6 +294,10 @@ public abstract class GameWindow implements GraphicsContext {
             return Controls.M;
         case GLFW_KEY_SPACE:
             return Controls.SPACE;
+        case GLFW_KEY_BACKSPACE:
+            return Controls.BACKSPACE;
+        case GLFW_KEY_ENTER:
+            return Controls.ENTER;
         case GLFW_MOUSE_BUTTON_1:
             return Controls.LEFT_MOUSE;
         case GLFW_MOUSE_BUTTON_2:
