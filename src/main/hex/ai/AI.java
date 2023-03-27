@@ -19,7 +19,7 @@ public class AI {
     private Tile.Colour horizontalColour;
 
     public AI(Board state, Player player){
-        this.currentState = state;
+        this.currentState = state.clone();
         this.agentColour = player.getPlayerColour();
         this.agentPlaysVertical = player.winsByVerticalConnection();
 
@@ -33,13 +33,12 @@ public class AI {
         }
     }
 
-    public Move getBestMove(int depth){
-        return minimax(currentState,depth,true);
+    public Move getBestMove(int depth,Player player){
+        return minimax(currentState,depth,player.winsByVerticalConnection());
     }
 
 
     private Move minimax(Board state, int depth, boolean maximizingPlayer){
-
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
@@ -56,7 +55,7 @@ public class AI {
 
             ArrayList<Move> children = createChildren(state);
             for (Move child : children) {
-                child.setValue(minimax(moveToBoard(currentState,child,agentColour), depth - 1, false).getValue());
+                child.setValue(minimax(moveToBoard(state,child,agentColour), depth - 1, false).getValue());
                 if (child.getValue() > maxValue) {
                     maxValue = child.getValue();
                     maxMove = Optional.of(child);
@@ -76,7 +75,9 @@ public class AI {
 
             ArrayList<Move> children = createChildren(state);
             for (Move child : children) {
-                child.setValue(minimax(moveToBoard(currentState,child,Tile.opposite(agentColour)), depth - 1, true).getValue());
+
+                child.setValue(minimax(moveToBoard(state,child,Tile.opposite(agentColour)), depth - 1, true).getValue());
+
                 if (child.getValue() < minValue) {
                     minValue = child.getValue();
                     minMove = Optional.of(child);
@@ -109,6 +110,7 @@ public class AI {
 
         int x = childNo % parentState.size();
         int y = childNo / parentState.size();
+
         if(currentState.getTileAtPosition(x,y).getColour() != Tile.Colour.WHITE){
             return Optional.empty();
         }
@@ -117,9 +119,9 @@ public class AI {
     }
 
 
-    private Board moveToBoard(Board currentState, Move move, Tile.Colour agentColour){
+    private Board moveToBoard(Board currentState, Move move, Tile.Colour colourToPlay){
         Board childState = currentState.clone();
-        currentState.getTileAtPosition(move.getX(), move.getY()).setColour(agentColour);
+        childState.getTileAtPosition(move.getX(), move.getY()).setColour(colourToPlay);
         return childState;
     }
 
