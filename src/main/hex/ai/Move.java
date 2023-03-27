@@ -1,36 +1,33 @@
 package main.hex.ai;
 
-public class Move implements Comparable<Move> {
+public class Move {
 
-    private int index;
+    private int x;
+    private int y;
 
     private double value;
 
-    public static final Move MAX_VALUE_MOVE = new Move(-1,Double.POSITIVE_INFINITY);
-    public static final Move MIN_VALUE_MOVE = new Move(-1,Double.NEGATIVE_INFINITY);
 
-
-    public Move(int index, double value){
-        this.index = index;
-        this.value = value;
+    public Move(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public Move max(Move o){
-        if(this.value >= o.value){
-            return this;
-        }
-        return o;
+
+
+    public int getX() {
+        return x;
     }
 
-    public Move min(Move o){
-        if(this.value <= o.value){
-            return this;
-        }
-        return o;
+    public int getY() {
+        return y;
     }
 
-    @Override
-    public int compareTo(Move o) {
-        return Double.compare(value,o.value);
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double v){
+        this.value = v;
     }
 }

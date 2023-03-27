@@ -35,7 +35,24 @@ public class Board implements Drawable2D{
     	return b;
     }
 
-    
+    public void printBoard(){
+        for (Tile[] row: board
+             ) {
+            for(Tile t : row){
+                if(t.getColour() == Tile.Colour.RED){
+                    System.out.print("R");
+                }
+                if(t.getColour() == Tile.Colour.BLUE){
+                    System.out.print("B");
+                }
+                if(t.getColour() == Tile.Colour.WHITE){
+                    System.out.print("W");
+                }
+
+            }
+            System.out.println();
+        }
+    }
     public int size(){
         return board.length;
     }

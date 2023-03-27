@@ -5,9 +5,9 @@ public class Player {
     private Tile.Colour playerColour;
     private boolean winsByVerticalConnection;
 
-    public Player (Tile.Colour playerColour, boolean hasWonByVerticalConnection) {
+    public Player (Tile.Colour playerColour, boolean winsByVerticalConnectionByVerticalConnection) {
         this.playerColour = playerColour;
-        this.winsByVerticalConnection = hasWonByVerticalConnection;
+        this.winsByVerticalConnection = winsByVerticalConnectionByVerticalConnection;
     }
 
     public Tile.Colour getPlayerColour() {
