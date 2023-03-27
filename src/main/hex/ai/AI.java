@@ -1,6 +1,7 @@
 package main.hex.ai;
 
 import main.hex.Board;
+import main.hex.HexException;
 import main.hex.Player;
 import main.hex.Tile;
 
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 public class AI {
     private final Board currentState;
+
 
     private Tile.Colour agentColour;
 
@@ -31,54 +33,75 @@ public class AI {
         }
     }
 
+    public Move getBestMove(int depth){
+        return minimax(currentState,depth,true);
+    }
+
+
     private Move minimax(Board state, int depth, boolean maximizingPlayer){
 
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
-            return new Move(-1,eval);
+            Move move = new Move(-1,-1);
+            move.setValue(eval);
+            return move;
         }
 
-        int moveIndex = 0;
 
         if (maximizingPlayer){
-            Move maxMove = Move.MAX_VALUE_MOVE;
+            double maxValue = Double.NEGATIVE_INFINITY;
+            Optional<Move> maxMove = Optional.empty();
 
-            ArrayList<Board> children = createChildren(state,agentColour);
-            for(int i = 0; i<children.size();i++){
-                Move iEval = minimax(children.get(i),depth-1,false);
-                maxMove = maxMove.max(iEval);
+            ArrayList<Move> children = createChildren(state);
+            for (Move child : children) {
+                child.setValue(minimax(moveToBoard(currentState,child,agentColour), depth - 1, false).getValue());
+                if (child.getValue() > maxValue) {
+                    maxValue = child.getValue();
+                    maxMove = Optional.of(child);
+                }
+
             }
-
-            return maxMove;
+            if(maxMove.isEmpty()){
+                throw new HexException("No move was returned by AI");
+            }
+            return maxMove.get();
         }
 
         else {
-            Move minMove = Move.MIN_VALUE_MOVE;
 
-            ArrayList<Board> children = createChildren(state,Tile.opposite(agentColour));
-            for(int i = 0; i<children.size();i++){
-                Move iEval = minimax(children.get(i),depth-1,true);
-                minMove = minMove.min(iEval);
+            double minValue = Double.POSITIVE_INFINITY;
+            Optional<Move> minMove = Optional.empty();
+
+            ArrayList<Move> children = createChildren(state);
+            for (Move child : children) {
+                child.setValue(minimax(moveToBoard(currentState,child,Tile.opposite(agentColour)), depth - 1, true).getValue());
+                if (child.getValue() < minValue) {
+                    minValue = child.getValue();
+                    minMove = Optional.of(child);
+                }
             }
-            return minMove;
+            if(minMove.isEmpty()){
+                throw new HexException("No move was returned by AI");
+            }
+            return minMove.get();
         }
 
 
     }
 
-    private ArrayList<Board> createChildren(Board parentState,Tile.Colour agentColour){
+    private ArrayList<Move> createChildren(Board parentState){
         int max_no_of_children = parentState.size()*parentState.size();
-        ArrayList<Board> children = new ArrayList<>((parentState.size()*parentState.size())/2);
+        ArrayList<Move> children = new ArrayList<>((parentState.size()*parentState.size())/2);
         for(int i = 0; i<max_no_of_children; i++){
-            Optional<Board> child = createChild(parentState,agentColour,i);
+            Optional<Move> child = createChildMove(parentState,i);
             child.ifPresent(children::add);
         }
         return children;
     }
 
-    private Optional<Board> createChild(Board parentState,Tile.Colour agentColour,int childNo){
+    private Optional<Move> createChildMove(Board parentState, int childNo){
 
         if(childNo > parentState.size() * parentState.size()){
             throw new AIException("Created too many children");
@@ -90,9 +113,14 @@ public class AI {
             return Optional.empty();
         }
 
-        Board childState = parentState.clone();
-        childState.getTileAtPosition(x, y).setColour(agentColour);
-        return Optional.of(childState);
+        return Optional.of(new Move(x,y));
+    }
+
+
+    private Board moveToBoard(Board currentState, Move move, Tile.Colour agentColour){
+        Board childState = currentState.clone();
+        currentState.getTileAtPosition(move.getX(), move.getY()).setColour(agentColour);
+        return childState;
     }
 
 
