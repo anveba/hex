@@ -2,23 +2,14 @@ package main.hex.ui;
 
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
-import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
-import main.hex.Board;
-import main.hex.GameLogic;
 
 public class GameFrame extends Frame {
 
     // Fonts:
     private BitmapFont FONT_FREDOKA_ONE = ResourceManager.getInstance().loadFont("fonts/fredoka-one.one-regular.ttf");
-
-    // Textures:
-    private Texture TEXTURE_LARGE_MENU_GREY = ResourceManager.getInstance().loadTexture("textures/gui/Icons/Icon_Large_Menu_Grey.png");
-    private Texture TEXTURE_SMALL_WHITEOUTLINE_RETURN = ResourceManager.getInstance().loadTexture("textures/gui/Icons/Icon_Small_WhiteOutline_Return.png");
-    private Texture TEXTURE_BACKGROUND_SQUARE = ResourceManager.getInstance().loadTexture("textures/gui/ButtonsIcons/IconButton_Large_Background_Square.png");
-    private Texture TEXTURE_BLUE_TILE = ResourceManager.getInstance().loadTexture("textures/board/blue_tile.png");
-    private Texture TEXTURE_RED_TILE = ResourceManager.getInstance().loadTexture("textures/board/red_tile.png");
 
     public static final float tileSizeX = 0.08f;
     public static final float tileSizeY = tileSizeX * 1.1547005f;
@@ -42,8 +33,10 @@ public class GameFrame extends Frame {
 
     private UIGroup createMenuView() {
         UIGroup menuView = new UIGroup(0.0f, 0.0f);
-        Image menuSymbol = new Image(0.9f, 0.9f, 0.1f, 0.1f, TEXTURE_LARGE_MENU_GREY,
-                0, 0, TEXTURE_LARGE_MENU_GREY.width(), TEXTURE_LARGE_MENU_GREY.height());
+        Image menuSymbol = new Image(0.9f, 0.9f, 0.1f, 0.1f,
+                TextureLibrary.LARGE_MENU_GREY.getTexture(), 0, 0,
+                TextureLibrary.LARGE_MENU_GREY.getTexture().width(),
+                TextureLibrary.LARGE_MENU_GREY.getTexture().height());
         menuView.addChild(menuSymbol);
 
         return menuView;
@@ -53,8 +46,9 @@ public class GameFrame extends Frame {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
         //TODO: Find a more suiting icon for return, since this is more like a reload
         Image undoSymbol = new Image(0.0f, -0.91f, 0.1f, 0.1f,
-                TEXTURE_SMALL_WHITEOUTLINE_RETURN, 0, 0,
-                TEXTURE_SMALL_WHITEOUTLINE_RETURN.width(), TEXTURE_SMALL_WHITEOUTLINE_RETURN.height());
+                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture(), 0, 0,
+                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().width(),
+                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().height());
         undoView.addChild(undoSymbol);
 
         return undoView;
@@ -73,7 +67,7 @@ public class GameFrame extends Frame {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
-        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, TEXTURE_BLUE_TILE)); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
+        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, TextureLibrary.BLUE_TILE.getTexture())); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
         player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, "Player 1")); //TODO: has to be updated to be dynamic for the name when another name is chosen
         player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, "0:32"));
 
@@ -84,7 +78,7 @@ public class GameFrame extends Frame {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
-        player2UIGroup.addChild(createTileView(0.555f, -0.705f, TEXTURE_RED_TILE)); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
+        player2UIGroup.addChild(createTileView(0.555f, -0.705f,TextureLibrary.RED_TILE.getTexture())); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
         player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, "Player 2")); //TODO: has to be updated to be dynamic for the name when another name is chosen
         player2UIGroup.addChild(createTimerView(0.72f, -0.85f, "1:43"));
 
@@ -93,8 +87,10 @@ public class GameFrame extends Frame {
 
     private UIGroup createPlayerViewBackground(float xPos, float yPos) {
         UIGroup playerViewBackgroundUIGroup = new UIGroup(0.0f, 0.0f);
-        Image playerViewBackground = new Image(xPos, yPos, 0.5f, 0.35f, TEXTURE_BACKGROUND_SQUARE,
-                0, 0, TEXTURE_BACKGROUND_SQUARE.width(), TEXTURE_BACKGROUND_SQUARE.height());
+        Image playerViewBackground = new Image(xPos, yPos, 0.5f, 0.35f,
+                TextureLibrary.BACKGROUND_SQUARE.getTexture(), 0, 0,
+                TextureLibrary.BACKGROUND_SQUARE.getTexture().width(),
+                TextureLibrary.BACKGROUND_SQUARE.getTexture().height());
         playerViewBackgroundUIGroup.addChild(playerViewBackground);
 
         return playerViewBackgroundUIGroup;
