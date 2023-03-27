@@ -237,7 +237,7 @@ public class StartGameFrame extends Frame {
 		int timeRestrictionSeconds = 60; //TODO Should be chosen by player
 		boolean swapRule = logic.getSwapRule();
 
-		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize))));
+		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize)), logic));
 	}
 
 	public boolean getSwapRule() {

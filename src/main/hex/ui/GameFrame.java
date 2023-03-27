@@ -11,11 +11,13 @@ public class GameFrame extends Frame {
     // Fonts:
     private BitmapFont FONT_FREDOKA_ONE = ResourceManager.getInstance().loadFont("fonts/fredoka-one.one-regular.ttf");
 
-    public static final float tileSizeX = 0.08f;
-    public static final float tileSizeY = tileSizeX * 1.1547005f;
+    private static final float tileSizeX = 0.08f;
+    private static final float tileSizeY = tileSizeX * 1.1547005f;
+    private StartGameFrameLogic setupLogic;
 
-    public GameFrame() {
+    public GameFrame(StartGameFrameLogic setupLogic) {
         //Main menu extends Frame, so it has a UI element as a root
+        this.setupLogic = setupLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
@@ -67,8 +69,8 @@ public class GameFrame extends Frame {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
-        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, TextureLibrary.BLUE_TILE.getTexture())); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
-        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, "Player 1")); //TODO: has to be updated to be dynamic for the name when another name is chosen
+        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, setupLogic.getPlayerSkin(0)));
+        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, setupLogic.getPlayerName(0)));
         player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, "0:32"));
 
         return player1UIGroup;
@@ -78,8 +80,8 @@ public class GameFrame extends Frame {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
-        player2UIGroup.addChild(createTileView(0.555f, -0.705f,TextureLibrary.RED_TILE.getTexture())); //TODO: has to be updated to be dynamic for the skin when another skin is chosen
-        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, "Player 2")); //TODO: has to be updated to be dynamic for the name when another name is chosen
+        player2UIGroup.addChild(createTileView(0.555f, -0.705f, setupLogic.getPlayerSkin(1)));
+        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, setupLogic.getPlayerName(1)));
         player2UIGroup.addChild(createTimerView(0.72f, -0.85f, "1:43"));
 
         return player2UIGroup;
@@ -113,7 +115,7 @@ public class GameFrame extends Frame {
         return playerNameViewUIGroup;
     }
 
-    // TODO: This takes just a placeholder text
+    // TODO: This takes just a placeholder text - need to implement timer
     private UIGroup createTimerView(float xPos, float yPos, String timer) {
         UIGroup timerViewUIGroup = new UIGroup(0.0f, 0.0f);
         Text timerText = new Text(xPos, yPos, FONT_FREDOKA_ONE, timer, 0.08f);
