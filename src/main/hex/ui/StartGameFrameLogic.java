@@ -46,6 +46,9 @@ public class StartGameFrameLogic {
     }
 
     public Texture getPlayerSkin(int playerIndex) {
+        System.out.println("a");
+        System.out.println(playerTextureIndex[playerIndex]);
+        System.out.println("b");
         return hexSkins.get(playerTextureIndex[playerIndex]);
     }
     public int getHexSkinCount() {

@@ -38,6 +38,7 @@ public class StartGameFrame extends Frame {
 		logic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
+		System.out.println("skins: " + logic.getHexSkinCount());
 		logic.setPlayerSkinIndex(1,1);
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -183,9 +184,36 @@ public class StartGameFrame extends Frame {
 		logic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
-		//Player Type
-		Text AIToggle = new Text(-0.1f, -0.50f, FONT_FREDOKA_ONE, PLAYER_TYPE_LABEL, 0.05f);
-		playerSettingUIGroup.addChild(AIToggle);
+
+		/**
+		 * Type Carousel
+		 */
+		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
+
+		//text
+		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "AI Opponent - Normal", 0.04f);
+		typeCarouselUIGroup.addChild(typeText);
+
+		//left arrow
+		ButtonCallback typeLeftClicked = (args) -> {
+			//TODO
+		};
+		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				0.06f, 0.06f, 0, 0, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().height(),
+				FONT_ROBOTO, "", 0.05f, typeLeftClicked, null, null);
+		typeCarouselUIGroup.addChild(typeLeftCarouselArrow);
+
+		//right arrow
+		ButtonCallback typeRightClicked = (args) -> {
+			//TODO
+		};
+		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				0.06f, 0.06f, 0, 0, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().height(),
+				FONT_ROBOTO, "", 0.05f, typeRightClicked, null, null);
+		typeCarouselUIGroup.addChild(typeRightCarouselArrow);
+
+		playerSettingUIGroup.addChild(typeCarouselUIGroup);
+
 
 		return playerSettingUIGroup;
 	}
@@ -204,8 +232,8 @@ public class StartGameFrame extends Frame {
 		int boardSize = 11; //TODO Should be chosen by player
 		String player1Name = logic.getPlayerName(0);
 		String player2Name = logic.getPlayerName(1);
-		Texture player1Skin = logic.getPlayerSkin(logic.getPlayerSkinIndex(0));
-		Texture player2Skin = logic.getPlayerSkin(logic.getPlayerSkinIndex(1));
+		Texture player1Skin = logic.getPlayerSkin(0);
+		Texture player2Skin = logic.getPlayerSkin(1);
 		int timeRestrictionSeconds = 60; //TODO Should be chosen by player
 		boolean swapRule = logic.getSwapRule();
 
