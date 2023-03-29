@@ -16,7 +16,7 @@ public enum TextureLibrary {
     LEFT_CAROUSEL_ARROW("textures/gui/Sliders/ScrollSlider_Blank_Arrow_Left.png"),
     RIGHT_CAROUSEL_ARROW("textures/gui/Sliders/ScrollSlider_Blank_Arrow_Right.png"),
     LARGE_MENU_GREY("textures/gui/Icons/Icon_Large_Menu_Grey.png"),
-    SMALL_WHITEOUTLINE_RETURN("textures/gui/Icons/Icon_Small_WhiteOutline_Return.png"),
+    SMALL_UNDO_GREY("textures/gui/Icons/Icon_Small_Undo_Grey.png"),
     BACKGROUND_SQUARE("textures/gui/ButtonsIcons/IconButton_Large_Background_Square.png");
 
     private String texturePath;

@@ -230,14 +230,15 @@ public class StartGameFrame extends Frame {
 
 	private void startGame() {
 		int boardSize = 11; //TODO Should be chosen by player
-		String player1Name = logic.getPlayerName(0);
-		String player2Name = logic.getPlayerName(1);
-		Texture player1Skin = logic.getPlayerSkin(0);
-		Texture player2Skin = logic.getPlayerSkin(1);
-		int timeRestrictionSeconds = 60; //TODO Should be chosen by player
-		boolean swapRule = logic.getSwapRule();
+		GameCustomization gameCustomization = new GameCustomization(
+				logic.getPlayerName(0),
+				logic.getPlayerName(1),
+				logic.getPlayerSkin(0),
+				logic.getPlayerSkin(1),
+				60, //TODO: Time restriction should be chosen by player
+				logic.getSwapRule());
 
-		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize)), logic));
+		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize)), gameCustomization));
 	}
 
 	public boolean getSwapRule() {

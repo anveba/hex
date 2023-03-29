@@ -13,11 +13,11 @@ public class GameplayFrame extends Frame {
 
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
-    private StartGameFrameLogic setupLogic;
+    private GameCustomization gameCustomization;
 
-    public GameplayFrame(StartGameFrameLogic setupLogic) {
+    public GameplayFrame(GameCustomization setupLogic) {
         //Main menu extends Frame, so it has a UI element as a root
-        this.setupLogic = setupLogic;
+        this.gameCustomization = setupLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
@@ -46,11 +46,10 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createUndoView() {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
-        //TODO: Find a more suiting icon for return, since this is more like a reload
-        Image undoSymbol = new Image(0.0f, -0.91f, 0.1f, 0.1f,
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture(), 0, 0,
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().width(),
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().height());
+        Image undoSymbol = new Image(0.0f, -0.91f, 0.12f, 0.12f,
+                TextureLibrary.SMALL_UNDO_GREY.getTexture(), 0, 0,
+                TextureLibrary.SMALL_UNDO_GREY.getTexture().width(),
+                TextureLibrary.SMALL_UNDO_GREY.getTexture().height());
         undoView.addChild(undoSymbol);
 
         return undoView;
@@ -69,8 +68,8 @@ public class GameplayFrame extends Frame {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
-        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, setupLogic.getPlayerSkin(0)));
-        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, setupLogic.getPlayerName(0)));
+        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Skin()));
+        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomization.getPlayer1Name()));
         player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, "0:32"));
 
         return player1UIGroup;
@@ -80,8 +79,8 @@ public class GameplayFrame extends Frame {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
-        player2UIGroup.addChild(createTileView(0.555f, -0.705f, setupLogic.getPlayerSkin(1)));
-        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, setupLogic.getPlayerName(1)));
+        player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Skin()));
+        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomization.getPlayer2Name()));
         player2UIGroup.addChild(createTimerView(0.72f, -0.85f, "1:43"));
 
         return player2UIGroup;
