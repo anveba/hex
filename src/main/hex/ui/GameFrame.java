@@ -2,7 +2,6 @@ package main.hex.ui;
 
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
-import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
 import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
@@ -48,10 +47,10 @@ public class GameFrame extends Frame {
     private UIGroup createUndoView() {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
         //TODO: Find a more suiting icon for return, since this is more like a reload
-        Image undoSymbol = new Image(0.0f, -0.91f, 0.1f, 0.1f,
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture(), 0, 0,
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().width(),
-                TextureLibrary.SMALL_WHITEOUTLINE_RETURN.getTexture().height());
+        Image undoSymbol = new Image(0.0f, -0.91f, 0.12f, 0.12f,
+                TextureLibrary.SMALL_UNDO_GREY.getTexture(), 0, 0,
+                TextureLibrary.SMALL_UNDO_GREY.getTexture().width(),
+                TextureLibrary.SMALL_UNDO_GREY.getTexture().height());
         undoView.addChild(undoSymbol);
 
         return undoView;
