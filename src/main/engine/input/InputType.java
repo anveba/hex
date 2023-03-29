@@ -1,5 +1,5 @@
 package main.engine.input;
 
 public enum InputType {
-    PRESSED, RELEASED
+    PRESSED, RELEASED, REPEAT
 }

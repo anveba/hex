@@ -133,7 +133,7 @@ public class BitmapFont {
 
     public FontCharacterData getCharacterData(char c) {
         if (c < characterOffset || c >= characterOffset + characterCount)
-        	throw new EngineException("Character not contained or loaded in font");
+        	throw new EngineException("Character <" + c + "> (code " + (int)c + ") not contained or loaded in font");
         return chars[c - characterOffset];
     }
 

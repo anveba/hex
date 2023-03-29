@@ -44,12 +44,12 @@ public class GameLogic {
     
     public void setupControlsCallback(ControlsListener listener) {
     	Game.getInstance().getControlsListener()
-    		.addOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    		.addOnButtonPressCallback(Controls.LEFT_MOUSE, this::handleClick);
     }
     
     public void removeControlsCallback(ControlsListener listener) {
     	Game.getInstance().getControlsListener()
-    		.removeOnPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    		.removeOnButtonPressCallback(Controls.LEFT_MOUSE, this::handleClick);
     }
     
     public void setPlayerWinCallback(PlayerCondition callback) {

@@ -10,43 +10,57 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class ControlsListener {
     
-    private Map<Controls, List<ControlsCallback>> onPressCallbacks, onReleaseCallbacks;
+    private Map<Controls, List<ControlsCallback>> onButtonPressCallbacks, onButtonReleaseCallbacks;
     private List<CursorMoveCallback> onCursorMoveCallbacks;
+    private List<TextInputCallback> onTextInputCallbacks;
+    private List<ControlsCallback> onAnyPressCallbacks, onAnyReleaseCallbacks;
     
     private float cursorX, cursorY;
     
     public ControlsListener(
             Consumer<BiConsumer<Controls, InputType>> inputProcessorSetter,
-            Consumer<BiConsumer<Float, Float>> mouseProcessorSetter) {
+            Consumer<BiConsumer<Float, Float>> mouseProcessorSetter,
+            Consumer<Consumer<Character>> textInputProcessorSetter) {
         
-        if (inputProcessorSetter == null | mouseProcessorSetter == null)
+        if (inputProcessorSetter == null 
+        		|| mouseProcessorSetter == null 
+        		|| textInputProcessorSetter == null)
             throw new IllegalArgumentException("No callbacks given (null passed)");
             
-        onPressCallbacks = new HashMap<>();
-        onReleaseCallbacks = new HashMap<>();
+        onButtonPressCallbacks = new HashMap<>();
+        onButtonReleaseCallbacks = new HashMap<>();
         onCursorMoveCallbacks = new ArrayList<>();
+        onTextInputCallbacks = new ArrayList<>();
+        onAnyPressCallbacks = new ArrayList<>();
+        onAnyReleaseCallbacks = new ArrayList<>();
         
-        inputProcessorSetter.accept(this::processInput);
+        inputProcessorSetter.accept(this::processKeyInput);
         mouseProcessorSetter.accept(this::processCursorPosition);
+        textInputProcessorSetter.accept(this::processTextInput);
     }
     
-    private void processInput(Controls c, InputType t) {
+    private void processKeyInput(Controls c, InputType t) {
         if (t == InputType.PRESSED) {
-            if (onPressCallbacks.containsKey(c)) {
-                for (var cb : onPressCallbacks.get(c)) {
-                    cb.onControlsInput(new ControlsArgs(c));
-                }
+        	var args = new ControlsArgs(c);
+            if (onButtonPressCallbacks.containsKey(c)) {
+                for (var cb : onButtonPressCallbacks.get(c)) 
+                    cb.onControlsInput(args);
             }
+            for (var cb : onAnyPressCallbacks)
+        		cb.onControlsInput(args);
         } else if (t == InputType.RELEASED) {
-            if (onReleaseCallbacks.containsKey(c)) {
-                for (var cb : onReleaseCallbacks.get(c)) {
-                    cb.onControlsInput(new ControlsArgs(c));
-                }
+        	var args = new ControlsArgs(c);
+            if (onButtonReleaseCallbacks.containsKey(c)) {
+                for (var cb : onButtonReleaseCallbacks.get(c)) 
+                    cb.onControlsInput(args);
             }
+            for (var cb : onAnyReleaseCallbacks)
+        		cb.onControlsInput(args);
         }
-        else {
-            throw new EngineException("Unknown input type: " + t);
-        }
+        
+        if (c == Controls.BACKSPACE && (t == InputType.PRESSED || t == InputType.REPEAT))
+        	for (var cb : onTextInputCallbacks)
+        		cb.onTextInput('\b');
     }
     
     private void processCursorPosition(float x, float y) {
@@ -57,54 +71,92 @@ public class ControlsListener {
         }
     }
     
-    public void addOnPressCallback(Controls c, ControlsCallback callback) {
+    private void processTextInput(char ch) 
+    {
+    	for (var c : onTextInputCallbacks)
+    		c.onTextInput(ch);
+    }
+    
+    public void addOnButtonPressCallback(Controls c, ControlsCallback callback) {
         List<ControlsCallback> callbacks;
-        if (!onPressCallbacks.containsKey(c)) {
+        if (!onButtonPressCallbacks.containsKey(c)) {
             callbacks = new ArrayList<>();
-            onPressCallbacks.put(c, callbacks);
+            onButtonPressCallbacks.put(c, callbacks);
         } else {
-            callbacks = onPressCallbacks.get(c);
+            callbacks = onButtonPressCallbacks.get(c);
         }
         assert callbacks != null;
         callbacks.add(callback);
     }
     
-    public void addOnReleaseCallback(Controls c, ControlsCallback callback) {
+    public void addOnButtonReleaseCallback(Controls c, ControlsCallback callback) {
         List<ControlsCallback> callbacks;
-        if (!onReleaseCallbacks.containsKey(c)) {
+        if (!onButtonReleaseCallbacks.containsKey(c)) {
             callbacks = new ArrayList<>();
-            onReleaseCallbacks.put(c, callbacks);
+            onButtonReleaseCallbacks.put(c, callbacks);
         } else {
-            callbacks = onReleaseCallbacks.get(c);
+            callbacks = onButtonReleaseCallbacks.get(c);
         }
         assert callbacks != null;
         callbacks.add(callback);
     }
     
-    public boolean removeOnPressCallback(Controls c, ControlsCallback callback) {
+    public boolean removeOnButtonPressCallback(Controls c, ControlsCallback callback) {
         List<ControlsCallback> callbacks;
-        if (!onPressCallbacks.containsKey(c))
+        if (!onButtonPressCallbacks.containsKey(c))
             return false;
-        callbacks = onPressCallbacks.get(c);
+        callbacks = onButtonPressCallbacks.get(c);
         assert callbacks != null;
         return callbacks.remove(callback);
     }
     
-    public boolean removeOnReleaseCallback(Controls c, ControlsCallback callback) {
+    public boolean removeOnButtonReleaseCallback(Controls c, ControlsCallback callback) {
         List<ControlsCallback> callbacks;
-        if (!onReleaseCallbacks.containsKey(c))
+        if (!onButtonReleaseCallbacks.containsKey(c))
             return false;
-        callbacks = onReleaseCallbacks.get(c);
+        callbacks = onButtonReleaseCallbacks.get(c);
         assert callbacks != null;
         return callbacks.remove(callback);
+    }
+    
+    public void addOnAnyPressCallback(ControlsCallback callback) {
+    	if (callback == null)
+    		throw new EngineException("Callback was null");
+    	onAnyPressCallbacks.add(callback);
+    }
+    
+    public boolean removeOnAnyPressCallback(ControlsCallback callback) {
+    	return onAnyPressCallbacks.remove(callback);
+    }
+    
+    public void addOnAnyReleaseCallback(ControlsCallback callback) {
+    	if (callback == null)
+    		throw new EngineException("Callback was null");
+    	onAnyReleaseCallbacks.add(callback);
+    }
+    
+    public boolean removeOnAnyReleaseCallback(ControlsCallback callback) {
+    	return onAnyReleaseCallbacks.add(callback);
     }
     
     public void addOnCursorMoveCallback(CursorMoveCallback callback) {
+    	if (callback == null)
+    		throw new EngineException("Callback was null");
         onCursorMoveCallbacks.add(callback);
     }
     
     public boolean removeOnCursorMoveCallback(CursorMoveCallback callback) {
         return onCursorMoveCallbacks.remove(callback);
+    }
+    
+    public void addTextInputCallback(TextInputCallback callback) {
+    	if (callback == null)
+    		throw new EngineException("Callback was null");
+    	onTextInputCallbacks.add(callback);
+    }
+    
+    public boolean removeTextInputCallback(TextInputCallback callback) {
+        return onTextInputCallbacks.remove(callback);
     }
     
     public float getCursorX() { return cursorX; }

@@ -6,7 +6,7 @@ import main.engine.graphics.Texture;
 import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
 
-public class GameFrame extends Frame {
+public class GameplayFrame extends Frame {
 
     // Fonts:
     private BitmapFont FONT_FREDOKA_ONE = ResourceManager.getInstance().loadFont("fonts/fredoka-one.one-regular.ttf");
@@ -15,7 +15,7 @@ public class GameFrame extends Frame {
     private static final float tileSizeY = tileSizeX * 1.1547005f;
     private StartGameFrameLogic setupLogic;
 
-    public GameFrame(StartGameFrameLogic setupLogic) {
+    public GameplayFrame(StartGameFrameLogic setupLogic) {
         //Main menu extends Frame, so it has a UI element as a root
         this.setupLogic = setupLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);

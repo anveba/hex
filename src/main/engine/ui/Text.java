@@ -78,6 +78,11 @@ public class Text extends UIElement {
 	}
 
 	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
+	
+	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		renderer.drawString(font, text, x + offsetX, y + offsetY, height, Colour.multiply(colour, c));
 	}

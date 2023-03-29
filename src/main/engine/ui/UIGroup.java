@@ -3,9 +3,11 @@ package main.engine.ui;
 import java.util.*;
 
 import main.engine.EngineException;
+import main.engine.TimeRecord;
 import main.engine.Vector2;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
+import main.engine.input.ControlsArgs;
 
 /**
  * Represents a group of UI elements that itself is a UI element.
@@ -89,16 +91,13 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	public void onClick(ClickArgs args) {
+	public void processClick(ClickArgs args) {
 		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
-			if (clickable.containsPosition(args.getX(), args.getY())) {
-				clickable.onClick(args);
-				break;
-			}
+			clickable.processClick(args);
 		}
 	}
 
@@ -110,6 +109,35 @@ public class UIGroup extends UIElement implements Clickable {
 				continue;
 			Clickable clickable = (Clickable)child;
 			clickable.updateCursorPosition(args);
+		}
+	}
+
+	@Override
+	public void processTextInput(TextInputArgs args) {
+		args = new TextInputArgs(args.getCharacter());
+		for (var child : children) {
+			if (!(child instanceof Clickable))
+				continue;
+			Clickable clickable = (Clickable)child;
+			clickable.processTextInput(args);
+		}
+	}
+	
+	@Override
+	public void processControlsInput(ControlsArgs args) {
+		args = new ControlsArgs(args.getControls());
+		for (var child : children) {
+			if (!(child instanceof Clickable))
+				continue;
+			Clickable clickable = (Clickable)child;
+			clickable.processControlsInput(args);
+		}
+	}
+	
+	@Override
+	public void update(TimeRecord elapsed) {
+		for (var child : children) {
+			child.update(elapsed);
 		}
 	}
 }

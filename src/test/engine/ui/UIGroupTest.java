@@ -9,6 +9,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import main.engine.EngineException;
+import main.engine.TimeRecord;
+import main.engine.input.ControlsArgs;
 import main.engine.ui.*;
 
 public class UIGroupTest {
@@ -118,29 +120,29 @@ public class UIGroupTest {
 	}
 	
 	@Test
-	public void clickingCallsChildClickablesClickHandlingMethodIfTheyContainTheCursorPositionWithLocalCoordinates() {
+	public void clickingCallsChildClickHandlingMethodIfTheyContainTheCursorPositionWithLocalCoordinates() {
 		float gx = 1.2f, gy = 0.242f;
 		float cx = 0.45f, cy = 2.41f;
 		UIGroup g = new UIGroup(gx, gy);
 		var e = spy(new TestClickableElementClass());
 		when(e.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
-		Mockito.doCallRealMethod().when(e).onClick(any());
+		Mockito.doCallRealMethod().when(e).processClick(any());
 
 		ClickArgs args = new ClickArgs(cx, cy);
-		g.onClick(args);
-		verify(e, times(0)).onClick(any());
+		g.processClick(args);
+		verify(e, times(0)).processClick(any());
 
 		g.addChild(e);
-		g.onClick(args);
+		g.processClick(args);
 		final ArgumentCaptor<ClickArgs> captor = ArgumentCaptor.forClass(ClickArgs.class);		
-		verify(e, times(1)).onClick(captor.capture());
+		verify(e, times(1)).processClick(captor.capture());
 		final ClickArgs actualArgs = captor.getValue();
 		assertEquals(cx - gx, actualArgs.getX(), 0.001f);
 		assertEquals(cy - gy, actualArgs.getY(), 0.001f);
 	}
 	
 	@Test
-	public void cursorUpdateCallsChildClickablesCursorUpdateHandlingMethodWithLocalMousePosition() {
+	public void cursorUpdateCallsChildCursorUpdateHandlingMethodWithLocalMousePosition() {
 		float gx = 1.2f, gy = 0.242f;
 		float hx = 0.45f, hy = 2.41f;
 		UIGroup g = new UIGroup(gx, gy);
@@ -158,5 +160,62 @@ public class UIGroupTest {
 		final HoverArgs actualArgs = captor.getValue();
 		assertEquals(hx - gx, actualArgs.getX(), 0.001f);
 		assertEquals(hy - gy, actualArgs.getY(), 0.001f);
+	}
+	
+	@Test
+	public void textInputCallsChildTextInputHandlingMethod() {
+		float gx = 1.2f, gy = 0.242f;
+		UIGroup g = new UIGroup(gx, gy);
+		var e = spy(new TestClickableElementClass());
+		Mockito.doCallRealMethod().when(e).processTextInput(any());
+
+		var args = mock(TextInputArgs.class);
+		g.processTextInput(args);
+		verify(e, times(0)).updateCursorPosition(any());
+		
+		g.addChild(e);
+		g.processTextInput(args);
+		final ArgumentCaptor<TextInputArgs> captor = ArgumentCaptor.forClass(TextInputArgs.class);		
+		verify(e, times(1)).processTextInput(captor.capture());
+		final TextInputArgs actualArgs = captor.getValue();
+		assertEquals(args.getCharacter(), actualArgs.getCharacter());
+	}
+	
+	@Test
+	public void controlsInputCallsChildControlsInputHandlingMethod() {
+		float gx = 1.2f, gy = 0.242f;
+		UIGroup g = new UIGroup(gx, gy);
+		var e = spy(new TestClickableElementClass());
+		Mockito.doCallRealMethod().when(e).processControlsInput(any());
+
+		var args = mock(ControlsArgs.class);
+		g.processControlsInput(args);
+		verify(e, times(0)).updateCursorPosition(any());
+		
+		g.addChild(e);
+		g.processControlsInput(args);
+		final ArgumentCaptor<ControlsArgs> captor = ArgumentCaptor.forClass(ControlsArgs.class);		
+		verify(e, times(1)).processControlsInput(captor.capture());
+		final ControlsArgs actualArgs = captor.getValue();
+		assertEquals(args.getControls(), actualArgs.getControls());
+	}
+	
+	@Test
+	public void updateCallsChildUpdateMethod() {
+		float gx = 1.2f, gy = 0.242f;
+		UIGroup g = new UIGroup(gx, gy);
+		var e = spy(new TestClickableElementClass());
+		Mockito.doCallRealMethod().when(e).update(any());
+
+		var args = mock(TimeRecord.class);
+		g.update(args);
+		verify(e, times(0)).updateCursorPosition(any());
+		
+		g.addChild(e);
+		g.update(args);
+		final ArgumentCaptor<TimeRecord> captor = ArgumentCaptor.forClass(TimeRecord.class);		
+		verify(e, times(1)).update(captor.capture());
+		final TimeRecord actualArgs = captor.getValue();
+		assertEquals(args.elapsedSeconds(), actualArgs.elapsedSeconds(), 0.0001f);
 	}
 }

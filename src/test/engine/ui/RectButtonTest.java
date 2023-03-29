@@ -218,15 +218,19 @@ public class RectButtonTest {
 		float iw = 4.0f, ih = 2.0f, th = 0.15f;
 		int sx = 24, sy = 32, sw = 40, sh = 60;
 		ButtonCallback callback = mock(ButtonCallback.class);
-		RectButton button = new RectButton(
+		RectButton button = spy(new RectButton(
 				x, y, wHalf * 2.0f, hHalf * 2.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				callback, null, null);
+				callback, null, null));
 
 		verify(callback, times(0)).call(any());
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
-		button.onClick(args);
+		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		button.processClick(args);
+		verify(callback, times(0)).call(any());
+		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		button.processClick(args);
 		verify(callback, times(1)).call(any());
 	}
 	
@@ -246,7 +250,7 @@ public class RectButtonTest {
 				null, null, null);
 
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
-		button.onClick(args);
+		button.processClick(args);
 	}
 	
 	@Test

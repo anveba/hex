@@ -60,6 +60,11 @@ public class Image extends RectElement {
 	public void setSourceHeight(int h) {
 		sourceHeight = h;
 	}
+	
+	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
 
 	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {

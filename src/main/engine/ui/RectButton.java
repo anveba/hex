@@ -1,10 +1,12 @@
 package main.engine.ui;
 
+import main.engine.TimeRecord;
 import main.engine.Vector2;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.engine.input.ControlsArgs;
 
 public class RectButton extends RectElement implements Clickable {
 	
@@ -46,8 +48,8 @@ public class RectButton extends RectElement implements Clickable {
 	}
 	
 	@Override
-	public void onClick(ClickArgs args) {
-		if (clickCallback != null) {
+	public void processClick(ClickArgs args) {
+		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
 		}
 	}
@@ -75,6 +77,21 @@ public class RectButton extends RectElement implements Clickable {
 				&& this.getY() + getHeight() / 2.0f >= y;
 	}
 
+	@Override
+	public void processTextInput(TextInputArgs args) {
+	
+	}
+	
+	@Override
+	public void processControlsInput(ControlsArgs args) {
+		
+	}
+	
+	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
+	
 	public float getImageWidth() {
 		return image.getWidth();
 	}
