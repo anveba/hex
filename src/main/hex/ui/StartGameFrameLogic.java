@@ -26,7 +26,6 @@ public class StartGameFrameLogic {
         int i = playerTextureIndex[playerIndex];
         i = (i >= hexSkins.size() - 1) ?  0 : i + 1;
         setPlayerSkinIndex(playerIndex, i);
-        System.out.println(playerTextureIndex[playerIndex]);
     }
 
     public void previousSkin(int playerIndex) {
