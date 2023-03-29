@@ -21,6 +21,14 @@ public class Text extends UIElement {
 		setColour(Colour.White);
 	}
 
+	public Text(float x, float y, BitmapFont font, String text, float height, Colour colour) {
+		setPosition(x, y);
+		setFont(font);
+		setText(text);
+		setHeight(height);
+		setColour(colour);
+	}
+
 	@Override
 	public float getX() {
 		return x;
