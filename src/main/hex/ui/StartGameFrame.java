@@ -7,7 +7,7 @@ import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
 import main.hex.Board;
 import main.hex.GameLogic;
-import main.hex.PlayerType;
+import main.hex.player.PlayerType;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 

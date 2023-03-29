@@ -2,7 +2,7 @@ package test.hex.Frame;
 
 import main.engine.graphics.Texture;
 import main.engine.ui.TextField;
-import main.hex.PlayerType;
+import main.hex.player.PlayerType;
 import main.hex.ui.StartGameFrameLogic;
 import org.junit.Assert;
 import org.junit.Before;

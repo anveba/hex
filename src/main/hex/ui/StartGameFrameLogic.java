@@ -2,7 +2,7 @@ package main.hex.ui;
 
 import main.engine.graphics.Texture;
 import main.engine.ui.TextField;
-import main.hex.PlayerType;
+import main.hex.player.PlayerType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
