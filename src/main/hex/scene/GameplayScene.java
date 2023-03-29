@@ -4,6 +4,7 @@ import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
 import main.engine.ui.FrameStack;
 import main.hex.*;
+import main.hex.ui.GameCustomization;
 import main.hex.ui.GameFrame;
 import main.hex.ui.StartGameFrame;
 import main.hex.ui.StartGameFrameLogic;
@@ -11,13 +12,13 @@ import main.hex.ui.StartGameFrameLogic;
 public class GameplayScene extends Scene {
 
 	private GameLogic logic;
-	private StartGameFrameLogic setupLogic;
+	private GameCustomization gameCustomization;
 	
-	public GameplayScene(GameLogic logic, StartGameFrameLogic setupLogic) {
-		if (logic == null || setupLogic == null)
+	public GameplayScene(GameLogic logic, GameCustomization gameCustomization) {
+		if (logic == null || gameCustomization == null)
 			throw new HexException("null was given");
 		this.logic = logic;
-		this.setupLogic = setupLogic;
+		this.gameCustomization = gameCustomization;
 	}
 	
 	@Override
@@ -28,7 +29,7 @@ public class GameplayScene extends Scene {
 	
 	private void setupUserInterface() {
 		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(new GameFrame(setupLogic));
+		FrameStack.getInstance().push(new GameFrame(gameCustomization));
 	}
 	
     private void startGameplay() {
