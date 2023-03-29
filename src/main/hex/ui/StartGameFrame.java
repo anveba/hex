@@ -7,6 +7,7 @@ import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
 import main.hex.Board;
 import main.hex.GameLogic;
+import main.hex.PlayerType;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 
@@ -38,8 +39,14 @@ public class StartGameFrame extends Frame {
 		logic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
-		System.out.println("skins: " + logic.getHexSkinCount());
 		logic.setPlayerSkinIndex(1,1);
+
+		logic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
+		logic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
+		logic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
+		logic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
+		logic.setPlayerTypeIndex(1, 2);
+
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
 		initializeFrameView(root);
@@ -191,12 +198,12 @@ public class StartGameFrame extends Frame {
 		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
 
 		//text
-		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "AI Opponent - Normal", 0.04f);
+		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, logic.getPlayerTypeString(playerIndex), 0.04f);
 		typeCarouselUIGroup.addChild(typeText);
 
 		//left arrow
 		ButtonCallback typeLeftClicked = (args) -> {
-			//TODO
+			playerTypeLeft(typeText, playerIndex);
 		};
 		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
 				0.06f, 0.06f, 0, 0, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().height(),
@@ -205,7 +212,7 @@ public class StartGameFrame extends Frame {
 
 		//right arrow
 		ButtonCallback typeRightClicked = (args) -> {
-			//TODO
+			playerTypeRight(typeText, playerIndex);
 		};
 		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
 				0.06f, 0.06f, 0, 0, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().height(),
@@ -226,6 +233,16 @@ public class StartGameFrame extends Frame {
 	public void carouselRight(Image colorImage, int playerIndex) {
 		logic.nextSkin(playerIndex);
 		colorImage.setTexture(logic.getHexSkin(logic.getPlayerSkinIndex(playerIndex)));
+	}
+
+	public void playerTypeLeft(Text typeText, int playerIndex) {
+		logic.previousPlayerType(playerIndex);
+		typeText.setText(logic.getPlayerTypeString(playerIndex));
+	}
+
+	public void playerTypeRight(Text typeText, int playerIndex) {
+		logic.nextPlayerType(playerIndex);
+		typeText.setText(logic.getPlayerTypeString(playerIndex));
 	}
 
 	private void startGame() {
