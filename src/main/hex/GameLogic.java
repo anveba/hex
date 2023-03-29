@@ -115,7 +115,7 @@ public class GameLogic {
     	}
     	
     	for (int i = 0; i < board.size(); i++) {
-    		if (colourConnectsToTarget(player.getPlayerColour(), 
+    		if (colourConnectsToTarget(player.getPlayerColour(),
     				player.winsByVerticalConnection() ? i : 0,
 					player.winsByVerticalConnection() ? 0 : i,
 					checked, target))

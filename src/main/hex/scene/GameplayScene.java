@@ -1,13 +1,12 @@
 package main.hex.scene;
 
 import main.engine.TimeRecord;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.ui.GameplayFrame;
 import main.hex.ui.GameCustomization;
-import main.hex.ui.StartGameFrame;
-import main.hex.ui.StartGameFrameLogic;
 
 public class GameplayScene extends Scene {
 
@@ -55,7 +54,7 @@ public class GameplayScene extends Scene {
 
 	@Override
 	public void draw2D(Renderer2D renderer) {
-		logic.getBoard().draw(renderer);
+		logic.getBoard().draw(renderer, gameCustomization);
 	}
 
 }

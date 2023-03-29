@@ -233,6 +233,8 @@ public class StartGameFrame extends Frame {
 		GameCustomization gameCustomization = new GameCustomization(
 				logic.getPlayerName(0),
 				logic.getPlayerName(1),
+				Colour.White, // TODO: This has to be chosen by player
+				Colour.White, // TODO: This has to be chosen by player
 				logic.getPlayerSkin(0),
 				logic.getPlayerSkin(1),
 				60, //TODO: Time restriction should be chosen by player
