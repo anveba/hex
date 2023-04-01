@@ -34,4 +34,22 @@ public class AITest {
 
 
     }
+
+
+    //Basically just a test to see how deep we can run the search
+    @Test
+    public void AIDepthFunction(){
+        Board board = new Board(3);
+
+
+        Player agent = new Player(Tile.Colour.RED,false);
+
+        AI ai = new AI(board,agent);
+
+
+        Move nextMove = ai.getBestMove(9,agent);
+        //System.out.println(nextMove.getX() + " "+nextMove.getY());
+        
+
+    }
 }

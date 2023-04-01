@@ -6,6 +6,7 @@ import main.hex.Player;
 import main.hex.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class AI {
@@ -18,10 +19,14 @@ public class AI {
     private Tile.Colour verticalColour;
     private Tile.Colour horizontalColour;
 
+    private BoardHashTable memoizationTable;
+
     public AI(Board state, Player player){
         this.currentState = state.clone();
         this.agentColour = player.getPlayerColour();
         this.agentPlaysVertical = player.winsByVerticalConnection();
+
+        this.memoizationTable = new BoardHashTable();
 
         if(agentPlaysVertical){
             verticalColour = agentColour;
@@ -39,6 +44,10 @@ public class AI {
 
 
     private Move minimax(Board state, int depth, boolean maximizingPlayer){
+        if(memoizationTable.containsKey(state)){
+            return memoizationTable.getBoard(state).get();
+        }
+
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
@@ -65,6 +74,7 @@ public class AI {
             if(maxMove.isEmpty()){
                 throw new HexException("No move was returned by AI");
             }
+            memoizationTable.putBoard(state,maxMove.get());
             return maxMove.get();
         }
 
@@ -86,6 +96,7 @@ public class AI {
             if(minMove.isEmpty()){
                 throw new HexException("No move was returned by AI");
             }
+            memoizationTable.putBoard(state,minMove.get());
             return minMove.get();
         }
 
