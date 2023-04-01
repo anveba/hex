@@ -2,7 +2,7 @@ package main.hex;
 
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
-import main.hex.ui.GameFrame;
+import main.hex.ui.GameplayFrame;
 
 import main.engine.*;
 import main.engine.graphics.*;
@@ -39,16 +39,24 @@ public class Game extends GameWindow {
     
     private void setupUserInterface() {
     	
-        getControlsListener().addOnReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
+        getControlsListener().addOnButtonReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
             FrameStack.getInstance().clickAt(
             		getControlsListener().getCursorX(),
             		getControlsListener().getCursorY()
             		);
-         });
+        });
         
         getControlsListener().addOnCursorMoveCallback((x, y) -> {
             FrameStack.getInstance().hoverAt(x, y);
-         });
+        });
+        
+        getControlsListener().addTextInputCallback((ch) -> {
+            FrameStack.getInstance().processTextInput(ch);
+        });
+        
+        getControlsListener().addOnAnyReleaseCallback((args) -> {
+            FrameStack.getInstance().processControlsInput(args);
+        });
     }
     
     private void setupGraphics() {
@@ -59,6 +67,7 @@ public class Game extends GameWindow {
     @Override
     protected void update(TimeRecord elapsed) {
     	SceneDirector.updateCurrentScene(elapsed);
+    	FrameStack.getInstance().update(elapsed);
     }
 
     @Override

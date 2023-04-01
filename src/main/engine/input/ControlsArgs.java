@@ -1,5 +1,10 @@
 package main.engine.input;
 
+/**
+ * Immutable.
+ * @author andreas
+ *
+ */
 public class ControlsArgs {
 
     private Controls c;

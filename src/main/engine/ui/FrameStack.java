@@ -3,7 +3,9 @@ package main.engine.ui;
 import java.util.*;
 
 import main.engine.EngineException;
+import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
+import main.engine.input.ControlsArgs;
 
 /**
  * Represents a stack of frames. It is the highest level module of the
@@ -51,11 +53,6 @@ public class FrameStack {
 		return stack.get(top-1);
 	}
 	
-	public void draw(Renderer2D renderer) {
-		if (top > 0)
-			stack.get(top - 1).draw(renderer);
-	}
-	
 	public int size() {
 		assert stack.size() == top;
 		return stack.size();
@@ -71,5 +68,28 @@ public class FrameStack {
 		if (top > 0) {
 			stack.get(top - 1).hoverAt(x, y);
 		}
+	}
+	
+	public void processTextInput(char ch) {
+		if (top > 0) {
+			stack.get(top - 1).processTextInput(ch);
+		}
+	}
+	
+	public void processControlsInput(ControlsArgs args) {
+		if (top > 0) {
+			stack.get(top - 1).processControlsInput(args);
+		}
+	}
+	
+	public void update(TimeRecord elapsed) {
+		if (top > 0) {
+			stack.get(top - 1).update(elapsed);
+		}
+	}
+	
+	public void draw(Renderer2D renderer) {
+		if (top > 0)
+			stack.get(top - 1).draw(renderer);
 	}
 }

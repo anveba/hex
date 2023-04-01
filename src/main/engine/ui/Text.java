@@ -21,6 +21,14 @@ public class Text extends UIElement {
 		setColour(Colour.White);
 	}
 
+	public Text(float x, float y, BitmapFont font, String text, float height, Colour colour) {
+		setPosition(x, y);
+		setFont(font);
+		setText(text);
+		setHeight(height);
+		setColour(colour);
+	}
+
 	@Override
 	public float getX() {
 		return x;
@@ -77,6 +85,11 @@ public class Text extends UIElement {
 		colour = c;
 	}
 
+	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
+	
 	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		renderer.drawString(font, text, x + offsetX, y + offsetY, height, Colour.multiply(colour, c));

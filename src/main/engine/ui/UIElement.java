@@ -1,6 +1,7 @@
 package main.engine.ui;
 
 import main.engine.EngineException;
+import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 
@@ -33,4 +34,6 @@ public abstract class UIElement {
     UIElement getParent() {
     	return parent;
     }
+    
+    public abstract void update(TimeRecord elapsed);
 }

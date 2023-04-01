@@ -53,6 +53,41 @@ public class RectButtonTest {
 		assertEquals(displayedString, button.getDisplayedString());
 		assertEquals(th, button.getTextHeight(), 0.001f);
 	}
+
+	@Test
+	public void simpleConstructorSetsValuesCorrectly() {
+		float x = 0.4f, y = -0.2f, width = 0.342f, height = 0.24f;
+		float iw = 4.0f, ih = 2.0f, th = 0.15f;
+		int sx = 24, sy = 32, sw = 40, sh = 60;
+		Texture t = mock(Texture.class);
+		when(t.width()).thenReturn(sw);
+		when(t.height()).thenReturn(sh);
+
+
+		BitmapFont f = mock(BitmapFont.class);
+		String displayedString = "hello world";
+		RectButton button = new RectButton(
+				x, y, width, height,
+				t, f, displayedString, th,
+				null, null, null);
+
+		assertTrue(floatEquals(button.getX(), x));
+		assertTrue(floatEquals(button.getY(), y));
+		assertTrue(floatEquals(button.getWidth(), width));
+		assertTrue(floatEquals(button.getHeight(), height));
+
+		assertEquals(width, button.getImageWidth(), 0.001f);
+		assertEquals(height, button.getImageHeight(), 0.001f);
+		assertEquals(0, button.getImageSourceX(), 0.001f);
+		assertEquals(0, button.getImageSourceY(), 0.001f);
+		assertEquals(t.width(), button.getImageSourceWidth(), 0.001f);
+		assertEquals(t.height(), button.getImageSourceHeight(), 0.001f);
+
+		assertEquals(t, button.getTexture());
+		assertEquals(f, button.getFont());
+		assertEquals(displayedString, button.getDisplayedString());
+		assertEquals(th, button.getTextHeight(), 0.001f);
+	}
 	
 	@Test
 	public void getAndSetPositionGetsAndSetsPosition() {
@@ -218,15 +253,19 @@ public class RectButtonTest {
 		float iw = 4.0f, ih = 2.0f, th = 0.15f;
 		int sx = 24, sy = 32, sw = 40, sh = 60;
 		ButtonCallback callback = mock(ButtonCallback.class);
-		RectButton button = new RectButton(
+		RectButton button = spy(new RectButton(
 				x, y, wHalf * 2.0f, hHalf * 2.0f, 
 				t, iw, ih, sx, sy, sw, sh,
 				f, displayedString, th,
-				callback, null, null);
+				callback, null, null));
 
 		verify(callback, times(0)).call(any());
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
-		button.onClick(args);
+		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
+		button.processClick(args);
+		verify(callback, times(0)).call(any());
+		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
+		button.processClick(args);
 		verify(callback, times(1)).call(any());
 	}
 	
@@ -246,7 +285,7 @@ public class RectButtonTest {
 				null, null, null);
 
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
-		button.onClick(args);
+		button.processClick(args);
 	}
 	
 	@Test

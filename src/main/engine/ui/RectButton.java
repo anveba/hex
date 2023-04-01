@@ -1,10 +1,12 @@
 package main.engine.ui;
 
+import main.engine.TimeRecord;
 import main.engine.Vector2;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.engine.input.ControlsArgs;
 
 public class RectButton extends RectElement implements Clickable {
 	
@@ -33,6 +35,23 @@ public class RectButton extends RectElement implements Clickable {
 		isHovering = false;
 	}
 
+	public RectButton(float x, float y, float width, float height,
+					  Texture imageTexture, BitmapFont font, String displayedString, float textHeight,
+					  ButtonCallback clickCallback,
+					  ButtonCallback onHoverEnterCallback,
+					  ButtonCallback onHoverExitCallback) {
+		super(x, y, width, height);
+		image = new Image(x, y, width, height, imageTexture);
+		text = new Text(x, y, font, displayedString, textHeight);
+		setClickCallback(clickCallback);
+		setHoverEnterCallback(onHoverEnterCallback);
+		setHoverExitCallback(onHoverExitCallback);
+		setWidth(width);
+		setHeight(height);
+		setPosition(x, y);
+		isHovering = false;
+	}
+
 	public void setClickCallback(ButtonCallback callback) {
 		this.clickCallback = callback;
 	}
@@ -46,8 +65,8 @@ public class RectButton extends RectElement implements Clickable {
 	}
 	
 	@Override
-	public void onClick(ClickArgs args) {
-		if (clickCallback != null) {
+	public void processClick(ClickArgs args) {
+		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
 		}
 	}
@@ -75,6 +94,21 @@ public class RectButton extends RectElement implements Clickable {
 				&& this.getY() + getHeight() / 2.0f >= y;
 	}
 
+	@Override
+	public void processTextInput(TextInputArgs args) {
+	
+	}
+	
+	@Override
+	public void processControlsInput(ControlsArgs args) {
+		
+	}
+	
+	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
+	
 	public float getImageWidth() {
 		return image.getWidth();
 	}

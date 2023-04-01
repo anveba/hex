@@ -10,6 +10,8 @@ import org.junit.*;
 import org.mockito.Mockito;
 
 import main.engine.EngineException;
+import main.engine.TimeRecord;
+import main.engine.input.ControlsArgs;
 import main.engine.ui.*;
 
 public class FrameStackTest {
@@ -84,5 +86,46 @@ public class FrameStackTest {
 		FrameStack.getInstance().push(f);
 		FrameStack.getInstance().hoverAt(0.0f, 0.0f);
 		verify(f, times(1)).hoverAt(anyFloat(), anyFloat());
+	}
+	
+
+	@Test
+	public void textInputCallsTopFrameTextInputHandlingMethod() {
+		Frame f = mock(Frame.class);
+		Mockito.doCallRealMethod().when(f).processTextInput(anyChar());
+
+		FrameStack.getInstance().processTextInput('c');
+		verify(f, times(0)).processTextInput('c');
+		
+		FrameStack.getInstance().push(f);
+		FrameStack.getInstance().processTextInput('c');
+		verify(f, times(1)).processTextInput('c');
+	}
+	
+	@Test
+	public void controlsInputCallsTopFrameControlsInputHandlingMethod() {
+		Frame f = mock(Frame.class);
+		Mockito.doCallRealMethod().when(f).processControlsInput(any());
+
+		FrameStack.getInstance().processControlsInput(mock(ControlsArgs.class));
+		verify(f, times(0)).processControlsInput(any());
+		
+		FrameStack.getInstance().push(f);
+		FrameStack.getInstance().processControlsInput(mock(ControlsArgs.class));
+		verify(f, times(1)).processControlsInput(any());
+	}
+	
+
+	@Test
+	public void updateCallsTopFrameUpdateMethod() {
+		Frame f = mock(Frame.class);
+		Mockito.doCallRealMethod().when(f).update(any());
+
+		FrameStack.getInstance().update(mock(TimeRecord.class));
+		verify(f, times(0)).update(any());
+		
+		FrameStack.getInstance().push(f);
+		FrameStack.getInstance().update(mock(TimeRecord.class));
+		verify(f, times(1)).update(any());
 	}
 }

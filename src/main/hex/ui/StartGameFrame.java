@@ -7,6 +7,7 @@ import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
 import main.hex.Board;
 import main.hex.GameLogic;
+import main.hex.player.PlayerType;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 
@@ -25,7 +26,6 @@ public class StartGameFrame extends Frame {
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
-	private final String PLAYER_TYPE_LABEL = "Player Type:";
 
 	//LOGIC
 
@@ -38,8 +38,14 @@ public class StartGameFrame extends Frame {
 		logic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
-		System.out.println("skins: " + logic.getHexSkinCount());
 		logic.setPlayerSkinIndex(1,1);
+
+		logic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
+		logic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
+		logic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
+		logic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
+		logic.setPlayerTypeIndex(1, 2);
+
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
 		initializeFrameView(root);
@@ -62,20 +68,19 @@ public class StartGameFrame extends Frame {
 			System.out.println("Game started!");
 			startGame();
 		};
-		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.25f, 0.25f, TextureLibrary.ORANGE_BUTTON.getTexture(),
-				0.5f, 0.2f, 0, 0, TextureLibrary.ORANGE_BUTTON.getTexture().width(), TextureLibrary.ORANGE_BUTTON.getTexture().height(),
+		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.ORANGE_BUTTON.getTexture(),
 				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, 0.055f, startGameBtnClicked, null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 
 	private UIGroup createBackground() {
 		UIGroup backgroundUIGroup = new UIGroup(0.0f, 0.0f);
-		Image background = new Image(0.0f, -0.075f, 1.8f, 1.8f, TextureLibrary.GREY_SQUARE_BOX.getTexture(), 0, 0, TextureLibrary.GREY_SQUARE_BOX.getTexture().width(), TextureLibrary.GREY_SQUARE_BOX.getTexture().height());
+		Image background = new Image(0.0f, -0.075f, 1.8f, 1.8f, TextureLibrary.GREY_SQUARE_BOX.getTexture());
 		backgroundUIGroup.addChild(background);
 
 		//Background + Banner + Banner Text
 		UIGroup banner = new UIGroup(0.0f, 0.78f);
-		Image bannerBackground = new Image(0.0f, 0.0f, 1.0f, 0.4f, TextureLibrary.BANNER_GREY.getTexture(), 0, 0, TextureLibrary.BANNER_GREY.getTexture().width(), TextureLibrary.BANNER_GREY.getTexture().height());
+		Image bannerBackground = new Image(0.0f, 0.0f, 1.0f, 0.4f, TextureLibrary.BANNER_GREY.getTexture());
 		Text bannerText = new Text(00.0f, 0.02f, FONT_FREDOKA_ONE, FRAME_TITLE, 0.1f);
 		banner.addChild(bannerBackground);
 		banner.addChild(bannerText);
@@ -103,7 +108,6 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(SwapRuleText);
 
 		RectButton swapRuleBtn = new RectButton(0.45f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
-				0.25f, 0.1f, 0, 0, TextureLibrary.ORANGE_NO_BUTTON.getTexture().width(), TextureLibrary.ORANGE_NO_BUTTON.getTexture().height(),
 				FONT_ROBOTO, "", 0.05f, null, null, null);
 
 		ButtonCallback swapruleBtnClicked = (args) -> {
@@ -153,15 +157,14 @@ public class StartGameFrame extends Frame {
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
 		//skin
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, logic.getHexSkin(playerIndex), 0, 0, logic.getHexSkin(playerIndex).width(), logic.getHexSkin(playerIndex).height());
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, logic.getHexSkin(playerIndex));
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
 		ButtonCallback leftClicked = (args) -> {
 			carouselLeft(colorImage, playerIndex);
 		};
-		RectButton leftCarouselArrow = new RectButton(-0.25f, 0.0f, 0.2f, 0.2f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				0.08f, 0.08f, 0, 0, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().height(),
+		RectButton leftCarouselArrow = new RectButton(-0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
 				FONT_ROBOTO, "", 0.05f, leftClicked, null, null);
 		colorCarouselUIGroup.addChild(leftCarouselArrow);
 
@@ -169,8 +172,7 @@ public class StartGameFrame extends Frame {
 		ButtonCallback rightClicked = (args) -> {
 			carouselRight(colorImage, playerIndex);
 		};
-		RectButton rightCarouselArrow = new RectButton(0.25f, 0.0f, 0.2f, 0.2f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				0.08f, 0.08f, 0, 0, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().height(),
+		RectButton rightCarouselArrow = new RectButton(0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
 				FONT_ROBOTO, "", 0.05f, rightClicked, null, null);
 		colorCarouselUIGroup.addChild(rightCarouselArrow);
 
@@ -191,24 +193,22 @@ public class StartGameFrame extends Frame {
 		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
 
 		//text
-		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "AI Opponent - Normal", 0.04f);
+		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, logic.getPlayerTypeString(playerIndex), 0.04f);
 		typeCarouselUIGroup.addChild(typeText);
 
 		//left arrow
 		ButtonCallback typeLeftClicked = (args) -> {
-			//TODO
+			playerTypeLeft(typeText, playerIndex);
 		};
-		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				0.06f, 0.06f, 0, 0, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture().height(),
+		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
 				FONT_ROBOTO, "", 0.05f, typeLeftClicked, null, null);
 		typeCarouselUIGroup.addChild(typeLeftCarouselArrow);
 
 		//right arrow
 		ButtonCallback typeRightClicked = (args) -> {
-			//TODO
+			playerTypeRight(typeText, playerIndex);
 		};
-		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.12f, 0.12f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				0.06f, 0.06f, 0, 0, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().width(), TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture().height(),
+		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
 				FONT_ROBOTO, "", 0.05f, typeRightClicked, null, null);
 		typeCarouselUIGroup.addChild(typeRightCarouselArrow);
 
@@ -228,16 +228,29 @@ public class StartGameFrame extends Frame {
 		colorImage.setTexture(logic.getHexSkin(logic.getPlayerSkinIndex(playerIndex)));
 	}
 
+	public void playerTypeLeft(Text typeText, int playerIndex) {
+		logic.previousPlayerType(playerIndex);
+		typeText.setText(logic.getPlayerTypeString(playerIndex));
+	}
+
+	public void playerTypeRight(Text typeText, int playerIndex) {
+		logic.nextPlayerType(playerIndex);
+		typeText.setText(logic.getPlayerTypeString(playerIndex));
+	}
+
 	private void startGame() {
 		int boardSize = 11; //TODO Should be chosen by player
-		String player1Name = logic.getPlayerName(0);
-		String player2Name = logic.getPlayerName(1);
-		Texture player1Skin = logic.getPlayerSkin(0);
-		Texture player2Skin = logic.getPlayerSkin(1);
-		int timeRestrictionSeconds = 60; //TODO Should be chosen by player
-		boolean swapRule = logic.getSwapRule();
+		GameCustomization gameCustomization = new GameCustomization(
+				logic.getPlayerName(0),
+				logic.getPlayerName(1),
+				Colour.White, // TODO: This has to be chosen by player
+				Colour.White, // TODO: This has to be chosen by player
+				logic.getPlayerSkin(0),
+				logic.getPlayerSkin(1),
+				60, //TODO: Time restriction should be chosen by player
+				logic.getSwapRule());
 
-		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize))));
+		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize)), gameCustomization));
 	}
 
 	public boolean getSwapRule() {

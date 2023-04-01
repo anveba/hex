@@ -100,7 +100,8 @@ public abstract class GameWindow implements GraphicsContext {
         
         controlsListener = new ControlsListener(
                 this::setControlsCallback,
-                this::setCursorPositionCallback);
+                this::setCursorPositionCallback,
+                this::setTextInputCallback);
 
         glfwShowWindow(windowHandle);
 
@@ -196,8 +197,6 @@ public abstract class GameWindow implements GraphicsContext {
     
     private void setControlsCallback(BiConsumer<Controls, InputType> callback) {
         glfwSetKeyCallback(windowHandle, (window, key, scancode, action, mods) -> {
-            if (action == GLFW_REPEAT)
-                return;
             Controls c;
             InputType t;
             try {
@@ -212,8 +211,6 @@ public abstract class GameWindow implements GraphicsContext {
         });
         
         glfwSetMouseButtonCallback(windowHandle, (window, key, action, mods) -> {
-            if (action == GLFW_REPEAT)
-                return;
             Controls c;
             InputType t;
             try {
@@ -235,6 +232,12 @@ public abstract class GameWindow implements GraphicsContext {
             float cursorX = 2.0f * ((float)rawX - w / 2.0f) / h;
             float cursorY = 2.0f * (-((float)rawY - h / 2.0f)) / h;
             callback.accept(cursorX, cursorY);
+        });
+    }
+    
+    private void setTextInputCallback(Consumer<Character> callback) {
+        glfwSetCharCallback(windowHandle, (window, ch) -> {
+            callback.accept((char)ch);
         });
     }
     
@@ -315,6 +318,8 @@ public abstract class GameWindow implements GraphicsContext {
             return InputType.PRESSED;
         case GLFW_RELEASE:
             return InputType.RELEASED;
+        case GLFW_REPEAT:
+            return InputType.REPEAT;
             default:
                 throw new EngineException("No corresponding input type for GLFW value: " + t);
         }
