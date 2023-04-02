@@ -1,37 +1,32 @@
 package test.hex.ai;
 
-import main.hex.Board;
+import main.hex.AIPlayer;
+import main.hex.Move;
 import main.hex.Player;
-import main.hex.Tile;
+import main.hex.ai.SignalBasedAI;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 import main.hex.ai.AI;
-import main.hex.ai.BoardEvaluator;
-import main.hex.ai.Move;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class AITest {
 
-
-
-
     @Test
     public void AIFindsWinningMoveA(){
 
         Board board = new Board(3);
-        board.getTileAtPosition(0,1).setColour(Tile.Colour.RED);
-        board.getTileAtPosition(2,1).setColour(Tile.Colour.RED);
+        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,1);
+        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,1);
 
-        Player agent = new Player(Tile.Colour.RED,false);
+        Player agent = new AIPlayer(TileColour.BLUE, 1);
 
-        AI ai = new AI(board,agent);
+        AI ai = new SignalBasedAI(board, agent);
 
-
-        Move nextMove = ai.getBestMove(2,agent);
-        assertEquals( 1, nextMove.getX());
-        assertEquals( 1, nextMove.getY());
-
-
-
+        Move nextMove = ai.getBestMove(2);
+        assertEquals(1, nextMove.getX());
+        assertEquals(1, nextMove.getY());
     }
 }

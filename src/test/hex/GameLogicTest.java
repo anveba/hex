@@ -1,27 +1,32 @@
 package test.hex;
 
 import main.hex.*;
+import main.engine.*;
+import main.hex.board.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.*;
+import org.mockito.*;
 
 public class GameLogicTest {
-    private Player player1, player2;
+    private TestPlayerClass player1, player2;
     private GameLogic gameLogic;
     private Board board;
 
     @Before
     public void setup() {
         board = new Board(11);
-        player1 = new Player(Tile.Colour.BLUE, true);
-        player2 = new Player(Tile.Colour.RED, false);
+        player1 = spy(new TestPlayerClass(TileColour.BLUE));
+        player2 = spy(new TestPlayerClass(TileColour.RED));
         gameLogic = new GameLogic(board, player1, player2);
+        gameLogic.start();
+    }
+    
+    @Test
+    public void gettingBoardReturnsBoardGivenInConstructor() {
+        assertEquals(board, gameLogic.getBoard());
     }
 
     // Tests for turns
@@ -29,52 +34,34 @@ public class GameLogicTest {
     public void createPlayers_firstPlayerTurn_player1() {
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
-
+    
     @Test
     public void nextTurn_currentlyPlayer1_player2() {
-        gameLogic.nextTurn();
+    	player1.relayResponseAsMove(0, 0);
+        gameLogic.update(mock(TimeRecord.class));
         assertEquals(player2, gameLogic.getCurrentTurnsPlayer());
     }
 
     @Test
     public void nextTurn_runTwiceCurrentlyPlayer1_player1() { // Checks that players are looped
-        gameLogic.nextTurn();
-        gameLogic.nextTurn();
+    	player1.relayResponseAsMove(0, 0);
+        gameLogic.update(mock(TimeRecord.class));
+        player2.relayResponseAsMove(0, 1);
+        gameLogic.update(mock(TimeRecord.class));
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
     // Tests for swap rule
     @Test
     public void swapRuleSwapsPlayersCorrectly() {
-        gameLogic.nextTurn(); // Turn 1 (Player 2's first turn)
-        Tile.Colour p1StartCol = player1.getPlayerColour();
-        Tile.Colour p2StartCol = player2.getPlayerColour();
-        gameLogic.swapPlayerColours();
-        assertEquals(p1StartCol, player2.getPlayerColour());
-        assertEquals(p2StartCol, player1.getPlayerColour());
-    }
-
-    @Test
-    public void swapRuleNotPossibleOnPlayer1sSecondTurn() {
-        gameLogic.nextTurn();
-        gameLogic.nextTurn(); // Turn 2 (Player 1's second turn)
-        Tile.Colour p1StartCol = player1.getPlayerColour();
-        Tile.Colour p2StartCol = player2.getPlayerColour();
-        gameLogic.swapPlayerColours();
-        assertEquals(p1StartCol, player1.getPlayerColour());
-        assertEquals(p2StartCol, player2.getPlayerColour());
-    }
-
-    @Test
-    public void swapRuleNotPossibleOnPlayer2sSecondTurn() {
-        for (int i = 0; i < 3; i++) { // Turn 3 (Player 1's second turn)
-            gameLogic.nextTurn();
-        }
-        Tile.Colour p1StartCol = player1.getPlayerColour();
-        Tile.Colour p2StartCol = player2.getPlayerColour();
-        gameLogic.swapPlayerColours();
-        assertEquals(p1StartCol, player1.getPlayerColour());
-        assertEquals(p2StartCol, player2.getPlayerColour());
+    	player1.relayResponseAsMove(0, 0);
+        gameLogic.update(mock(TimeRecord.class));
+        TileColour p1StartCol = player1.getColour();
+        TileColour p2StartCol = player2.getColour();
+        player2.relayResponseAsMove(0, 0);
+        gameLogic.update(mock(TimeRecord.class));
+        assertEquals(p1StartCol, player2.getColour());
+        assertEquals(p2StartCol, player1.getColour());
     }
 
     // Tests for win
@@ -85,88 +72,99 @@ public class GameLogicTest {
     }
     
     @Test
-    public void blueVerticalConnectionFromTopToBottomIsAWinForBlue() {
+    public void redVerticalConnectionFromTopToBottomIsAWinForRed() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(0, i).setColour(Tile.Colour.BLUE);
-    	assertTrue(gameLogic.playerHasWon(player1));
+    		board.setTileAtPosition(new Tile(TileColour.RED), 0, i);
+    	assertTrue(gameLogic.playerHasWon(player2));
     }
     
     @Test
-    public void redVerticalConnectionFromTopToBottomIsNotAWinForRed() {
+    public void blueVerticalConnectionFromTopToBottomIsNotAWinForBlue() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(0, i).setColour(Tile.Colour.RED);
-    	assertFalse(gameLogic.playerHasWon(player2));
-    }
-    
-    @Test
-    public void blueHorizontalConnectionFromTopToBottomIsAWinForBlue() {
-    	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, 0).setColour(Tile.Colour.BLUE);
+    		board.setTileAtPosition(new Tile(TileColour.BLUE), 0, i);
     	assertFalse(gameLogic.playerHasWon(player1));
+    }
+    
+    @Test
+    public void blueHorizontalConnectionFromLeftToRightIsAWinForBlue() {
+    	for(int i = 0; i < board.size(); i++)
+    		board.setTileAtPosition(new Tile(TileColour.BLUE), i, 0);
+    	assertTrue(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void redHorizontalConnectionFromLeftToRightIsNotAWinForRed() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, 0).setColour(Tile.Colour.RED);
-    	assertTrue(gameLogic.playerHasWon(player2));
+    		board.setTileAtPosition(new Tile(TileColour.RED), i, 0);
+    	assertFalse(gameLogic.playerHasWon(player2));
     }
     
     @Test
-    public void boardWithCenterFilledWithBlueAndWithBlueConnectionFromTopToBottomIsAWinForBlueAndNotAWinForRed() {
+    public void boardWithCenterFilledWithRedAndWithRedConnectionFromTopToBottomIsAWinForRedAndNotAWinForBlue() {
     	for(int i = 1; i < board.size() - 1; i ++) {
     		for (int j = 1; j < board.size() - 1; j++) {
-    			board.getTileAtPosition(i, j).setColour(Tile.Colour.BLUE);
+    			board.setTileAtPosition(new Tile(TileColour.RED), i, j);
     		}
     	}
     	
-    	board.getTileAtPosition(1, 0).setColour(Tile.Colour.BLUE);
-    	board.getTileAtPosition(
-    			board.size() - 2, board.size() - 1)
-    	.setColour(Tile.Colour.BLUE);
+    	board.setTileAtPosition(new Tile(TileColour.RED), 1, 0);
+    	board.setTileAtPosition(new Tile(TileColour.RED),
+    			board.size() - 2, board.size() - 1);
     	
-    	assertTrue(gameLogic.playerHasWon(player1));
-    	assertFalse(gameLogic.playerHasWon(player2));
+    	assertFalse(gameLogic.playerHasWon(player1));
+    	assertTrue(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void blueDiagonalConnectionFromTopRightToBottomLeftIsAWinForBlue() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, i).setColour(Tile.Colour.BLUE);
+    		board.setTileAtPosition(new Tile(TileColour.BLUE), i, i);
     	assertTrue(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void redDiagonalConnectionFromTopRightToBottomLeftIsAWinForRed() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, i).setColour(Tile.Colour.RED);
+    		board.setTileAtPosition(new Tile(TileColour.RED), i, i);
     	assertTrue(gameLogic.playerHasWon(player2));
     }
     
     @Test
     public void redDiagonalConnectionFromTopLeftToBottomRightIsNotAWinForRed() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, board.size() - i - 1).setColour(Tile.Colour.RED);
+    		board.setTileAtPosition(new Tile(TileColour.RED), i, board.size() - i - 1);
     	assertFalse(gameLogic.playerHasWon(player2));
     }
     
     @Test
-    public void blueDiagonalConnectionFromTopLeftToBottomRightIsNotAWinForBlue() {
+    public void blueDiagonalConnectionFromTopLeftToBottomRightIsAWinForBlue() {
     	for(int i = 0; i < board.size(); i++)
-    		board.getTileAtPosition(i, board.size() - i - 1).setColour(Tile.Colour.BLUE);
+    		board.setTileAtPosition(new Tile(TileColour.BLUE), i, board.size() - i - 1);
     	assertFalse(gameLogic.playerHasWon(player1));
     }
     
     @Test
     public void winCallbackCalledOnPlayerWin() {
     	PlayerCondition callback = mock(PlayerCondition.class);
-    	GameLogic gSpy;
-    	{
-	    	GameLogic g = new GameLogic(board, player1, player2, callback);
-	    	gSpy = spy(g);
+    	gameLogic.setPlayerWinCallback(callback);
+    	
+    	player1.relayResponseAsMove(0, 1);
+		gameLogic.update(mock(TimeRecord.class));
+    	for (int i = 1; i < board.size(); i++) {
+    		player2.relayResponseAsMove(i, 2);
+    		gameLogic.update(mock(TimeRecord.class));
+    		player1.relayResponseAsMove(i, 1);
+    		gameLogic.update(mock(TimeRecord.class));
     	}
-    	when(gSpy.playerHasWon(player1)).thenReturn(true);
-    	gSpy.nextTurn();
+    	
     	verify(callback, times(1)).met(player1);;
     }
+    
+    @Test(expected = HexException.class)
+    public void exceptionIsThrownIfErrorIsInResponse() {
+    	
+    	player1.relayResponseAsError(mock(Throwable.class));
+		gameLogic.update(mock(TimeRecord.class));
+    }
+    
 }

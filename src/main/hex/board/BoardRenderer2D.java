@@ -1,4 +1,4 @@
-package main.hex;
+package main.hex.board;
 
 import main.engine.Point2;
 import main.engine.ResourceManager;
@@ -6,6 +6,7 @@ import main.engine.Vector2;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.hex.Game;
 
 public class BoardRenderer2D {
 
@@ -46,11 +47,11 @@ public class BoardRenderer2D {
 
                 Tile t = board.getTileAtPosition(x, y);
 
-                Tile.Colour tileColour = t.getColour();
+                TileColour tileColour = t.getColour();
                 Colour drawColour;
-                if (tileColour == Tile.Colour.BLUE)
+                if (tileColour == TileColour.BLUE)
                 	drawColour = Colour.Blue;
-                else if (tileColour == Tile.Colour.RED)
+                else if (tileColour == TileColour.RED)
                 	drawColour = Colour.Red;
                 else if (tileSpaceCursorPosition.getX() == x &&
             			tileSpaceCursorPosition.getY() == y)
@@ -66,7 +67,7 @@ public class BoardRenderer2D {
         }
     }
 
-	public void loadResources() {
+	private void loadResources() {
         whiteTileTexture = ResourceManager.getInstance()
                 .loadTexture("textures/board/white_tile.png");
         hasLoadedResources = true;

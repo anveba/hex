@@ -5,8 +5,13 @@ import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
-import main.hex.Board;
+import main.hex.AIPlayer;
 import main.hex.GameLogic;
+import main.hex.Player;
+import main.hex.UserPlayer;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 
@@ -229,7 +234,6 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-		int boardSize = 11; //TODO Should be chosen by player
 		GameCustomization gameCustomization = new GameCustomization(
 				logic.getPlayerName(0),
 				logic.getPlayerName(1),
@@ -238,7 +242,16 @@ public class StartGameFrame extends Frame {
 				60, //TODO: Time restriction should be chosen by player
 				logic.getSwapRule());
 
-		SceneDirector.changeScene(new GameplayScene(new GameLogic(new Board(boardSize)), gameCustomization));
+		//TODO Should be chosen by player
+		int boardSize = 5;
+		Board b = new Board(boardSize);
+		Player p1 = new UserPlayer(TileColour.BLUE);
+		Player p2 = new AIPlayer(TileColour.RED, 3);
+		
+		SceneDirector.changeScene(
+				new GameplayScene(
+						new GameLogic(b, p1, p2),
+						gameCustomization));
 	}
 
 	public boolean getSwapRule() {

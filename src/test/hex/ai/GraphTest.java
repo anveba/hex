@@ -1,7 +1,7 @@
 package test.hex.ai;
 
-import main.hex.Tile;
 import main.hex.ai.Graph;
+import main.hex.board.Tile;
 
 import org.junit.Test;
 

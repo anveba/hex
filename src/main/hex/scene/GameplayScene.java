@@ -34,23 +34,22 @@ public class GameplayScene extends Scene {
 	
     private void startGameplay() {
     	logic.setPlayerWinCallback(this::onPlayerWin);
-        logic.setupControlsCallback(Game.getInstance().getControlsListener());
+    	logic.start();
     }
     
     private void onPlayerWin(Player p) {
     	//TODO currently a temporary method body
-    	System.out.println(p.getPlayerColour() + " has won!");
+    	System.out.println(p.getColour() + " has won!");
     	SceneDirector.changeScene(new TitleScene());
     }
 	
 	@Override
 	public void end() {
-		logic.removeControlsCallback(Game.getInstance().getControlsListener());
 	}
 
 	@Override
 	public void update(TimeRecord time) {
-		
+		logic.update(time);
 	}
 
 	@Override

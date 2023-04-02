@@ -10,7 +10,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class ControlsListener {
     
-    private Map<Controls, List<ControlsCallback>> onButtonPressCallbacks, onButtonReleaseCallbacks;
     private List<CursorMoveCallback> onCursorMoveCallbacks;
     private List<TextInputCallback> onTextInputCallbacks;
     private List<ControlsCallback> onAnyPressCallbacks, onAnyReleaseCallbacks;
@@ -26,9 +25,7 @@ public class ControlsListener {
         		|| mouseProcessorSetter == null 
         		|| textInputProcessorSetter == null)
             throw new IllegalArgumentException("No callbacks given (null passed)");
-            
-        onButtonPressCallbacks = new HashMap<>();
-        onButtonReleaseCallbacks = new HashMap<>();
+        
         onCursorMoveCallbacks = new ArrayList<>();
         onTextInputCallbacks = new ArrayList<>();
         onAnyPressCallbacks = new ArrayList<>();
@@ -40,20 +37,16 @@ public class ControlsListener {
     }
     
     private void processKeyInput(Controls c, InputType t) {
-        if (t == InputType.PRESSED) {
+        callRelevantCallbacks(c, t);
+    }
+    
+    private void callRelevantCallbacks(Controls c, InputType t) {
+    	if (t == InputType.PRESSED) {
         	var args = new ControlsArgs(c);
-            if (onButtonPressCallbacks.containsKey(c)) {
-                for (var cb : onButtonPressCallbacks.get(c)) 
-                    cb.onControlsInput(args);
-            }
             for (var cb : onAnyPressCallbacks)
         		cb.onControlsInput(args);
         } else if (t == InputType.RELEASED) {
         	var args = new ControlsArgs(c);
-            if (onButtonReleaseCallbacks.containsKey(c)) {
-                for (var cb : onButtonReleaseCallbacks.get(c)) 
-                    cb.onControlsInput(args);
-            }
             for (var cb : onAnyReleaseCallbacks)
         		cb.onControlsInput(args);
         }
@@ -77,48 +70,6 @@ public class ControlsListener {
     		c.onTextInput(ch);
     }
     
-    public void addOnButtonPressCallback(Controls c, ControlsCallback callback) {
-        List<ControlsCallback> callbacks;
-        if (!onButtonPressCallbacks.containsKey(c)) {
-            callbacks = new ArrayList<>();
-            onButtonPressCallbacks.put(c, callbacks);
-        } else {
-            callbacks = onButtonPressCallbacks.get(c);
-        }
-        assert callbacks != null;
-        callbacks.add(callback);
-    }
-    
-    public void addOnButtonReleaseCallback(Controls c, ControlsCallback callback) {
-        List<ControlsCallback> callbacks;
-        if (!onButtonReleaseCallbacks.containsKey(c)) {
-            callbacks = new ArrayList<>();
-            onButtonReleaseCallbacks.put(c, callbacks);
-        } else {
-            callbacks = onButtonReleaseCallbacks.get(c);
-        }
-        assert callbacks != null;
-        callbacks.add(callback);
-    }
-    
-    public boolean removeOnButtonPressCallback(Controls c, ControlsCallback callback) {
-        List<ControlsCallback> callbacks;
-        if (!onButtonPressCallbacks.containsKey(c))
-            return false;
-        callbacks = onButtonPressCallbacks.get(c);
-        assert callbacks != null;
-        return callbacks.remove(callback);
-    }
-    
-    public boolean removeOnButtonReleaseCallback(Controls c, ControlsCallback callback) {
-        List<ControlsCallback> callbacks;
-        if (!onButtonReleaseCallbacks.containsKey(c))
-            return false;
-        callbacks = onButtonReleaseCallbacks.get(c);
-        assert callbacks != null;
-        return callbacks.remove(callback);
-    }
-    
     public void addOnAnyPressCallback(ControlsCallback callback) {
     	if (callback == null)
     		throw new EngineException("Callback was null");
@@ -130,13 +81,51 @@ public class ControlsListener {
     }
     
     public void addOnAnyReleaseCallback(ControlsCallback callback) {
-    	if (callback == null)
-    		throw new EngineException("Callback was null");
+    	
     	onAnyReleaseCallbacks.add(callback);
     }
     
-    public boolean removeOnAnyReleaseCallback(ControlsCallback callback) {
-    	return onAnyReleaseCallbacks.add(callback);
+    public void removeOnAnyReleaseCallback(ControlsCallback callback) {
+    	onAnyReleaseCallbacks.remove(callback);
+    }
+    
+    private static void addToMap(Map<Controls, List<ControlsCallback>> map,
+    		Controls c, ControlsCallback callback) {
+    	
+    	if (callback == null)
+    		throw new EngineException("Callback was null");
+    	List<ControlsCallback> callbacks;
+        if (!map.containsKey(c)) {
+            callbacks = new ArrayList<>();
+            map.put(c, callbacks);
+        } else {
+            callbacks = map.get(c);
+        }
+        assert callbacks != null;
+        if (callbacks.contains(callback))
+        	return;
+        callbacks.add(callback);
+    }
+    
+    private static void removeMapFromMap(Map<Controls, List<ControlsCallback>> map,
+    		Map<Controls, List<ControlsCallback>> removed) {
+    	for (var key : removed.keySet()) {
+    		if (map.containsKey(key)) {
+    			var l = map.get(key);
+    			for (var cb : removed.get(key)) {
+    				l.remove(cb);
+    			}
+    		}
+    	}
+    }
+    
+    private static void addMapToMap(Map<Controls, List<ControlsCallback>> map,
+    		Map<Controls, List<ControlsCallback>> added) {
+    	for (var key : added.keySet()) {
+    		for (var cb : added.get(key)) {  			
+    			addToMap(map, key, cb);
+    		}
+    	}
     }
     
     public void addOnCursorMoveCallback(CursorMoveCallback callback) {

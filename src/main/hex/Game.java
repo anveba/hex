@@ -39,7 +39,9 @@ public class Game extends GameWindow {
     
     private void setupUserInterface() {
     	
-        getControlsListener().addOnButtonReleaseCallback(Controls.LEFT_MOUSE, (args) -> {
+        getControlsListener().addOnAnyReleaseCallback((args) -> {
+        	if (args.getControls() != Controls.LEFT_MOUSE)
+        		return;
             FrameStack.getInstance().clickAt(
             		getControlsListener().getCursorX(),
             		getControlsListener().getCursorY()

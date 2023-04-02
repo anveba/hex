@@ -1,55 +1,43 @@
 package main.hex;
 
-import main.engine.Point2;
-import main.engine.input.Controls;
-import main.engine.input.ControlsArgs;
-import main.engine.input.ControlsListener;
-import main.hex.Tile.Colour;
+import main.engine.TimeRecord;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 
 import java.util.ArrayDeque;
+import java.util.Deque;
 
-public class GameLogic {
+public class GameLogic implements Updateable {
 
     private Board board;
     private Player player1, player2;
+    private ConcurrentPlayerResponse playerResponse;
 
-    private ArrayDeque<Player> players = new ArrayDeque<>();
+    private Deque<Player> players = new ArrayDeque<>();
     
     private int currentTurn;
     private boolean gameIsOver;
     
     private PlayerCondition playerWinCallback;
     
-    public GameLogic(Board board) {
-        this(board, new Player(Tile.Colour.BLUE, true), new Player(Tile.Colour.RED, false));
-    }
-
     public GameLogic(Board board, Player player1, Player player2) {
-        this(board, player1, player2, null);
-    }
-    
-    public GameLogic(Board board, Player player1, Player player2, 
-    		PlayerCondition playerWinCallback) {
     	if (board == null || player1 == null || player2 == null)
     		throw new HexException("null was given");
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
-        players.addLast(player1);
         players.addLast(player2);
-        currentTurn = 0;
+        players.addLast(player1);
+        currentTurn = -1;
         gameIsOver = false;
-        this.playerWinCallback = playerWinCallback;
     }
     
-    public void setupControlsCallback(ControlsListener listener) {
-    	Game.getInstance().getControlsListener()
-    		.addOnButtonPressCallback(Controls.LEFT_MOUSE, this::handleClick);
-    }
-    
-    public void removeControlsCallback(ControlsListener listener) {
-    	Game.getInstance().getControlsListener()
-    		.removeOnButtonPressCallback(Controls.LEFT_MOUSE, this::handleClick);
+    public void start() {
+    	if (currentTurn == -1)
+    		nextTurn();
+    	else
+    		throw new HexException("Game already started");
     }
     
     public void setPlayerWinCallback(PlayerCondition callback) {
@@ -57,55 +45,43 @@ public class GameLogic {
     }
 
     public Player getCurrentTurnsPlayer() {
+    	if (currentTurn < 0)
+    		throw new HexException("Game hasn't started yet.");
         return players.peekFirst();
     }
-
-    public void nextTurn() {
-        for (Player p : players) {
-	        if (playerHasWon(p)) {
-	        	gameIsOver = true;
-	        	if (playerWinCallback != null)
-	        		playerWinCallback.met(p);
-	        	return;
-	        }
-        }
-        Player currentPlayer = players.removeFirst();
-        players.addLast(currentPlayer);
-        currentTurn++;
-    }
-
-    private void handleClick(ControlsArgs args) {
-        Point2 tileIndex = board.screenToTile(Game.getInstance().getControlsListener().getCursorX(),
-                Game.getInstance().getControlsListener().getCursorY());
-        if (!board.isOutOfBounds(tileIndex.getX(), tileIndex.getY()))  	
-        	placeColourOfCurrentPlayer(tileIndex.getX(), tileIndex.getY());
-    }
     
-    private void placeColourOfCurrentPlayer(int x, int y) {
-    	if (board.isOutOfBounds(x, y))  
-    		throw new HexException("Out of bounds");
+    /**
+     * @return Returns true if the move is valid, otherwise false.
+     */
+    private boolean executeMoveOfCurrentPlayer(Move move) {
+    	if (move == null)
+    		throw new HexException("Move was null");
+    	if (board.isOutOfBounds(move.getX(), move.getY()))  
+    		return false;
     	if (gameIsOver)
-    		return;
+    		throw new HexException("Could not execute move since the game is over");
+    	
 
-        Tile clickedTile = board.getTileAtPosition(x, y);
-        if (clickedTile.getColour() == Tile.Colour.WHITE) {
-            clickedTile.setColour(this.getCurrentTurnsPlayer().getPlayerColour());
-            this.nextTurn();
-        } else if (clickedTile.getColour() == player1.getPlayerColour()) {
+        Tile tile = board.getTileAtPosition(move.getX(), move.getY());
+        if (tile.getColour() == TileColour.WHITE)
+        	board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
+        else if (tile.getColour() == player1.getColour() && currentTurn == 1)
         	swapPlayerColours();
-        }
+        else 
+        	return false;
+        return true;
     }
 
-    public void swapPlayerColours() {
-        if (currentTurn == 1) {
-            Tile.Colour tempCol = player1.getPlayerColour();
-            player1.setPlayerColour(player2.getPlayerColour());
-            player2.setPlayerColour(tempCol);
-            this.nextTurn();
-        }
+    private void swapPlayerColours() {
+        TileColour tempCol = player1.getColour();
+        player1.setColour(player2.getColour());
+        player2.setColour(tempCol);
     }
     
     public boolean playerHasWon(Player player) {
+    	if (currentTurn < 0)
+    		throw new HexException("Game hasn't started yet.");
+    	
     	boolean[][] target = new boolean[board.size()][board.size()];
     	boolean[][] checked = new boolean[board.size()][board.size()];
     	for (int i = 0; i < board.size(); i++) {
@@ -115,7 +91,7 @@ public class GameLogic {
     	}
     	
     	for (int i = 0; i < board.size(); i++) {
-    		if (colourConnectsToTarget(player.getPlayerColour(), 
+    		if (colourConnectsToTarget(player.getColour(), 
     				player.winsByVerticalConnection() ? i : 0,
 					player.winsByVerticalConnection() ? 0 : i,
 					checked, target))
@@ -125,7 +101,7 @@ public class GameLogic {
     }
     
     private boolean colourConnectsToTarget(
-    		Colour col, int x, int y, 
+    		TileColour col, int x, int y, 
     		boolean[][] checked, boolean[][] target) {
     	
     	if (checked[x][y])
@@ -145,16 +121,56 @@ public class GameLogic {
     	}
     	return false;
     }
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
     
     public Board getBoard() {
     	return board;
     }
+
+	@Override
+	public void update(TimeRecord elapsed) {
+		pollPlayerResponse();
+	}
+	
+	private void pollPlayerResponse() {
+		if (!gameIsOver && playerResponse != null) {
+			Throwable error = playerResponse.getError();
+			if (error != null)
+				throw new HexException(error);
+			Move m = playerResponse.getMove();
+			if (m != null) {
+				players.peekFirst().onTurnReceival();
+				if (executeMoveOfCurrentPlayer(m)) {
+					nextTurn();
+				}
+				else {
+					playerResponse = new ConcurrentPlayerResponse();
+					players.peekFirst().correctInvalidTurn(board, playerResponse);
+				}
+			}
+		}
+	}
+	
+    private void nextTurn() {
+    	if (currentTurn >= 0) {
+	    	for (Player p : players) {
+		        if (playerHasWon(p)) {
+		        	handleWinFor(p);
+		        	return;
+		        }
+	        }
+    	}
+        Player currentPlayer = players.removeFirst();
+        players.addLast(currentPlayer);
+        currentTurn++;
+        currentPlayer.onEndOfTurn();
+        
+        playerResponse = new ConcurrentPlayerResponse();
+        players.peekFirst().processTurn(board, playerResponse);
+    }
+
+	private void handleWinFor(Player p) {
+		gameIsOver = true;
+		if (playerWinCallback != null)
+			playerWinCallback.met(p);
+	}
 }

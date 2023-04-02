@@ -1,11 +1,13 @@
-package main.hex;
+package main.hex.board;
 
 import java.util.Arrays;
 
 import main.engine.*;
 import main.engine.graphics.*;
+import main.hex.Drawable2D;
+import main.hex.HexException;
 
-public class Board implements Drawable2D{
+public class Board implements Drawable2D, IBoard {
 	
     private Tile[][] board;
     private static BoardRenderer2D renderer;
@@ -22,7 +24,7 @@ public class Board implements Drawable2D{
 
         for(int x = 0; x < size; x++){
             for(int y = 0; y < size; y++){
-                board[x][y] = new Tile(Tile.Colour.WHITE);
+                board[x][y] = new Tile(TileColour.WHITE);
             }
         }
     }
@@ -31,7 +33,7 @@ public class Board implements Drawable2D{
     	Board b = new Board(size());
     	for (int i = 0; i < size(); i++)
     		for (int j = 0; j < size(); j++)
-    			b.getTileAtPosition(i, j).setColour(getTileAtPosition(i, j).getColour());
+    			b.setTileAtPosition(new Tile(getTileAtPosition(i, j).getColour()), i, j);
     	return b;
     }
 
@@ -39,13 +41,13 @@ public class Board implements Drawable2D{
         for (Tile[] row: board
              ) {
             for(Tile t : row){
-                if(t.getColour() == Tile.Colour.RED){
+                if(t.getColour() == TileColour.RED){
                     System.out.print("R");
                 }
-                if(t.getColour() == Tile.Colour.BLUE){
+                if(t.getColour() == TileColour.BLUE){
                     System.out.print("B");
                 }
-                if(t.getColour() == Tile.Colour.WHITE){
+                if(t.getColour() == TileColour.WHITE){
                     System.out.print("W");
                 }
 
@@ -53,6 +55,7 @@ public class Board implements Drawable2D{
             System.out.println();
         }
     }
+    
     public int size(){
         return board.length;
     }
@@ -62,6 +65,14 @@ public class Board implements Drawable2D{
             throw new HexException("Out of bounds of board");
         }
         return board[x][y];
+    }
+    
+    public void setTileAtPosition(Tile t, int x, int y){
+        if(isOutOfBounds(x, y))
+            throw new HexException("Out of bounds of board");
+        if (t == null)
+        	throw new HexException("No tile was given (a null pointer given)");
+        board[x][y] = t;
     }
 
     public boolean isOutOfBounds(int x, int y) {

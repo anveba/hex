@@ -1,8 +1,10 @@
 package test.hex.ai;
 
-import main.hex.Board;
-import main.hex.Tile;
 import main.hex.ai.BoardEvaluator;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,17 +16,17 @@ public class BoardEvaluatorTest {
     public void boardEvaluatorConstructorWorks(){
 
         Board board = new Board(5);
-        BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
     }
 
 
     @Test
     public void agentColouredTilesAreConnectedWithMaxFadeAfterColourConnection(){
         Board board = new Board(5);
-        board.getTileAtPosition(1,1).setColour(Tile.Colour.RED);
-        board.getTileAtPosition(1,2).setColour(Tile.Colour.RED);
-        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
-        b.connectByColour(1,1,1,2, Tile.Colour.RED);
+        board.setTileAtPosition(new Tile(TileColour.RED), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
+        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        b.connectByColour(1,1,1,2, TileColour.RED);
         assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
     }
 
@@ -42,15 +44,15 @@ public class BoardEvaluatorTest {
         int k = 7;
         Board board = new Board(k);
 
-        board.getTileAtPosition(2,0).setColour(Tile.Colour.RED);
-        board.getTileAtPosition(3,0).setColour(Tile.Colour.RED);
-        board.getTileAtPosition(4,0).setColour(Tile.Colour.BLUE);
-        board.getTileAtPosition(5,0).setColour(Tile.Colour.BLUE);
+        board.setTileAtPosition(new Tile(TileColour.RED), 3,0);
+        board.setTileAtPosition(new Tile(TileColour.RED), 2,0);
+        board.setTileAtPosition(new Tile(TileColour.BLUE), 4,0);
+        board.setTileAtPosition(new Tile(TileColour.BLUE), 5,0);
 
-        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
 
         for(int i = 0; i<k-1;i++){
-            b.connectByColour(i,0,i+1,0, Tile.Colour.RED);
+            b.connectByColour(i,0,i+1,0, TileColour.RED);
         }
 
         double c1 = b.fadeOfAdjacencyXY(0, 0, 1, 0).get();
@@ -75,10 +77,10 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board.getTileAtPosition(i,j).setColour(Tile.Colour.RED);
+                board.setTileAtPosition(new Tile(TileColour.RED), i,j);
             }
         }
-        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         b.connectHorizontalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -90,10 +92,10 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board.getTileAtPosition(i,j).setColour(Tile.Colour.BLUE);
+                board.setTileAtPosition(new Tile(TileColour.BLUE), i,j);
             }
         }
-        BoardEvaluator  b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         b.connectVerticalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -106,28 +108,28 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         double e1 = b.evaluateBoard();
 
 
         Board board2 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board2.getTileAtPosition(i,j).setColour(Tile.Colour.BLUE);
+                board2.setTileAtPosition(new Tile(TileColour.BLUE), i,j);
             }
         }
 
-        BoardEvaluator b2 = new BoardEvaluator(board2,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.BLUE,TileColour.RED);
         double e2 = b2.evaluateBoard();
 
         Board board3 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board3.getTileAtPosition(i,j).setColour(Tile.Colour.RED);
+                board3.setTileAtPosition(new Tile(TileColour.RED), i,j);
             }
         }
 
-        BoardEvaluator b3 = new BoardEvaluator(board3,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.BLUE,TileColour.RED);
         double e3 = b3.evaluateBoard();
 
 
@@ -141,10 +143,10 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board.getTileAtPosition(3,i).setColour(Tile.Colour.BLUE);
+            board.setTileAtPosition(new Tile(TileColour.BLUE), 3,i);
         }
 
-        BoardEvaluator g = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator g = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         assertTrue(g.hasWonVertically());
 
     }
@@ -155,7 +157,7 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
 
 
-        BoardEvaluator b = new BoardEvaluator(board,Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         assertFalse(b.hasWonVertically());
 
     }
@@ -165,10 +167,10 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board.getTileAtPosition(i,3).setColour(Tile.Colour.RED);
+            board.setTileAtPosition(new Tile(TileColour.RED), i,3);
         }
 
-        BoardEvaluator b = new BoardEvaluator(board, Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED);
         assertTrue(b.hasWonHorizontally());
 
     }
@@ -178,7 +180,7 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board, Tile.Colour.BLUE,Tile.Colour.RED);
+        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED);
         assertFalse(b.hasWonHorizontally());
 
     }

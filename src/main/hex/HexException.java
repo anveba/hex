@@ -1,7 +1,7 @@
 package main.hex;
 
 public class HexException extends RuntimeException {
-	public HexException(Exception ex) {
+	public HexException(Throwable ex) {
         super(ex);
     }
 

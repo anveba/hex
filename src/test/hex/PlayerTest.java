@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import main.hex.*;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 
 public class PlayerTest {
 
@@ -11,7 +13,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        player1 = new Player(Tile.Colour.BLUE, false);
+        player1 = new UserPlayer(TileColour.BLUE);
     }
 
     @Test
@@ -21,24 +23,24 @@ public class PlayerTest {
 
     @Test
     public void getPlayerColour_playerBlueColour_colourReturned() {
-        assertEquals(Tile.Colour.BLUE, player1.getPlayerColour());
+        assertEquals(TileColour.BLUE, player1.getColour());
     }
 
     @Test
     public void setPlayerColour_player1RedColour_playerHasRedColour() {
-        player1.setPlayerColour(Tile.Colour.RED);
-        assertEquals(Tile.Colour.RED, player1.getPlayerColour());
+        player1.setColour(TileColour.RED);
+        assertEquals(TileColour.RED, player1.getColour());
     }
     
     @Test
-    public void constructor_winsHorizontally_playerDoesNotWinVertically() {
-        Player p = new Player(Tile.Colour.RED, false);
+    public void constructor_blue_playerDoesNotWinVertically() {
+        Player p = new UserPlayer(TileColour.BLUE);
         assertFalse(p.winsByVerticalConnection());
     }
     
     @Test
-    public void constructor_winsVertically_playerWinsVertically() {
-        Player p = new Player(Tile.Colour.RED, true);
+    public void constructor_red_playerWinsVertically() {
+        Player p = new UserPlayer(TileColour.RED);
         assertTrue(p.winsByVerticalConnection());
     }
 }

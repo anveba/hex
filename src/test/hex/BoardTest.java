@@ -2,8 +2,14 @@ package test.hex;
 
 import main.engine.*;
 import main.hex.*;
+import main.hex.board.Board;
+import main.hex.board.BoardRenderer2D;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+
 import org.junit.*;
 
 public class BoardTest {
@@ -129,8 +135,22 @@ public class BoardTest {
     }
 
     @Test
-    public void getTileAtPosition_tileColourSet_success() {
-        board.getTileAtPosition(1, 1).setColour(Tile.Colour.RED);
-        assertEquals(board.getTileAtPosition(1, 1).getColour(), Tile.Colour.RED);
+    public void setTileAtPosition_tileColourSet_colourSet() {
+    	int x = 1, y = 1;
+        assertEquals(TileColour.WHITE, board.getTileAtPosition(x, y).getColour());
+        board.setTileAtPosition(new Tile(TileColour.RED), x, y);
+        assertEquals(TileColour.RED, board.getTileAtPosition(x, y).getColour());
+    }
+    
+    @Test(expected = HexException.class)
+    public void nullTileThrowsExceptionWhenSettingTile() {
+    	int x = 1, y = 1;
+        board.setTileAtPosition(null, x, y);
+    }
+    
+    @Test(expected = HexException.class)
+    public void outOfBoundsPositionThrowsExceptionWhenSettingTile() {
+    	int x = -1, y = -1;
+        board.setTileAtPosition(mock(Tile.class), x, y);
     }
 }

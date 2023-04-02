@@ -1,24 +1,38 @@
 package main.hex;
 
-public class Player {
+import java.util.function.BiConsumer;
 
-    private Tile.Colour playerColour;
-    private boolean winsByVerticalConnection;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 
-    public Player (Tile.Colour playerColour, boolean winsByVerticalConnectionByVerticalConnection) {
-        this.playerColour = playerColour;
-        this.winsByVerticalConnection = winsByVerticalConnectionByVerticalConnection;
+ public abstract class Player {
+
+    private TileColour playerColour;
+
+    public Player (TileColour playerColour) {
+    	setColour(playerColour);
     }
 
-    public Tile.Colour getPlayerColour() {
+    public TileColour getColour() {
         return playerColour;
     }
 
-    public void setPlayerColour(Tile.Colour newColor) {
-    	this.playerColour = newColor;
+    public void setColour(TileColour newColour) {
+    	if (newColour == null || newColour == TileColour.WHITE)
+    		throw new HexException("Invalid player colour");
+    	this.playerColour = newColour;
 	}
     
     public boolean winsByVerticalConnection() {
-    	return winsByVerticalConnection;
+    	return playerColour == TileColour.RED;
     }
+    
+    protected abstract void processTurn(Board board, ConcurrentPlayerResponse response);
+    
+    protected abstract void correctInvalidTurn(Board board, ConcurrentPlayerResponse response);
+    
+    protected abstract void onTurnReceival();
+    
+    protected abstract void onEndOfTurn();
 }

@@ -1,16 +1,16 @@
 package main.hex.ai;
 
-import main.hex.Board;
-import main.hex.Tile;
-
-
 import java.util.Optional;
+
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 
 public class BoardEvaluator {
 
     private GridGraph gridGraph;
-    private Tile.Colour verticalColour;
-    private Tile.Colour horizontalColour;
+    private TileColour verticalColour;
+    private TileColour horizontalColour;
 
     private Board board;
 
@@ -26,7 +26,7 @@ public class BoardEvaluator {
 
      */
 
-    public BoardEvaluator(Board board, Tile.Colour verticalColour, Tile.Colour horizontalColour) {
+    public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
         gridGraph = new GridGraph(board.size());
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;
@@ -97,20 +97,20 @@ public class BoardEvaluator {
     //If one has agent colour, other is white -> 1 - fadeConstant
     //If both are white -> 1- 2*fadeConstant
     //If one is nonAgentColour -> No edge
-    public void connectByColour(int fromX, int fromY, int toX, int toY,Tile.Colour agentColour){
-        Tile.Colour nonAgentColour = Tile.opposite(agentColour);
+    public void connectByColour(int fromX, int fromY, int toX, int toY,TileColour agentColour){
+        TileColour nonAgentColour = TileColour.opposite(agentColour);
 
-        Tile.Colour t1Colour = board.getTileAtPosition(fromX,fromY).getColour();
-        Tile.Colour t2Colour = board.getTileAtPosition(toX,toY).getColour();
+        TileColour t1Colour = board.getTileAtPosition(fromX,fromY).getColour();
+        TileColour t2Colour = board.getTileAtPosition(toX,toY).getColour();
 
         if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
             return;
         }
         float fade = 1;
-        if(t1Colour.equals(Tile.Colour.WHITE)){
+        if(t1Colour.equals(TileColour.WHITE)){
             fade -= fadeConstant;
         }
-        if(t2Colour.equals(Tile.Colour.WHITE)){
+        if(t2Colour.equals(TileColour.WHITE)){
             fade -= fadeConstant;
         }
        gridGraph.connectXyWithFade(fromX,fromY,toX,toY,fade);
@@ -118,7 +118,7 @@ public class BoardEvaluator {
 
 
     //Connects all neighbours based on their colours
-    public void connectNeighboursWithColourResistance(Tile.Colour agentColour){
+    public void connectNeighboursWithColourResistance(TileColour agentColour){
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
