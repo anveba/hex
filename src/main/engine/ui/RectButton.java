@@ -35,6 +35,23 @@ public class RectButton extends RectElement implements Clickable {
 		isHovering = false;
 	}
 
+	public RectButton(float x, float y, float width, float height,
+					  Texture imageTexture, BitmapFont font, String displayedString, float textHeight,
+					  ButtonCallback clickCallback,
+					  ButtonCallback onHoverEnterCallback,
+					  ButtonCallback onHoverExitCallback) {
+		super(x, y, width, height);
+		image = new Image(x, y, width, height, imageTexture);
+		text = new Text(x, y, font, displayedString, textHeight);
+		setClickCallback(clickCallback);
+		setHoverEnterCallback(onHoverEnterCallback);
+		setHoverExitCallback(onHoverExitCallback);
+		setWidth(width);
+		setHeight(height);
+		setPosition(x, y);
+		isHovering = false;
+	}
+
 	public void setClickCallback(ButtonCallback callback) {
 		this.clickCallback = callback;
 	}

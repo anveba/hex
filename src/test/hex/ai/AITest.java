@@ -7,6 +7,7 @@ import main.hex.ai.SignalBasedAI;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import test.hex.TestPlayerClass;
 import main.hex.ai.AI;
 import org.junit.Test;
 
@@ -28,5 +29,23 @@ public class AITest {
         Move nextMove = ai.getBestMove(2);
         assertEquals(1, nextMove.getX());
         assertEquals(1, nextMove.getY());
+    }
+
+
+    //Basically just a test to see how deep we can run the search
+    @Test
+    public void AIDepthFunction(){
+        Board board = new Board(3);
+
+
+        Player agent = new TestPlayerClass(TileColour.BLUE);
+
+        AI ai = new SignalBasedAI(board,agent);
+
+
+        Move nextMove = ai.getBestMove(9);
+        //System.out.println(nextMove.getX() + " "+nextMove.getY());
+        
+
     }
 }

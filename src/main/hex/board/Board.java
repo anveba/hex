@@ -1,11 +1,10 @@
 package main.hex.board;
 
-import java.util.Arrays;
-
 import main.engine.*;
 import main.engine.graphics.*;
 import main.hex.Drawable2D;
 import main.hex.HexException;
+import main.hex.ui.GameCustomization;
 
 public class Board implements Drawable2D, IBoard {
 	
@@ -80,8 +79,8 @@ public class Board implements Drawable2D, IBoard {
     }
 
 	@Override
-	public void draw(Renderer2D r) {
-		getRenderer().draw(r, this);
+	public void draw(Renderer2D r, GameCustomization gameCustomization) {
+		getRenderer().draw(r, this, gameCustomization);
 	}
 
 	public Point2 screenToTile(float x, float y) {

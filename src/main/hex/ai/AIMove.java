@@ -2,11 +2,11 @@ package main.hex.ai;
 
 import main.hex.Move;
 
-class AIMove extends Move {
+public class AIMove extends Move {
 
     private double value;
 
-    AIMove(int x, int y, double value) {
+    public AIMove(int x, int y, double value) {
         super(x, y);
         this.value = value;
     }

@@ -9,6 +9,7 @@ import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.engine.*;
 import static main.engine.Utility.*;
+import static org.mockito.Mockito.when;
 
 public class ImageTest {
 	
@@ -25,6 +26,26 @@ public class ImageTest {
 		
 		assertEquals(sx, image.getSourceX());
 		assertEquals(sy, image.getSourceY());
+		assertEquals(sw, image.getSourceWidth());
+		assertEquals(sh, image.getSourceHeight());
+	}
+
+	@Test
+	public void simpleConstructorSetsValuesCorrectly() {
+		float x = 0.4f, y = -0.2f, width = 0.342f, height = 0.24f;
+		int sw = 40, sh = 60;
+		Texture t = mock(Texture.class);
+		when(t.width()).thenReturn(sw);
+		when(t.height()).thenReturn(sh);
+
+		Image image = new Image(x, y, width, height, t);
+		assertTrue(floatEquals(image.getX(), x));
+		assertTrue(floatEquals(image.getY(), y));
+		assertTrue(floatEquals(image.getWidth(), width));
+		assertTrue(floatEquals(image.getHeight(), height));
+
+		assertEquals(0, image.getSourceX());
+		assertEquals(0, image.getSourceY());
 		assertEquals(sw, image.getSourceWidth());
 		assertEquals(sh, image.getSourceHeight());
 	}

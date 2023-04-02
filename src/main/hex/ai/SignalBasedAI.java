@@ -13,9 +13,13 @@ public class SignalBasedAI extends AI {
 	
     private TileColour verticalColour;
     private TileColour horizontalColour;
+    
+    private BoardHashTable memoizationTable;
 
     public SignalBasedAI(Board state, Player player){
     	super(state, player);
+    	
+    	this.memoizationTable = new BoardHashTable();
 
         if(player.winsByVerticalConnection()){
             verticalColour = getPlayer().getColour();
@@ -33,6 +37,10 @@ public class SignalBasedAI extends AI {
 
 
     private AIMove minimax(Board state, int depth, boolean maximizingPlayer){
+    	if(memoizationTable.containsKey(state)){
+            return memoizationTable.getBoard(state).get();
+        }
+    	
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
@@ -58,6 +66,7 @@ public class SignalBasedAI extends AI {
             if(maxMove.isEmpty()){
                 throw new HexException("No move was returned by AI");
             }
+            memoizationTable.putBoard(state,maxMove.get());
             return maxMove.get();
         }
 
@@ -79,6 +88,7 @@ public class SignalBasedAI extends AI {
             if(minMove.isEmpty()){
                 throw new HexException("No move was returned by AI");
             }
+            memoizationTable.putBoard(state,minMove.get());
             return minMove.get();
         }
 

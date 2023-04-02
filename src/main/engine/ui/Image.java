@@ -18,6 +18,14 @@ public class Image extends RectElement {
 		setSourceWidth(sourceWidth);
 		setSourceHeight(sourceHeight);
 	}
+	public Image(float x, float y, float width, float height, Texture tex) {
+		super(x, y, width, height);
+		setTexture(tex);
+		setSourceX(0);
+		setSourceY(0);
+		setSourceWidth(tex.width());
+		setSourceHeight(tex.height());
+	}
 	
 	public Texture getTexture() {
 		return texture;
