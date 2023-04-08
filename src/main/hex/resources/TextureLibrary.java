@@ -1,4 +1,4 @@
-package main.engine.resources;
+package main.hex.resources;
 
 import main.engine.ResourceManager;
 import main.engine.graphics.Texture;

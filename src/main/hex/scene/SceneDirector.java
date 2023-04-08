@@ -2,6 +2,7 @@ package main.hex.scene;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
+import main.engine.graphics.Renderer3D;
 import main.hex.HexException;
 
 public class SceneDirector {
@@ -38,6 +39,12 @@ public class SceneDirector {
 		if (getInstance().currentScene == null)
 			throw new HexException("No current scene active");
 		getInstance().currentScene.draw2D(renderer);
+	}
+	
+	public static void drawCurrentScene3D(Renderer3D renderer) {
+		if (getInstance().currentScene == null)
+			throw new HexException("No current scene active");
+		getInstance().currentScene.draw3D(renderer);
 	}
 	
 	public static Scene currentScene() {

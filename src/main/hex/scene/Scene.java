@@ -2,6 +2,7 @@ package main.hex.scene;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
+import main.engine.graphics.Renderer3D;
 
 public abstract class Scene {
 
@@ -13,4 +14,5 @@ public abstract class Scene {
 	
 	public abstract void draw2D(Renderer2D renderer);
 	
+	public abstract void draw3D(Renderer3D renderer);
 }

@@ -4,10 +4,10 @@ import java.util.*;
 
 import main.engine.EngineException;
 import main.engine.TimeRecord;
-import main.engine.Vector2;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.ControlsArgs;
+import main.engine.math.Vector2;
 
 /**
  * Represents a group of UI elements that itself is a UI element.

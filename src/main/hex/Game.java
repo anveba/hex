@@ -13,6 +13,8 @@ import main.hex.ui.StartGameFrame;
 public class Game extends GameWindow {
 
     private Renderer2D renderer2D;
+    private Renderer3D renderer3D;
+    private Camera camera;
     
     private static Game instance;
     public static Game getInstance() {
@@ -63,6 +65,9 @@ public class Game extends GameWindow {
     
     private void setupGraphics() {
     	renderer2D = new Renderer2D(this);
+    	camera = new Camera(0.1f, 100.0f, (float)Math.PI / 4.0f);
+    	renderer3D = new Renderer3D(camera, this);
+    	
         setClearColor(0.4f, 0.2f, 0.5f);
     }
 
@@ -75,7 +80,15 @@ public class Game extends GameWindow {
     @Override
     protected void draw() {
         clear();
+        if (Preferences.getInstance().is3DEnabled())
+        	SceneDirector.drawCurrentScene3D(renderer3D);
+        else
+        	SceneDirector.drawCurrentScene2D(renderer2D);
+        
         FrameStack.getInstance().draw(renderer2D);
-        SceneDirector.drawCurrentScene2D(renderer2D);
+    }
+    
+    public Camera getCamera() {
+    	return camera;
     }
 }

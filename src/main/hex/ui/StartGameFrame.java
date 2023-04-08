@@ -3,7 +3,6 @@ package main.hex.ui;
 import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
-import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
 import main.hex.AIPlayer;
 import main.hex.GameLogic;
@@ -13,6 +12,7 @@ import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
 import main.hex.player.PlayerType;
+import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 
@@ -244,7 +244,7 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-		GameCustomization gameCustomization = new GameCustomization(
+		GameCustomisation gameCustomization = new GameCustomisation(
 				logic.getPlayerName(0),
 				logic.getPlayerName(1),
 				Colour.White, // TODO: This has to be chosen by player
@@ -255,10 +255,10 @@ public class StartGameFrame extends Frame {
 				logic.getSwapRule());
 
 		//TODO Should be chosen by player
-		int boardSize = 5;
+		int boardSize = 11;
 		Board b = new Board(boardSize);
 		Player p1 = new UserPlayer(TileColour.BLUE);
-		Player p2 = new AIPlayer(TileColour.RED, 3);
+		Player p2 = new UserPlayer(TileColour.RED);
 		
 		SceneDirector.changeScene(
 				new GameplayScene(

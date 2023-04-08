@@ -1,6 +1,7 @@
 package test.hex;
 
 import main.engine.*;
+import main.engine.math.Vector2;
 import main.hex.*;
 import main.hex.board.Board;
 import main.hex.board.BoardRenderer2D;
@@ -114,9 +115,9 @@ public class BoardTest {
     @Test
     public void tileToScreen_screenToTileCorrectedCoordinates_Equals() {
     	Vector2 original = new Vector2(0.34f, 0.64f);
-    	Point2 tileSpacePosition = board.screenToTile(
+    	Point2 tileSpacePosition = board.screenToTile2D(
     			original.getX(), original.getY());
-    	Vector2 screenSpacePosition = board.tileToScreen(
+    	Vector2 screenSpacePosition = board.tileToScreen2D(
     			tileSpacePosition.getX(), tileSpacePosition.getY());
     	assertTrue(Math.abs(original.getX() - screenSpacePosition.getX())
     			< BoardRenderer2D.tileSize / 2.0f + 0.001f
@@ -127,9 +128,9 @@ public class BoardTest {
     @Test
     public void screenToTile_tileToScreenCorrectedCoordinates_Equals() {
     	Point2 original = new Point2(2, 5);
-    	Vector2 screenSpacePosition = board.tileToScreen(
+    	Vector2 screenSpacePosition = board.tileToScreen2D(
     			original.getX(), original.getY());
-    	Point2 tileSpacePosition = board.screenToTile(
+    	Point2 tileSpacePosition = board.screenToTile2D(
     			screenSpacePosition.getX(), screenSpacePosition.getY());
     	assertEquals(original, tileSpacePosition);
     }

@@ -14,6 +14,7 @@ import org.lwjgl.system.MemoryStack;
 
 import main.engine.*;
 import main.engine.graphics.Texture;
+import main.engine.math.Vector2;
 
 import static main.engine.Utility.*;
 import static org.lwjgl.opengl.GL33.*;

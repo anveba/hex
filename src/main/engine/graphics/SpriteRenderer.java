@@ -1,5 +1,7 @@
 package main.engine.graphics;
 
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL33.*;
 
 import main.engine.EngineException;
@@ -19,7 +21,7 @@ public class SpriteRenderer {
     	return shader;
     }
 
-    public GraphicsContext context;
+    private GraphicsContext context;
 	
 	public SpriteRenderer(GraphicsContext context) {
         if (context == null)
@@ -66,6 +68,7 @@ public class SpriteRenderer {
 	}
 	
     private void setupPreDraw() {
+    	glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }

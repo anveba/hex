@@ -2,18 +2,26 @@ package main.hex.board;
 
 import main.engine.*;
 import main.engine.graphics.*;
-import main.hex.Drawable2D;
+import main.engine.math.Vector2;
+import main.engine.math.Vector3;
 import main.hex.HexException;
-import main.hex.ui.GameCustomization;
+import main.hex.ui.GameCustomisation;
 
-public class Board implements Drawable2D, IBoard {
+public class Board implements IBoard {
 	
     private Tile[][] board;
-    private static BoardRenderer2D renderer;
-    private static BoardRenderer2D getRenderer() {
-    	if (renderer == null)
-    		renderer = new BoardRenderer2D();
-    	return renderer;
+    private static BoardRenderer2D renderer2D;
+    private static BoardRenderer2D getRenderer2D() {
+    	if (renderer2D == null)
+    		renderer2D = new BoardRenderer2D();
+    	return renderer2D;
+    }
+    
+    private static BoardRenderer3D renderer3D;
+    private static BoardRenderer3D getRenderer3D() {
+    	if (renderer3D == null)
+    		renderer3D = new BoardRenderer3D();
+    	return renderer3D;
     }
 
     public Board(int size){
@@ -78,16 +86,27 @@ public class Board implements Drawable2D, IBoard {
         return x >= size() || y >= size() || x < 0 || y < 0;
     }
 
-	@Override
-	public void draw(Renderer2D r, GameCustomization gameCustomization) {
-		getRenderer().draw(r, this, gameCustomization);
+	public void draw2D(Renderer2D r, GameCustomisation gameCustomisation) {
+		getRenderer2D().draw(r, this, gameCustomisation);
+	}
+	
+	public void draw3D(Renderer3D r, GameCustomisation gameCustomisation) {
+		getRenderer3D().draw(r, this, gameCustomisation);
 	}
 
-	public Point2 screenToTile(float x, float y) {
-		return getRenderer().screenToTile(x, y, size());
+	public Point2 screenToTile2D(float x, float y) {
+		return getRenderer2D().screenToTile(x, y, size());
 	}
 
-	public Vector2 tileToScreen(int x, int y) {
-		return getRenderer().tileToScreen(x, y, size());
+	public Vector2 tileToScreen2D(int x, int y) {
+		return getRenderer2D().tileToScreen(x, y, size());
+	}
+	
+	public Point2 screenToTile3D(float x, float y) {
+		return getRenderer3D().screenToTile(x, y, size());
+	}
+
+	public Vector3 tileToWorld(int x, int y) {
+		return getRenderer3D().tileToWorld(x, y, size());
 	}
 }

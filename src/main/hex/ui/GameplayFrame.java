@@ -3,8 +3,8 @@ package main.hex.ui;
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
-import main.engine.resources.TextureLibrary;
 import main.engine.ui.*;
+import main.hex.resources.TextureLibrary;
 
 public class GameplayFrame extends Frame {
 
@@ -13,9 +13,9 @@ public class GameplayFrame extends Frame {
 
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
-    private GameCustomization gameCustomization;
+    private GameCustomisation gameCustomization;
 
-    public GameplayFrame(GameCustomization setupLogic) {
+    public GameplayFrame(GameCustomisation setupLogic) {
         //Main menu extends Frame, so it has a UI element as a root
         this.gameCustomization = setupLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);

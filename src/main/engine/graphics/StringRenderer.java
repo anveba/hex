@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL33.*;
 import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.font.FontCharacterData;
+import main.engine.math.Vector2;
 
 public class StringRenderer {
 
@@ -18,7 +19,7 @@ public class StringRenderer {
         return textRendererShader;
     }
 
-    public GraphicsContext context;
+    private GraphicsContext context;
     
 	public StringRenderer(GraphicsContext context) {
         if (context == null)
@@ -110,6 +111,7 @@ public class StringRenderer {
 	}
 	
     private void setupPreDraw() {
+    	glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }

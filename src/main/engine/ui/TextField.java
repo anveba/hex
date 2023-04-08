@@ -1,9 +1,9 @@
 package main.engine.ui;
 
-import main.engine.Vector2;
 import main.engine.font.BitmapFont;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
+import main.engine.math.Vector2;
 import main.hex.Game;
 
 public class TextField extends Text implements Clickable {

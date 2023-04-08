@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import main.engine.EngineException;
-import main.engine.Vector2;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
+import main.engine.math.Vector2;
 import main.engine.ui.ButtonCallback;
 import main.engine.ui.ClickArgs;
 import main.engine.ui.HoverArgs;

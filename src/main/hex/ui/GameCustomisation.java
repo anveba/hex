@@ -3,7 +3,7 @@ package main.hex.ui;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
 
-public class GameCustomization {
+public class GameCustomisation {
 
     private String player1Name, player2Name;
     private Colour player1Colour, player2Colour;
@@ -11,7 +11,7 @@ public class GameCustomization {
     private int timeRestriction;
     private boolean swapRule;
 
-    public GameCustomization(String player1Name, String player2Name, Colour player1Colour, Colour player2Colour,
+    public GameCustomisation(String player1Name, String player2Name, Colour player1Colour, Colour player2Colour,
                              Texture player1Texture, Texture player2Texture, int timeRestriction, boolean swapRule) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;

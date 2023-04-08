@@ -2,6 +2,7 @@ package main.hex.scene;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
+import main.engine.graphics.Renderer3D;
 import main.engine.ui.FrameStack;
 import main.hex.ui.StartGameFrame;
 
@@ -33,6 +34,11 @@ public class TitleScene extends Scene {
 
 	@Override
 	public void draw2D(Renderer2D renderer) {
+		
+	}
+
+	@Override
+	public void draw3D(Renderer3D renderer) {
 		
 	}
 

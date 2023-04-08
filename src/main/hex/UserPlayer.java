@@ -22,8 +22,14 @@ public class UserPlayer extends Player implements ControlsCallback {
 		assert response != null;
 		if (response == null)
 			return;
-		Point2 tileIndex = board.screenToTile(Game.getInstance().getControlsListener().getCursorX(),
-                Game.getInstance().getControlsListener().getCursorY());
+		Point2 tileIndex;
+		if (Preferences.getInstance().is3DEnabled()) {
+			tileIndex = board.screenToTile3D(Game.getInstance().getControlsListener().getCursorX(),
+					Game.getInstance().getControlsListener().getCursorY());
+		} else {
+			tileIndex = board.screenToTile2D(Game.getInstance().getControlsListener().getCursorX(),
+				Game.getInstance().getControlsListener().getCursorY());
+		}
         if (!board.isOutOfBounds(tileIndex.getX(), tileIndex.getY())) {
         	response.placeMove(new Move(tileIndex.getX(), tileIndex.getY()));
         }

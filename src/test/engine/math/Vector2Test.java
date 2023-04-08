@@ -1,4 +1,4 @@
-package test.engine;
+package test.engine.math;
 
 import static main.engine.Utility.*;
 import static org.junit.Assert.*;
@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import main.engine.Point2;
-import main.engine.Vector2;
+import main.engine.math.Vector2;
 
 public class Vector2Test {
 

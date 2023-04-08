@@ -307,6 +307,18 @@ public abstract class GameWindow implements GraphicsContext {
             return Controls.RIGHT_MOUSE;
         case GLFW_KEY_ESCAPE:
             return Controls.ESCAPE;
+        case GLFW_KEY_LEFT:
+            return Controls.LEFT_ARROW;
+        case GLFW_KEY_UP:
+            return Controls.UP_ARROW;
+        case GLFW_KEY_RIGHT:
+            return Controls.RIGHT_ARROW;
+        case GLFW_KEY_DOWN:
+            return Controls.DOWN_ARROW;
+        case GLFW_KEY_LEFT_SHIFT:
+            return Controls.LEFT_SHIFT;
+        case GLFW_KEY_LEFT_CONTROL:
+            return Controls.LEFT_CONTROL;
         default:
             throw new EngineException("No corresponding key for GLFW value: " + input);
         }

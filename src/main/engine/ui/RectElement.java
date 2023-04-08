@@ -1,7 +1,7 @@
 package main.engine.ui;
 
 import main.engine.EngineException;
-import main.engine.Vector2;
+import main.engine.math.Vector2;
 
 public abstract class RectElement extends UIElement {
 	

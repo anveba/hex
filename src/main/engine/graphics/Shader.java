@@ -1,13 +1,19 @@
 package main.engine.graphics;
 
 import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.file.*;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryStack;
 
 import main.engine.*;
+import main.engine.math.Matrix4;
+import main.engine.math.Vector3;
+import main.engine.math.Vector4;
 
 public class Shader {
 
@@ -90,4 +96,31 @@ public class Shader {
     		float v1, float v2, float v3, float v4) {
         glUniform4f(getLocation(field), v1, v2, v3, v4);
     }
+    
+    public void setVec4(String field, Vector4 v) {
+        setVec4(field, v.x, v.y, v.z, v.w);
+    }
+    
+    public void setVec3(String field, 
+    		float v1, float v2, float v3) {
+        glUniform3f(getLocation(field), v1, v2, v3);
+    }
+    
+    public void setVec3(String field, Vector3 v) {
+    	setVec3(field, v.x, v.y, v.z);
+    }
+    
+    public void setMat4(String field, Matrix4 mat) {
+    	if (mat == null)
+    		throw new EngineException("Matrix was null.");
+    	try (MemoryStack stack = stackPush()) {
+        	FloatBuffer buffer = stack.mallocFloat(16);
+        	mat.populateBuffer(buffer);
+        	glUniformMatrix4fv(getLocation(field), false, buffer);
+    	}
+    }
+
+	public void setFloat(String field, float f) {
+		glUniform1f(getLocation(field), f);
+	}
 }

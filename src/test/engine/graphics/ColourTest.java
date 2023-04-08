@@ -7,8 +7,8 @@ import org.junit.*;
 
 import main.engine.EngineException;
 import main.engine.Point2;
-import main.engine.Vector2;
 import main.engine.graphics.Colour;
+import main.engine.math.Vector2;
 
 public class ColourTest {
 
