@@ -14,7 +14,7 @@ A weighted graph
 public class Graph {
 
     private final int numberOfNodes;
-    ArrayList<Edge>[] adjacencyList;
+    private ArrayList<Edge>[] adjacencyList;
 
 
 
@@ -42,7 +42,7 @@ public class Graph {
     }
 
     //BFS a la CSES
-    public boolean isConnectedWithMaxFade(int startNode, int endNode){
+    public boolean isConnectedWithWeight1(int startNode, int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];
 
@@ -69,7 +69,7 @@ public class Graph {
 
 
 
-    public Optional<Double> fadeOfAdjacency(int from, int to){
+    public Optional<Double> weightOfAdjacency(int from, int to){
         for(Edge e: adjacencyList[from]){
             if(e.getTo() == to){
                 return Optional.of(e.getWeight());
@@ -89,6 +89,10 @@ public class Graph {
 
     public int getNumberOfNodes(){
         return numberOfNodes;
+    }
+
+    public ArrayList<Edge>[] getAdjacencyList() {
+        return adjacencyList;
     }
 
     public void printAdjacencies(){

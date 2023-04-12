@@ -1,4 +1,7 @@
-package main.hex.ai.graph;
+package main.hex.ai.graph.heuristicFunctions;
+
+import main.hex.ai.graph.Edge;
+import main.hex.ai.graph.Graph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ public class SignalGraphHeuristic implements GraphHeuristicFunction{
 
 
         int numberOfNodes = g.getNumberOfNodes();
-        ArrayList<Edge>[] adjacencyList = g.adjacencyList;
+        ArrayList<Edge>[] adjacencyList = g.getAdjacencyList();
 
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];

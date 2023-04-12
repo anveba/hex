@@ -13,14 +13,14 @@ public class GridGraphTest {
     public void nodesGetConnectedWithFadeAfterConnectionWithFadeXY(){
         Graph g = new Graph(5);
         g.connectWithWeight(1,2,0.5);
-        assertTrue(g.fadeOfAdjacency(1,2).isPresent());
-        assertEquals(0.5, g.fadeOfAdjacency(1, 2).get(), 0.0);
+        assertTrue(g.weightOfAdjacency(1,2).isPresent());
+        assertEquals(0.5, g.weightOfAdjacency(1, 2).get(), 0.0);
     }
 
     @Test
     public void nodesNotConnectedWillHaveNoFade(){
         Graph g = new Graph(5);
-        assertTrue(g.fadeOfAdjacency(1,2).isEmpty());
+        assertTrue(g.weightOfAdjacency(1,2).isEmpty());
 
     }
 

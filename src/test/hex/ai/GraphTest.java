@@ -2,7 +2,7 @@ package test.hex.ai;
 
 import main.hex.ai.graph.Graph;
 
-import main.hex.ai.graph.SignalGraphHeuristic;
+import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -33,14 +33,14 @@ public class GraphTest {
     public void nodesGetConnectedWithFadeAfterConnectionWithFade(){
         Graph g = new Graph(5);
         g.connectWithWeight(1,2,0.5);
-        assertTrue(g.fadeOfAdjacency(1,2).isPresent());
-        assertTrue(g.fadeOfAdjacency(1,2).get() == 0.5);
+        assertTrue(g.weightOfAdjacency(1,2).isPresent());
+        assertTrue(g.weightOfAdjacency(1,2).get() == 0.5);
     }
 
     @Test
     public void nodesNotConnectedWillHaveNoFade(){
         Graph g = new Graph(5);
-        assertTrue(g.fadeOfAdjacency(1,2).isEmpty());
+        assertTrue(g.weightOfAdjacency(1,2).isEmpty());
 
     }
 

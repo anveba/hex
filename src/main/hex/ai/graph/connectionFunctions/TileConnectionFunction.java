@@ -1,7 +1,9 @@
-package main.hex.ai.graph;
+package main.hex.ai.graph.connectionFunctions;
 
 
+import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
+import main.hex.board.Tile;
 import main.hex.board.TileColour;
 
 /*
@@ -16,5 +18,7 @@ public interface TileConnectionFunction {
 
 
 
-    Board connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
+    void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
+
+
 }

@@ -2,7 +2,7 @@ package main.hex.ai;
 
 import main.hex.HexException;
 import main.hex.Player;
-import main.hex.ai.graph.SignalBoardEvaluator;
+import main.hex.ai.graph.BoardEvaluator;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
@@ -52,7 +52,7 @@ public class AI {
             return memoizationTable.getBoard(state).get();
         }
     	
-        SignalBoardEvaluator g = new SignalBoardEvaluator(state,verticalColour,horizontalColour);
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
@@ -110,7 +110,7 @@ public class AI {
         if(memoizationTable.containsKey(state)){
             return memoizationTable.getBoard(state).get();
         }
-        SignalBoardEvaluator g = new SignalBoardEvaluator(state,verticalColour,horizontalColour);
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour);
         double eval = g.evaluateBoard();
 
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){

@@ -25,7 +25,7 @@ public class GridGraph extends Graph{
 
 
     public Optional<Double> fadeOfAdjacencyXY(int fromX,int fromY, int toX, int toY) {
-        return super.fadeOfAdjacency(xyToNum(fromX,fromY), xyToNum(toX,toY));
+        return super.weightOfAdjacency(xyToNum(fromX,fromY), xyToNum(toX,toY));
     }
 
     public void connectStartAndEndNodesVertical(){
@@ -48,7 +48,7 @@ public class GridGraph extends Graph{
     }
 
     public boolean startAndEndAreConnected(){
-        return isConnectedWithMaxFade(getNumberOfNodes()-1,getNumberOfNodes()-2);
+        return isConnectedWithWeight1(getNumberOfNodes()-1,getNumberOfNodes()-2);
     }
 
 

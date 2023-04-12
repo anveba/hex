@@ -2,10 +2,14 @@ package main.hex.ai.graph;
 
 import java.util.Optional;
 
+import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
+import main.hex.ai.graph.heuristicFunctions.GraphHeuristicFunction;
+import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
+import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
-public class SignalBoardEvaluator {
+public class BoardEvaluator {
 
     private GridGraph gridGraph;
     private TileColour verticalColour;
@@ -27,7 +31,7 @@ public class SignalBoardEvaluator {
 
      */
 
-    public SignalBoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
+    public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
         gridGraph = new GridGraph(board.size());
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;

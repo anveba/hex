@@ -1,4 +1,6 @@
-package main.hex.ai.graph;
+package main.hex.ai.graph.heuristicFunctions;
+
+import main.hex.ai.graph.Graph;
 
 public interface GraphHeuristicFunction {
 
