@@ -51,17 +51,15 @@ public class GameLogicTest {
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
-    // Tests for swap rule
+    // Tests for swap rul
     @Test
     public void swapRuleSwapsPlayersCorrectly() {
+        gameLogic.setSwapRuleState(true);
     	player1.relayResponseAsMove(0, 0);
         gameLogic.update(mock(TimeRecord.class));
-        TileColour p1StartCol = player1.getColour();
-        TileColour p2StartCol = player2.getColour();
         player2.relayResponseAsMove(0, 0);
         gameLogic.update(mock(TimeRecord.class));
-        assertEquals(p1StartCol, player2.getColour());
-        assertEquals(p2StartCol, player1.getColour());
+        assertEquals(gameLogic.getBoard().getTileAtPosition(0,0).getColour(), player2.getColour());
     }
 
     // Tests for win

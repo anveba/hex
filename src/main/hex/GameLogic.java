@@ -18,6 +18,7 @@ public class GameLogic implements Updateable {
     
     private int currentTurn;
     private boolean gameIsOver;
+	private boolean swapRuleEnabled;
     
     private PlayerCondition playerWinCallback;
     
@@ -31,6 +32,7 @@ public class GameLogic implements Updateable {
         players.addLast(player1);
         currentTurn = -1;
         gameIsOver = false;
+		swapRuleEnabled = false;
     }
     
     public void start() {
@@ -63,11 +65,12 @@ public class GameLogic implements Updateable {
     	
 
         Tile tile = board.getTileAtPosition(move.getX(), move.getY());
+
         if (tile.getColour() == TileColour.WHITE)
         	board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
-        else if (tile.getColour() == player1.getColour() && currentTurn == 1)
+        else if (tile.getColour() == player1.getColour() && currentTurn == 1 && swapRuleEnabled)
         	executeSwapRule(move);
-        else 
+        else
         	return false;
         return true;
     }
@@ -170,5 +173,9 @@ public class GameLogic implements Updateable {
 		gameIsOver = true;
 		if (playerWinCallback != null)
 			playerWinCallback.met(p);
+	}
+
+	public void setSwapRuleState(boolean swapRuleState) {
+		this.swapRuleEnabled = swapRuleState;
 	}
 }

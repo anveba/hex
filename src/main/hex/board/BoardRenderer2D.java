@@ -51,9 +51,9 @@ public class BoardRenderer2D {
                 TileColour tileColour = t.getColour();
                 Colour drawColour;
                 if (tileColour == TileColour.BLUE)
-                	drawColour = gameCustomisation.getPlayer1Colour();
+                	drawColour = gameCustomisation.getPlayer1Skin().getPlayerColour();
                 else if (tileColour == TileColour.RED)
-                	drawColour = gameCustomisation.getPlayer2Colour();
+                	drawColour = gameCustomisation.getPlayer2Skin().getPlayerColour();
                 else if (tileSpaceCursorPosition.getX() == x &&
             			tileSpaceCursorPosition.getY() == y)
                 	drawColour = Colour.LightGrey;
@@ -63,15 +63,17 @@ public class BoardRenderer2D {
             	Vector2 screenPos = tileToScreen(x, y, board.size());
 
                 if (tileColour == TileColour.BLUE) {
-                    renderer.drawSprite(gameCustomisation.getPlayer1Texture(),
-                            screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
-                            0, 0, gameCustomisation.getPlayer1Texture().width(),
-                            gameCustomisation.getPlayer1Texture().height(), gameCustomisation.getPlayer1Colour());
+                    renderer.drawSprite(gameCustomisation.getPlayer1Skin().getPlayerTexture(),
+                            screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f), 0, 0,
+                            gameCustomisation.getPlayer1Skin().getPlayerTexture().width(),
+                            gameCustomisation.getPlayer1Skin().getPlayerTexture().height(),
+                            gameCustomisation.getPlayer1Skin().getPlayerColour());
                 } else if (tileColour == TileColour.RED) {
-                    renderer.drawSprite(gameCustomisation.getPlayer2Texture(),
-                            screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
-                            0, 0, gameCustomisation.getPlayer2Texture().width(),
-                            gameCustomisation.getPlayer2Texture().height(), gameCustomisation.getPlayer2Colour());
+                    renderer.drawSprite(gameCustomisation.getPlayer2Skin().getPlayerTexture(),
+                            screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f), 0, 0,
+                            gameCustomisation.getPlayer1Skin().getPlayerTexture().width(),
+                            gameCustomisation.getPlayer1Skin().getPlayerTexture().height(),
+                            gameCustomisation.getPlayer2Skin().getPlayerColour());
                 } else {
                     renderer.drawSprite(whiteTileTexture,
                             screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),

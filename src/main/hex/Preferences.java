@@ -17,7 +17,7 @@ public class Preferences {
 	private boolean enable3D;
 	
 	private Preferences() {
-		enable3D = true;
+		enable3D = false;
 	}
 	
 	public void enable3D() {
