@@ -43,6 +43,7 @@ public class StartGameFrame extends Frame {
 		logic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
 		logic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
+		logic.addHexSkin(TextureLibrary.ZEBRA_TILE.getTexture());
 		logic.setPlayerSkinIndex(1,1);
 
 		logic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
