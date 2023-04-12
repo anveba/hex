@@ -66,16 +66,14 @@ public class GameLogic implements Updateable {
         if (tile.getColour() == TileColour.WHITE)
         	board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
         else if (tile.getColour() == player1.getColour() && currentTurn == 1)
-        	swapPlayerColours();
+        	executeSwapRule(move);
         else 
         	return false;
         return true;
     }
 
-    private void swapPlayerColours() {
-        TileColour tempCol = player1.getColour();
-        player1.setColour(player2.getColour());
-        player2.setColour(tempCol);
+    private void executeSwapRule(Move move) {
+		board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
     }
     
     public boolean playerHasWon(Player player) {
