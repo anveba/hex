@@ -68,7 +68,7 @@ public class GameplayFrame extends Frame {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
-        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Texture()));
+        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Skin()));
         player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomization.getPlayer1Name()));
         player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, "0:32"));
 
@@ -79,7 +79,7 @@ public class GameplayFrame extends Frame {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
-        player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Texture()));
+        player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Skin()));
         player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomization.getPlayer2Name()));
         player2UIGroup.addChild(createTimerView(0.72f, -0.85f, "1:43"));
 
@@ -97,10 +97,10 @@ public class GameplayFrame extends Frame {
         return playerViewBackgroundUIGroup;
     }
 
-    private UIGroup createTileView(float xPos, float yPos, Texture tileSkin) {
+    private UIGroup createTileView(float xPos, float yPos, PlayerSkin playerSkin) {
         UIGroup tileViewUIGroup = new UIGroup(0.0f, 0.0f);
-        Image tileView = new Image(xPos, yPos, tileSizeX, tileSizeY, tileSkin,
-                0, 0, tileSkin.width(), tileSkin.height());
+        Image tileView = new Image(xPos, yPos, tileSizeX, tileSizeY, playerSkin.getPlayerTexture(),
+                0, 0, playerSkin.getPlayerTexture().width(), playerSkin.getPlayerTexture().height());
         tileViewUIGroup.addChild(tileView);
 
         return tileViewUIGroup;

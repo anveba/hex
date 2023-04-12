@@ -6,19 +6,15 @@ import main.engine.graphics.Texture;
 public class GameCustomisation {
 
     private String player1Name, player2Name;
-    private Colour player1Colour, player2Colour;
-    private Texture player1Texture, player2Texture;
+    private PlayerSkin player1Skin, player2Skin;
     private int timeRestriction;
     private boolean swapRule;
 
-    public GameCustomisation(String player1Name, String player2Name, Colour player1Colour, Colour player2Colour,
-                             Texture player1Texture, Texture player2Texture, int timeRestriction, boolean swapRule) {
+    public GameCustomisation(String player1Name, String player2Name, PlayerSkin player1Skin, PlayerSkin player2Skin, int timeRestriction, boolean swapRule) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
-        this.player1Colour = player1Colour;
-        this.player2Colour = player2Colour;
-        this.player1Texture = player1Texture;
-        this.player2Texture = player2Texture;
+        this.player1Skin = player1Skin;
+        this.player2Skin = player2Skin;
         this.timeRestriction = timeRestriction;
         this.swapRule = swapRule;
     }
@@ -31,20 +27,12 @@ public class GameCustomisation {
         return player2Name;
     }
 
-    public Colour getPlayer1Colour() {
-        return player1Colour;
+    public PlayerSkin getPlayer1Skin() {
+        return player1Skin;
     }
 
-    public Colour getPlayer2Colour() {
-        return player2Colour;
-    }
-
-    public Texture getPlayer1Texture() {
-        return player1Texture;
-    }
-
-    public Texture getPlayer2Texture() {
-        return player2Texture;
+    public PlayerSkin getPlayer2Skin() {
+        return player2Skin;
     }
 
     public int getTimeRestriction() {
