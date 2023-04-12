@@ -17,7 +17,7 @@ public class AIPlayer extends Player {
 
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
-		Thread t = new Thread(() -> response.placeMove(new SignalBasedAI(board, this).getBestMove(searchDepth)));
+		Thread t = new Thread(() -> response.placeMove(new AI(board, this).getBestMove(searchDepth)));
 		t.setUncaughtExceptionHandler((th, ex) -> { response.setError(ex); });
 		t.start();
 	}

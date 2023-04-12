@@ -1,14 +1,14 @@
-package main.hex.ai;
+package main.hex.ai.graph;
 
 public class Edge {
     private int from;
     private int to;
-    private Double fade;
+    private Double weight;
 
     public Edge(int from, int to, Double fade){
         this.from = from;
         this.to = to;
-        this.fade = fade;
+        this.weight = fade;
     }
 
     public int getFrom(){
@@ -18,7 +18,7 @@ public class Edge {
         return to;
     }
 
-    public double getFade(){
-        return fade;
+    public double getWeight(){
+        return weight;
     }
 }

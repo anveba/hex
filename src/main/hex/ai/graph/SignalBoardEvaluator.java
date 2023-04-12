@@ -1,12 +1,11 @@
-package main.hex.ai;
+package main.hex.ai.graph;
 
 import java.util.Optional;
 
 import main.hex.board.Board;
-import main.hex.board.Tile;
 import main.hex.board.TileColour;
 
-public class BoardEvaluator {
+public class SignalBoardEvaluator {
 
     private GridGraph gridGraph;
     private TileColour verticalColour;
@@ -16,7 +15,9 @@ public class BoardEvaluator {
 
     private int boardSize;
 
-    private final double fadeConstant = 0.1;
+    private TileConnectionFunction tileConnectionFunction;
+    private GraphHeuristicFunction graphHeuristicFunction;
+
 
     /*
     Author: Nikolaj
@@ -26,12 +27,14 @@ public class BoardEvaluator {
 
      */
 
-    public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
+    public SignalBoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
         gridGraph = new GridGraph(board.size());
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;
         this.board = board;
         this.boardSize = board.size();
+        this.tileConnectionFunction = new SignalBasedTileConnector();
+        this.graphHeuristicFunction = new SignalGraphHeuristic();
     }
 
 
@@ -41,14 +44,14 @@ public class BoardEvaluator {
     public double evaluateBoard() {
         gridGraph.resetAdjacencyList();;
         gridGraph.connectStartAndEndNodesVertical();
-        connectNeighboursWithColourResistance(verticalColour);
-        double verticalEvaluation = gridGraph.computeSignalHeuristic(gridGraph.getNumberOfNodes()-2, gridGraph.getNumberOfNodes()-1);
+        connectNeighboursWithColourWeight(verticalColour);
+        double verticalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
 
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesHorizontal();
-        connectNeighboursWithColourResistance(horizontalColour);
-        double horizontalEvaluation = gridGraph.computeSignalHeuristic(gridGraph.getNumberOfNodes()-2, gridGraph.getNumberOfNodes()-1);
+        connectNeighboursWithColourWeight(horizontalColour);
+        double horizontalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
         if(hasWonHorizontally()){
             return Double.NEGATIVE_INFINITY;
@@ -61,18 +64,22 @@ public class BoardEvaluator {
     }
 
 
+    public void connectByColour(int x1, int y1, int x2, int y2, TileColour agentColour) {
+        tileConnectionFunction.connectTiles(gridGraph,board,x1,y1,x2,y2,agentColour);
+    }
+
 
     public boolean hasWonVertically() {
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesVertical();
-        connectNeighboursWithColourResistance(verticalColour);
+        connectNeighboursWithColourWeight(verticalColour);
         return gridGraph.startAndEndAreConnected();
     }
 
     public boolean hasWonHorizontally() {
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesHorizontal();
-        connectNeighboursWithColourResistance(horizontalColour);
+        connectNeighboursWithColourWeight(horizontalColour);
         return gridGraph.startAndEndAreConnected();
     }
 
@@ -81,54 +88,30 @@ public class BoardEvaluator {
     }
 
     public void connectHorizontalEvaluation() {
-        connectNeighboursWithColourResistance(horizontalColour);
+        connectNeighboursWithColourWeight(horizontalColour);
         gridGraph.connectStartAndEndNodesHorizontal();
 
     }
 
     public void connectVerticalEvaluation() {
-        connectNeighboursWithColourResistance(verticalColour);
+        connectNeighboursWithColourWeight(verticalColour);
         gridGraph.connectStartAndEndNodesVertical();
 
     }
 
-    //Connects two tiles with fade based on their colour
-    //If they both have agent colour -> 1
-    //If one has agent colour, other is white -> 1 - fadeConstant
-    //If both are white -> 1- 2*fadeConstant
-    //If one is nonAgentColour -> No edge
-    public void connectByColour(int fromX, int fromY, int toX, int toY,TileColour agentColour){
-        TileColour nonAgentColour = TileColour.opposite(agentColour);
-
-        TileColour t1Colour = board.getTileAtPosition(fromX,fromY).getColour();
-        TileColour t2Colour = board.getTileAtPosition(toX,toY).getColour();
-
-        if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
-            return;
-        }
-        float fade = 1;
-        if(t1Colour.equals(TileColour.WHITE)){
-            fade -= fadeConstant;
-        }
-        if(t2Colour.equals(TileColour.WHITE)){
-            fade -= fadeConstant;
-        }
-       gridGraph.connectXyWithFade(fromX,fromY,toX,toY,fade);
-    }
-
 
     //Connects all neighbours based on their colours
-    public void connectNeighboursWithColourResistance(TileColour agentColour){
+    public void connectNeighboursWithColourWeight(TileColour agentColour){
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
-                    connectByColour(x,y,x,y+1, agentColour);
+                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x,y+1,agentColour);
                 }
                 if(y+1 < boardSize && x-1 >= 0){
-                    connectByColour(x,y,x-1,y+1, agentColour);
+                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x-1,y+1,agentColour);
                 }
                 if(x+1 < boardSize){
-                    connectByColour(x,y,x+1,y, agentColour);
+                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x+1,y,agentColour);
                 }
             }
         }
