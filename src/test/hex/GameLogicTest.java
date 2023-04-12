@@ -51,9 +51,10 @@ public class GameLogicTest {
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
-    // Tests for swap rule
+    // Tests for swap rul
     @Test
     public void swapRuleSwapsPlayersCorrectly() {
+        gameLogic.setSwapRuleState(true);
     	player1.relayResponseAsMove(0, 0);
         gameLogic.update(mock(TimeRecord.class));
         player2.relayResponseAsMove(0, 0);

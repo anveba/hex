@@ -40,6 +40,7 @@ public class GameplayScene extends Scene {
     private void startGameplay() {
     	
     	logic.setPlayerWinCallback(this::onPlayerWin);
+		logic.setSwapRuleState(gameCustomization.getSwapRule());
     	logic.start();
     }
     

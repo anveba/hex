@@ -4,12 +4,10 @@ import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.ui.*;
-import main.hex.AIPlayer;
 import main.hex.GameLogic;
 import main.hex.Player;
 import main.hex.UserPlayer;
 import main.hex.board.Board;
-import main.hex.board.Tile;
 import main.hex.board.TileColour;
 import main.hex.player.PlayerType;
 import main.hex.resources.TextureLibrary;
@@ -34,23 +32,23 @@ public class StartGameFrame extends Frame {
 
 	//LOGIC
 
-	private StartGameFrameLogic logic;
+	private StartGameFrameLogic startGameFrameLogic;
 	//Constructors
 	public StartGameFrame() {
 
-		logic = new StartGameFrameLogic();
+		startGameFrameLogic = new StartGameFrameLogic();
 
-		logic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
-		logic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
-		logic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
-		logic.addHexSkin(TextureLibrary.ZEBRA_TILE.getTexture());
-		logic.setPlayerSkinIndex(1,1);
+		startGameFrameLogic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
+		startGameFrameLogic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
+		startGameFrameLogic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
+		startGameFrameLogic.addHexSkin(TextureLibrary.ZEBRA_TILE.getTexture());
+		startGameFrameLogic.setPlayerSkinIndex(1,1);
 
-		logic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
-		logic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
-		logic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
-		logic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
-		logic.setPlayerTypeIndex(1, 2);
+		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
+		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
+		startGameFrameLogic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
+		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
+		startGameFrameLogic.setPlayerTypeIndex(1, 2);
 
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -129,9 +127,9 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void toggleSwapRule(RectButton swapRuleBtn) {
-		logic.toggleSwapRule();
+		startGameFrameLogic.toggleSwapRule();
 
-		if(logic.getSwapRule()) {
+		if(startGameFrameLogic.getSwapRule()) {
 			swapRuleBtn.updateImageTexture(TextureLibrary.GREEN_YES_BUTTON.getTexture());
 		} else {
 			swapRuleBtn.updateImageTexture(TextureLibrary.ORANGE_NO_BUTTON.getTexture());
@@ -163,7 +161,7 @@ public class StartGameFrame extends Frame {
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
 		//skin
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, logic.getHexSkin(playerIndex));
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexSkin(playerIndex));
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
@@ -189,7 +187,7 @@ public class StartGameFrame extends Frame {
 		Text nameText = new Text(-0.2f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, 0.05f);
 		playerSettingUIGroup.addChild(nameText);
 		TextField playerNameTextField = new TextField(0.15f, -0.40f, FONT_FREDOKA_ONE, "Click to type", 0.045f);
-		logic.setPlayerName(playerIndex, playerNameTextField);
+		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
 
@@ -199,7 +197,7 @@ public class StartGameFrame extends Frame {
 		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
 
 		//text
-		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, logic.getPlayerTypeString(playerIndex), 0.04f);
+		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, startGameFrameLogic.getPlayerTypeString(playerIndex), 0.04f);
 		typeCarouselUIGroup.addChild(typeText);
 
 		//left arrow
@@ -225,33 +223,33 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void carouselLeft(Image colorImage, int playerIndex) {
-		logic.previousSkin(playerIndex);
-		colorImage.setTexture(logic.getHexSkin(logic.getPlayerSkinIndex(playerIndex)));
+		startGameFrameLogic.previousSkin(playerIndex);
+		colorImage.setTexture(startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex)));
 	}
 
 	public void carouselRight(Image colorImage, int playerIndex) {
-		logic.nextSkin(playerIndex);
-		colorImage.setTexture(logic.getHexSkin(logic.getPlayerSkinIndex(playerIndex)));
+		startGameFrameLogic.nextSkin(playerIndex);
+		colorImage.setTexture(startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex)));
 	}
 
 	public void playerTypeLeft(Text typeText, int playerIndex) {
-		logic.previousPlayerType(playerIndex);
-		typeText.setText(logic.getPlayerTypeString(playerIndex));
+		startGameFrameLogic.previousPlayerType(playerIndex);
+		typeText.setText(startGameFrameLogic.getPlayerTypeString(playerIndex));
 	}
 
 	public void playerTypeRight(Text typeText, int playerIndex) {
-		logic.nextPlayerType(playerIndex);
-		typeText.setText(logic.getPlayerTypeString(playerIndex));
+		startGameFrameLogic.nextPlayerType(playerIndex);
+		typeText.setText(startGameFrameLogic.getPlayerTypeString(playerIndex));
 	}
 
 	private void startGame() {
 		GameCustomisation gameCustomization = new GameCustomisation(
-				logic.getPlayerName(0),
-				logic.getPlayerName(1),
-				new PlayerSkin(logic.getPlayerSkin(0), Colour.White), // TODO: Colour to be chosen by player in gui
-				new PlayerSkin(logic.getPlayerSkin(1), Colour.White),	// TODO: Colour to be chosen by player in gui
+				startGameFrameLogic.getPlayerName(0),
+				startGameFrameLogic.getPlayerName(1),
+				new PlayerSkin(startGameFrameLogic.getPlayerSkin(0), Colour.White), // TODO: Colour to be chosen by player in gui
+				new PlayerSkin(startGameFrameLogic.getPlayerSkin(1), Colour.White),	// TODO: Colour to be chosen by player in gui
 				60, //TODO: Time restriction should be chosen by player
-				logic.getSwapRule());
+				startGameFrameLogic.getSwapRule());
 
 		//TODO Should be chosen by player
 		int boardSize = 11;
@@ -266,10 +264,10 @@ public class StartGameFrame extends Frame {
 	}
 
 	public boolean getSwapRule() {
-		return logic.getSwapRule();
+		return startGameFrameLogic.getSwapRule();
 	}
 
 	public Texture getHexSkin(int playerIndex) {
-		return logic.getHexSkin(logic.getPlayerSkinIndex(playerIndex));
+		return startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex));
 	}
 }
