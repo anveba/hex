@@ -1,6 +1,6 @@
 package test.hex.ai;
 
-import main.hex.ai.Edge;
+import main.hex.ai.graph.Edge;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +19,7 @@ public class EdgeTest {
 
         assertEquals(from,e.getFrom());
         assertEquals(to,e.getTo());
-        assertTrue(fade == e.getFade());
+        assertTrue(fade == e.getWeight());
     }
 
 

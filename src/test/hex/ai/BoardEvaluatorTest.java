@@ -1,6 +1,6 @@
 package test.hex.ai;
 
-import main.hex.ai.BoardEvaluator;
+import main.hex.ai.graph.SignalBoardEvaluator;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
@@ -16,7 +16,7 @@ public class BoardEvaluatorTest {
     public void boardEvaluatorConstructorWorks(){
 
         Board board = new Board(5);
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
     }
 
 
@@ -25,7 +25,7 @@ public class BoardEvaluatorTest {
         Board board = new Board(5);
         board.setTileAtPosition(new Tile(TileColour.RED), 1,1);
         board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
-        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         b.connectByColour(1,1,1,2, TileColour.RED);
         assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
     }
@@ -49,7 +49,7 @@ public class BoardEvaluatorTest {
         board.setTileAtPosition(new Tile(TileColour.BLUE), 4,0);
         board.setTileAtPosition(new Tile(TileColour.BLUE), 5,0);
 
-        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
 
         for(int i = 0; i<k-1;i++){
             b.connectByColour(i,0,i+1,0, TileColour.RED);
@@ -80,7 +80,7 @@ public class BoardEvaluatorTest {
                 board.setTileAtPosition(new Tile(TileColour.RED), i,j);
             }
         }
-        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         b.connectHorizontalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -95,7 +95,7 @@ public class BoardEvaluatorTest {
                 board.setTileAtPosition(new Tile(TileColour.BLUE), i,j);
             }
         }
-        BoardEvaluator  b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         b.connectVerticalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -108,7 +108,7 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         double e1 = b.evaluateBoard();
 
 
@@ -119,7 +119,7 @@ public class BoardEvaluatorTest {
             }
         }
 
-        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b2 = new SignalBoardEvaluator(board2,TileColour.BLUE,TileColour.RED);
         double e2 = b2.evaluateBoard();
 
         Board board3 = new Board(k);
@@ -129,7 +129,7 @@ public class BoardEvaluatorTest {
             }
         }
 
-        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b3 = new SignalBoardEvaluator(board3,TileColour.BLUE,TileColour.RED);
         double e3 = b3.evaluateBoard();
 
 
@@ -146,7 +146,7 @@ public class BoardEvaluatorTest {
             board.setTileAtPosition(new Tile(TileColour.BLUE), 3,i);
         }
 
-        BoardEvaluator g = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator g = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         assertTrue(g.hasWonVertically());
 
     }
@@ -157,7 +157,7 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
 
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board,TileColour.BLUE,TileColour.RED);
         assertFalse(b.hasWonVertically());
 
     }
@@ -170,7 +170,7 @@ public class BoardEvaluatorTest {
             board.setTileAtPosition(new Tile(TileColour.RED), i,3);
         }
 
-        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board, TileColour.BLUE,TileColour.RED);
         assertTrue(b.hasWonHorizontally());
 
     }
@@ -180,7 +180,7 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED);
+        SignalBoardEvaluator b = new SignalBoardEvaluator(board, TileColour.BLUE,TileColour.RED);
         assertFalse(b.hasWonHorizontally());
 
     }
