@@ -85,7 +85,7 @@ public class BoardRenderer2D {
 
 	private void loadResources() {
         whiteTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/white_tile.png");
+                .loadTexture("textures/board/light_grey_tile.png");
         hasLoadedResources = true;
 	}
 	

@@ -8,6 +8,7 @@ public class Image extends RectElement {
 	private Texture texture;
 	private int sourceX, sourceY;
 	private int sourceWidth, sourceHeight;
+	private Colour colour = Colour.White; // If one of the constructors that does not specify color is used the default is white
 	
 	public Image(float x, float y, float width, float height,
 			Texture tex, int sourceX, int sourceY, int sourceWidth, int sourceHeight) {
@@ -18,6 +19,7 @@ public class Image extends RectElement {
 		setSourceWidth(sourceWidth);
 		setSourceHeight(sourceHeight);
 	}
+
 	public Image(float x, float y, float width, float height, Texture tex) {
 		super(x, y, width, height);
 		setTexture(tex);
@@ -25,6 +27,16 @@ public class Image extends RectElement {
 		setSourceY(0);
 		setSourceWidth(tex.width());
 		setSourceHeight(tex.height());
+	}
+
+	public Image(float x, float y, float width, float height, Texture tex, Colour col) {
+		super(x, y, width, height);
+		setTexture(tex);
+		setSourceX(0);
+		setSourceY(0);
+		setSourceWidth(tex.width());
+		setSourceHeight(tex.height());
+		setColour(col);
 	}
 	
 	public Texture getTexture() {
@@ -68,6 +80,14 @@ public class Image extends RectElement {
 	public void setSourceHeight(int h) {
 		sourceHeight = h;
 	}
+
+	public Colour getColour() {
+		return colour;
+	}
+
+	public void setColour(Colour c) {
+		colour = c;
+	}
 	
 	@Override
 	public void update(TimeRecord elapsed) {
@@ -77,7 +97,7 @@ public class Image extends RectElement {
 	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		renderer.drawSprite(getTexture(), getX() + offsetX, getY() + offsetY, getWidth(), getHeight(), 
-				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), c);
+				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), getColour());
 	}
 
 }

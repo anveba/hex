@@ -48,7 +48,7 @@ public class StartGameFrameLogicTest {
     }
     @Test
     public void setPlayerTextureIndex_player0Texture1_is1() {
-        startGameFrameLogic.setPlayerSkinIndex(0, 1);
+        startGameFrameLogic.setPlayerTextureIndex(0, 1);
         Assert.assertEquals(1, startGameFrameLogic.getPlayerSkinIndex(0));
     }
 
@@ -60,9 +60,9 @@ public class StartGameFrameLogicTest {
         Texture t2 = mock(Texture.class);
         Texture t3 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
-        startGameFrameLogic.addHexSkin(t3);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
+        startGameFrameLogic.addHexTexture(t3);
         Assert.assertEquals(t1, startGameFrameLogic.getHexSkin(0));
         Assert.assertEquals(t2, startGameFrameLogic.getHexSkin(1));
         Assert.assertEquals(t3, startGameFrameLogic.getHexSkin(2));
@@ -76,9 +76,9 @@ public class StartGameFrameLogicTest {
         Texture t2 = mock(Texture.class);
         Texture t3 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
-        startGameFrameLogic.addHexSkin(t3);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
+        startGameFrameLogic.addHexTexture(t3);
         Assert.assertEquals(3, startGameFrameLogic.getHexSkinCount());
     }
 
@@ -87,10 +87,10 @@ public class StartGameFrameLogicTest {
         Texture t0 = mock(Texture.class);
         Texture t1 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
 
-        startGameFrameLogic.setPlayerSkinIndex(0,1);
+        startGameFrameLogic.setPlayerTextureIndex(0,1);
 
         Assert.assertEquals(1, startGameFrameLogic.getPlayerSkinIndex(0));
     }
@@ -100,10 +100,10 @@ public class StartGameFrameLogicTest {
         Texture t0 = mock(Texture.class);
         Texture t1 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
 
-        Assert.assertEquals(t0, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t0, startGameFrameLogic.getPlayerTexture(0));
     }
 
     @Test
@@ -113,13 +113,13 @@ public class StartGameFrameLogicTest {
         Texture t1 = mock(Texture.class);
         Texture t2 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
 
-        Assert.assertEquals(t0, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t0, startGameFrameLogic.getPlayerTexture(0));
         startGameFrameLogic.nextSkin(0);
-        Assert.assertEquals(t1, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t1, startGameFrameLogic.getPlayerTexture(0));
     }
 
     @Test
@@ -129,14 +129,14 @@ public class StartGameFrameLogicTest {
         Texture t1 = mock(Texture.class);
         Texture t2 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
 
-        startGameFrameLogic.setPlayerSkinIndex(0,2);
-        Assert.assertEquals(t2, startGameFrameLogic.getPlayerSkin(0));
+        startGameFrameLogic.setPlayerTextureIndex(0,2);
+        Assert.assertEquals(t2, startGameFrameLogic.getPlayerTexture(0));
         startGameFrameLogic.nextSkin(0);
-        Assert.assertEquals(t0, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t0, startGameFrameLogic.getPlayerTexture(0));
     }
 
     @Test
@@ -146,14 +146,14 @@ public class StartGameFrameLogicTest {
         Texture t1 = mock(Texture.class);
         Texture t2 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
 
-        startGameFrameLogic.setPlayerSkinIndex(0,2);
-        Assert.assertEquals(t2, startGameFrameLogic.getPlayerSkin(0));
+        startGameFrameLogic.setPlayerTextureIndex(0,2);
+        Assert.assertEquals(t2, startGameFrameLogic.getPlayerTexture(0));
         startGameFrameLogic.previousSkin(0);
-        Assert.assertEquals(t1, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t1, startGameFrameLogic.getPlayerTexture(0));
     }
 
     @Test
@@ -163,14 +163,14 @@ public class StartGameFrameLogicTest {
         Texture t1 = mock(Texture.class);
         Texture t2 = mock(Texture.class);
 
-        startGameFrameLogic.addHexSkin(t0);
-        startGameFrameLogic.addHexSkin(t1);
-        startGameFrameLogic.addHexSkin(t2);
+        startGameFrameLogic.addHexTexture(t0);
+        startGameFrameLogic.addHexTexture(t1);
+        startGameFrameLogic.addHexTexture(t2);
 
-        startGameFrameLogic.setPlayerSkinIndex(0,0);
-        Assert.assertEquals(t0, startGameFrameLogic.getPlayerSkin(0));
+        startGameFrameLogic.setPlayerTextureIndex(0,0);
+        Assert.assertEquals(t0, startGameFrameLogic.getPlayerTexture(0));
         startGameFrameLogic.previousSkin(0);
-        Assert.assertEquals(t2, startGameFrameLogic.getPlayerSkin(0));
+        Assert.assertEquals(t2, startGameFrameLogic.getPlayerTexture(0));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package main.hex.ui;
 
+import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
 import main.engine.ui.TextField;
 import main.hex.player.PlayerType;
@@ -14,7 +15,9 @@ public class StartGameFrameLogic {
     private TextField[] playerNames = new TextField[2];
     private int[] playerTextureIndex = new int[2];
     private int[] playerTypeIndex = new int[2];
-    private ArrayList<Texture> hexSkins = new ArrayList<>();
+    private ArrayList<Texture> hexTextures = new ArrayList<>();
+    private Colour player1Col = Colour.White;
+    private Colour player2Col = Colour.White;
     private Map<PlayerType, String> opponentTypeMap = new HashMap<>();
     private ArrayList<PlayerType> opponentTypes = new ArrayList<>();
 
@@ -24,14 +27,14 @@ public class StartGameFrameLogic {
 
     public void nextSkin(int playerIndex) {
         int i = playerTextureIndex[playerIndex];
-        i = (i >= hexSkins.size() - 1) ?  0 : i + 1;
-        setPlayerSkinIndex(playerIndex, i);
+        i = (i >= hexTextures.size() - 1) ?  0 : i + 1;
+        setPlayerTextureIndex(playerIndex, i);
     }
 
     public void previousSkin(int playerIndex) {
         int i = playerTextureIndex[playerIndex];
-        i = (i == 0) ?  hexSkins.size() - 1 : i - 1;
-        setPlayerSkinIndex(playerIndex, i);
+        i = (i == 0) ?  hexTextures.size() - 1 : i - 1;
+        setPlayerTextureIndex(playerIndex, i);
     }
 
     public void nextPlayerType(int playerIndex) {
@@ -50,7 +53,7 @@ public class StartGameFrameLogic {
         playerNames[playerIndex] = textField;
     }
 
-    public void setPlayerSkinIndex(int playerIndex, int textureIndex) {
+    public void setPlayerTextureIndex(int playerIndex, int textureIndex) {
         playerTextureIndex[playerIndex] = textureIndex;
     }
 
@@ -58,20 +61,21 @@ public class StartGameFrameLogic {
         playerTypeIndex[playerIndex] = typeIndex;
     }
 
-    public void addHexSkin(Texture texture) {
-        hexSkins.add(texture);
+    public void addHexTexture(Texture texture) {
+        hexTextures.add(texture);
     }
+
     public void addPlayerType(PlayerType type, String displayString) {
         opponentTypes.add(type);
         opponentTypeMap.put(type, displayString);
     }
 
     public Texture getHexSkin(int index) {
-        return hexSkins.get(index);
+        return hexTextures.get(index);
     }
 
-    public Texture getPlayerSkin(int playerIndex) {
-        return hexSkins.get(playerTextureIndex[playerIndex]);
+    public Texture getPlayerTexture(int playerIndex) {
+        return hexTextures.get(playerTextureIndex[playerIndex]);
     }
 
     public PlayerType getPlayerType(int playerIndex) {
@@ -83,7 +87,7 @@ public class StartGameFrameLogic {
     }
 
     public int getHexSkinCount() {
-        return hexSkins.size();
+        return hexTextures.size();
     }
     public int getOpponentTypeCount() {
         return opponentTypes.size();
@@ -110,5 +114,19 @@ public class StartGameFrameLogic {
     }
     public boolean getSwapRule() {
         return swapRule;
+    }
+
+    public Colour getPlayer1Col() {
+        return player1Col;
+    }
+    public void setPlayer1Col(Colour p1Col) {
+        player1Col = p1Col;
+    }
+
+    public Colour getPlayer2Col() {
+        return player2Col;
+    }
+    public void setPlayer2Col(Colour p2Col) {
+        player2Col = p2Col;
     }
 }

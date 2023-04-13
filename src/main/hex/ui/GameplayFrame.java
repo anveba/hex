@@ -89,9 +89,7 @@ public class GameplayFrame extends Frame {
     private UIGroup createPlayerViewBackground(float xPos, float yPos) {
         UIGroup playerViewBackgroundUIGroup = new UIGroup(0.0f, 0.0f);
         Image playerViewBackground = new Image(xPos, yPos, 0.5f, 0.35f,
-                TextureLibrary.BACKGROUND_SQUARE.getTexture(), 0, 0,
-                TextureLibrary.BACKGROUND_SQUARE.getTexture().width(),
-                TextureLibrary.BACKGROUND_SQUARE.getTexture().height());
+                TextureLibrary.BACKGROUND_SQUARE.getTexture());
         playerViewBackgroundUIGroup.addChild(playerViewBackground);
 
         return playerViewBackgroundUIGroup;
@@ -100,7 +98,7 @@ public class GameplayFrame extends Frame {
     private UIGroup createTileView(float xPos, float yPos, PlayerSkin playerSkin) {
         UIGroup tileViewUIGroup = new UIGroup(0.0f, 0.0f);
         Image tileView = new Image(xPos, yPos, tileSizeX, tileSizeY, playerSkin.getPlayerTexture(),
-                0, 0, playerSkin.getPlayerTexture().width(), playerSkin.getPlayerTexture().height());
+                playerSkin.getPlayerColour());
         tileViewUIGroup.addChild(tileView);
 
         return tileViewUIGroup;

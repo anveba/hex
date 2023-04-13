@@ -33,16 +33,18 @@ public class StartGameFrame extends Frame {
 	//LOGIC
 
 	private StartGameFrameLogic startGameFrameLogic;
+
 	//Constructors
 	public StartGameFrame() {
 
 		startGameFrameLogic = new StartGameFrameLogic();
 
-		startGameFrameLogic.addHexSkin(TextureLibrary.BLUE_TILE.getTexture());
-		startGameFrameLogic.addHexSkin(TextureLibrary.RED_TILE.getTexture());
-		startGameFrameLogic.addHexSkin(TextureLibrary.YELLOW_TILE.getTexture());
-		startGameFrameLogic.addHexSkin(TextureLibrary.ZEBRA_TILE.getTexture());
-		startGameFrameLogic.setPlayerSkinIndex(1,1);
+		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
+		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
+		startGameFrameLogic.setPlayerTextureIndex(1,1);
+
+		startGameFrameLogic.setPlayer1Col(Colour.Red); // TODO: Colour to be chosen by player in gui
+		startGameFrameLogic.setPlayer2Col(Colour.Blue); // TODO: Colour to be chosen by player in gui
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
@@ -141,14 +143,14 @@ public class StartGameFrame extends Frame {
 	private UIGroup createPlayerSettings() {
 		UIGroup playerSettingsUIGroup = new UIGroup(0.0f, 0.05f);
 
-		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0));
-		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1));
+		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0, startGameFrameLogic.getPlayer1Col()));
+		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1, startGameFrameLogic.getPlayer2Col()));
 
 
 		return playerSettingsUIGroup;
 	}
 
-	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex) {
+	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex, Colour playerCol) {
 		UIGroup playerSettingUIGroup = new UIGroup(x, y);
 		//Title
 		Text titleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, title, 0.05f);
@@ -161,7 +163,7 @@ public class StartGameFrame extends Frame {
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
 		//skin
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexSkin(playerIndex));
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexSkin(playerIndex), playerCol);
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
@@ -246,8 +248,8 @@ public class StartGameFrame extends Frame {
 		GameCustomisation gameCustomization = new GameCustomisation(
 				startGameFrameLogic.getPlayerName(0),
 				startGameFrameLogic.getPlayerName(1),
-				new PlayerSkin(startGameFrameLogic.getPlayerSkin(0), Colour.White), // TODO: Colour to be chosen by player in gui
-				new PlayerSkin(startGameFrameLogic.getPlayerSkin(1), Colour.White),	// TODO: Colour to be chosen by player in gui
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayer2Col()),
 				60, //TODO: Time restriction should be chosen by player
 				startGameFrameLogic.getSwapRule());
 
