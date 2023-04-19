@@ -28,17 +28,17 @@ public class GridGraph extends Graph{
         return super.weightOfAdjacency(xyToNum(fromX,fromY), xyToNum(toX,toY));
     }
 
-    public void connectStartAndEndNodesVertical(){
+    public void connectStartAndEndNodesVertical(double weight){
         for(int x = 0; x < gridSize; x++){
-            connectXyWithWeight(x,0,gridSize, gridSize -1,1);
-            connectXyWithWeight(x, gridSize -1, gridSize +1, gridSize -1,1);
+            connectXyWithWeight(x,0,gridSize, gridSize -1,weight);
+            connectXyWithWeight(x, gridSize -1, gridSize +1, gridSize -1,weight);
         }
     }
 
-    public void connectStartAndEndNodesHorizontal(){
+    public void connectStartAndEndNodesHorizontal(double weight){
         for(int y = 0; y < gridSize; y++){
-            connectXyWithWeight(0,y, gridSize, gridSize -1,1);
-            connectXyWithWeight(gridSize -1,y, gridSize +1, gridSize -1,1);
+            connectXyWithWeight(0,y, gridSize, gridSize -1,weight);
+            connectXyWithWeight(gridSize -1,y, gridSize +1, gridSize -1,weight);
         }
     }
 
@@ -48,8 +48,11 @@ public class GridGraph extends Graph{
     }
 
     public boolean startAndEndAreConnected(){
-        return isConnectedWithWeight1(getNumberOfNodes()-1,getNumberOfNodes()-2);
+        //printAdjacencies();
+        return isConnected(getNumberOfNodes()-1,getNumberOfNodes()-2);
     }
+
+
 
 
 

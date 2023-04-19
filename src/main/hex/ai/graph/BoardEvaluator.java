@@ -2,7 +2,10 @@ package main.hex.ai.graph;
 
 import java.util.Optional;
 
+import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
 import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
+import main.hex.ai.graph.connectionFunctions.WinConnectionFunction;
+import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.ai.graph.heuristicFunctions.GraphHeuristicFunction;
 import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
 import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
@@ -31,14 +34,14 @@ public class BoardEvaluator {
 
      */
 
-    public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour) {
+    public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour,TileConnectionFunction t, GraphHeuristicFunction h) {
         gridGraph = new GridGraph(board.size());
         this.verticalColour = verticalColour;
         this.horizontalColour = horizontalColour;
         this.board = board;
         this.boardSize = board.size();
-        this.tileConnectionFunction = new SignalBasedTileConnector();
-        this.graphHeuristicFunction = new SignalGraphHeuristic();
+        this.tileConnectionFunction = t;
+        this.graphHeuristicFunction = h;
     }
 
 
@@ -47,24 +50,26 @@ public class BoardEvaluator {
     //Negative number -> Horizontal is favoured
     public double evaluateBoard() {
         gridGraph.resetAdjacencyList();;
-        gridGraph.connectStartAndEndNodesVertical();
-        connectNeighboursWithColourWeight(verticalColour);
+        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.startEndWeight);
+        connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);
         double verticalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
 
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesHorizontal();
-        connectNeighboursWithColourWeight(horizontalColour);
+        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.startEndWeight);
+        connectNeighboursWithColourWeight(horizontalColour,tileConnectionFunction);
         double horizontalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
         if(hasWonHorizontally()){
             return Double.NEGATIVE_INFINITY;
+
         }
+
         if(hasWonVertically()){
             return  Double.POSITIVE_INFINITY;
         }
 
-        return horizontalEvaluation - verticalEvaluation;
+        return verticalEvaluation - horizontalEvaluation;
     }
 
 
@@ -74,16 +79,17 @@ public class BoardEvaluator {
 
 
     public boolean hasWonVertically() {
+
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesVertical();
-        connectNeighboursWithColourWeight(verticalColour);
+        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.startEndWeight);
+        connectNeighboursWithColourWeight(verticalColour,new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
 
     public boolean hasWonHorizontally() {
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesHorizontal();
-        connectNeighboursWithColourWeight(horizontalColour);
+        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.startEndWeight);
+        connectNeighboursWithColourWeight(horizontalColour, new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
 
@@ -92,30 +98,30 @@ public class BoardEvaluator {
     }
 
     public void connectHorizontalEvaluation() {
-        connectNeighboursWithColourWeight(horizontalColour);
-        gridGraph.connectStartAndEndNodesHorizontal();
+        connectNeighboursWithColourWeight(horizontalColour, tileConnectionFunction);
+        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.startEndWeight);
 
     }
 
     public void connectVerticalEvaluation() {
-        connectNeighboursWithColourWeight(verticalColour);
-        gridGraph.connectStartAndEndNodesVertical();
+        connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);
+        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.startEndWeight);
 
     }
 
 
     //Connects all neighbours based on their colours
-    public void connectNeighboursWithColourWeight(TileColour agentColour){
+    public void connectNeighboursWithColourWeight(TileColour agentColour,TileConnectionFunction t){
         for(int x = 0; x< boardSize; x++){
             for(int y = 0; y< boardSize; y++){
                 if(y+1 < boardSize){
-                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x,y+1,agentColour);
+                    t.connectTiles(gridGraph,board,x,y,x,y+1,agentColour);
                 }
-                if(y+1 < boardSize && x-1 >= 0){
-                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x-1,y+1,agentColour);
+                if(y+1 < boardSize && x+1 < boardSize){
+                    t.connectTiles(gridGraph,board,x,y,x+1,y+1,agentColour);
                 }
                 if(x+1 < boardSize){
-                    tileConnectionFunction.connectTiles(gridGraph,board,x,y,x+1,y,agentColour);
+                    t.connectTiles(gridGraph,board,x,y,x+1,y,agentColour);
                 }
             }
         }

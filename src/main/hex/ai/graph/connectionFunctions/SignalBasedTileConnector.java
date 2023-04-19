@@ -7,9 +7,12 @@ import main.hex.board.TileColour;
 
 
 
-public class SignalBasedTileConnector implements TileConnectionFunction {
+public class SignalBasedTileConnector extends TileConnectionFunction {
 
     private final double fadeConstant = 0.1;
+
+
+    double startEndWeight = 1;
 
     //Connects two tiles with fade based on their colour
     //If they both have agent colour -> 1

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class DijkstraHeuristicTester {
 
-    /*
+
     @Test
     public void dijkstraFindsShortestPathA(){
         Graph g = new Graph(10);
@@ -17,10 +17,13 @@ public class DijkstraHeuristicTester {
         for(int i = 0; i < 9; i++){
             g.connectWithWeight(i,i+1,1);
         }
+        System.out.println(d.shortestPath(g,0,9));
         assert(d.shortestPath(g,0,9) == 9.0);
 
 
     }
 
-     */
+
+
+
 }

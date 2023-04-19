@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class SignalGraphHeuristic implements GraphHeuristicFunction{
 
+
     public double computeGraphHeuristic(Graph g){
         int startNode = g.getNumberOfNodes() -1;
         int endNode = g.getNumberOfNodes() -2 ;

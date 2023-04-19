@@ -42,7 +42,7 @@ public class Graph {
     }
 
     //BFS a la CSES
-    public boolean isConnectedWithWeight1(int startNode, int endNode){
+    public boolean isConnected(int startNode, int endNode){
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];
 
@@ -53,9 +53,6 @@ public class Graph {
             int s = q.poll();
 
             for(Edge e: adjacencyList[s]){
-                if(e.getWeight() < 1){
-                    continue;
-                }
                 int neighbour = e.getTo();
                 if(visited[neighbour]){
                     continue;

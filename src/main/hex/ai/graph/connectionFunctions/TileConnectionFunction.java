@@ -14,11 +14,15 @@ This is useful since just about any graph based board heuristic would look to co
 But the weight for these connections may vary
 
  */
-public interface TileConnectionFunction {
+public abstract class TileConnectionFunction {
 
 
 
-    void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
+    public abstract void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
+
+    public double startEndWeight = 0;
+
+
 
 
 }

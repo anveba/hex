@@ -4,6 +4,7 @@ import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.ui.*;
+import main.hex.AIPlayer;
 import main.hex.GameLogic;
 import main.hex.Player;
 import main.hex.UserPlayer;
@@ -254,9 +255,9 @@ public class StartGameFrame extends Frame {
 				startGameFrameLogic.getSwapRule());
 
 		//TODO Should be chosen by player
-		int boardSize = 11;
+		int boardSize = 3;
 		Board b = new Board(boardSize);
-		Player p1 = new UserPlayer(TileColour.BLUE);
+		Player p1 = new AIPlayer(TileColour.BLUE,10);
 		Player p2 = new UserPlayer(TileColour.RED);
 		
 		SceneDirector.changeScene(

@@ -4,7 +4,7 @@ import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
-public class DijkstraBasedTileConnector implements TileConnectionFunction{
+public class DijkstraBasedTileConnector extends TileConnectionFunction{
 
     private final float weightConstant = 1;
 
