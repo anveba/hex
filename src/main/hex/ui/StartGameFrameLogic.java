@@ -25,13 +25,13 @@ public class StartGameFrameLogic {
         swapRule = !swapRule;
     }
 
-    public void nextSkin(int playerIndex) {
+    public void nextTexture(int playerIndex) {
         int i = playerTextureIndex[playerIndex];
         i = (i >= hexTextures.size() - 1) ?  0 : i + 1;
         setPlayerTextureIndex(playerIndex, i);
     }
 
-    public void previousSkin(int playerIndex) {
+    public void previousTexture(int playerIndex) {
         int i = playerTextureIndex[playerIndex];
         i = (i == 0) ?  hexTextures.size() - 1 : i - 1;
         setPlayerTextureIndex(playerIndex, i);
@@ -70,7 +70,7 @@ public class StartGameFrameLogic {
         opponentTypeMap.put(type, displayString);
     }
 
-    public Texture getHexSkin(int index) {
+    public Texture getHexTexture(int index) {
         return hexTextures.get(index);
     }
 
@@ -86,7 +86,7 @@ public class StartGameFrameLogic {
         return opponentTypeMap.get(getPlayerType(playerIndex));
     }
 
-    public int getHexSkinCount() {
+    public int getHexTextureCount() {
         return hexTextures.size();
     }
     public int getOpponentTypeCount() {
@@ -101,7 +101,7 @@ public class StartGameFrameLogic {
         return opponentTypes.get(index);
     }
 
-    public int getPlayerSkinIndex(int playerIndex) {
+    public int getPlayerTextureIndex(int playerIndex) {
         return playerTextureIndex[playerIndex];
     }
 

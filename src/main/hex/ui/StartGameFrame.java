@@ -41,7 +41,7 @@ public class StartGameFrame extends Frame {
 
 		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
 		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
-		startGameFrameLogic.setPlayerTextureIndex(1,1);
+		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
 		startGameFrameLogic.setPlayer1Col(Colour.Red); // TODO: Colour to be chosen by player in gui
 		startGameFrameLogic.setPlayer2Col(Colour.Blue); // TODO: Colour to be chosen by player in gui
@@ -158,12 +158,12 @@ public class StartGameFrame extends Frame {
 
 
 		/**
-		 * Color Carousel
+		 * Texture Carousel
 		 */
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
-		//skin
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexSkin(playerIndex), playerCol);
+		//texture
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
@@ -225,13 +225,13 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void carouselLeft(Image colorImage, int playerIndex) {
-		startGameFrameLogic.previousSkin(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex)));
+		startGameFrameLogic.previousTexture(playerIndex);
+		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
 	}
 
 	public void carouselRight(Image colorImage, int playerIndex) {
-		startGameFrameLogic.nextSkin(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex)));
+		startGameFrameLogic.nextTexture(playerIndex);
+		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
 	}
 
 	public void playerTypeLeft(Text typeText, int playerIndex) {
@@ -270,6 +270,6 @@ public class StartGameFrame extends Frame {
 	}
 
 	public Texture getHexSkin(int playerIndex) {
-		return startGameFrameLogic.getHexSkin(startGameFrameLogic.getPlayerSkinIndex(playerIndex));
+		return startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 	}
 }
