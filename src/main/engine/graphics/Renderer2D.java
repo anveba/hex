@@ -7,6 +7,7 @@ import java.util.List;
 
 import main.engine.*;
 import main.engine.font.*;
+import main.hex.ui.PlayerSkin;
 
 public class Renderer2D {
 
@@ -26,6 +27,12 @@ public class Renderer2D {
     	spriteRenderer.draw(tex, x, y, width, height, 
     			sourceX, sourceY, sourceWidth, sourceHeight, 
     			colour);
+    }
+
+    public void drawSprite(PlayerSkin skin, float x, float y,
+                           float width, float height) {
+        spriteRenderer.draw(skin.getPlayerTexture(), x, y, width, height, 0, 0,
+                skin.getPlayerTexture().width(), skin.getPlayerTexture().height(), skin.getPlayerColour());
     }
     
     public void drawString(BitmapFont font, String text, 
