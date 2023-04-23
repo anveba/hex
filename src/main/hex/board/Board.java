@@ -4,8 +4,8 @@ import main.engine.*;
 import main.engine.graphics.*;
 import main.engine.math.Vector2;
 import main.engine.math.Vector3;
+import main.hex.GameCustomisation;
 import main.hex.HexException;
-import main.hex.ui.GameCustomisation;
 
 public class Board implements IBoard {
 	
@@ -48,10 +48,10 @@ public class Board implements IBoard {
         for (Tile[] row: board
              ) {
             for(Tile t : row){
-                if(t.getColour() == TileColour.RED){
+                if(t.getColour() == TileColour.PLAYER2){
                     System.out.print("R");
                 }
-                if(t.getColour() == TileColour.BLUE){
+                if(t.getColour() == TileColour.PLAYER1){
                     System.out.print("B");
                 }
                 if(t.getColour() == TileColour.WHITE){

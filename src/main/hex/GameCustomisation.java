@@ -1,7 +1,9 @@
-package main.hex.ui;
+package main.hex;
 
+import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.hex.player.PlayerSkin;
 
 public class GameCustomisation {
 
@@ -10,6 +12,8 @@ public class GameCustomisation {
     private int timeRestriction;
     private boolean swapRule;
 
+    private PlayerSkin blankSkin;
+    
     public GameCustomisation(String player1Name, String player2Name, PlayerSkin player1Skin, PlayerSkin player2Skin, int timeRestriction, boolean swapRule) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
@@ -17,6 +21,9 @@ public class GameCustomisation {
         this.player2Skin = player2Skin;
         this.timeRestriction = timeRestriction;
         this.swapRule = swapRule;
+        blankSkin = new PlayerSkin(
+        		ResourceManager.getInstance().loadTexture("textures/board/white_tile.png"), 
+        		Colour.White);
     }
 
     public String getPlayer1Name() {
@@ -42,4 +49,8 @@ public class GameCustomisation {
     public boolean getSwapRule() {
         return swapRule;
     }
+    
+    public PlayerSkin getBlankSkin() {
+		return blankSkin;
+	}
 }

@@ -13,6 +13,7 @@ public class ControlsListener {
     private List<CursorMoveCallback> onCursorMoveCallbacks;
     private List<TextInputCallback> onTextInputCallbacks;
     private List<ControlsCallback> onAnyPressCallbacks, onAnyReleaseCallbacks;
+    private Set<Controls> isPressed, isReleased, isDown;
     
     private float cursorX, cursorY;
     
@@ -34,10 +35,27 @@ public class ControlsListener {
         inputProcessorSetter.accept(this::processKeyInput);
         mouseProcessorSetter.accept(this::processCursorPosition);
         textInputProcessorSetter.accept(this::processTextInput);
+        
+        isPressed = new HashSet<Controls>();
+        isReleased = new HashSet<Controls>();
+        isDown = new HashSet<Controls>();
+    }
+    
+    public void flush() {
+    	isPressed.clear();
+    	isReleased.clear();
     }
     
     private void processKeyInput(Controls c, InputType t) {
         callRelevantCallbacks(c, t);
+        if (t == InputType.PRESSED) {
+        	isPressed.add(c);
+        	isDown.add(c);
+        }
+        else if (t == InputType.RELEASED) {
+        	isReleased.add(c);
+        	isDown.remove(c);
+        }
     }
     
     private void callRelevantCallbacks(Controls c, InputType t) {
@@ -150,4 +168,8 @@ public class ControlsListener {
     
     public float getCursorX() { return cursorX; }
     public float getCursorY() { return cursorY; }
+    
+    public boolean isPressed(Controls c) { return isPressed.contains(c); }
+    public boolean isReleased(Controls c) { return isReleased.contains(c); }
+    public boolean isDown(Controls c) { return isDown.contains(c); }
 }

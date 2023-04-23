@@ -1,4 +1,4 @@
-package main.hex.ui;
+package main.hex.player;
 
 import main.engine.graphics.*;
 
@@ -12,11 +12,11 @@ public class PlayerSkin {
         this.playerColour = playerColour;
     }
 
-    public Texture getPlayerTexture() {
+    public Texture getTexture() {
         return playerTexture;
     }
 
-    public Colour getPlayerColour() {
+    public Colour getTint() {
         return playerColour;
     }
 }

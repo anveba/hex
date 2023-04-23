@@ -4,28 +4,32 @@ import main.engine.graphics.Renderer3D;
 import main.engine.graphics.model.*;
 import main.engine.math.*;
 import main.engine.Point2;
+import main.engine.ResourceManager;
 import main.engine.graphics.*;
-import main.hex.ui.GameCustomisation;
 import main.hex.Game;
+import main.hex.GameCustomisation;
 import main.hex.graphics.*;
+import main.hex.player.PlayerSkin;
 
 public class BoardRenderer3D {
 	
 	private Mesh hexMesh;
-	private Material tileMaterial;
 	
 	private final float tileSize = 1.0f;
 	private final float tileHeight = 0.5f;
 	
 	public BoardRenderer3D() {
 		hexMesh = Meshes.buildHexTile(1.154700538f * tileSize, tileHeight);
-		tileMaterial = new Material(
-				0.1f, 0.1f, 0.1f,
-				0.8f, 0.8f, 0.8f,
-				1.2f, 1.2f, 1.2f,
-				1024.0f,
-				null, null
-				);
+	}
+	
+	public Material buildTileMaterial(PlayerSkin skin) {
+		return new Material(
+			0.1f, 0.1f, 0.1f,
+			0.8f, 0.8f, 0.8f,
+			1.2f, 1.2f, 1.2f,
+			1024.0f,
+			skin.getTexture(), null
+			);
 	}
 	
 	public Vector3 tileToWorld(int i, int j, int size) {
@@ -39,7 +43,7 @@ public class BoardRenderer3D {
 		
 		Camera cam = Game.getInstance().getCamera();
     	
-		//Generate ray
+		//Generate cursor-to-world ray
     	float height = cam.getNear() * (float)Math.tan(cam.getVerticalFOV() * 0.5f) * 2.0f;
     	float width = height;
     	
@@ -84,14 +88,13 @@ public class BoardRenderer3D {
 				Vector3 position = tileToWorld(i, j, board.size());
 				Vector3 rotation = new Vector3(0.0f, 0.0f, 0.0f);
 				
-				Colour drawColour = Colour.White;
-				Colour col = tile.getColour() == TileColour.WHITE ? Colour.White :
-					(tile.getColour() == TileColour.BLUE ? Colour.Blue : Colour.Red);
+				PlayerSkin skin = tile.getColour() == TileColour.WHITE ? custom.getBlankSkin() :
+					(tile.getColour() == TileColour.PLAYER1 ? custom.getPlayer1Skin() : custom.getPlayer2Skin());
 				
+				Colour col = skin.getTint();
 				if (hovered.getX() == i && hovered.getY() == j)
 					col = Colour.multiply(col, Colour.LightGrey);
-				drawColour = Colour.multiply(drawColour, col);
-				renderer.draw(hexMesh, tileMaterial, position, rotation, col);
+				renderer.draw(hexMesh, buildTileMaterial(skin), position, rotation, col);
 				
 			}
 		}

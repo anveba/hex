@@ -4,6 +4,8 @@ import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.hex.GameCustomisation;
+import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 
 public class GameplayFrame extends Frame {
@@ -97,8 +99,8 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createTileView(float xPos, float yPos, PlayerSkin playerSkin) {
         UIGroup tileViewUIGroup = new UIGroup(0.0f, 0.0f);
-        Image tileView = new Image(xPos, yPos, tileSizeX, tileSizeY, playerSkin.getPlayerTexture(),
-                playerSkin.getPlayerColour());
+        Image tileView = new Image(xPos, yPos, tileSizeX, tileSizeY, playerSkin.getTexture(),
+                playerSkin.getTint());
         tileViewUIGroup.addChild(tileView);
 
         return tileViewUIGroup;

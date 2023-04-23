@@ -5,11 +5,13 @@ import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.hex.AIPlayer;
+import main.hex.GameCustomisation;
 import main.hex.GameLogic;
 import main.hex.Player;
 import main.hex.UserPlayer;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.player.PlayerSkin;
 import main.hex.player.PlayerType;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
@@ -257,8 +259,8 @@ public class StartGameFrame extends Frame {
 		//TODO Should be chosen by player
 		int boardSize = 3;
 		Board b = new Board(boardSize);
-		Player p1 = new AIPlayer(TileColour.BLUE,10);
-		Player p2 = new UserPlayer(TileColour.RED);
+		Player p1 = new AIPlayer(TileColour.PLAYER1,10);
+		Player p2 = new UserPlayer(TileColour.PLAYER2);
 		
 		SceneDirector.changeScene(
 				new GameplayScene(

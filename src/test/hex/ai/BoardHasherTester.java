@@ -29,7 +29,7 @@ public class BoardHasherTester {
 
         Board b1 = new Board(5);
         Board b2 = new Board(5);
-        b2.setTileAtPosition(new Tile(TileColour.RED), 1, 1);
+        b2.setTileAtPosition(new Tile(TileColour.PLAYER2), 1, 1);
 
         BoardHashTable t = new BoardHashTable();
         t.putBoard(b1,new AIMove(1,1, 0.0));

@@ -36,11 +36,11 @@ public class BoardHashTable {
         StringBuilder hash = new StringBuilder();
         for(int x = 0; x < b.size(); x++){
             for(int y = 0; y < b.size(); y++){
-                if(b.getTileAtPosition(x,y).getColour() == TileColour.RED){
+                if(b.getTileAtPosition(x,y).getColour() == TileColour.PLAYER2){
                     hash.append("R");
                     continue;
                 }
-                if(b.getTileAtPosition(x,y).getColour() == TileColour.BLUE){
+                if(b.getTileAtPosition(x,y).getColour() == TileColour.PLAYER1){
                     hash.append("B");
                     continue;
                 }

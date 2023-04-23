@@ -1,5 +1,6 @@
 package main.engine.graphics.model;
 
+import main.engine.EngineException;
 import main.engine.graphics.Texture;
 
 public class Material {
@@ -18,6 +19,8 @@ public class Material {
 			float sR, float sG, float sB,
 			float shininess,
 			Texture diffuseMap, Texture specularMap) {
+		if (diffuseMap == null)
+			throw new EngineException("Texture was null");
 		this.aR = aR; this.aG = aG; this.aB = aB;
 		this.dR = dR; this.dG = dG; this.dB = dB;
 		this.sR = sR; this.sG = sG; this.sB = sB;

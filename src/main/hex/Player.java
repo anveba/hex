@@ -25,7 +25,7 @@ import main.hex.board.TileColour;
 	}
     
     public boolean winsByVerticalConnection() {
-    	return playerColour == TileColour.RED;
+    	return playerColour.winsByVerticalConnection();
     }
     
     protected abstract void processTurn(Board board, ConcurrentPlayerResponse response);

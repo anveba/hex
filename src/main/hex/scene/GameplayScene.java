@@ -9,7 +9,6 @@ import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.graphics.Meshes;
 import main.hex.ui.GameplayFrame;
-import main.hex.ui.GameCustomisation;
 
 public class GameplayScene extends Scene {
 
@@ -52,7 +51,6 @@ public class GameplayScene extends Scene {
     	Game.getInstance().getCamera().setYaw(0.0f);
     	Game.getInstance().getCamera().setRoll(0.0f);
     	Game.getInstance().getCamera().setPlanes(0.1f, 100.0f);
-    	camController.enable();
     }
     
     private void onPlayerWin(Player p) {
@@ -63,12 +61,12 @@ public class GameplayScene extends Scene {
 	
 	@Override
 	public void end() {
-		camController.disable();
 	}
 
 	@Override
 	public void update(TimeRecord time) {
 		logic.update(time);
+		camController.update(time);
 	}
 
 	@Override

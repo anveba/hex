@@ -85,6 +85,8 @@ public class Renderer3D {
         getShader().setVec3("u_material.ambient", mat.aR, mat.aG, mat.aB);
         getShader().setVec3("u_material.diffuse", mat.dR, mat.dG, mat.dB);
         getShader().setVec3("u_material.specular", mat.sR, mat.sG, mat.sB);
+        mat.diffuseMap.use(0);
+        getShader().setInt("u_material.map_diffuse", 0);
         getShader().setFloat("u_material.shininess", mat.shininess);
         
         getShader().setVec4("u_col", colour.r(), colour.g(), colour.b(), colour.a());

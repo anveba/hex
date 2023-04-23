@@ -43,4 +43,17 @@ public class Utility {
             throw new EngineException(ex);
         }
     }
+    
+    public static float clamp(float val, float lower, float upper) {
+    	if (lower > upper) {
+    		float temp = upper;
+    		upper = lower;
+    		lower = temp;
+    	}
+    	if (val < lower)
+    		return lower;
+    	if (val > upper)
+    		return upper;
+    	return val;
+    }
 }

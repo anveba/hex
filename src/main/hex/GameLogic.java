@@ -104,7 +104,6 @@ public class GameLogic implements Updateable {
     private boolean colourConnectsToTarget(
     		TileColour col, int x, int y, 
     		boolean[][] checked, boolean[][] target) {
-    	
     	if (checked[x][y])
     		return false;
     	checked[x][y] = true;

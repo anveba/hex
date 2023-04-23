@@ -7,7 +7,7 @@ import java.util.List;
 
 import main.engine.*;
 import main.engine.font.*;
-import main.hex.ui.PlayerSkin;
+import main.hex.player.PlayerSkin;
 
 public class Renderer2D {
 
@@ -31,8 +31,8 @@ public class Renderer2D {
 
     public void drawSprite(PlayerSkin skin, float x, float y,
                            float width, float height) {
-        spriteRenderer.draw(skin.getPlayerTexture(), x, y, width, height, 0, 0,
-                skin.getPlayerTexture().width(), skin.getPlayerTexture().height(), skin.getPlayerColour());
+        spriteRenderer.draw(skin.getTexture(), x, y, width, height, 0, 0,
+                skin.getTexture().width(), skin.getTexture().height(), skin.getTint());
     }
     
     public void drawString(BitmapFont font, String text, 

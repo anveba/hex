@@ -139,8 +139,8 @@ public class BoardTest {
     public void setTileAtPosition_tileColourSet_colourSet() {
     	int x = 1, y = 1;
         assertEquals(TileColour.WHITE, board.getTileAtPosition(x, y).getColour());
-        board.setTileAtPosition(new Tile(TileColour.RED), x, y);
-        assertEquals(TileColour.RED, board.getTileAtPosition(x, y).getColour());
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), x, y);
+        assertEquals(TileColour.PLAYER2, board.getTileAtPosition(x, y).getColour());
     }
     
     @Test(expected = HexException.class)

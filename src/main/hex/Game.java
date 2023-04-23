@@ -75,6 +75,7 @@ public class Game extends GameWindow {
     protected void update(TimeRecord elapsed) {
     	SceneDirector.updateCurrentScene(elapsed);
     	FrameStack.getInstance().update(elapsed);
+    	getControlsListener().flush();
     }
 
     @Override

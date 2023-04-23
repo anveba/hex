@@ -24,10 +24,10 @@ public class AITest {
     public void AIFindsWinningMoveA(){
 
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
 
-        Player agent = new AIPlayer(TileColour.BLUE, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 1);
 
         AI ai = new AI(board, agent);
 
@@ -67,15 +67,15 @@ public class AITest {
     //Test for a bug found, where the AI would not play a valid move on a board state where it should
     public void AIMakesValidMoveInGivenStateA(){
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,2);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,0);
 
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
 
-        Player agent = new AIPlayer(TileColour.RED, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
 
         AI ai = new AI(board, agent);
 
@@ -88,28 +88,28 @@ public class AITest {
     //Test for ai prioritizing winning in its own direction
     public void AIFindsWinningMoveC(){
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,0);
 
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
 
         Board board1 = board.clone();
         Board board2 = board.clone();
 
-        board1.setTileAtPosition(new Tile(TileColour.RED), 2,0);
-        board1.setTileAtPosition(new Tile(TileColour.RED), 0,2);
+        board1.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,0);
+        board1.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,2);
 
-        BoardEvaluator boardEvaluator1 = new BoardEvaluator(board1,TileColour.RED,TileColour.BLUE,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
-        BoardEvaluator boardEvaluator2 = new BoardEvaluator(board2,TileColour.RED,TileColour.BLUE,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        BoardEvaluator boardEvaluator1 = new BoardEvaluator(board1,TileColour.PLAYER2,TileColour.PLAYER1,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        BoardEvaluator boardEvaluator2 = new BoardEvaluator(board2,TileColour.PLAYER2,TileColour.PLAYER1,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
 
         System.out.println(boardEvaluator1.evaluateBoard());
         System.out.println(boardEvaluator2.evaluateBoard());
 
-        Player agent = new AIPlayer(TileColour.RED, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
         //System.out.println(agent.winsByVerticalConnection());
 
         AI ai = new AI(board, agent);
@@ -126,16 +126,16 @@ public class AITest {
     //Test for ai prioritizing winning in its own direction
     public void AIFindsWinningMoveD(){
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.RED), 0,0);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 0,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,0);
 
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
 
-        Player agent = new AIPlayer(TileColour.BLUE, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 1);
 
         AI ai = new AI(board, agent);
 
@@ -152,17 +152,17 @@ public class AITest {
     //This bug is resolved in a different way
     public void AIMakesValidMoveInGivenStateB(){
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.RED), 0,2);
-        board.setTileAtPosition(new Tile(TileColour.RED),1,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2),1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,0);
 
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,2);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,0);
 
-        Player agent = new AIPlayer(TileColour.RED, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
 
         AI ai = new AI(board, agent);
 
@@ -181,7 +181,7 @@ public class AITest {
         Board board = new Board(3);
 
 
-        Player agent = new TestPlayerClass(TileColour.BLUE);
+        Player agent = new TestPlayerClass(TileColour.PLAYER1);
 
         AI ai = new AI(board,agent);
 

@@ -24,17 +24,17 @@ public class BoardEvaluatorTest {
     public void boardEvaluatorConstructorWorks(){
 
         Board board = new Board(5);
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
     }
 
 
     @Test
     public void agentColouredTilesAreConnectedWithMaxFadeAfterColourConnection(){
         Board board = new Board(5);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
-        b.connectByColour(1,1,1,2, TileColour.RED);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        b.connectByColour(1,1,1,2, TileColour.PLAYER2);
         assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
     }
 
@@ -52,15 +52,15 @@ public class BoardEvaluatorTest {
         int k = 7;
         Board board = new Board(k);
 
-        board.setTileAtPosition(new Tile(TileColour.RED), 3,0);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 4,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 5,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 4,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 5,0);
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
 
         for(int i = 0; i<k-1;i++){
-            b.connectByColour(i,0,i+1,0, TileColour.RED);
+            b.connectByColour(i,0,i+1,0, TileColour.PLAYER2);
         }
 
         double c1 = b.fadeOfAdjacencyXY(0, 0, 1, 0).get();
@@ -85,10 +85,10 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board.setTileAtPosition(new Tile(TileColour.RED), i,j);
+                board.setTileAtPosition(new Tile(TileColour.PLAYER2), i,j);
             }
         }
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         b.connectHorizontalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -100,10 +100,10 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board.setTileAtPosition(new Tile(TileColour.BLUE), i,j);
+                board.setTileAtPosition(new Tile(TileColour.PLAYER1), i,j);
             }
         }
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         b.connectVerticalEvaluation();
         assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
         assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
@@ -116,28 +116,28 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         double e1 = b.evaluateBoard();
 
 
         Board board2 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board2.setTileAtPosition(new Tile(TileColour.BLUE), i,j);
+                board2.setTileAtPosition(new Tile(TileColour.PLAYER1), i,j);
             }
         }
 
-        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         double e2 = b2.evaluateBoard();
 
         Board board3 = new Board(k);
         for(int i = 0; i<k;i++){
             for(int j = 0; j<k;j++){
-                board3.setTileAtPosition(new Tile(TileColour.RED), i,j);
+                board3.setTileAtPosition(new Tile(TileColour.PLAYER2), i,j);
             }
         }
 
-        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         double e3 = b3.evaluateBoard();
 
 
@@ -151,10 +151,10 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board.setTileAtPosition(new Tile(TileColour.BLUE), 3,i);
+            board.setTileAtPosition(new Tile(TileColour.PLAYER1), 3,i);
         }
 
-        BoardEvaluator g = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator g = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         assertTrue(g.hasWonVertically());
 
     }
@@ -165,7 +165,7 @@ public class BoardEvaluatorTest {
         Board board = new Board(k);
 
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         assertFalse(b.hasWonVertically());
 
     }
@@ -175,10 +175,10 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
         for(int i = 0; i<k; i++){
-            board.setTileAtPosition(new Tile(TileColour.RED), i,3);
+            board.setTileAtPosition(new Tile(TileColour.PLAYER2), i,3);
         }
 
-        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board, TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         assertTrue(b.hasWonHorizontally());
 
     }
@@ -188,7 +188,7 @@ public class BoardEvaluatorTest {
         int k = 5;
         Board board = new Board(k);
 
-        BoardEvaluator b = new BoardEvaluator(board, TileColour.BLUE,TileColour.RED,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board, TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         assertFalse(b.hasWonHorizontally());
 
     }
@@ -196,18 +196,18 @@ public class BoardEvaluatorTest {
     @Test
     public void specificBoardGetsEvaluatedCorrectly(){
         Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,1);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,0);
 
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,1);
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 0,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 0,2);
 
 
-        BoardEvaluator b = new BoardEvaluator(board,TileColour.RED,TileColour.BLUE, new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER2,TileColour.PLAYER1, new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
 
 
         System.out.println(b.evaluateBoard());

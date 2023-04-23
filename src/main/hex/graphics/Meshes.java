@@ -1,9 +1,12 @@
 package main.hex.graphics;
 
 import main.engine.graphics.model.*;
+import main.engine.math.Vector3;
 
 public class Meshes {
-	public static Mesh getQuad() {
+	public static Mesh buildParallelepipedMesh(Vector3 i, Vector3 j, Vector3 k) {
+		
+		//TODO
 		Mesh mesh = new Mesh();
 		mesh.addVertex(
 				new Vertex(
@@ -86,44 +89,44 @@ public class Meshes {
 		mesh.addVertex(
 				new Vertex(
 						0.0f, y, 0.0f,
-						0.0f, 0.0f,
+						0.5f, 0.5f,
 						0.0f, normal, 0.0f
 				));
 		mesh.addVertex(
 				new Vertex(
 						0.0f, y, span,
-						0.0f, span,
+						0.5f, 0.0f,
 						0.0f, normal, 0.0f
 				));
 		mesh.addVertex(
 				new Vertex(
 						-spanX, y, mid,
-						0.0f, 0.0f,
+						0.0f, 0.25f,
 						0.0f, normal, 0.0f
 				));
 		mesh.addVertex(
 				new Vertex(
 						-spanX, y, -mid,
-						0.0f, 0.0f,
+						0.0f, 0.75f,
 						0.0f, normal, 0.0f
 				));
 		mesh.addVertex(
 				new Vertex(
 						0.0f, y, -span,
-						0.0f, 0.0f,
+						0.5f, 1.0f,
 						0.0f, normal, 0.0f
 				));
 		mesh.addVertex(
 				new Vertex(
 						spanX, y, -mid,
-						0.0f, 0.0f,
+						1.0f, 0.75f,
 						0.0f, normal, 0.0f
 				));
 		
 		mesh.addVertex(
 				new Vertex(
 						spanX, y, mid,
-						0.0f, 0.0f,
+						1.0f, 0.25f,
 						0.0f, normal, 0.0f
 				));
 		
@@ -158,28 +161,28 @@ public class Meshes {
 		mesh.addVertex(
 				new Vertex(
 						x1, -thickness, y1,
-						0.0f, 0.0f,
+						0.0f, 0.25f,
 						x1 + x2, 0.0f, y1 + y2
 				));
 		
 		mesh.addVertex(
 				new Vertex(
 						x2, -thickness, y2,
-						1.0f, 0.0f,
+						1.0f, 0.25f,
 						x1 + x2, 0.0f, y1 + y2
 				));
 		
 		mesh.addVertex(
 				new Vertex(
 						x2, thickness, y2,
-						0.0f, 0.0f,
+						1.0f, 0.75f,
 						x1 + x2, 0.0f, y1 + y2
 				));
 		
 		mesh.addVertex(
 				new Vertex(
 						x1, thickness, y1,
-						1.0f, 0.0f,
+						0.0f, 0.75f,
 						x1 + x2, 0.0f, y1 + y2
 				));
 		

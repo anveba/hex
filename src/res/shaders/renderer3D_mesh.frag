@@ -24,7 +24,7 @@ struct Material
     vec3 diffuse;
     vec3 specular;
 
-    //sampler2D map_diffuse;
+    sampler2D map_diffuse;
     //sampler2D map_specular;
 
     float shininess;
@@ -36,13 +36,9 @@ uniform Material u_material;
 void main() 
 {
 	float gamma = 2.2;
-	//vec4 sampled = texture(u_tex, vec2(uv.x, uv.y));
-	//sampled.xyz = pow(sampled.xyz, vec3(gamma));
 	
-	//frag_col = sampled * u_col;
-	
-	
-	vec3 sampled_diffuse = u_col.xyz;
+	vec3 sampled_diffuse = texture(u_material.map_diffuse, vec2(uv.x, uv.y)).xyz;
+	sampled_diffuse = pow(sampled_diffuse, vec3(gamma)) * u_col.xyz;
 	vec3 sampled_specular = vec3(1.0);
 	vec3 unit_light_dir = normalize(u_light.direction);
 	

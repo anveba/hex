@@ -14,7 +14,7 @@ public class ConcurrentPlayerResponse {
 		if (heldMove != null)
 			throw new HexException("A move is already held");
 		if (move == null)
-			throw new HexException("Given move was null");
+			throw new HexException("The given move was null");
 		heldMove = move;
 	}
 	
