@@ -18,7 +18,7 @@ import java.util.Optional;
 
 /*
 Author: Nikolaj
-An artificial intelligence class, using the minimax algorithm
+An artificial intelligence class, using the minimax/negamax algorithm
  */
 
 public class AI {
@@ -120,7 +120,8 @@ public class AI {
 
     private AIMove negamax(Board state, int depth, TileColour agentColour){
 
-        //If we've already processed this board state, no need to process it again
+        //If we've already processed this board state, no need to process it again.
+    	//All transpositions will be at the same depth, so there is no loss of accuracy.
         if(memoizationTable.containsKey(state)){
             return memoizationTable.getBoard(state).get();
         }
@@ -133,7 +134,7 @@ public class AI {
         }
 
 
-        //If the boardstate is win/loss, or we've run out of depth, we return no move, but just the value of this state
+        //If the board state is win/loss, or we've run out of depth, we return no move, but just the value of this state
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
             return new AIMove(-1,-1, eval);
         }

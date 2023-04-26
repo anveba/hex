@@ -76,7 +76,7 @@ public class Renderer3D {
         getShader().setMat4("u_view", view);
         getShader().setMat4("u_proj", proj);
         
-        Vector4 viewSpaceLightDir = Matrix4.multiply(view, new Vector4(0.2f, -1.0f, 0.2f, 0.0f));
+        Vector4 viewSpaceLightDir = Matrix4.multiply(view, new Vector4(0.1f, -1.0f, 0.15f, 0.0f));
         getShader().setVec3("u_light.direction", viewSpaceLightDir.x, viewSpaceLightDir.y, viewSpaceLightDir.z);
         getShader().setVec3("u_light.ambient", 0.8f, 0.8f, 0.8f);
         getShader().setVec3("u_light.diffuse", 0.8f, 0.8f, 0.8f);
@@ -96,6 +96,7 @@ public class Renderer3D {
     	glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_MULTISAMPLE);
     }
 
 	private void drawUsingBuffers(float[] vertices, int[] indices) {

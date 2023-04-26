@@ -6,34 +6,145 @@ import main.engine.math.Vector3;
 public class Meshes {
 	public static Mesh buildParallelepipedMesh(Vector3 i, Vector3 j, Vector3 k) {
 		
-		//TODO
 		Mesh mesh = new Mesh();
+		
+		addParallelepipedQuadToMesh(mesh, 
+				new Vector3(), 
+				i, 
+				Vector3.add(i, j), 
+				j,
+				false
+				);
+		
+		addParallelepipedQuadToMesh(mesh, 
+				Vector3.add(new Vector3(), k), 
+				Vector3.add(i, k), 
+				Vector3.add(Vector3.add(i, j), k), 
+				Vector3.add(j, k),
+				true
+				);
+		
+		addParallelepipedQuadToMesh(mesh, 
+				new Vector3(), 
+				k, 
+				Vector3.add(k, i), 
+				i,
+				false
+				);
+		
+		addParallelepipedQuadToMesh(mesh, 
+				j, 
+				Vector3.add(j, k), 
+				Vector3.add(Vector3.add(k, i), j), 
+				Vector3.add(i, j),
+				true
+				);
+		
+		addParallelepipedQuadToMesh(mesh, 
+				new Vector3(), 
+				j, 
+				Vector3.add(j, k), 
+				k,
+				false
+				);
+		
+		addParallelepipedQuadToMesh(mesh, 
+				i, 
+				Vector3.add(j, i), 
+				Vector3.add(Vector3.add(j, k), i), 
+				Vector3.add(k, i),
+				true
+				);
+		
+		return mesh;
+	}
+	
+	private static void addParallelepipedQuadToMesh(Mesh mesh, Vector3 p1, Vector3 p2, 
+			Vector3 p3, Vector3 p4, boolean flipNormal) {
+		Vector3 normal = Vector3.cross(
+				Vector3.add(p1,
+						Vector3.multiply(-1.0f, p2)),
+				Vector3.add(p1,
+						Vector3.multiply(-1.0f, p3))
+				);
+		if (flipNormal)
+			normal = Vector3.multiply(-1.0f, normal);
+		int offset = mesh.vertexCount();
 		mesh.addVertex(
 				new Vertex(
-						0.0f, 0.0f, 0.0f,
-						0.0f, 0.0f,
-						0.0f, 0.0f, 1.0f
+						p1.x, p1.y, p1.z,
+						0.0f, 0.25f,
+						normal.x, normal.y, normal.z
 				));
 		
 		mesh.addVertex(
 				new Vertex(
-						1.0f, 0.0f, 0.0f,
-						1.0f, 0.0f,
-						0.0f, 0.0f, 1.0f
+						p2.x, p2.y, p2.z,
+						1.0f, 0.25f,
+						normal.x, normal.y, normal.z
 				));
 		
 		mesh.addVertex(
 				new Vertex(
-						1.0f, 1.0f, 0.0f,
-						1.0f, 1.0f,
-						0.0f, 0.0f, 1.0f
+						p3.x, p3.y, p3.z,
+						1.0f, 0.75f,
+						normal.x, normal.y, normal.z
 				));
 		
 		mesh.addVertex(
 				new Vertex(
-						0.0f, 1.0f, 0.0f,
-						0.0f, 1.0f,
-						0.0f, 0.0f, 1.0f
+						p4.x, p4.y, p4.z,
+						0.0f, 0.75f,
+						normal.x, normal.y, normal.z
+				));
+		
+		mesh.addIndex(0 + offset);
+		mesh.addIndex(1 + offset);
+		mesh.addIndex(2 + offset);
+		mesh.addIndex(2 + offset);
+		mesh.addIndex(3 + offset);
+		mesh.addIndex(0 + offset);
+	}
+	
+	public static Mesh buildQuadMesh(Vector3 p1, Vector3 p2, 
+			Vector3 p3, Vector3 p4, boolean flipNormal) {
+		
+		Mesh mesh = new Mesh();
+		
+		Vector3 normal = Vector3.cross(
+				Vector3.add(p1,
+						Vector3.multiply(-1.0f, p2)),
+				Vector3.add(p1,
+						Vector3.multiply(-1.0f, p3))
+				);
+		if (flipNormal)
+			normal = Vector3.multiply(-1.0f, normal);
+		mesh.addVertex(
+				new Vertex(
+						p1.x, p1.y, p1.z,
+						0.0f, 0.25f,
+						normal.x, normal.y, normal.z
+				));
+		
+		mesh.addVertex(
+				new Vertex(
+						p2.x, p2.y, p2.z,
+						1.0f, 0.25f,
+						normal.x, normal.y, normal.z
+				));
+		
+		mesh.addVertex(
+				new Vertex(
+						p3.x, p3.y, p3.z,
+						1.0f, 0.75f,
+						normal.x, normal.y, normal.z
+				));
+		
+		mesh.addVertex(
+				new Vertex(
+						p4.x, p4.y, p4.z,
+						0.0f, 0.75f,
+						normal.x, normal.y, normal.z
 				));
 		
 		mesh.addIndex(0);
@@ -42,7 +153,6 @@ public class Meshes {
 		mesh.addIndex(2);
 		mesh.addIndex(3);
 		mesh.addIndex(0);
-		
 		return mesh;
 	}
 	

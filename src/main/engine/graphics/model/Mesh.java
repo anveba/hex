@@ -45,4 +45,8 @@ public class Mesh {
 	public int[] getIndexBuffer() {
 		return indices.stream().mapToInt((i) -> i).toArray();
 	}
+
+	public int vertexCount() {
+		return vertices.size();
+	}
 }
