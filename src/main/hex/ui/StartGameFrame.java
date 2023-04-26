@@ -165,8 +165,10 @@ public class StartGameFrame extends Frame {
 		 */
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
+		float c = (float)Math.cos(Math.toRadians(30.0f));
+		
 		//texture
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
@@ -248,7 +250,7 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-		GameCustomisation gameCustomization = new GameCustomisation(
+		GameCustomisation gameCustomisation = new GameCustomisation(
 				startGameFrameLogic.getPlayerName(0),
 				startGameFrameLogic.getPlayerName(1),
 				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
@@ -261,11 +263,11 @@ public class StartGameFrame extends Frame {
 		Board b = new Board(boardSize);
 		Player p1 = new AIPlayer(TileColour.PLAYER1, 2);
 		Player p2 = new UserPlayer(TileColour.PLAYER2);
-		
+
 		SceneDirector.changeScene(
 				new GameplayScene(
 						new GameLogic(b, p1, p2),
-						gameCustomization));
+						gameCustomisation));
 	}
 
 	public boolean getSwapRule() {

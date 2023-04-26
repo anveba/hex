@@ -16,11 +16,11 @@ public class GameplayScene extends Scene {
 	private GameCustomisation gameCustomization;
 	private CameraController camController;
 	
-	public GameplayScene(GameLogic logic, GameCustomisation gameCustomization) {
-		if (logic == null || gameCustomization == null)
+	public GameplayScene(GameLogic logic, GameCustomisation gameCustomisation) {
+		if (logic == null || gameCustomisation == null)
 			throw new HexException("null was given");
 		this.logic = logic;
-		this.gameCustomization = gameCustomization;
+		this.gameCustomization = gameCustomisation;
 		camController = new CameraController(Game.getInstance().getCamera());
 	}
 	

@@ -25,7 +25,7 @@ public class BoardRenderer3D {
 	
 	public BoardRenderer3D() {
 		hexMesh = Meshes.buildHexTile(1.154700538f * tileSize, tileHeight);
-		float tableSize = 40.0f;
+		float tableSize = 32.0f;
 		tableQuad = Meshes.buildQuadMesh( 
 				new Vector3(-tableSize * 0.5f, 0.0f, tableSize * 0.5f), 
 				new Vector3(tableSize * 0.5f, 0.0f, tableSize * 0.5f), 
@@ -48,6 +48,16 @@ public class BoardRenderer3D {
 			0.6f, 0.6f, 0.6f,
 			2048.0f,
 			skin.getTexture(), null
+			);
+	}
+	
+	public Material buildBorderMaterial() {
+		return new Material(
+				0.02f, 0.02f, 0.02f,
+				0.8f, 0.8f, 0.8f,
+				0.6f, 0.6f, 0.6f,
+				2048.0f,
+				ResourceManager.getInstance().loadTexture("textures/white_px.png"), null
 			);
 	}
 	
@@ -106,7 +116,8 @@ public class BoardRenderer3D {
 	}
 	
 	private void drawBorder(Renderer3D renderer, Board board, GameCustomisation custom) {
-		float borderHeight = tileHeight / 2.0f;
+		float borderDepth = tileHeight;
+		float borderYOffset = -0.2f;
 		
 		float c = 0.866025404f; //cos(30)
 		float drawnBoardHeight = ((board.size() - 1.0f) * 0.75f + 1.0f) / c;
@@ -117,26 +128,26 @@ public class BoardRenderer3D {
 		Mesh borderMesh =  Meshes.buildParallelepipedMesh(
 				new Vector3(1.0f, 0.0f, 0.0f), 
 				new Vector3(-borderSlant, 0.0f, drawnBoardHeight), 
-				new Vector3(0.0f, borderHeight, 0.0f));
+				new Vector3(0.0f, borderDepth, 0.0f));
 
-		renderer.draw(borderMesh, buildTileMaterial(custom.getPlayer1Skin()), 
-				new Vector3(-borderSlant + offset - 0.25f * c, -borderHeight * 1.5f, -drawnBoardHeight * 0.5f), new Vector3(), 
+		renderer.draw(borderMesh, buildBorderMaterial(), 
+				new Vector3(-borderSlant + offset - 0.25f * c, -borderDepth + borderYOffset, -drawnBoardHeight * 0.5f), new Vector3(), 
 				custom.getPlayer1Skin().getTint());
-		renderer.draw(borderMesh, buildTileMaterial(custom.getPlayer1Skin()), 
-				new Vector3(borderSlant + offset - 0.5f * c, -borderHeight * 1.5f, -drawnBoardHeight * 0.5f), new Vector3(), 
+		renderer.draw(borderMesh, buildBorderMaterial(), 
+				new Vector3(borderSlant + offset - 0.5f * c, -borderDepth + borderYOffset, -drawnBoardHeight * 0.5f), new Vector3(), 
 				custom.getPlayer1Skin().getTint());
 		
 		
 		borderMesh =  Meshes.buildParallelepipedMesh(
 				new Vector3(-0.5f, 0.0f, 1.0f), 
 				new Vector3(-drawnBoardWidth, 0.0f, 0.0f), 
-				new Vector3(0.0f, borderHeight, 0.0f));
+				new Vector3(0.0f, borderDepth, 0.0f));
 
-		renderer.draw(borderMesh, buildTileMaterial(custom.getPlayer2Skin()), 
-				new Vector3(0.25f * c + borderSlant + offset, -borderHeight * 1.5f, -drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
+		renderer.draw(borderMesh, buildBorderMaterial(), 
+				new Vector3(0.25f * c + borderSlant + offset, -borderDepth + borderYOffset, -drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
 				custom.getPlayer2Skin().getTint());
-		renderer.draw(borderMesh, buildTileMaterial(custom.getPlayer2Skin()), 
-				new Vector3(0.25f * c + offset, -borderHeight * 1.5f, drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
+		renderer.draw(borderMesh, buildBorderMaterial(), 
+				new Vector3(0.25f * c + offset, -borderDepth + borderYOffset, drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
 				custom.getPlayer2Skin().getTint());
 	}
 	
@@ -155,8 +166,11 @@ public class BoardRenderer3D {
 					(tile.getColour() == TileColour.PLAYER1 ? custom.getPlayer1Skin() : custom.getPlayer2Skin());
 				
 				Colour col = skin.getTint();
-				if (hovered.getX() == i && hovered.getY() == j)
+				if (tile.getColour() == TileColour.WHITE &&
+						hovered.getX() == i && hovered.getY() == j)
 					col = Colour.multiply(col, Colour.LightGrey);
+				if (tile.getColour() != TileColour.WHITE)
+					position.y += 0.2f;
 				renderer.draw(hexMesh, buildTileMaterial(skin), position, rotation, col);
 			}
 		}

@@ -66,12 +66,13 @@ public class GameLogic implements Updateable {
 
         Tile tile = board.getTileAtPosition(move.getX(), move.getY());
 
-        if (tile.getColour() == TileColour.WHITE)
+        if (tile.getColour() == TileColour.WHITE) {
         	board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
-        else if (tile.getColour() == player1.getColour() && currentTurn == 1 && swapRuleEnabled)
-        	executeSwapRule(move);
-        else
-        	return false;
+		} else if (tile.getColour() == player1.getColour() && currentTurn == 1 && swapRuleEnabled) {
+			executeSwapRule(move);
+		} else {
+			return false;
+		}
         return true;
     }
 
@@ -121,7 +122,7 @@ public class GameLogic implements Updateable {
     	}
     	return false;
     }
-    
+
     public Board getBoard() {
     	return board;
     }
