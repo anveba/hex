@@ -9,18 +9,18 @@ import java.util.Optional;
 
 public class BoardHashTable {
 
-    private HashMap<String, AIMove> hashMap;
+    private HashMap<Integer, AIMove> hashMap;
 
     public BoardHashTable(){
         this.hashMap = new HashMap<>();
     }
 
     public void putBoard(Board b,AIMove m){
-        hashMap.put(hashBoardToString(b),m);
+        hashMap.put(b.getHash(),m);
     }
 
     public Optional<AIMove> getBoard(Board b){
-        String key = hashBoardToString(b);
+        int key = b.getHash();
         if(hashMap.containsKey(key)){
             return Optional.of(hashMap.get(key));
         }
@@ -28,27 +28,9 @@ public class BoardHashTable {
     }
 
     public boolean containsKey(Board b) {
-        return hashMap.containsKey(hashBoardToString(b));
+        return hashMap.containsKey(b.getHash());
     }
 
 
-    private String hashBoardToString(Board b){
-        StringBuilder hash = new StringBuilder();
-        for(int x = 0; x < b.size(); x++){
-            for(int y = 0; y < b.size(); y++){
-                if(b.getTileAtPosition(x,y).getColour() == TileColour.PLAYER2){
-                    hash.append("R");
-                    continue;
-                }
-                if(b.getTileAtPosition(x,y).getColour() == TileColour.PLAYER1){
-                    hash.append("B");
-                    continue;
-                }
-                hash.append("W");
-
-            }
-        }
-        return hash.toString();
-    }
 
 }

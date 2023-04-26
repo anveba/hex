@@ -111,7 +111,7 @@ public class BoardTest {
         assertNotEquals(null, board.getTileAtPosition(1, 1));
     }
 
-    
+
     @Test
     public void tileToScreen_screenToTileCorrectedCoordinates_Equals() {
     	Vector2 original = new Vector2(0.34f, 0.64f);
@@ -134,6 +134,8 @@ public class BoardTest {
     			screenSpacePosition.getX(), screenSpacePosition.getY());
     	assertEquals(original, tileSpacePosition);
     }
+
+
 
     @Test
     public void setTileAtPosition_tileColourSet_colourSet() {

@@ -1,13 +1,6 @@
 package test.hex.ai;
 
-import main.hex.AIPlayer;
-import main.hex.Player;
-import main.hex.ai.AI;
-import main.hex.ai.AIMove;
-import main.hex.ai.graph.BoardChildGenerator;
-import main.hex.ai.graph.BoardEvaluator;
-import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
-import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
+import main.hex.ai.BoardChildGenerator;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;

@@ -1,4 +1,4 @@
-package main.hex.ai.graph;
+package main.hex.ai;
 
 import main.hex.ai.AIException;
 import main.hex.ai.AIMove;

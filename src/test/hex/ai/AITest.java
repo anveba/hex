@@ -178,15 +178,20 @@ public class AITest {
     //Basically just a test to see how deep we can run the search
     @Test
     public void AIDepthFunction(){
-        Board board = new Board(3);
+        Board board = new Board(10);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
 
         AI ai = new AI(board,agent);
 
+        long startTime = System.nanoTime();
+        Move nextMove = ai.getBestMove(3);
+        long endTime = System.nanoTime();
 
-        Move nextMove = ai.getBestMove(9);
+        System.out.println((endTime - startTime)/1000000 + "ms");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+
         //System.out.println(nextMove.getX() + " "+nextMove.getY());
         
 

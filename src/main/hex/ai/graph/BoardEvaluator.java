@@ -14,6 +14,8 @@ import main.hex.board.TileColour;
 
 public class BoardEvaluator {
 
+    private static int evaluationCount = 0;
+
     private GridGraph gridGraph;
     private TileColour verticalColour;
     private TileColour horizontalColour;
@@ -44,11 +46,16 @@ public class BoardEvaluator {
         this.graphHeuristicFunction = h;
     }
 
+    public static int getEvaluationCount() {
+        return evaluationCount;
+    }
+
 
     //Evaluates current boardstate, using signal heuristics
     //Positive number -> Vertical is favoured
     //Negative number -> Horizontal is favoured
     public double evaluateBoard() {
+        evaluationCount++;
         gridGraph.resetAdjacencyList();;
         gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.startEndWeight);
         connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);

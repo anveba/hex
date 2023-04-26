@@ -9,6 +9,7 @@ public class Preferences {
 	
 	private static Preferences instance;
 	public static Preferences getInstance() {
+
 		if (instance == null)
 			instance = new Preferences();
 		return instance;

@@ -6,9 +6,12 @@ import main.engine.math.Vector2;
 import main.engine.math.Vector3;
 import main.hex.GameCustomisation;
 import main.hex.HexException;
+import main.hex.ai.AIMove;
+import main.hex.ai.BoardHasher;
 
 public class Board implements IBoard {
-	
+
+    private int hash = 0;
     private Tile[][] board;
     private static BoardRenderer2D renderer2D;
     private static BoardRenderer2D getRenderer2D() {
@@ -109,4 +112,25 @@ public class Board implements IBoard {
 	public Vector3 tileToWorld(int x, int y) {
 		return getRenderer3D().tileToWorld(x, y, size());
 	}
+
+    public void makeMove(AIMove m, TileColour colour) {
+        setTileAtPosition(new Tile(colour),m.getX(),m.getY());
+        BoardHasher bh = BoardHasher.getInstance(board.length);
+        hash = bh.toggleMoveToBoardHash(hash,m,colour);
+    }
+
+    public void unMakeMove(AIMove m,TileColour colour) {
+        setTileAtPosition(new Tile(TileColour.WHITE),m.getX(),m.getY());
+        BoardHasher bh = BoardHasher.getInstance(board.length);
+        hash = bh.toggleMoveToBoardHash(hash,m,colour);
+    }
+
+    public int getHash() {
+        return hash;
+    }
+
+    public void doFullHash() {
+        BoardHasher bh = BoardHasher.getInstance(board.length);
+        hash = bh.hash(this);
+    }
 }
