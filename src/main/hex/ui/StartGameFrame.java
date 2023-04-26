@@ -165,8 +165,10 @@ public class StartGameFrame extends Frame {
 		 */
 		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 
+		float c = (float)Math.cos(Math.toRadians(30.0f));
+		
 		//texture
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
