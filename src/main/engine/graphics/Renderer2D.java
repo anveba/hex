@@ -29,10 +29,8 @@ public class Renderer2D {
     			colour);
     }
 
-    public void drawSprite(PlayerSkin skin, float x, float y,
-                           float width, float height) {
-        spriteRenderer.draw(skin.getTexture(), x, y, width, height, 0, 0,
-                skin.getTexture().width(), skin.getTexture().height(), skin.getTint());
+    public void drawSprite(Texture tex, Colour col, float x, float y, float width, float height) {
+        spriteRenderer.draw(tex, x, y, width, height, 0, 0, tex.width(), tex.height(), col);
     }
     
     public void drawString(BitmapFont font, String text, 

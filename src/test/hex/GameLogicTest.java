@@ -51,7 +51,7 @@ public class GameLogicTest {
         assertEquals(player1, gameLogic.getCurrentTurnsPlayer());
     }
 
-    // Tests for swap rul
+    // Tests for swap rule
     @Test
     public void swapRuleSwapsPlayersCorrectly() {
         gameLogic.setSwapRuleState(true);

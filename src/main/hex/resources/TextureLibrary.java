@@ -6,6 +6,7 @@ import main.engine.graphics.Texture;
 public enum TextureLibrary {
     LOGO("textures/gui/misc/logo.png"),
     WHITE_TILE("textures/board/white_tile.png"),
+    WHITE_TILE_FULL("textures/board/white_tile_full.png"),
     ZEBRA_TILE("textures/board/zebra_tile.png"),
     GREY_SQUARE_BOX("textures/gui/BoxesBanners/Box_Square.png"),
     BANNER_GREY("textures/gui/BoxesBanners/Banner_Grey.png"),
