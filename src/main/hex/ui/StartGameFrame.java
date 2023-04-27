@@ -259,9 +259,9 @@ public class StartGameFrame extends Frame {
 				startGameFrameLogic.getSwapRule());
 
 		//TODO Should be chosen by player
-		int boardSize = 11;
+		int boardSize = 3;
 		Board b = new Board(boardSize);
-		Player p1 = new AIPlayer(TileColour.PLAYER1, 2);
+		Player p1 = new AIPlayer(TileColour.PLAYER1, 9);
 		Player p2 = new UserPlayer(TileColour.PLAYER2);
 
 		SceneDirector.changeScene(
