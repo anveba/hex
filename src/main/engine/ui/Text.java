@@ -2,8 +2,11 @@ package main.engine.ui;
 
 import main.engine.*;
 import main.engine.font.BitmapFont;
+import main.engine.font.FontCharacterData;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
+import main.engine.math.Vector2;
+import main.hex.Game;
 
 public class Text extends UIElement {
 
@@ -98,9 +101,10 @@ public class Text extends UIElement {
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		assert anchor != null;
 		float anchoredX = x + offsetX;
-		if (anchor != AnchorPoint.Center)
-			anchoredX += renderer.getRenderedStringWidth(font, text, height) / 2.0f * 
-				(anchor == AnchorPoint.Left ? 1.0f : -1.0f);
+		if (anchor != AnchorPoint.Center) {
+			anchoredX += renderer.getRenderedStringWidth(font, text, height) / 2.0f *
+					(anchor == AnchorPoint.Left ? 1.0f : -1.0f);
+		}
 		renderer.drawString(font, text, anchoredX, y + offsetY, height, Colour.multiply(colour, c));
 	}
 }

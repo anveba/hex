@@ -32,7 +32,7 @@ public class StartGameFrame extends Frame {
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
-	
+
 	private float fontSize = 0.07f;
 	private float headerFontSize = 0.12f;
 	private float playerTypeFontSize = 0.05f;
@@ -198,9 +198,9 @@ public class StartGameFrame extends Frame {
 
 
 		//Name text field
-		Text nameText = new Text(-0.2f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
+		Text nameText = new Text(-0.24f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
 		playerSettingUIGroup.addChild(nameText);
-		TextField playerNameTextField = new TextField(0.15f, -0.40f, FONT_FREDOKA_ONE, "Click to type", fontSize);
+		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Click to type",0.49f, 0.06f, Colour.LightGrey);
 		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 

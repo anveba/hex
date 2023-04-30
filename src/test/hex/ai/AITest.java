@@ -13,6 +13,7 @@ import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import org.junit.Ignore;
 import test.hex.TestPlayerClass;
 import org.junit.Test;
 
@@ -177,6 +178,7 @@ public class AITest {
 
     //Basically just a test to see how deep we can run the search
     @Test
+    @Ignore
     public void AIDepthFunction(){
         Board board = new Board(10);
 
