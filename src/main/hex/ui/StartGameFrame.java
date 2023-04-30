@@ -57,7 +57,7 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
-		startGameFrameLogic.setPlayerTypeIndex(1, 2);
+		startGameFrameLogic.setPlayerTypeIndex(0, 2);
 
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -200,7 +200,7 @@ public class StartGameFrame extends Frame {
 		//Name text field
 		Text nameText = new Text(-0.24f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
 		playerSettingUIGroup.addChild(nameText);
-		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Click to type",0.49f, 0.06f, Colour.LightGrey);
+		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Player " + (playerIndex + 1),0.49f, 0.06f, Colour.LightGrey);
 		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
@@ -268,8 +268,12 @@ public class StartGameFrame extends Frame {
 		//TODO Should be chosen by player
 		int boardSize = 11;
 		Board b = new Board(boardSize);
-		Player p1 = new AIPlayer(TileColour.PLAYER1, 1);
-		Player p2 = new UserPlayer(TileColour.PLAYER2);
+		//Player p1 = new AIPlayer(TileColour.PLAYER1, 1);
+		//Player p2 = new UserPlayer(TileColour.PLAYER2);
+		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
+				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 1);
+		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
+				new UserPlayer(TileColour.PLAYER2) : new AIPlayer(TileColour.PLAYER2, 1);
 
 		SceneDirector.changeScene(
 				new GameplayScene(

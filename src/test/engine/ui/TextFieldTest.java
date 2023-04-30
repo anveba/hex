@@ -19,7 +19,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
 
         doNothing().when(text).setAnchorPoint(AnchorPoint.Left);
         doNothing().when(text).setPosition(anyFloat(),anyFloat());
@@ -32,7 +32,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
 
         Assert.assertTrue(textField.containsPosition(x,y));
     }
@@ -42,7 +42,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
 
         assertEquals(textField.getDefaultString(), textField.getText());
     }
@@ -52,7 +52,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
 
         Assert.assertFalse(textField.isFocused());
     }
@@ -61,7 +61,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         TextInputArgs textInputArgs = new TextInputArgs('a');
         textField.processTextInput(textInputArgs);
         assertEquals(textField.getDefaultString(), textField.getText());
@@ -71,7 +71,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -83,7 +83,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
         Assert.assertTrue(textField.isFocused());
@@ -94,7 +94,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -109,7 +109,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -124,7 +124,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -142,7 +142,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
@@ -155,7 +155,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
@@ -171,7 +171,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image);
+        TextField textField = new TextField(x, y, width, height, text, image, "default");
 
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());

@@ -26,23 +26,26 @@ public class TextField extends RectElement implements Clickable {
     private float timeTillNextUpdate;
     private boolean textAnimationLineShown = false;
     
-    public TextField(float x, float y, BitmapFont font, String text, float width, float height, Colour lineColour) {
+    public TextField(float x, float y, BitmapFont font, String defaultString, float width, float height, Colour lineColour) {
         this(  x,
                 y,
                 width,
                 height,
-                new Text(x, y, font, text, height, lineColour),
-                new Image(x, y-height/1.25f, width, height/8, TextureLibrary.WHITE_SQUARE.getTexture())
+                new Text(x, y, font, defaultString, height, lineColour),
+                new Image(x, y-height/1.25f, width, height/8, TextureLibrary.WHITE_SQUARE.getTexture()),
+                defaultString
         );
     }
 
-    public TextField(float x, float y, float width, float height, Text text, Image image) {
+    public TextField(float x, float y, float width, float height, Text text, Image image, String defaultString) {
         super(x,y,width,height);
         this.text = text;
         this.text.setAnchorPoint(AnchorPoint.Left);
         this.text.setPosition(x - width / 2.0f, y);
 
         this.image = image;
+
+        this.defaultString = defaultString;
 
         animationTime = 0.6f;
         timeTillNextUpdate = animationTime;
