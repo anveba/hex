@@ -12,13 +12,10 @@ public class Text extends UIElement {
 	private BitmapFont font;
 	private String text;
 	private Colour colour;
+	private AnchorPoint anchor;
 	
 	public Text(float x, float y, BitmapFont font, String text, float height) {
-		setPosition(x, y);
-		setFont(font);
-		setText(text);
-		setHeight(height);
-		setColour(Colour.White);
+		this (x, y, font, text, height, Colour.White);
 	}
 
 	public Text(float x, float y, BitmapFont font, String text, float height, Colour colour) {
@@ -27,6 +24,7 @@ public class Text extends UIElement {
 		setText(text);
 		setHeight(height);
 		setColour(colour);
+		setAnchorPoint(AnchorPoint.Center);
 	}
 
 	@Override
@@ -84,6 +82,12 @@ public class Text extends UIElement {
 			throw new EngineException("Colour was null");
 		colour = c;
 	}
+	
+	public void setAnchorPoint(AnchorPoint anchor) {
+		if (anchor == null)
+			throw new EngineException("Anchor was null");
+		this.anchor = anchor;
+	}
 
 	@Override
 	public void update(TimeRecord elapsed) {
@@ -92,6 +96,11 @@ public class Text extends UIElement {
 	
 	@Override
 	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
-		renderer.drawString(font, text, x + offsetX, y + offsetY, height, Colour.multiply(colour, c));
+		assert anchor != null;
+		float anchoredX = x + offsetX;
+		if (anchor != AnchorPoint.Center)
+			anchoredX += renderer.getRenderedStringWidth(font, text, height) / 2.0f * 
+				(anchor == AnchorPoint.Left ? 1.0f : -1.0f);
+		renderer.drawString(font, text, anchoredX, y + offsetY, height, Colour.multiply(colour, c));
 	}
 }

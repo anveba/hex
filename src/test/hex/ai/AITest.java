@@ -186,7 +186,7 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long startTime = System.nanoTime();
-        Move nextMove = ai.getBestMove(5);
+        Move nextMove = ai.getBestMove(1);
         long endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");

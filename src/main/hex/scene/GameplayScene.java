@@ -66,6 +66,8 @@ public class GameplayScene extends Scene {
 	@Override
 	public void update(TimeRecord time) {
 		logic.update(time);
+		if (logic.coloursSwapped())
+			gameCustomization.setPlayersAsSwapped();
 		camController.update(time);
 	}
 

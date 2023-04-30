@@ -38,7 +38,7 @@ public class UserPlayer extends Player implements ControlsCallback {
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
 		Game.getInstance().getControlsListener()
-			.addOnAnyPressCallback(this);
+			.addOnAnyReleaseCallback(this);
 		this.board = board;
 		this.response = response;
 	}
@@ -58,7 +58,7 @@ public class UserPlayer extends Player implements ControlsCallback {
 	@Override
 	public void onTurnReceival() {
 		Game.getInstance().getControlsListener()
-			.removeOnAnyPressCallback(this);
+			.removeOnAnyReleaseCallback(this);
 	}
 	
 	@Override
