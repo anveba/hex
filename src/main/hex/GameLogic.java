@@ -4,6 +4,9 @@ import main.engine.TimeRecord;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.player.ConcurrentPlayerResponse;
+import main.hex.player.Player;
+import main.hex.player.PlayerCondition;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -132,6 +135,7 @@ public class GameLogic implements Updateable {
 
 	@Override
 	public void update(TimeRecord elapsed) {
+		players.stream().forEach(p -> p.update(elapsed));
 		pollPlayerResponse();
 	}
 	

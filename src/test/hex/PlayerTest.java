@@ -6,6 +6,8 @@ import org.junit.*;
 import main.hex.*;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.player.Player;
+import main.hex.player.UserPlayer;
 
 public class PlayerTest {
 

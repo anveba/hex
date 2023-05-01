@@ -3,6 +3,7 @@ package test.hex;
 import main.hex.*;
 import main.engine.*;
 import main.hex.board.*;
+import main.hex.player.PlayerCondition;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

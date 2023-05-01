@@ -1,7 +1,8 @@
-package main.hex;
+package main.hex.player;
 
 import java.util.function.BiConsumer;
 
+import main.hex.HexException;
 import main.hex.ai.*;
 import main.hex.board.Board;
 import main.hex.board.TileColour;

@@ -1,7 +1,6 @@
 package main.hex.ai;
 
 import main.hex.HexException;
-import main.hex.Player;
 import main.hex.ai.graph.BoardEvaluator;
 import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
 import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
@@ -10,6 +9,7 @@ import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.player.Player;
 
 import java.util.ArrayList;
 import java.util.Optional;

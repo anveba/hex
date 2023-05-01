@@ -1,10 +1,7 @@
 package test.hex.ai;
 
 import main.engine.graphics.Colour;
-import main.hex.AIPlayer;
 import main.hex.Move;
-import main.hex.Player;
-
 import main.hex.ai.AI;
 import main.hex.ai.AIMove;
 import main.hex.ai.graph.BoardEvaluator;
@@ -13,6 +10,9 @@ import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.player.AIPlayer;
+import main.hex.player.Player;
+
 import org.junit.Ignore;
 import test.hex.TestPlayerClass;
 import org.junit.Test;

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import org.junit.*;
 
 import main.hex.*;
+import main.hex.player.ConcurrentPlayerResponse;
 
 public class ConcurrentPlayerResponseTest {
 	

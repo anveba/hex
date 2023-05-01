@@ -46,6 +46,7 @@ public class TextField extends RectElement implements Clickable {
         this.image = image;
 
         this.defaultString = defaultString;
+        textString = new StringBuilder();
 
         animationTime = 0.6f;
         timeTillNextUpdate = animationTime;

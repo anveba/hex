@@ -83,11 +83,12 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        String defaultString = "default";
+        TextField textField = new TextField(x, y, width, height, text, image, defaultString);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
         Assert.assertTrue(textField.isFocused());
-        assertEquals(null, textField.getText());
+        assertEquals(defaultString, textField.getText());
     }
     @Test
     public void textFieldChangedWhenFocusedAndTextInput() {

@@ -1,12 +1,15 @@
-package main.hex;
+package main.hex.player;
 
 import java.util.function.BiConsumer;
 
+import main.engine.TimeRecord;
+import main.hex.HexException;
+import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
 
- public abstract class Player {
+ public abstract class Player implements Updateable {
 
     private TileColour playerColour;
 
@@ -28,11 +31,17 @@ import main.hex.board.TileColour;
     	return playerColour.winsByVerticalConnection();
     }
     
-    protected abstract void processTurn(Board board, ConcurrentPlayerResponse response);
+    public abstract void processTurn(Board board, ConcurrentPlayerResponse response);
     
-    protected abstract void correctInvalidTurn(Board board, ConcurrentPlayerResponse response);
+    public abstract void correctInvalidTurn(Board board, ConcurrentPlayerResponse response);
     
-    protected abstract void onTurnReceival();
+    public abstract void onTurnReceival();
     
-    protected abstract void onEndOfTurn();
+    public abstract void onEndOfTurn();
+    
+
+	@Override
+	public void update(TimeRecord elapsed) {
+		
+	}
 }

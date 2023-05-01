@@ -1,21 +1,28 @@
-package main.hex;
+package main.hex.player;
 
 import java.util.function.BiConsumer;
 
 import main.engine.Point2;
+import main.engine.TimeRecord;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.input.ControlsCallback;
+import main.hex.Game;
+import main.hex.Move;
+import main.hex.Preferences;
+import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
-public class UserPlayer extends Player implements ControlsCallback {
+public class UserPlayer extends Player {
 
 	private Board board;
 	private ConcurrentPlayerResponse response;
+	private boolean isCurrentTurn;
 	
 	public UserPlayer(TileColour playerColour) {
 		super(playerColour);
+		isCurrentTurn = false;
 	}
 	
 	private void handleClick() {
@@ -37,17 +44,9 @@ public class UserPlayer extends Player implements ControlsCallback {
 
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
-		Game.getInstance().getControlsListener()
-			.addOnAnyReleaseCallback(this);
+		isCurrentTurn = true;
 		this.board = board;
 		this.response = response;
-	}
-
-	@Override
-	public void onControlsInput(ControlsArgs args) {
-		if (args.getControls() == Controls.LEFT_MOUSE) {
-			handleClick();
-		}
 	}
 
 	@Override
@@ -57,12 +56,20 @@ public class UserPlayer extends Player implements ControlsCallback {
 
 	@Override
 	public void onTurnReceival() {
-		Game.getInstance().getControlsListener()
-			.removeOnAnyReleaseCallback(this);
+		isCurrentTurn = false;
 	}
 	
 	@Override
 	public void onEndOfTurn() {
     	
+	}
+	
+
+	@Override
+	public void update(TimeRecord elapsed) {
+		if (isCurrentTurn && 
+				Game.getInstance().getControlsListener().isReleased(Controls.LEFT_MOUSE))
+			handleClick();
+		
 	}
 }
