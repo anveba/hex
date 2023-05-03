@@ -11,7 +11,11 @@ public class DijkstraGraphHeuristic implements GraphHeuristicFunction {
 
     @Override
     public double computeGraphHeuristic(Graph g) {
-        return Double.MAX_VALUE - shortestPath(g, g.getNumberOfNodes()-1,g.getNumberOfNodes()-2);
+        double distance =  shortestPath(g, g.getNumberOfNodes()-1,g.getNumberOfNodes()-2);
+        int distance_int = (int) distance;
+        int heuristic = Integer.MAX_VALUE - distance_int;
+        double d_heuristic = (double) heuristic;
+        return d_heuristic;
     }
 
     //Dijkstra a la CSES

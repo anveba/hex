@@ -16,6 +16,7 @@ public class DijkstraBasedTileConnector extends TileConnectionFunction{
         TileColour t2Colour = board.getTileAtPosition(toX,toY).getColour();
 
         if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
+            System.out.println("Returned");
             return;
         }
         float weight = 0;
@@ -26,5 +27,10 @@ public class DijkstraBasedTileConnector extends TileConnectionFunction{
             weight += weightConstant;
         }
         gridGraph.connectXyWithWeight(fromX,fromY,toX,toY,weight);
+    }
+
+    @Override
+    public double getStartEndWeight() {
+        return 0;
     }
 }

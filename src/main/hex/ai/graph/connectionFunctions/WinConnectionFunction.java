@@ -17,4 +17,9 @@ public class WinConnectionFunction extends TileConnectionFunction{
         }
 
     }
+
+    @Override
+    public double getStartEndWeight() {
+        return 1;
+    }
 }

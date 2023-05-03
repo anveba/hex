@@ -12,7 +12,12 @@ public class SignalBasedTileConnector extends TileConnectionFunction {
     private final double fadeConstant = 0.1;
 
 
-    double startEndWeight = 1;
+    public double startEndWeight = 1;
+
+    @Override
+    public double getStartEndWeight() {
+        return startEndWeight;
+    }
 
     //Connects two tiles with fade based on their colour
     //If they both have agent colour -> 1
