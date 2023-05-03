@@ -37,4 +37,8 @@ public class Renderer2D {
     		float x, float y, float height, Colour colour) {
     	stringRenderer.draw(font, text, x, y, height, colour);
     }
+    
+    public float getRenderedStringWidth(BitmapFont font, String str, float height) {
+    	return stringRenderer.getRenderedStringWidth(font, str, height);
+    }
 }

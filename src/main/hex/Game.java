@@ -7,6 +7,7 @@ import main.hex.ui.GameplayFrame;
 import main.engine.*;
 import main.engine.graphics.*;
 import main.engine.input.Controls;
+import main.engine.input.ControlsArgs;
 import main.engine.ui.FrameStack;
 import main.hex.ui.StartGameFrame;
 
@@ -40,15 +41,6 @@ public class Game extends GameWindow {
     }
     
     private void setupUserInterface() {
-    	
-        getControlsListener().addOnAnyReleaseCallback((args) -> {
-        	if (args.getControls() != Controls.LEFT_MOUSE)
-        		return;
-            FrameStack.getInstance().clickAt(
-            		getControlsListener().getCursorX(),
-            		getControlsListener().getCursorY()
-            		);
-        });
         
         getControlsListener().addOnCursorMoveCallback((x, y) -> {
             FrameStack.getInstance().hoverAt(x, y);
@@ -56,10 +48,6 @@ public class Game extends GameWindow {
         
         getControlsListener().addTextInputCallback((ch) -> {
             FrameStack.getInstance().processTextInput(ch);
-        });
-        
-        getControlsListener().addOnAnyReleaseCallback((args) -> {
-            FrameStack.getInstance().processControlsInput(args);
         });
     }
     
@@ -75,6 +63,17 @@ public class Game extends GameWindow {
     protected void update(TimeRecord elapsed) {
     	SceneDirector.updateCurrentScene(elapsed);
     	FrameStack.getInstance().update(elapsed);
+    	
+    	if (getControlsListener().isReleased(Controls.LEFT_MOUSE)) {    		
+    		FrameStack.getInstance().clickAt(
+            		getControlsListener().getCursorX(),
+            		getControlsListener().getCursorY()
+            		);
+    	}
+    	
+    	for (Controls c : getControlsListener().currentlyReleased())
+    		FrameStack.getInstance().processControlsInput(new ControlsArgs(c));
+        
     	getControlsListener().flush();
     }
 

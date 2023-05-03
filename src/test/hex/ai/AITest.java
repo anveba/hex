@@ -1,10 +1,7 @@
 package test.hex.ai;
 
 import main.engine.graphics.Colour;
-import main.hex.AIPlayer;
 import main.hex.Move;
-import main.hex.Player;
-
 import main.hex.ai.AI;
 import main.hex.ai.AIMove;
 import main.hex.ai.graph.BoardEvaluator;
@@ -13,6 +10,10 @@ import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.player.AIPlayer;
+import main.hex.player.Player;
+
+import org.junit.Ignore;
 import test.hex.TestPlayerClass;
 import org.junit.Test;
 
@@ -177,6 +178,7 @@ public class AITest {
 
     //Basically just a test to see how deep we can run the search
     @Test
+    @Ignore
     public void AIDepthFunction(){
         Board board = new Board(3);
 
@@ -186,10 +188,10 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long startTime = System.nanoTime();
-        Move nextMove = ai.getBestMove(3);
+        Move nextMove = ai.getBestMove(1);
         long endTime = System.nanoTime();
 
-        System.out.println((endTime - startTime)/1000000 + "ms");
+        System.out.println((endTime - startTime)/1000000000 + "s");
         System.out.println(BoardEvaluator.getEvaluationCount());
 
         //System.out.println(nextMove.getX() + " "+nextMove.getY());

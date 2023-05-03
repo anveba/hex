@@ -1,4 +1,7 @@
-package main.hex;
+package main.hex.player;
+
+import main.hex.HexException;
+import main.hex.Move;
 
 public class ConcurrentPlayerResponse {
 	

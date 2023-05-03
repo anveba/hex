@@ -14,6 +14,9 @@ public class Board implements IBoard {
     private int hash = 0;
     private Tile[][] board;
     private static BoardRenderer2D renderer2D;
+
+
+
     private static BoardRenderer2D getRenderer2D() {
     	if (renderer2D == null)
     		renderer2D = new BoardRenderer2D();

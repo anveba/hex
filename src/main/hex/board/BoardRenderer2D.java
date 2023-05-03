@@ -14,7 +14,7 @@ public class BoardRenderer2D {
 
     private boolean hasLoadedResources;
     private Texture whiteTileTexture;
-    private final Texture borderTexture = TextureLibrary.WHITE_TILE_FULL.getTexture();
+    private Texture borderTexture;
 
     public static final float tileSize = 0.08f;
     public static final float tileHeight = tileSize * 1.1547005f;
@@ -146,6 +146,7 @@ public class BoardRenderer2D {
         whiteTileTexture = ResourceManager.getInstance()
                 .loadTexture("textures/board/light_grey_tile.png");
         hasLoadedResources = true;
+        borderTexture = TextureLibrary.WHITE_TILE_FULL.getTexture();
 	}
 	
 	public float getTileSize() {

@@ -12,7 +12,6 @@ public class ControlsListener {
     
     private List<CursorMoveCallback> onCursorMoveCallbacks;
     private List<TextInputCallback> onTextInputCallbacks;
-    private List<ControlsCallback> onAnyPressCallbacks, onAnyReleaseCallbacks;
     private Set<Controls> isPressed, isReleased, isDown;
     
     private float cursorX, cursorY;
@@ -29,8 +28,6 @@ public class ControlsListener {
         
         onCursorMoveCallbacks = new ArrayList<>();
         onTextInputCallbacks = new ArrayList<>();
-        onAnyPressCallbacks = new ArrayList<>();
-        onAnyReleaseCallbacks = new ArrayList<>();
         
         inputProcessorSetter.accept(this::processKeyInput);
         mouseProcessorSetter.accept(this::processCursorPosition);
@@ -58,17 +55,7 @@ public class ControlsListener {
         }
     }
     
-    private void callRelevantCallbacks(Controls c, InputType t) {
-    	if (t == InputType.PRESSED) {
-        	var args = new ControlsArgs(c);
-            for (var cb : onAnyPressCallbacks)
-        		cb.onControlsInput(args);
-        } else if (t == InputType.RELEASED) {
-        	var args = new ControlsArgs(c);
-            for (var cb : onAnyReleaseCallbacks)
-        		cb.onControlsInput(args);
-        }
-        
+    private void callRelevantCallbacks(Controls c, InputType t) {        
         if (c == Controls.BACKSPACE && (t == InputType.PRESSED || t == InputType.REPEAT))
         	for (var cb : onTextInputCallbacks)
         		cb.onTextInput('\b');
@@ -86,25 +73,6 @@ public class ControlsListener {
     {
     	for (var c : onTextInputCallbacks)
     		c.onTextInput(ch);
-    }
-    
-    public void addOnAnyPressCallback(ControlsCallback callback) {
-    	if (callback == null)
-    		throw new EngineException("Callback was null");
-    	onAnyPressCallbacks.add(callback);
-    }
-    
-    public boolean removeOnAnyPressCallback(ControlsCallback callback) {
-    	return onAnyPressCallbacks.remove(callback);
-    }
-    
-    public void addOnAnyReleaseCallback(ControlsCallback callback) {
-    	
-    	onAnyReleaseCallbacks.add(callback);
-    }
-    
-    public void removeOnAnyReleaseCallback(ControlsCallback callback) {
-    	onAnyReleaseCallbacks.remove(callback);
     }
     
     private static void addToMap(Map<Controls, List<ControlsCallback>> map,
@@ -172,4 +140,17 @@ public class ControlsListener {
     public boolean isPressed(Controls c) { return isPressed.contains(c); }
     public boolean isReleased(Controls c) { return isReleased.contains(c); }
     public boolean isDown(Controls c) { return isDown.contains(c); }
+    
+    public List<Controls> currentlyPressed() {
+    	return isPressed.stream().toList();
+    }
+
+    public List<Controls> currentlyReleased() {
+    	return isReleased.stream().toList();
+    }
+    
+    public List<Controls> currentlyDown() {
+    	return isDown.stream().toList();
+    }
+
 }

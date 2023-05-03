@@ -8,6 +8,7 @@ import main.engine.math.Vector3;
 import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.graphics.Meshes;
+import main.hex.player.Player;
 import main.hex.ui.GameplayFrame;
 
 public class GameplayScene extends Scene {
@@ -66,6 +67,8 @@ public class GameplayScene extends Scene {
 	@Override
 	public void update(TimeRecord time) {
 		logic.update(time);
+		if (logic.coloursSwapped())
+			gameCustomization.setPlayersAsSwapped();
 		camController.update(time);
 	}
 

@@ -144,10 +144,10 @@ public class BoardRenderer3D {
 				new Vector3(0.0f, borderDepth, 0.0f));
 
 		renderer.draw(borderMesh, buildBorderMaterial(), 
-				new Vector3(0.25f * c + borderSlant + offset, -borderDepth + borderYOffset, -drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
+				new Vector3(0.25f * c + borderSlant + offset, -borderDepth + borderYOffset + 0.001f, -drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
 				custom.getPlayer2Skin().getTint());
 		renderer.draw(borderMesh, buildBorderMaterial(), 
-				new Vector3(0.25f * c + offset, -borderDepth + borderYOffset, drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
+				new Vector3(0.25f * c + offset, -borderDepth + borderYOffset + 0.001f, drawnBoardHeight * 0.5f - 0.5f), new Vector3(), 
 				custom.getPlayer2Skin().getTint());
 	}
 	
@@ -166,8 +166,7 @@ public class BoardRenderer3D {
 					(tile.getColour() == TileColour.PLAYER1 ? custom.getPlayer1Skin() : custom.getPlayer2Skin());
 				
 				Colour col = skin.getTint();
-				if (tile.getColour() == TileColour.WHITE &&
-						hovered.getX() == i && hovered.getY() == j)
+				if (hovered.getX() == i && hovered.getY() == j)
 					col = Colour.multiply(col, Colour.LightGrey);
 				if (tile.getColour() != TileColour.WHITE)
 					position.y += 0.2f;

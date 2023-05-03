@@ -70,13 +70,13 @@ public class StringRenderer {
 
         Vector2 measurements = font.measureString(text);
 
-        float sizeFactor = height / measurements.getY();
+        float sizeFactor = height / font.charHeight();
 
         float scaleX = sizeFactor;
         float scaleY = sizeFactor;
 
         x -= measurements.getX() * scaleX / 2.0f;
-        y -= measurements.getY() * scaleY / 2.0f;
+        y -= font.charHeight() * scaleY / 2.0f;
         x /= aspectRatio;
 
         float[] vertices = new float[text.length() * 4 * 4];
@@ -137,5 +137,13 @@ public class StringRenderer {
         glDeleteBuffers(vbo);
         glDeleteBuffers(ebo);
         glDeleteVertexArrays(vao);
+	}
+	
+	public float getRenderedStringWidth(BitmapFont font, String str, float height) {
+		
+		Vector2 measurements = font.measureString(str);
+        float sizeFactor = height / font.charHeight();
+        
+        return measurements.getX() * sizeFactor;
 	}
 }

@@ -11,6 +11,7 @@ public class GameCustomisation {
     private PlayerSkin player1Skin, player2Skin;
     private int timeRestriction;
     private boolean swapRule;
+    private boolean playersSwapped;
 
     private PlayerSkin blankSkin;
     
@@ -21,24 +22,33 @@ public class GameCustomisation {
         this.player2Skin = player2Skin;
         this.timeRestriction = timeRestriction;
         this.swapRule = swapRule;
+        playersSwapped = false;
         blankSkin = new PlayerSkin(
         		ResourceManager.getInstance().loadTexture("textures/board/white_tile.png"), 
         		Colour.White);
     }
 
     public String getPlayer1Name() {
+    	if (playersSwapped)
+    		return player2Name;
         return player1Name;
     }
 
     public String getPlayer2Name() {
+    	if (playersSwapped)
+    		return player1Name;
         return player2Name;
     }
 
     public PlayerSkin getPlayer1Skin() {
+    	if (playersSwapped)
+    		return player2Skin;
         return player1Skin;
     }
 
     public PlayerSkin getPlayer2Skin() {
+    	if (playersSwapped)
+    		return player1Skin;
         return player2Skin;
     }
 
@@ -53,4 +63,8 @@ public class GameCustomisation {
     public PlayerSkin getBlankSkin() {
 		return blankSkin;
 	}
+    
+    public void setPlayersAsSwapped() {
+    	playersSwapped = true;
+    }
 }

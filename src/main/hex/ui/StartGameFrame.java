@@ -4,15 +4,15 @@ import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.ui.*;
-import main.hex.AIPlayer;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
-import main.hex.Player;
-import main.hex.UserPlayer;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.player.AIPlayer;
+import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.player.PlayerType;
+import main.hex.player.UserPlayer;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
@@ -32,6 +32,10 @@ public class StartGameFrame extends Frame {
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
+
+	private float fontSize = 0.07f;
+	private float headerFontSize = 0.12f;
+	private float playerTypeFontSize = 0.05f;
 
 	//LOGIC
 
@@ -53,7 +57,7 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
-		startGameFrameLogic.setPlayerTypeIndex(1, 2);
+		startGameFrameLogic.setPlayerTypeIndex(0, 2);
 
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -78,7 +82,7 @@ public class StartGameFrame extends Frame {
 			startGame();
 		};
 		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.ORANGE_BUTTON.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, 0.055f, startGameBtnClicked, null, null);
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, fontSize, startGameBtnClicked, null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 
@@ -90,7 +94,7 @@ public class StartGameFrame extends Frame {
 		//Background + Banner + Banner Text
 		UIGroup banner = new UIGroup(0.0f, 0.78f);
 		Image bannerBackground = new Image(0.0f, 0.0f, 1.0f, 0.4f, TextureLibrary.BANNER_GREY.getTexture());
-		Text bannerText = new Text(00.0f, 0.02f, FONT_FREDOKA_ONE, FRAME_TITLE, 0.1f);
+		Text bannerText = new Text(00.0f, 0.02f, FONT_FREDOKA_ONE, FRAME_TITLE, headerFontSize);
 		banner.addChild(bannerBackground);
 		banner.addChild(bannerText);
 
@@ -103,21 +107,24 @@ public class StartGameFrame extends Frame {
 		UIGroup gameSettings = new UIGroup(-0.6f, 0.45f);
 
 		//Board Size
-		Text SizeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SIZE_TEXT, 0.05f);
-		gameSettings.addChild(SizeText);
+		Text sizeText = new Text(-0.1f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SIZE_TEXT, fontSize);
+		gameSettings.addChild(sizeText);
+		sizeText.setAnchorPoint(AnchorPoint.Left);
 
 		//Time Limit
-		Text TimeText = new Text(0.0f, -0.1f, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, 0.05f);
-		gameSettings.addChild(TimeText);
+		Text timeText = new Text(-0.1f, -0.1f, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, fontSize);
+		gameSettings.addChild(timeText);
+		timeText.setAnchorPoint(AnchorPoint.Left);
 
 		//Swap Rule
-		UIGroup swapRuleUIGroup = new UIGroup(0.11f, -0.2f);
+		UIGroup swapRuleUIGroup = new UIGroup(-0.1f, -0.2f);
 
-		Text SwapRuleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SWAP_RULE_TEXT, 0.05f);
-		swapRuleUIGroup.addChild(SwapRuleText);
+		Text swapRuleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SWAP_RULE_TEXT, fontSize);
+		swapRuleUIGroup.addChild(swapRuleText);
+		swapRuleText.setAnchorPoint(AnchorPoint.Left);
 
-		RectButton swapRuleBtn = new RectButton(0.45f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
-				FONT_ROBOTO, "", 0.05f, null, null, null);
+		RectButton swapRuleBtn = new RectButton(0.75f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
+				FONT_ROBOTO, "", fontSize, null, null, null);
 
 		ButtonCallback swapruleBtnClicked = (args) -> {
 			toggleSwapRule(swapRuleBtn);
@@ -156,7 +163,7 @@ public class StartGameFrame extends Frame {
 	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex, Colour playerCol) {
 		UIGroup playerSettingUIGroup = new UIGroup(x, y);
 		//Title
-		Text titleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, title, 0.05f);
+		Text titleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, title, fontSize);
 		playerSettingUIGroup.addChild(titleText);
 
 
@@ -176,7 +183,7 @@ public class StartGameFrame extends Frame {
 			carouselLeft(colorImage, playerIndex);
 		};
 		RectButton leftCarouselArrow = new RectButton(-0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", 0.05f, leftClicked, null, null);
+				FONT_ROBOTO, "", fontSize, leftClicked, null, null);
 		colorCarouselUIGroup.addChild(leftCarouselArrow);
 
 		//right arrow
@@ -184,16 +191,16 @@ public class StartGameFrame extends Frame {
 			carouselRight(colorImage, playerIndex);
 		};
 		RectButton rightCarouselArrow = new RectButton(0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", 0.05f, rightClicked, null, null);
+				FONT_ROBOTO, "", fontSize, rightClicked, null, null);
 		colorCarouselUIGroup.addChild(rightCarouselArrow);
 
 		playerSettingUIGroup.addChild(colorCarouselUIGroup);
 
 
 		//Name text field
-		Text nameText = new Text(-0.2f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, 0.05f);
+		Text nameText = new Text(-0.24f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
 		playerSettingUIGroup.addChild(nameText);
-		TextField playerNameTextField = new TextField(0.15f, -0.40f, FONT_FREDOKA_ONE, "Click to type", 0.045f);
+		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Player " + (playerIndex + 1),0.49f, 0.06f, Colour.LightGrey);
 		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
@@ -204,7 +211,7 @@ public class StartGameFrame extends Frame {
 		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
 
 		//text
-		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, startGameFrameLogic.getPlayerTypeString(playerIndex), 0.04f);
+		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, startGameFrameLogic.getPlayerTypeString(playerIndex), playerTypeFontSize);
 		typeCarouselUIGroup.addChild(typeText);
 
 		//left arrow
@@ -212,7 +219,7 @@ public class StartGameFrame extends Frame {
 			playerTypeLeft(typeText, playerIndex);
 		};
 		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", 0.05f, typeLeftClicked, null, null);
+				FONT_ROBOTO, "", fontSize, typeLeftClicked, null, null);
 		typeCarouselUIGroup.addChild(typeLeftCarouselArrow);
 
 		//right arrow
@@ -220,7 +227,7 @@ public class StartGameFrame extends Frame {
 			playerTypeRight(typeText, playerIndex);
 		};
 		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", 0.05f, typeRightClicked, null, null);
+				FONT_ROBOTO, "", fontSize, typeRightClicked, null, null);
 		typeCarouselUIGroup.addChild(typeRightCarouselArrow);
 
 		playerSettingUIGroup.addChild(typeCarouselUIGroup);
@@ -261,8 +268,12 @@ public class StartGameFrame extends Frame {
 		//TODO Should be chosen by player
 		int boardSize = 11;
 		Board b = new Board(boardSize);
-		Player p1 = new AIPlayer(TileColour.PLAYER1, 2);
-		Player p2 = new UserPlayer(TileColour.PLAYER2);
+		//Player p1 = new AIPlayer(TileColour.PLAYER1, 1);
+		//Player p2 = new UserPlayer(TileColour.PLAYER2);
+		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
+				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 1);
+		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
+				new UserPlayer(TileColour.PLAYER2) : new AIPlayer(TileColour.PLAYER2, 1);
 
 		SceneDirector.changeScene(
 				new GameplayScene(
