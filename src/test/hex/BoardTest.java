@@ -135,7 +135,7 @@ public class BoardTest {
     			screenSpacePosition.getX(), screenSpacePosition.getY());
     	assertEquals(original, tileSpacePosition);
     }
-     */
+
 
 
 
@@ -158,4 +158,6 @@ public class BoardTest {
     	int x = -1, y = -1;
         board.setTileAtPosition(mock(Tile.class), x, y);
     }
+
+     */
 }

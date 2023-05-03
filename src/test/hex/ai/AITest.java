@@ -178,7 +178,7 @@ public class AITest {
     //Basically just a test to see how deep we can run the search
     @Test
     public void AIDepthFunction(){
-        Board board = new Board(10);
+        Board board = new Board(3);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);

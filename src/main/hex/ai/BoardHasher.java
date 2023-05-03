@@ -23,7 +23,7 @@ public class BoardHasher {
     public static BoardHasher getInstance(int boardSize) {
         if(instance == null || instance.boardSize != boardSize){
             instance = new BoardHasher(boardSize);
-            System.out.println("Made new instance");
+            System.out.println("Made new instance of boardhasher");
         }
         return instance;
     }
