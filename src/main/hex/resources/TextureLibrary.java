@@ -15,6 +15,8 @@ public enum TextureLibrary {
     ORANGE_NO_BUTTON("textures/gui/ButtonsText/PremadeButtons_No.png"),
     LEFT_CAROUSEL_ARROW("textures/gui/Sliders/ScrollSlider_Blank_Arrow_Left.png"),
     RIGHT_CAROUSEL_ARROW("textures/gui/Sliders/ScrollSlider_Blank_Arrow_Right.png"),
+    SCROLLBAR_GREY("textures/gui/Sliders/ScrollBar_WhiteOutline_Base.png"),
+    SCROLLBAR_BUTTON_GREY("textures/gui/Sliders/ScrollBar_Button.png"),
     LARGE_MENU_GREY("textures/gui/Icons/Icon_Large_Menu_Grey.png"),
     SMALL_UNDO_GREY("textures/gui/Icons/Icon_Small_Undo_Grey.png"),
     WIDE_BLANK_BACKGROUND("textures/gui/Sliders/WideSlider_Blank_Background.png"),

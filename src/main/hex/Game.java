@@ -1,5 +1,6 @@
 package main.hex;
 
+import main.engine.input.InputType;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
 import main.hex.ui.GameplayFrame;
@@ -49,6 +50,11 @@ public class Game extends GameWindow {
         getControlsListener().addTextInputCallback((ch) -> {
             FrameStack.getInstance().processTextInput(ch);
         });
+
+        //getControlsListener().addOnAnyPressCallback((args) -> {
+        //    FrameStack.getInstance().processControlsInput(args);
+        //});
+
     }
     
     private void setupGraphics() {
@@ -64,16 +70,22 @@ public class Game extends GameWindow {
     	SceneDirector.updateCurrentScene(elapsed);
     	FrameStack.getInstance().update(elapsed);
     	
-    	if (getControlsListener().isReleased(Controls.LEFT_MOUSE)) {    		
-    		FrameStack.getInstance().clickAt(
+    	if (getControlsListener().isPressed(Controls.LEFT_MOUSE)) {
+    		FrameStack.getInstance().pressAt(
             		getControlsListener().getCursorX(),
             		getControlsListener().getCursorY()
             		);
     	}
+        if (getControlsListener().isReleased(Controls.LEFT_MOUSE)) {
+            FrameStack.getInstance().releaseAt(
+                    getControlsListener().getCursorX(),
+                    getControlsListener().getCursorY()
+            );
+        }
     	
     	for (Controls c : getControlsListener().currentlyReleased())
     		FrameStack.getInstance().processControlsInput(new ControlsArgs(c));
-        
+
     	getControlsListener().flush();
     }
 

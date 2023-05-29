@@ -32,6 +32,8 @@ public class StartGameFrame extends Frame {
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
+	private final String BOARD_SIZE_LABEL = "Board Size: {}x{}";
+	private final String GAME_TIME_LABEL = "{} Seconds";
 
 	private float fontSize = 0.07f;
 	private float headerFontSize = 0.12f;
@@ -107,17 +109,44 @@ public class StartGameFrame extends Frame {
 		UIGroup gameSettings = new UIGroup(-0.6f, 0.45f);
 
 		//Board Size
+		UIGroup boardSize = new UIGroup(0.0f, 0.0f);
+		gameSettings.addChild(boardSize);
+
 		Text sizeText = new Text(-0.1f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SIZE_TEXT, fontSize);
-		gameSettings.addChild(sizeText);
+		boardSize.addChild(sizeText);
 		sizeText.setAnchorPoint(AnchorPoint.Left);
 
+		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11);
+		boardSize.addChild(boardSizeSlider);
+		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
+		//Creating slider text object(optional):
+		Text boardSizeSliderText = new Text(boardSizeSlider.getX() + boardSizeSlider.getWidth()/2f + 0.05f, boardSizeSlider.getY() + 0.015f, FONT_FREDOKA_ONE, BOARD_SIZE_LABEL, fontSize - 0.01f);
+		boardSizeSliderText.setColour(Colour.Grey);
+		boardSizeSliderText.setAnchorPoint(AnchorPoint.Left);
+		boardSizeSlider.setText(boardSizeSliderText);
+
+
 		//Time Limit
-		Text timeText = new Text(-0.1f, -0.1f, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, fontSize);
-		gameSettings.addChild(timeText);
+		UIGroup timeLimit = new UIGroup(-0.0f, -0.13f);
+		gameSettings.addChild(timeLimit);
+
+		Text timeText = new Text(-0.1f,0, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, fontSize);
+		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 60, 20);
+		timeLimit.addChild(timeLimitSlider);
+		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
+		//Creating slider text object(optional):
+		Text timeLimitSliderText = new Text(timeLimitSlider.getX() + timeLimitSlider.getWidth()/2f + 0.05f, timeLimitSlider.getY() + 0.015f, FONT_FREDOKA_ONE, GAME_TIME_LABEL, fontSize - 0.01f);
+		timeLimitSliderText.setColour(Colour.Grey);
+		timeLimitSliderText.setAnchorPoint(AnchorPoint.Left);
+		timeLimitSlider.setText(timeLimitSliderText);
+
+
 		//Swap Rule
-		UIGroup swapRuleUIGroup = new UIGroup(-0.1f, -0.2f);
+		UIGroup swapRuleUIGroup = new UIGroup(-0.1f, -0.26f);
+		gameSettings.addChild(swapRuleUIGroup);
 
 		Text swapRuleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SWAP_RULE_TEXT, fontSize);
 		swapRuleUIGroup.addChild(swapRuleText);
@@ -133,7 +162,7 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(swapRuleBtn);
 
 
-		gameSettings.addChild(swapRuleUIGroup);
+
 
 		return gameSettings;
 	}
@@ -151,7 +180,7 @@ public class StartGameFrame extends Frame {
 
 
 	private UIGroup createPlayerSettings() {
-		UIGroup playerSettingsUIGroup = new UIGroup(0.0f, 0.05f);
+		UIGroup playerSettingsUIGroup = new UIGroup(0.0f, -0.05f);
 
 		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0, startGameFrameLogic.getPlayer1Col()));
 		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1, startGameFrameLogic.getPlayer2Col()));
@@ -262,14 +291,10 @@ public class StartGameFrame extends Frame {
 				startGameFrameLogic.getPlayerName(1),
 				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
 				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayer2Col()),
-				60, //TODO: Time restriction should be chosen by player
+				startGameFrameLogic.getTurnTime(),
 				startGameFrameLogic.getSwapRule());
 
-		//TODO Should be chosen by player
-		int boardSize = 11;
-		Board b = new Board(boardSize);
-		//Player p1 = new AIPlayer(TileColour.PLAYER1, 1);
-		//Player p2 = new UserPlayer(TileColour.PLAYER2);
+		Board b = new Board(startGameFrameLogic.getBoardSize());
 		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
 				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 3);
 		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?

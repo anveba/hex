@@ -1,5 +1,6 @@
 package test.engine.ui;
 
+import main.engine.TimeRecord;
 import main.engine.graphics.Texture;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
@@ -19,7 +20,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
         doNothing().when(text).setAnchorPoint(AnchorPoint.Left);
         doNothing().when(text).setPosition(anyFloat(),anyFloat());
@@ -32,7 +33,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
         Assert.assertTrue(textField.containsPosition(x,y));
     }
@@ -42,7 +43,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
         assertEquals(textField.getDefaultString(), textField.getText());
     }
@@ -52,7 +53,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
         Assert.assertFalse(textField.isFocused());
     }
@@ -61,7 +62,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         TextInputArgs textInputArgs = new TextInputArgs('a');
         textField.processTextInput(textInputArgs);
         assertEquals(textField.getDefaultString(), textField.getText());
@@ -71,7 +72,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -84,7 +85,7 @@ public class TextFieldTest {
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         String defaultString = "default";
-        TextField textField = new TextField(x, y, width, height, text, image, defaultString);
+        TextField textField = new TextField(x, y, width, height, text, image, defaultString,0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
         Assert.assertTrue(textField.isFocused());
@@ -95,7 +96,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -110,7 +111,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -125,7 +126,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
         textField.processClick(clickArgs);
 
@@ -143,7 +144,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
@@ -156,7 +157,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
@@ -172,7 +173,7 @@ public class TextFieldTest {
         Text text = mock(Text.class);
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
-        TextField textField = new TextField(x, y, width, height, text, image, "default");
+        TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
         textField.processClick(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
@@ -180,4 +181,41 @@ public class TextFieldTest {
         textField.processControlsInput(new ControlsArgs(Controls.ESCAPE));
         Assert.assertFalse(textField.isFocused());
     }
+
+    @Test
+    public void updateTimeTillNextUpdate() {
+        Text text = mock(Text.class);
+        Image image = mock(Image.class);
+        float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f, animationTime = 0.6f;
+        TextField textField = new TextField(x, y, width, height, text, image, "default", animationTime);
+
+        textField.processClick(new ClickArgs(x,y));
+        Assert.assertTrue(textField.isFocused());
+
+        textField.processTextInput(new TextInputArgs('a'));
+        assertEquals("a", textField.getText());
+
+        //First time not updated
+        TimeRecord timeRecord = mock(TimeRecord.class);
+        when(timeRecord.elapsedSeconds()).thenReturn(2 * animationTime/3.0f);
+        textField.update(timeRecord);
+        Assert.assertEquals(animationTime / 3.0f, textField.getTimeTillNextUpdate(), 0.0001f);
+        Assert.assertEquals("a", textField.getText());
+
+        //Visual inspection done, to ensure blinking animation works.
+
+        //Second time updated
+        textField.update(timeRecord);
+        Assert.assertEquals(animationTime, textField.getTimeTillNextUpdate(), 0.0001f);
+
+        //Third time updated
+        textField.update(timeRecord);
+        Assert.assertEquals(animationTime / 3.0f, textField.getTimeTillNextUpdate(), 0.0001f);
+
+        //Fourth time back to scratch
+        textField.update(timeRecord);
+        Assert.assertEquals(animationTime, textField.getTimeTillNextUpdate(), 0.0001f);
+    }
+
+
 }
