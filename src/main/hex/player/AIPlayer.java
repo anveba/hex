@@ -16,6 +16,11 @@ public class AIPlayer extends Player {
 		setSearchDepth(searchDepth);
 	}
 
+	public AIPlayer(TileColour playerColour, int timeLimit, int searchDepth) {
+		super(playerColour, timeLimit);
+		setSearchDepth(searchDepth);
+	}
+
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
 		Thread t = new Thread(() -> response.placeMove(new AI(board, this).getBestMove(searchDepth)));
@@ -47,5 +52,4 @@ public class AIPlayer extends Player {
 			throw new HexException("Search depth set to zero or negative number");
 		this.searchDepth = searchDepth;
 	}
-
 }

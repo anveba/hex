@@ -2,25 +2,24 @@ package main.hex;
 
 import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
-import main.engine.graphics.Texture;
 import main.hex.player.PlayerSkin;
 
 public class GameCustomisation {
 
     private String player1Name, player2Name;
     private PlayerSkin player1Skin, player2Skin;
-    private int timeRestriction;
+    private int timeLimit;
     private boolean swapRule;
     private boolean playersSwapped;
 
     private PlayerSkin blankSkin;
     
-    public GameCustomisation(String player1Name, String player2Name, PlayerSkin player1Skin, PlayerSkin player2Skin, int timeRestriction, boolean swapRule) {
+    public GameCustomisation(String player1Name, String player2Name, PlayerSkin player1Skin, PlayerSkin player2Skin, int timeLimit, boolean swapRule) {
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         this.player1Skin = player1Skin;
         this.player2Skin = player2Skin;
-        this.timeRestriction = timeRestriction;
+        this.timeLimit = timeLimit;
         this.swapRule = swapRule;
         playersSwapped = false;
         blankSkin = new PlayerSkin(
@@ -52,8 +51,8 @@ public class GameCustomisation {
         return player2Skin;
     }
 
-    public int getTimeRestriction() {
-        return timeRestriction;
+    public int getTimeLimit() {
+        return timeLimit;
     }
 
     public boolean getSwapRule() {

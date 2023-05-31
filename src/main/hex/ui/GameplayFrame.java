@@ -1,10 +1,12 @@
 package main.hex.ui;
 
 import main.engine.ResourceManager;
+import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
 import main.hex.GameCustomisation;
+import main.hex.GameLogic;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 
@@ -16,10 +18,12 @@ public class GameplayFrame extends Frame {
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
     private GameCustomisation gameCustomization;
+    private GameLogic gameLogic;
 
-    public GameplayFrame(GameCustomisation setupLogic) {
+    public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
         //Main menu extends Frame, so it has a UI element as a root
-        this.gameCustomization = setupLogic;
+        this.gameCustomization = gameCustomisation;
+        this.gameLogic = gameLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
@@ -72,7 +76,7 @@ public class GameplayFrame extends Frame {
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
         player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Skin()));
         player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomization.getPlayer1Name()));
-        player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, "0:32"));
+        player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, gameLogic.getPlayer1().getRemainingTimeString()));
 
         return player1UIGroup;
     }
@@ -83,7 +87,7 @@ public class GameplayFrame extends Frame {
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
         player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Skin()));
         player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomization.getPlayer2Name()));
-        player2UIGroup.addChild(createTimerView(0.72f, -0.85f, "1:43"));
+        player2UIGroup.addChild(createTimerView(0.72f, -0.85f, gameLogic.getPlayer2().getRemainingTimeString()));
 
         return player2UIGroup;
     }
@@ -114,10 +118,9 @@ public class GameplayFrame extends Frame {
         return playerNameViewUIGroup;
     }
 
-    // TODO: This takes just a placeholder text - need to implement timer
-    private UIGroup createTimerView(float xPos, float yPos, String timer) {
+    private UIGroup createTimerView(float xPos, float yPos, String timeRemaining) {
         UIGroup timerViewUIGroup = new UIGroup(0.0f, 0.0f);
-        Text timerText = new Text(xPos, yPos, FONT_FREDOKA_ONE, timer, 0.08f);
+        Text timerText = new Text(xPos, yPos, FONT_FREDOKA_ONE, timeRemaining, 0.08f);
         timerViewUIGroup.addChild(timerText);
 
         return timerViewUIGroup;

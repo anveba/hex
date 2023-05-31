@@ -41,10 +41,11 @@ public class GameLogic implements Updateable {
     }
     
     public void start() {
-    	if (currentTurn == -1)
-    		nextTurn();
-    	else
-    		throw new HexException("Game already started");
+    	if (currentTurn == -1) {
+			nextTurn();
+		} else {
+			throw new HexException("Game already started");
+		}
     }
     
     public void setPlayerWinCallback(PlayerCondition callback) {
@@ -170,8 +171,10 @@ public class GameLogic implements Updateable {
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
         currentTurn++;
+		currentPlayer.pauseTimer(); // Stop timer for current player
         currentPlayer.onEndOfTurn();
-        
+
+		players.peekFirst().startTimer(); // Start timer for next player
         playerResponse = new ConcurrentPlayerResponse();
         players.peekFirst().processTurn(board, playerResponse);
     }
@@ -188,5 +191,13 @@ public class GameLogic implements Updateable {
 	
 	public boolean coloursSwapped() {
 		return coloursSwapped;
+	}
+
+	public Player getPlayer1() {
+		return player1;
+	}
+
+	public Player getPlayer2() {
+		return player2;
 	}
 }
