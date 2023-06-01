@@ -24,6 +24,11 @@ public class UserPlayer extends Player {
 		super(playerColour);
 		isCurrentTurn = false;
 	}
+
+	public UserPlayer(TileColour playerColour, int timeLimit) {
+		super(playerColour, timeLimit);
+		isCurrentTurn = false;
+	}
 	
 	private void handleClick() {
 		assert response != null;
