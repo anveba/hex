@@ -271,9 +271,9 @@ public class StartGameFrame extends Frame {
 		//Player p1 = new AIPlayer(TileColour.PLAYER1, 1);
 		//Player p2 = new UserPlayer(TileColour.PLAYER2);
 		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 1);
+				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 3);
 		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER2) : new AIPlayer(TileColour.PLAYER2, 1);
+				new UserPlayer(TileColour.PLAYER2) : new AIPlayer(TileColour.PLAYER2, 3);
 
 		SceneDirector.changeScene(
 				new GameplayScene(

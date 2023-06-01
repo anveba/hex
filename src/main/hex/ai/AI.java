@@ -3,11 +3,10 @@ package main.hex.ai;
 import main.hex.HexException;
 import main.hex.ai.graph.BoardEvaluator;
 import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
-import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
+import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
-import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
+import main.hex.ai.graph.heuristicFunctions.GraphHeuristicFunction;
 import main.hex.board.Board;
-import main.hex.board.Tile;
 import main.hex.board.TileColour;
 import main.hex.player.Player;
 
@@ -24,6 +23,9 @@ public class AI {
 	
     private final TileColour verticalColour;
     private final TileColour horizontalColour;
+
+    private TileConnectionFunction tileConnectionFunction;
+    private GraphHeuristicFunction graphHeuristicFunction;
     
     private final BoardHashTable memoizationTable;
 
@@ -40,6 +42,9 @@ public class AI {
     	this.memoizationTable = new BoardHashTable();
         this.boardChildGenerator = new BoardChildGenerator();
 
+        this.graphHeuristicFunction = new DijkstraGraphHeuristic();
+        this.tileConnectionFunction = new DijkstraBasedTileConnector();
+
         if(player.winsByVerticalConnection()){
             verticalColour = player.getColour();
             horizontalColour = TileColour.opposite(player.getColour());
@@ -50,12 +55,27 @@ public class AI {
         }
     }
 
-    public AIMove getBestMove(int depth){
+    public AIMove getBestMoveWithDepth(int depth){
         //System.out.println("Called with depth: "+depth);
         AIMove m =  negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
         //AIMove m =  minimax(board,depth, player.winsByVerticalConnection());
         //System.out.println(m.getX() + " "+ m.getY());
         return m;
+    }
+
+
+    //Searches for best move with increasing depth until time limit is reached
+    public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
+        long timeLimit = timeLimitInSeconds * 1000;
+        long start = System.currentTimeMillis();
+        int depth = 1;
+        AIMove bestMove = getBestMoveWithDepth(depth);
+        while(System.currentTimeMillis() - start < timeLimit){
+            depth++;
+            bestMove = getBestMoveWithDepth(depth);
+        }
+        return bestMove;
+
     }
 
 
@@ -125,8 +145,9 @@ public class AI {
         }
 
         //We evaluate the current state of the board
-        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
-        double eval = 0;
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,tileConnectionFunction, graphHeuristicFunction);
+        double eval = g.evaluateBoard();
+
         if(g.hasWonHorizontally()){
             eval = Double.NEGATIVE_INFINITY;
         }
@@ -134,16 +155,11 @@ public class AI {
         if(g.hasWonVertically()){
             eval = Double.POSITIVE_INFINITY;
         }
-        
-
-        if(depth == 0){
-            eval = g.evaluateBoard();
-        }
 
         if(agentColour != verticalColour){
             eval *= -1;
         }
-
+        //System.out.println(eval);
         //If the board state is win/loss, or we've run out of depth, we return no move, but just the value of this state
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
             return new AIMove(-1,-1, eval);

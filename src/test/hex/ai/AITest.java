@@ -1,6 +1,5 @@
 package test.hex.ai;
 
-import main.engine.graphics.Colour;
 import main.hex.Move;
 import main.hex.ai.AI;
 import main.hex.ai.AIMove;
@@ -32,7 +31,7 @@ public class AITest {
 
         AI ai = new AI(board, agent);
 
-        Move nextMove = ai.getBestMove(2);
+        Move nextMove = ai.getBestMoveWithDepth(2);
         assertEquals(1, nextMove.getX());
         assertEquals(1, nextMove.getY());
     }
@@ -80,7 +79,7 @@ public class AITest {
 
         AI ai = new AI(board, agent);
 
-        AIMove nextMove = ai.getBestMove(1);
+        AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
         assert(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour().equals(TileColour.WHITE));
     }
@@ -115,7 +114,7 @@ public class AITest {
 
         AI ai = new AI(board, agent);
 
-        AIMove nextMove = ai.getBestMove(1);
+        AIMove nextMove = ai.getBestMoveWithDepth(1);
         System.out.println(nextMove.getValue());
         assert(nextMove.getX() == 2);
         assert(nextMove.getY() == 0);
@@ -140,7 +139,7 @@ public class AITest {
 
         AI ai = new AI(board, agent);
 
-        AIMove nextMove = ai.getBestMove(1);
+        AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
         //System.out.println(nextMove.getX());
         assert(nextMove.getX() == 0);
@@ -167,16 +166,33 @@ public class AITest {
 
         AI ai = new AI(board, agent);
 
-        AIMove nextMove = ai.getBestMove(1);
+        AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
         assert(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour().equals(TileColour.WHITE));
     }
 
 
+    @Ignore
+    @Test
+    public void AIFindsDifferentMovesWithDifferentTimeLimits(){
+        Player agent = new TestPlayerClass(TileColour.PLAYER1);
+        Board board = new Board(5);
 
+        AI ai = new AI(board,agent);
+
+        Move d0 = ai.getBestMoveWithDepth(1);
+        Move t0 = ai.getBestMoveWithTimeLimit(0);
+        Move t1 = ai.getBestMoveWithTimeLimit(1);
+
+        System.out.println(d0.getX()+ ","+d0.getY());
+
+        assert(d0.getX() == t0.getX() && d0.getY() == t1.getY());
+        assert(t0.getX() != t1.getX() || t0.getY() != t1.getY());
+    }
 
 
     //Basically just a test to see how deep we can run the search
+    //Is used more for debugging purposes than an actual test to pass/fail
     @Test
     @Ignore
     public void AIDepthFunction(){
@@ -188,7 +204,7 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long startTime = System.nanoTime();
-        Move nextMove = ai.getBestMove(1);
+        Move nextMove = ai.getBestMoveWithDepth(1);
         long endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");
