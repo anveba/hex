@@ -34,7 +34,35 @@ public class FrameTest {
 		f.clickAt(0.0f, 0.0f);
 		verify(e, times(1)).processClick(any());
 	}
-	
+
+	@Test
+	public void pressingCallsRootPressHandlingMethod() {
+		Frame f = new Frame();
+		Slider e = mock(Slider.class);
+		Mockito.doCallRealMethod().when(e).processPress(any());
+
+		f.pressAt(0.0f, 0.0f);
+		verify(e, times(0)).processPress(any());
+
+		f.setRoot(e);
+		f.pressAt(0.0f, 0.0f);
+		verify(e, times(1)).processPress(any());
+	}
+
+	@Test
+	public void releasingCallsRootReleaseHandlingMethod() {
+		Frame f = new Frame();
+		Slider e = mock(Slider.class);
+		Mockito.doCallRealMethod().when(e).processRelease(any());
+
+		f.releaseAt(0.0f, 0.0f);
+		verify(e, times(0)).processRelease(any());
+
+		f.setRoot(e);
+		f.releaseAt(0.0f, 0.0f);
+		verify(e, times(1)).processRelease(any());
+	}
+
 	@Test
 	public void hoveringCallsRootHoverHandlingMethod() {
 		Frame f = new Frame();

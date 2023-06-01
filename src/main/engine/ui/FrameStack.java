@@ -57,13 +57,17 @@ public class FrameStack {
 		assert stack.size() == top;
 		return stack.size();
 	}
-	
-	public void clickAt(float x, float y) {
+
+	public void pressAt(float x, float y) {
 		if (top > 0) {
-			stack.get(top - 1).clickAt(x, y);
+			stack.get(top - 1).pressAt(x, y);
 		}
 	}
-	
+	public void releaseAt(float x, float y) {
+		if (top > 0) {
+			stack.get(top - 1).releaseAt(x, y);
+		}
+	}
 	public void hoverAt(float x, float y) {
 		if (top > 0) {
 			stack.get(top - 1).hoverAt(x, y);

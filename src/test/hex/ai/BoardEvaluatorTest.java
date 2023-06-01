@@ -112,7 +112,7 @@ public class BoardEvaluatorTest {
 
 
     @Test
-    public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOther(){
+    public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOtherA(){
         int k = 5;
         Board board = new Board(k);
 
@@ -144,6 +144,105 @@ public class BoardEvaluatorTest {
         assertTrue(e1 == 0.0);
         assertTrue(e2 > 0);
         assertTrue(e3 < 0);
+
+    }
+
+    @Test
+    public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOtherB(){
+        int k = 5;
+        Board board = new Board(k);
+
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        double e1 = b.evaluateBoard();
+
+
+        Board board2 = new Board(k);
+        for(int i = 0; i<k-1;i++){
+            for(int j = 0; j<k-1;j++){
+                board2.setTileAtPosition(new Tile(TileColour.PLAYER1), i,j);
+            }
+        }
+
+        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        double e2 = b2.evaluateBoard();
+
+        Board board3 = new Board(k);
+        for(int i = 0; i<k-1;i++){
+            for(int j = 0; j<k-1;j++){
+                board3.setTileAtPosition(new Tile(TileColour.PLAYER2), i,j);
+            }
+        }
+
+        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        double e3 = b3.evaluateBoard();
+
+
+        assertTrue(e1 == 0.0);
+        assertTrue(e2 > 0);
+        assertTrue(e3 < 0);
+
+    }
+
+    @Test
+    public void boardThatShouldntGetEvaluatedToZeroHasNonZeroEvaluationSignal(){
+        int k = 2;
+
+        Board board = new Board(k);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2),0,0);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        double e1 = b.evaluateBoard();
+        assert(e1 != 0.0);
+
+    }
+
+    @Test
+    public void boardThatShouldntGetEvaluatedToZeroHasNonZeroEvaluationDijkstra(){
+        int k = 2;
+
+        Board board = new Board(k);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2),0,0);
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        double e1 = b.evaluateBoard();
+        assert(e1 != 0.0);
+
+    }
+
+    @Test
+    public void differentBoardStatesGetEvaluatedCorrectlyRelativeToEachOtherWithDijkstra(){
+        int k = 2;
+        Board board = new Board(k);
+
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        double e1 = b.evaluateBoard();
+
+
+        Board board2 = new Board(k);
+        for(int i = 0; i<k-1;i++){
+            for(int j = 0; j<k-1;j++){
+                board2.setTileAtPosition(new Tile(TileColour.PLAYER1), i,j);
+            }
+        }
+
+        BoardEvaluator b2 = new BoardEvaluator(board2,TileColour.PLAYER1,TileColour.PLAYER2,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        double e2 = b2.evaluateBoard();
+
+        Board board3 = new Board(k);
+        for(int i = 0; i<k-1;i++){
+            for(int j = 0; j<k-1;j++){
+                board3.setTileAtPosition(new Tile(TileColour.PLAYER2), i,j);
+            }
+        }
+
+        BoardEvaluator b3 = new BoardEvaluator(board3,TileColour.PLAYER1,TileColour.PLAYER2,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        double e3 = b3.evaluateBoard();
+
+        System.out.println(e1 + " "+ e2 + " " +e3);
+
+        assertTrue(e1 == 0.0);
+        assertTrue(e2 > 0);
+        assertTrue(e3 < 0);
+
+
 
     }
     @Test

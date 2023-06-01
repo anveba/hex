@@ -14,7 +14,7 @@ import main.engine.math.Vector2;
  * @author Andreas
  *
  */
-public class UIGroup extends UIElement implements Clickable {
+public class UIGroup extends UIElement implements Clickable, Dragable {
 
 	private float x, y;
 	private List<UIElement> children;
@@ -102,13 +102,37 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
+	public void processPress(ClickArgs args) {
+		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
+		for (var child : children) {
+			if (!(child instanceof Dragable))
+				continue;
+			Dragable dragable = (Dragable)child;
+			dragable.processPress(args);
+		}
+	}
+
+	@Override
+	public void processRelease(ClickArgs args) {
+		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
+		for (var child : children) {
+			if (!(child instanceof Dragable))
+				continue;
+			Dragable dragable = (Dragable)child;
+			dragable.processRelease(args);
+		}
+	}
+
+
+
+	@Override
 	public void updateCursorPosition(HoverArgs args) {
 		args = new HoverArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
-			if (!(child instanceof Clickable))
+			if (!(child instanceof Hoverable))
 				continue;
-			Clickable clickable = (Clickable)child;
-			clickable.updateCursorPosition(args);
+			Hoverable hoverable = (Hoverable)child;
+			hoverable.updateCursorPosition(args);
 		}
 	}
 

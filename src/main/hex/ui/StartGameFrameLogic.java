@@ -2,6 +2,7 @@ package main.hex.ui;
 
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.engine.ui.Slider;
 import main.engine.ui.TextField;
 import main.hex.player.PlayerType;
 
@@ -13,6 +14,9 @@ public class StartGameFrameLogic {
 
     private boolean swapRule = false;
     private TextField[] playerNames = new TextField[2];
+
+    private Slider boardSizeSlider;
+    private Slider turnTimeSlider;
     private int[] playerTextureIndex = new int[2];
     private int[] playerTypeIndex = new int[2];
     private ArrayList<Texture> hexTextures = new ArrayList<>();
@@ -128,5 +132,19 @@ public class StartGameFrameLogic {
     }
     public void setPlayer2Col(Colour p2Col) {
         player2Col = p2Col;
+    }
+
+    public void setBoardSizeSlider(Slider boardSizeSlider) {
+        this.boardSizeSlider = boardSizeSlider;
+    }
+
+    public void setTurnTimeSlider(Slider turnTimeSlider) {
+        this.turnTimeSlider = turnTimeSlider;
+    }
+    public int getBoardSize() {
+        return boardSizeSlider.getCurrent();
+    }
+    public int getTurnTime() {
+        return turnTimeSlider.getCurrent();
     }
 }

@@ -18,9 +18,10 @@ public abstract class TileConnectionFunction {
 
 
 
+
     public abstract void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
 
-    public double startEndWeight = 0;
+    public abstract double getStartEndWeight();
 
 
 

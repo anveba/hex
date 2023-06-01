@@ -196,7 +196,7 @@ public class AITest {
     @Test
     @Ignore
     public void AIDepthFunction(){
-        Board board = new Board(10);
+        Board board = new Board(3);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);

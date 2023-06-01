@@ -145,15 +145,22 @@ public class AI {
         }
 
         //We evaluate the current state of the board
-        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,tileConnectionFunction, graphHeuristicFunction);
-        double eval = g.evaluateBoard();
+        //BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new SignalBasedTileConnector(), new SignalGraphHeuristic());
 
+        double eval = 0;
         if(g.hasWonHorizontally()){
             eval = Double.NEGATIVE_INFINITY;
         }
 
         if(g.hasWonVertically()){
             eval = Double.POSITIVE_INFINITY;
+        }
+        
+
+        if(depth == 0){
+            eval = g.evaluateBoard();
+            //System.out.println(eval);
         }
 
         if(agentColour != verticalColour){

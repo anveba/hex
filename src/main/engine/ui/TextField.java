@@ -6,6 +6,7 @@ import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
+import main.engine.input.InputType;
 import main.engine.math.Vector2;
 import main.hex.resources.TextureLibrary;
 
@@ -33,11 +34,12 @@ public class TextField extends RectElement implements Clickable {
                 height,
                 new Text(x, y, font, defaultString, height, lineColour),
                 new Image(x, y-height/1.25f, width, height/8, TextureLibrary.WHITE_SQUARE.getTexture()),
-                defaultString
+                defaultString,
+                0.6f
         );
     }
 
-    public TextField(float x, float y, float width, float height, Text text, Image image, String defaultString) {
+    public TextField(float x, float y, float width, float height, Text text, Image image, String defaultString, float animationTime) {
         super(x,y,width,height);
         this.text = text;
         this.text.setAnchorPoint(AnchorPoint.Left);
@@ -48,7 +50,7 @@ public class TextField extends RectElement implements Clickable {
         this.defaultString = defaultString;
         textString = new StringBuilder();
 
-        animationTime = 0.6f;
+        this.animationTime = animationTime;
         timeTillNextUpdate = animationTime;
     }
 
@@ -124,7 +126,6 @@ public class TextField extends RectElement implements Clickable {
         }
     }
 
-    //TODO: Test this.
     @Override
     public void update(TimeRecord elapsed) {
         if (!isFocused) return;
@@ -150,6 +151,10 @@ public class TextField extends RectElement implements Clickable {
 
     public String getDefaultString() {
         return defaultString;
+    }
+
+    public float getTimeTillNextUpdate() {
+        return timeTillNextUpdate;
     }
 
     public boolean isFocused() {
