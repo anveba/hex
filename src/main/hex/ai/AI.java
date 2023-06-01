@@ -145,8 +145,7 @@ public class AI {
         }
 
         //We evaluate the current state of the board
-        //BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
-        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new SignalBasedTileConnector(), new SignalGraphHeuristic());
+        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,tileConnectionFunction,graphHeuristicFunction);
 
         double eval = 0;
         if(g.hasWonHorizontally()){

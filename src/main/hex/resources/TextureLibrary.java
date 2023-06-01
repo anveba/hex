@@ -8,6 +8,8 @@ public enum TextureLibrary {
     WHITE_TILE("textures/board/white_tile.png"),
     WHITE_TILE_FULL("textures/board/white_tile_full.png"),
     ZEBRA_TILE("textures/board/zebra_tile.png"),
+
+    DUCK_TILE("textures/board/duck_tile.png"),
     GREY_SQUARE_BOX("textures/gui/BoxesBanners/Box_Square.png"),
     BANNER_GREY("textures/gui/BoxesBanners/Banner_Grey.png"),
     ORANGE_BUTTON("textures/gui/ButtonsText/ButtonText_Large_Orange_Round.png"),

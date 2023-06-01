@@ -49,6 +49,7 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
+		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture());
 		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
 		startGameFrameLogic.setPlayerTextureIndex(1,0);
 

@@ -196,7 +196,7 @@ public class AITest {
     @Test
     @Ignore
     public void AIDepthFunction(){
-        Board board = new Board(3);
+        Board board = new Board(10);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
@@ -204,7 +204,7 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long startTime = System.nanoTime();
-        Move nextMove = ai.getBestMoveWithDepth(1);
+        Move nextMove = ai.getBestMoveWithDepth(5);
         long endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");
