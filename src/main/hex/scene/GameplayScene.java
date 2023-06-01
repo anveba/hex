@@ -67,6 +67,9 @@ public class GameplayScene extends Scene {
 		if (gameLogic.coloursSwapped())
 			gameCustomization.setPlayersAsSwapped();
 		camController.update(time);
+
+		gameLogic.getPlayer1().getTimer().update(time);
+		gameLogic.getPlayer2().getTimer().update(time);
 	}
 
 	@Override

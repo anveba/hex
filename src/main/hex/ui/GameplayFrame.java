@@ -70,13 +70,16 @@ public class GameplayFrame extends Frame {
         return playerViews;
     }
 
+    private Text player1TimerText, player2TimerText;
+
     private UIGroup createPlayer1View() {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
         player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Skin()));
         player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomization.getPlayer1Name()));
-        player1UIGroup.addChild(createTimerView(-0.72f, -0.85f, gameLogic.getPlayer1().getRemainingTimeString()));
+        player1TimerText = new Text(-0.72f, -0.85f, FONT_FREDOKA_ONE, gameLogic.getPlayer1().getTimer().getFormattedTime(), 0.08f);
+        player1UIGroup.addChild(player1TimerText);
 
         return player1UIGroup;
     }
@@ -87,7 +90,8 @@ public class GameplayFrame extends Frame {
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
         player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Skin()));
         player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomization.getPlayer2Name()));
-        player2UIGroup.addChild(createTimerView(0.72f, -0.85f, gameLogic.getPlayer2().getRemainingTimeString()));
+        player2TimerText = new Text(0.72f, -0.85f, FONT_FREDOKA_ONE, gameLogic.getPlayer2().getTimer().getFormattedTime(), 0.08f);
+        player2UIGroup.addChild(player2TimerText);
 
         return player2UIGroup;
     }
@@ -118,11 +122,9 @@ public class GameplayFrame extends Frame {
         return playerNameViewUIGroup;
     }
 
-    private UIGroup createTimerView(float xPos, float yPos, String timeRemaining) {
-        UIGroup timerViewUIGroup = new UIGroup(0.0f, 0.0f);
-        Text timerText = new Text(xPos, yPos, FONT_FREDOKA_ONE, timeRemaining, 0.08f);
-        timerViewUIGroup.addChild(timerText);
-
-        return timerViewUIGroup;
+    @Override
+    public void update(TimeRecord elapsed) {
+        player1TimerText.setText(gameLogic.getPlayer1().getTimer().getFormattedTime());
+        player2TimerText.setText(gameLogic.getPlayer2().getTimer().getFormattedTime());
     }
 }

@@ -13,7 +13,11 @@ public class TestPlayerClass extends Player {
 	private ConcurrentPlayerResponse response;
 	
 	public TestPlayerClass(TileColour playerColour) {
-		super(playerColour);
+		this(playerColour, 10.0f);
+	}
+
+	public TestPlayerClass(TileColour playerColour, double timeLimit) {
+		super(playerColour, timeLimit);
 	}
 
 	@Override

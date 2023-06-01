@@ -16,10 +16,10 @@ import main.hex.board.TileColour;
     private PlayerTimer playerTimer;
 
     public Player (TileColour playerColour) {
-    	setColour(playerColour);
+    	this(playerColour, 10.0f);
     }
 
-    public Player (TileColour playerColour, int timeLimit) {
+    public Player (TileColour playerColour, double timeLimit) {
         setColour(playerColour);
         this.playerTimer = new PlayerTimer(timeLimit);
     }
@@ -34,19 +34,8 @@ import main.hex.board.TileColour;
     	this.playerColour = newColour;
 	}
 
-    public void startTimer() {
-        playerTimer.startTimer();
-    }
-
-    public void pauseTimer() {
-        playerTimer.pauseTimer();
-    }
-
-    public String getRemainingTimeString() {
-        int remainingTime = playerTimer.getRemainingTime();
-        int minutes = remainingTime / 60;
-        int seconds = remainingTime % 60;
-        return String.format("%d:%02d", minutes, seconds);
+    public PlayerTimer getTimer() {
+        return playerTimer;
     }
     
     public boolean winsByVerticalConnection() {

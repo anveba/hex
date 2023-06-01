@@ -134,7 +134,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 60, 20);
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300);
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):

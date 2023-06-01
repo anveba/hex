@@ -1,50 +1,67 @@
 package main.hex;
 
-import java.util.*;
+import main.engine.TimeRecord;
 
-public class PlayerTimer {
-    private Timer timer;
-    private int remainingTime;
-    boolean isPaused;
+/**
+ * This class is the logic behind the chess-inspired timers for each of the two players
+ * indicating how long they have left. When a player runs out of time the other player wins.
+ */
 
-    public PlayerTimer(int initialDuration) {
+public class PlayerTimer implements Updateable {
+    private double remainingTime;
+    private boolean isPaused;
+    private Runnable callback;
+
+    public PlayerTimer(double initialDuration) {
         this.remainingTime = initialDuration;
         this.isPaused = true;
     }
 
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
+    }
+
     public void startTimer() {
-        if (isPaused) {
-            timer = new Timer();
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    remainingTime -= 1;
-                    if (remainingTime <= 0) {
-                        outOfTime();
-                    }
-                }
-            };
-            timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        if (isPaused)
             isPaused = false;
-        }
     }
 
     public void pauseTimer() {
-        if (!isPaused) {
-            timer.cancel();
+        if (!isPaused)
             isPaused = true;
-        }
     }
 
     public void outOfTime() {
         if (!isPaused) {
-            timer.cancel();
             isPaused = true;
-            System.out.println("OUT OF TIME");
+            if (callback != null)
+                callback.run();
         }
     }
 
-    public int getRemainingTime() {
+    public double getRemainingTime() {
         return remainingTime;
+    }
+
+    @Override
+    public void update(TimeRecord elapsed) {
+        if (!isPaused) {
+            remainingTime -= elapsed.elapsedSeconds();
+            if (remainingTime < 0) {
+                remainingTime = 0;
+                outOfTime();
+            }
+        }
+    }
+
+    public String getFormattedTime() {
+        double remainingTime = getRemainingTime();
+        int minutes = (int)(remainingTime / 60.0);
+        int seconds = (int)(remainingTime % 60.0);
+        return String.format("%d:%02d", minutes, seconds);
+    }
+
+    public boolean getIsPaused() {
+        return isPaused;
     }
 }
