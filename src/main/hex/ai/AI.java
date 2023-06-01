@@ -12,6 +12,7 @@ import main.hex.player.Player;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.*;
 
 
 /*
@@ -66,15 +67,26 @@ public class AI {
 
     //Searches for best move with increasing depth until time limit is reached
     public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
-        long timeLimit = timeLimitInSeconds * 1000;
-        long start = System.currentTimeMillis();
-        int depth = 1;
-        AIMove bestMove = getBestMoveWithDepth(depth);
-        while(System.currentTimeMillis() - start < timeLimit){
-            depth++;
-            bestMove = getBestMoveWithDepth(depth);
+        AIMove bestMove = getBestMoveWithDepth(1);
+
+        long timeLimitMillis = timeLimitInSeconds * 1000;
+        AITimedDepthRunnable runnable = new AITimedDepthRunnable(this);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<?> future = service.submit(runnable);
+
+        try {
+            future.get(timeLimitMillis, TimeUnit.MILLISECONDS);
+        } catch (Exception ignored){
+
+        }
+        finally {
+            service.shutdown();
+        }
+        if (runnable.getBestMove() != null){
+            bestMove = runnable.getBestMove();
         }
         return bestMove;
+
 
     }
 

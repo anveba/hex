@@ -214,4 +214,26 @@ public class AITest {
         
 
     }
+
+
+    @Test
+    public void AITimedSearchDoesNotGoOverTime(){
+        Board board = new Board(10);
+
+
+        Player agent = new TestPlayerClass(TileColour.PLAYER1);
+
+        AI ai = new AI(board,agent);
+
+        long t1 = System.currentTimeMillis();
+        ai.getBestMoveWithTimeLimit(5);
+        long t2 = System.currentTimeMillis();
+        assert(t2-t1 < 5100);
+
+        //System.out.println(nextMove.getX() + " "+nextMove.getY());
+
+
+    }
+
+
 }
