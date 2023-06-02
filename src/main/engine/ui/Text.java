@@ -98,7 +98,7 @@ public class Text extends UIElement {
 	}
 	
 	@Override
-	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		assert anchor != null;
 		float anchoredX = x + offsetX;
 		if (anchor != AnchorPoint.Center) {

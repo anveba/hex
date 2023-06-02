@@ -2,6 +2,7 @@ package test.hex.Frame;
 
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.engine.ui.Slider;
 import main.engine.ui.TextField;
 import main.hex.player.PlayerType;
 import main.hex.ui.StartGameFrameLogic;
@@ -327,6 +328,24 @@ public class StartGameFrameLogicTest {
 
         startGameFrameLogic.setPlayerName(0, textField);
         Assert.assertEquals("player0", startGameFrameLogic.getPlayerName(0));
+    }
+
+    @Test
+    public void setBoardSizeSlider() {
+        Slider slider = mock(Slider.class);
+        when(slider.getCurrent()).thenReturn(10);
+
+        startGameFrameLogic.setBoardSizeSlider(slider);
+        Assert.assertEquals(10, startGameFrameLogic.getBoardSize());
+    }
+
+    @Test
+    public void setTurnTimeSlider() {
+        Slider slider = mock(Slider.class);
+        when(slider.getCurrent()).thenReturn(10);
+
+        startGameFrameLogic.setTurnTimeSlider(slider);
+        Assert.assertEquals(10, startGameFrameLogic.getTurnTime());
     }
 
 }

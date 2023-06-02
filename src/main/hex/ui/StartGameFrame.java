@@ -84,8 +84,8 @@ public class StartGameFrame extends Frame {
 			System.out.println("Game started!");
 			startGame();
 		};
-		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.ORANGE_BUTTON.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, fontSize, startGameBtnClicked, null, null);
+		RectButton startGameBtn = new RectButton(0.0f, -0.775f, 0.8f, 0.2f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, headerFontSize, startGameBtnClicked, null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 

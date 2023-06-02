@@ -42,7 +42,7 @@ public class RectButton extends RectElement implements Clickable {
 					  ButtonCallback onHoverExitCallback) {
 		super(x, y, width, height);
 		image = new Image(x, y, width, height, imageTexture);
-		text = new Text(x, y, font, displayedString, textHeight);
+		text = new Text(x, y  + textHeight  / 4 , font, displayedString, textHeight);
 		setClickCallback(clickCallback);
 		setHoverEnterCallback(onHoverEnterCallback);
 		setHoverExitCallback(onHoverExitCallback);
@@ -154,7 +154,7 @@ public class RectButton extends RectElement implements Clickable {
 	}
 
 	@Override
-	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
 		image.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
 		text.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));

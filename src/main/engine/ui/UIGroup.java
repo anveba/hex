@@ -65,7 +65,12 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 		assert !(e.getParent() == this) || children.contains(e);
 		assert !(children.contains(e)) || e.getParent() == this;
 	}
-	
+
+	public void removeAllChildren() {
+		for (var c : children)
+			removeChild(c);
+	}
+
 	@Override
 	public void setPosition(float x, float y) {
 		this.x = x;
@@ -85,7 +90,7 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 	}
 
 	@Override
-	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
 			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
 	}
