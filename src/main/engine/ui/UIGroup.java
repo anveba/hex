@@ -7,7 +7,6 @@ import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.ControlsArgs;
-import main.engine.math.Vector2;
 
 /**
  * Represents a group of UI elements that itself is a UI element.
@@ -167,6 +166,22 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 	public void update(TimeRecord elapsed) {
 		for (var child : children) {
 			child.update(elapsed);
+		}
+	}
+
+	@Override
+	public void disable() {
+		super.disable();
+		for (var child : children) {
+			child.disable();
+		}
+	}
+
+	@Override
+	public void enable() {
+		super.enable();
+		for (var child : children) {
+			child.enable();
 		}
 	}
 }

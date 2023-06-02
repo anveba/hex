@@ -9,7 +9,6 @@ import main.hex.GameCustomisation;
 import main.hex.GameLogic;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
-import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
 
@@ -51,7 +50,7 @@ public class GameplayFrame extends Frame {
 
         //Pause menu (added last, so it's on top of everything else)
         pauseMenuUIGroup = createPauseMenu();
-        pauseMenuUIGroup.hide(); //Initially hidden
+        pauseMenuUIGroup.disable(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
 
     }
@@ -204,11 +203,11 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-        pauseMenuUIGroup.show();
+        pauseMenuUIGroup.enable();
         SceneDirector.currentScene().pauseUpdates();
     }
     private void resumeToGameBtnClicked() {
-        pauseMenuUIGroup.hide();
+        pauseMenuUIGroup.disable();
         SceneDirector.currentScene().resumeUpdates();
     }
     private void optionsBtnClicked() {

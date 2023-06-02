@@ -6,7 +6,6 @@ import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
-import main.engine.math.Vector2;
 
 public class RectButton extends RectElement implements Clickable {
 	
@@ -66,6 +65,8 @@ public class RectButton extends RectElement implements Clickable {
 	
 	@Override
 	public void processClick(ClickArgs args) {
+		if(isDisabled()) return;
+
 		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
 		}
