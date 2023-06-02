@@ -40,21 +40,20 @@ public class StartGameFrame extends Frame {
 	private float playerTypeFontSize = 0.05f;
 
 	//LOGIC
-
 	private StartGameFrameLogic startGameFrameLogic;
 
 	//Constructors
 	public StartGameFrame() {
-
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
 		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture());
 		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
-		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
-		startGameFrameLogic.setPlayer1Col(Colour.Red); // TODO: Colour to be chosen by player in gui
-		startGameFrameLogic.setPlayer2Col(Colour.Blue); // TODO: Colour to be chosen by player in gui
+		startGameFrameLogic.addHexColour(Colour.Red);
+		startGameFrameLogic.addHexColour(Colour.Blue);
+		startGameFrameLogic.addHexColour(Colour.Green);
+		startGameFrameLogic.setPlayerColourIndex(1, 1);
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
@@ -62,13 +61,10 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
 		startGameFrameLogic.setPlayerTypeIndex(0, 2);
 
-
 		UIGroup root = new UIGroup(0.0f, 0.0f);
 		initializeFrameView(root);
 		setRoot(root);
-
 	}
-
 
 	private void initializeFrameView(UIGroup root) {
 
@@ -162,9 +158,6 @@ public class StartGameFrame extends Frame {
 		swapRuleBtn.setClickCallback(swapruleBtnClicked);
 		swapRuleUIGroup.addChild(swapRuleBtn);
 
-
-
-
 		return gameSettings;
 	}
 
@@ -178,102 +171,108 @@ public class StartGameFrame extends Frame {
 		}
 	}
 
-
-
 	private UIGroup createPlayerSettings() {
 		UIGroup playerSettingsUIGroup = new UIGroup(0.0f, -0.05f);
 
-		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0, startGameFrameLogic.getPlayer1Col()));
-		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1, startGameFrameLogic.getPlayer2Col()));
-
+		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0));
+		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1));
 
 		return playerSettingsUIGroup;
 	}
 
-	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex, Colour playerCol) {
+	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex) {
 		UIGroup playerSettingUIGroup = new UIGroup(x, y);
 		//Title
 		Text titleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, title, fontSize);
 		playerSettingUIGroup.addChild(titleText);
 
-
-		/**
-		 * Texture Carousel
+		/*
+		  Skin Selection (Texture and Colour)
 		 */
-		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
-
+		UIGroup skinCarouselUIGroup = new UIGroup(0.0f, -0.2f);
 		float c = (float)Math.cos(Math.toRadians(30.0f));
-		
-		//texture
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
-		colorCarouselUIGroup.addChild(colorImage);
+		//skinImage showcase
+		Image skinImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), startGameFrameLogic.getPlayerColour(playerIndex));
+		skinCarouselUIGroup.addChild(skinImage);
 
-		//left arrow
-		ButtonCallback leftClicked = (args) -> {
-			carouselLeft(colorImage, playerIndex);
-		};
-		RectButton leftCarouselArrow = new RectButton(-0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, leftClicked, null, null);
-		colorCarouselUIGroup.addChild(leftCarouselArrow);
+		// Texture carousel left arrow
+		skinCarouselUIGroup.addChild(carouselButton(-0.25f, 0.0f, 0.08f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> textureCarouselLeft(skinImage, playerIndex)));
 
-		//right arrow
-		ButtonCallback rightClicked = (args) -> {
-			carouselRight(colorImage, playerIndex);
-		};
-		RectButton rightCarouselArrow = new RectButton(0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, rightClicked, null, null);
-		colorCarouselUIGroup.addChild(rightCarouselArrow);
+		// Texture carousel right arrow
+		skinCarouselUIGroup.addChild(carouselButton(0.25f, 0.0f, 0.08f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> textureCarouselRight(skinImage, playerIndex)));
 
-		playerSettingUIGroup.addChild(colorCarouselUIGroup);
+		// Colour carousel left arrow
+		skinCarouselUIGroup.addChild(carouselButton(-0.25f, -0.1f, 0.08f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> colourCarouselLeft(skinImage, playerIndex)));
 
+		// Colour carousel right arrow
+		skinCarouselUIGroup.addChild(carouselButton(0.25f, -0.1f, 0.08f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> colourCarouselRight(skinImage, playerIndex)));
 
-		//Name text field
+		playerSettingUIGroup.addChild(skinCarouselUIGroup);
+
+		/*
+		  Player Name
+		 */
 		Text nameText = new Text(-0.24f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
 		playerSettingUIGroup.addChild(nameText);
 		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Player " + (playerIndex + 1),0.49f, 0.06f, Colour.LightGrey);
 		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
-
-		/**
-		 * Type Carousel
+		/*
+		  Player Type Carousel
 		 */
 		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
-
 		//text
 		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, startGameFrameLogic.getPlayerTypeString(playerIndex), playerTypeFontSize);
 		typeCarouselUIGroup.addChild(typeText);
 
-		//left arrow
-		ButtonCallback typeLeftClicked = (args) -> {
-			playerTypeLeft(typeText, playerIndex);
-		};
-		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, typeLeftClicked, null, null);
-		typeCarouselUIGroup.addChild(typeLeftCarouselArrow);
+		// Player type carousel left arrow
+		typeCarouselUIGroup.addChild(carouselButton(-0.32f, 0.0f, 0.06f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> playerTypeLeft(typeText, playerIndex)));
 
-		//right arrow
-		ButtonCallback typeRightClicked = (args) -> {
-			playerTypeRight(typeText, playerIndex);
-		};
-		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, typeRightClicked, null, null);
-		typeCarouselUIGroup.addChild(typeRightCarouselArrow);
+		// Player type carousel right arrow
+		typeCarouselUIGroup.addChild(carouselButton(0.32f, 0.0f, 0.06f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> playerTypeRight(typeText, playerIndex)));
 
 		playerSettingUIGroup.addChild(typeCarouselUIGroup);
-
 
 		return playerSettingUIGroup;
 	}
 
-	public void carouselLeft(Image colorImage, int playerIndex) {
-		startGameFrameLogic.previousTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	// A fast way to create a carouselButton
+	public RectButton carouselButton(float x, float y, float size, Texture texture, ButtonCallback callback) {
+		return new RectButton(x, y, size, size, texture, FONT_ROBOTO, "", fontSize, callback,
+				null, null);
 	}
 
-	public void carouselRight(Image colorImage, int playerIndex) {
+	public void textureCarouselLeft(Image skinImage, int playerIndex) {
+		startGameFrameLogic.previousTexture(playerIndex);
+		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	}
+
+	public void textureCarouselRight(Image skinImage, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	}
+
+	public void colourCarouselLeft(Image skinImage, int playerIndex) {
+		startGameFrameLogic.previousColour(playerIndex);
+		skinImage.setColour(startGameFrameLogic.getHexColour(startGameFrameLogic.getPlayerColourIndex(playerIndex)));
+	}
+
+	public void colourCarouselRight(Image skinImage, int playerIndex) {
+		startGameFrameLogic.nextColour(playerIndex);
+		skinImage.setColour(startGameFrameLogic.getHexColour(startGameFrameLogic.getPlayerColourIndex(playerIndex)));
 	}
 
 	public void playerTypeLeft(Text typeText, int playerIndex) {
@@ -290,8 +289,8 @@ public class StartGameFrame extends Frame {
 		GameCustomisation gameCustomisation = new GameCustomisation(
 				startGameFrameLogic.getPlayerName(0),
 				startGameFrameLogic.getPlayerName(1),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayer2Col()),
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayerColour(0)),
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayerColour(1)),
 				startGameFrameLogic.getTurnTime(),
 				startGameFrameLogic.getSwapRule());
 

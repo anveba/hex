@@ -18,10 +18,10 @@ public class StartGameFrameLogic {
     private Slider boardSizeSlider;
     private Slider turnTimeSlider;
     private int[] playerTextureIndex = new int[2];
+    private int[] playerColourIndex = new int[2];
     private int[] playerTypeIndex = new int[2];
     private ArrayList<Texture> hexTextures = new ArrayList<>();
-    private Colour player1Col = Colour.White;
-    private Colour player2Col = Colour.White;
+    private ArrayList<Colour> hexColours = new ArrayList<>();
     private Map<PlayerType, String> opponentTypeMap = new HashMap<>();
     private ArrayList<PlayerType> opponentTypes = new ArrayList<>();
 
@@ -37,8 +37,20 @@ public class StartGameFrameLogic {
 
     public void previousTexture(int playerIndex) {
         int i = playerTextureIndex[playerIndex];
-        i = (i == 0) ?  hexTextures.size() - 1 : i - 1;
+        i = (i == 0) ? hexTextures.size() - 1 : i - 1;
         setPlayerTextureIndex(playerIndex, i);
+    }
+
+    public void nextColour(int playerIndex) {
+        int i = playerColourIndex[playerIndex];
+        i = (i >= hexTextures.size() - 1) ? 0 : i + 1;
+        setPlayerColourIndex(playerIndex, i);
+    }
+
+    public void previousColour(int playerIndex) {
+        int i = playerColourIndex[playerIndex];
+        i = (i == 0) ? hexTextures.size() - 1 : i - 1;
+        setPlayerColourIndex(playerIndex, i);
     }
 
     public void nextPlayerType(int playerIndex) {
@@ -61,12 +73,20 @@ public class StartGameFrameLogic {
         playerTextureIndex[playerIndex] = textureIndex;
     }
 
+    public void setPlayerColourIndex(int playerIndex, int colourIndex) {
+        playerColourIndex[playerIndex] = colourIndex;
+    }
+
     public void setPlayerTypeIndex(int playerIndex, int typeIndex) {
         playerTypeIndex[playerIndex] = typeIndex;
     }
 
     public void addHexTexture(Texture texture) {
         hexTextures.add(texture);
+    }
+
+    public void addHexColour(Colour colour) {
+        hexColours.add(colour);
     }
 
     public void addPlayerType(PlayerType type, String displayString) {
@@ -82,6 +102,14 @@ public class StartGameFrameLogic {
         return hexTextures.get(playerTextureIndex[playerIndex]);
     }
 
+    public Colour getHexColour(int index) {
+        return hexColours.get(index);
+    }
+
+    public Colour getPlayerColour(int playerIndex) {
+        return hexColours.get(playerColourIndex[playerIndex]);
+    }
+
     public PlayerType getPlayerType(int playerIndex) {
         return opponentTypes.get(playerTypeIndex[playerIndex]);
     }
@@ -93,6 +121,11 @@ public class StartGameFrameLogic {
     public int getHexTextureCount() {
         return hexTextures.size();
     }
+
+    public int getHexColourCount() {
+        return hexColours.size();
+    }
+
     public int getOpponentTypeCount() {
         return opponentTypes.size();
     }
@@ -109,6 +142,10 @@ public class StartGameFrameLogic {
         return playerTextureIndex[playerIndex];
     }
 
+    public int getPlayerColourIndex(int playerIndex) {
+        return playerColourIndex[playerIndex];
+    }
+
     public int getPlayerTypeIndex(int playerIndex) {
         return playerTypeIndex[playerIndex];
     }
@@ -118,20 +155,6 @@ public class StartGameFrameLogic {
     }
     public boolean getSwapRule() {
         return swapRule;
-    }
-
-    public Colour getPlayer1Col() {
-        return player1Col;
-    }
-    public void setPlayer1Col(Colour p1Col) {
-        player1Col = p1Col;
-    }
-
-    public Colour getPlayer2Col() {
-        return player2Col;
-    }
-    public void setPlayer2Col(Colour p2Col) {
-        player2Col = p2Col;
     }
 
     public void setBoardSizeSlider(Slider boardSizeSlider) {

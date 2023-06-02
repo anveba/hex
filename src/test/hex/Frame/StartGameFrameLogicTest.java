@@ -39,6 +39,10 @@ public class StartGameFrameLogicTest {
         Assert.assertFalse(startGameFrameLogic.getSwapRule());
     }
 
+    /**
+     * Player texture
+     */
+
     @Test
     public void getPlayerTextureIndex_player0_is0() {
         Assert.assertEquals(0, startGameFrameLogic.getPlayerTextureIndex(0));
@@ -51,14 +55,6 @@ public class StartGameFrameLogicTest {
     public void setPlayerTextureIndex_player0Texture1_is1() {
         startGameFrameLogic.setPlayerTextureIndex(0, 1);
         Assert.assertEquals(1, startGameFrameLogic.getPlayerTextureIndex(0));
-    }
-
-    @Test
-    public void playerColoursSetCorrectly() {
-        startGameFrameLogic.setPlayer1Col(Colour.Red);
-        startGameFrameLogic.setPlayer2Col(Colour.Blue);
-        Assert.assertEquals(Colour.Red, startGameFrameLogic.getPlayer1Col());
-        Assert.assertEquals(Colour.Blue, startGameFrameLogic.getPlayer2Col());
     }
 
     @Test
@@ -181,6 +177,51 @@ public class StartGameFrameLogicTest {
         startGameFrameLogic.previousTexture(0);
         Assert.assertEquals(t2, startGameFrameLogic.getPlayerTexture(0));
     }
+
+    /**
+     * Player colour
+     */
+
+    @Test
+    public void setPlayerColourIndex_player1Colour1_is1() {
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+        Assert.assertEquals(1, startGameFrameLogic.getPlayerColourIndex(1));
+    }
+
+    @Test
+    public void addHexColour_3Added_addedInRightOrder() {
+        Assert.assertEquals(0, startGameFrameLogic.getHexColourCount());
+
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1);
+        startGameFrameLogic.addHexColour(c2);
+        startGameFrameLogic.addHexColour(c3);
+        Assert.assertEquals(c1, startGameFrameLogic.getHexColour(0));
+        Assert.assertEquals(c2, startGameFrameLogic.getHexColour(1));
+        Assert.assertEquals(c3, startGameFrameLogic.getHexColour(2));
+    }
+
+    @Test
+    public void getHexColourCount_3Added_is3() {
+        Assert.assertEquals(0, startGameFrameLogic.getHexColourCount());
+
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1);
+        startGameFrameLogic.addHexColour(c2);
+        startGameFrameLogic.addHexColour(c3);
+        Assert.assertEquals(3, startGameFrameLogic.getHexColourCount());
+    }
+
+
+    /**
+     * Player type
+     */
 
     @Test
     public void addPlayerType_3Added_addedInRightOrder() {
