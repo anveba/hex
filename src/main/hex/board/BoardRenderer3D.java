@@ -6,7 +6,6 @@ import main.engine.math.*;
 
 import java.awt.Color;
 
-import main.engine.Point2;
 import main.engine.ResourceManager;
 import main.engine.graphics.*;
 import main.hex.Game;

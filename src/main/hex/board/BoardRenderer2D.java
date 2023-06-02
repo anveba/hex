@@ -1,10 +1,10 @@
 package main.hex.board;
 
-import main.engine.Point2;
 import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.hex.Game;
 import main.hex.GameCustomisation;

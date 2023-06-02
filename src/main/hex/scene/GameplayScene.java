@@ -1,6 +1,8 @@
 package main.hex.scene;
 
+import main.engine.ResourceManager;
 import main.engine.TimeRecord;
+import main.engine.graphics.Cubemap;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
 import main.engine.ui.FrameStack;
@@ -13,6 +15,7 @@ public class GameplayScene extends Scene {
 	private GameLogic gameLogic;
 	private GameCustomisation gameCustomization;
 	private CameraController camController;
+	private Cubemap skybox;
 	
 	public GameplayScene(GameLogic gameLogic, GameCustomisation gameCustomisation) {
 		if (gameLogic == null || gameCustomisation == null)
@@ -20,6 +23,7 @@ public class GameplayScene extends Scene {
 		this.gameLogic = gameLogic;
 		this.gameCustomization = gameCustomisation;
 		camController = new CameraController(Game.getInstance().getCamera());
+		skybox = ResourceManager.getInstance().loadCubemap("cubemaps/indoors");
 	}
 	
 	@Override
@@ -80,6 +84,7 @@ public class GameplayScene extends Scene {
 	@Override
 	public void draw3D(Renderer3D renderer) {
 		gameLogic.getBoard().draw3D(renderer, gameCustomization);
+		renderer.drawSkybox(skybox);
 	}
 
 }
