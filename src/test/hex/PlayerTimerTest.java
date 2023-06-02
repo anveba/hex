@@ -89,8 +89,7 @@ public class PlayerTimerTest {
         player1.getTimer().setCallback(callback);
 
         player1.getTimer().startTimer();
-        player1.getTimer().outOfTime();
-        player1.getTimer().update(mock(TimeRecord.class));
+        player1.getTimer().update(new TimeRecord(15.0f, 20.0f));
 
         verify(callback, times(1)).run();
     }
@@ -101,8 +100,7 @@ public class PlayerTimerTest {
         player2.getTimer().setCallback(callback);
 
         player2.getTimer().startTimer();
-        player2.getTimer().outOfTime();
-        player2.getTimer().update(mock(TimeRecord.class));
+        player2.getTimer().update(new TimeRecord(15.0f, 20.0f));
 
         verify(callback, times(1)).run();
     }
