@@ -135,7 +135,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 60, 20);
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300);
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):
@@ -295,11 +295,13 @@ public class StartGameFrame extends Frame {
 				startGameFrameLogic.getTurnTime(),
 				startGameFrameLogic.getSwapRule());
 
+		int timeLimit = startGameFrameLogic.getTurnTime();
+
 		Board b = new Board(startGameFrameLogic.getBoardSize());
 		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER1) : new AIPlayer(TileColour.PLAYER1, 3);
+				new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, 3);
 		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER2) : new AIPlayer(TileColour.PLAYER2, 3);
+				new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, 3);
 
 		SceneDirector.changeScene(
 				new GameplayScene(

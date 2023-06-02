@@ -1,26 +1,23 @@
 package main.hex.scene;
 
 import main.engine.TimeRecord;
-import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
-import main.engine.math.Vector3;
 import main.engine.ui.FrameStack;
 import main.hex.*;
-import main.hex.graphics.Meshes;
 import main.hex.player.Player;
 import main.hex.ui.GameplayFrame;
 
 public class GameplayScene extends Scene {
 
-	private GameLogic logic;
+	private GameLogic gameLogic;
 	private GameCustomisation gameCustomization;
 	private CameraController camController;
 	
-	public GameplayScene(GameLogic logic, GameCustomisation gameCustomisation) {
-		if (logic == null || gameCustomisation == null)
+	public GameplayScene(GameLogic gameLogic, GameCustomisation gameCustomisation) {
+		if (gameLogic == null || gameCustomisation == null)
 			throw new HexException("null was given");
-		this.logic = logic;
+		this.gameLogic = gameLogic;
 		this.gameCustomization = gameCustomisation;
 		camController = new CameraController(Game.getInstance().getCamera());
 	}
@@ -34,14 +31,14 @@ public class GameplayScene extends Scene {
 	
 	private void setUpUserInterface() {
 		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(new GameplayFrame(gameCustomization));
+		FrameStack.getInstance().push(new GameplayFrame(gameCustomization, gameLogic));
 	}
 	
     private void startGameplay() {
     	
-    	logic.setPlayerWinCallback(this::onPlayerWin);
-		logic.setSwapRuleState(gameCustomization.getSwapRule());
-    	logic.start();
+    	gameLogic.setPlayerWinCallback(this::onPlayerWin);
+		gameLogic.setSwapRuleState(gameCustomization.getSwapRule());
+    	gameLogic.start();
     }
     
     private void setUpCamera() {
@@ -66,20 +63,23 @@ public class GameplayScene extends Scene {
 
 	@Override
 	public void update(TimeRecord time) {
-		logic.update(time);
-		if (logic.coloursSwapped())
+		gameLogic.update(time);
+		if (gameLogic.coloursSwapped())
 			gameCustomization.setPlayersAsSwapped();
 		camController.update(time);
+
+		gameLogic.getPlayer1().getTimer().update(time);
+		gameLogic.getPlayer2().getTimer().update(time);
 	}
 
 	@Override
 	public void draw2D(Renderer2D renderer) {
-		logic.getBoard().draw2D(renderer, gameCustomization);
+		gameLogic.getBoard().draw2D(renderer, gameCustomization);
 	}
 	
 	@Override
 	public void draw3D(Renderer3D renderer) {
-		logic.getBoard().draw3D(renderer, gameCustomization);
+		gameLogic.getBoard().draw3D(renderer, gameCustomization);
 	}
 
 }

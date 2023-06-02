@@ -32,6 +32,8 @@ public class GameLogic implements Updateable {
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
+		this.player1.getTimer().setCallback(() -> handleWinFor(player2));
+		this.player2.getTimer().setCallback(() -> handleWinFor(player1));
         players.addLast(player2);
         players.addLast(player1);
         currentTurn = -1;
@@ -39,12 +41,13 @@ public class GameLogic implements Updateable {
 		swapRuleEnabled = false;
 		coloursSwapped = false;
     }
-    
+
     public void start() {
-    	if (currentTurn == -1)
-    		nextTurn();
-    	else
-    		throw new HexException("Game already started");
+    	if (currentTurn == -1) {
+			nextTurn();
+		} else {
+			throw new HexException("Game already started");
+		}
     }
     
     public void setPlayerWinCallback(PlayerCondition callback) {
@@ -170,8 +173,10 @@ public class GameLogic implements Updateable {
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
         currentTurn++;
+		currentPlayer.getTimer().pauseTimer(); // Stop timer for current player
         currentPlayer.onEndOfTurn();
-        
+
+		players.peekFirst().getTimer().startTimer(); // Start timer for next player
         playerResponse = new ConcurrentPlayerResponse();
         players.peekFirst().processTurn(board, playerResponse);
     }
@@ -188,5 +193,13 @@ public class GameLogic implements Updateable {
 	
 	public boolean coloursSwapped() {
 		return coloursSwapped;
+	}
+
+	public Player getPlayer1() {
+		return player1;
+	}
+
+	public Player getPlayer2() {
+		return player2;
 	}
 }

@@ -161,9 +161,7 @@ public class GameLogicTest {
     
     @Test(expected = HexException.class)
     public void exceptionIsThrownIfErrorIsInResponse() {
-    	
     	player1.relayResponseAsError(mock(Throwable.class));
 		gameLogic.update(mock(TimeRecord.class));
     }
-    
 }
