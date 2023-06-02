@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import main.engine.*;
+import main.engine.math.Point2;
 
 public class Point2Test {
 

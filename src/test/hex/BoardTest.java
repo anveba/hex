@@ -1,6 +1,7 @@
 package test.hex;
 
 import main.engine.*;
+import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.hex.*;
 import main.hex.board.Board;

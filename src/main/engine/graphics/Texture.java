@@ -35,11 +35,11 @@ public class Texture {
         	STBImage.stbi_set_flip_vertically_on_load(true);
         	
         	if (!stbi_info_from_memory(buffer, x, y, channels))
-        		throw new EngineException("Failed to load texture information: " + stbi_failure_reason());
+        		throw new EngineException("Failed to load image information: " + stbi_failure_reason());
         	
         	ByteBuffer data = STBImage.stbi_load_from_memory(buffer, x, y, channels, 4);
         	if (data == null)
-        		throw new EngineException("texture load failed: " + STBImage.stbi_failure_reason());
+        		throw new EngineException("Texture load failed: " + STBImage.stbi_failure_reason());
         	width = x.get(0);
         	height = y.get(0);
         	
@@ -47,6 +47,7 @@ public class Texture {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, handle);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            STBImage.stbi_image_free(data);
         }
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

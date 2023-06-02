@@ -31,7 +31,7 @@ public class PlayerTimer implements Updateable {
             isPaused = true;
     }
 
-    public void outOfTime() {
+    private void outOfTime() {
         if (!isPaused) {
             isPaused = true;
             if (callback != null)

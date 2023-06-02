@@ -2,11 +2,11 @@ package main.hex.player;
 
 import java.util.function.BiConsumer;
 
-import main.engine.Point2;
 import main.engine.TimeRecord;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.input.ControlsCallback;
+import main.engine.math.Point2;
 import main.hex.Game;
 import main.hex.Move;
 import main.hex.Preferences;

@@ -1,4 +1,4 @@
-package main.engine;
+package main.engine.math;
 
 import java.util.Objects;
 

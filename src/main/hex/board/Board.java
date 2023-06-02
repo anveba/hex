@@ -2,6 +2,7 @@ package main.hex.board;
 
 import main.engine.*;
 import main.engine.graphics.*;
+import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.engine.math.Vector3;
 import main.hex.GameCustomisation;
