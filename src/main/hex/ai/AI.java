@@ -17,7 +17,8 @@ import java.util.concurrent.*;
 
 /*
 Author: Nikolaj
-An artificial intelligence class, using the minimax/negamax algorithm
+A class to find "good" moves, by searching the tree of possible moves,
+using the minimax algorithm (negamax variant)
  */
 
 public class AI {
@@ -56,16 +57,14 @@ public class AI {
         }
     }
 
+    //Wrapper call for the negamax algorithm, where you only need to specify the depth you want to search with
     public AIMove getBestMoveWithDepth(int depth){
-        //System.out.println("Called with depth: "+depth);
-        AIMove m =  negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
-        //AIMove m =  minimax(board,depth, player.winsByVerticalConnection());
-        //System.out.println(m.getX() + " "+ m.getY());
-        return m;
+        return negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
     }
 
 
-    //Searches for best move with increasing depth until time limit is reached
+    //Wrapper call for negamax algorithm, where we use iterative deepening until a time limit is reached
+    //Meaning that we start by searching at depth 1, then 2... until the time limit is reached
     public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
         AIMove bestMove = getBestMoveWithDepth(1);
 
@@ -86,8 +85,6 @@ public class AI {
             bestMove = runnable.getBestMove();
         }
         return bestMove;
-
-
     }
 
 
@@ -147,7 +144,6 @@ public class AI {
     }
     */
 
-
     private AIMove negamaxAB(Board state, int depth, TileColour agentColour,double alpha, double beta){
 
         //If we've already processed this board state, no need to process it again.
@@ -167,7 +163,6 @@ public class AI {
         if(g.hasWonVertically()){
             eval = Double.POSITIVE_INFINITY;
         }
-        
 
         if(depth == 0){
             eval = g.evaluateBoard();
@@ -207,7 +202,6 @@ public class AI {
             if(alpha >= beta){
                 break;
             }
-
 
         }
         //Throw an exception if no child moves were found
