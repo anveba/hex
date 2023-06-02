@@ -33,6 +33,6 @@ public class BoardChildGenerator {
             return Optional.empty();
         }
 
-        return Optional.of(new AIMove(x,y,0.0));
+        return Optional.of(new AIMove(x,y,0.0,0));
     }
 }

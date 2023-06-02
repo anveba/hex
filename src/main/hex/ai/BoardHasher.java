@@ -5,6 +5,12 @@ import main.hex.board.TileColour;
 
 import java.util.Random;
 
+
+/*
+Class that hashes boards using zobrist hashing
+We can either hash a board from scratch, that being give a board state, and slowly hash all moves
+Or we can toggle a move, meaning that we can from any board hash very quickly find the hash for the corresponding boards children, or parent
+ */
 public class BoardHasher {
 
 

@@ -173,7 +173,7 @@ public class AITest {
     @Test
     @Ignore
     public void AIDepthFunction(){
-        Board board = new Board(10);
+        Board board = new Board(6);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
@@ -183,12 +183,54 @@ public class AITest {
         long startTime = System.nanoTime();
         Move nextMove = ai.getBestMoveWithDepth(5);
         long endTime = System.nanoTime();
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+        System.out.println("");
+        BoardEvaluator.resetEvaluationCount();
+
+        ai = new AI(board,agent);
+        ai.setDoMoveSorting(false);
+        startTime = System.nanoTime();
+        nextMove = ai.getBestMoveWithDepth(5);
+        endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");
         System.out.println(BoardEvaluator.getEvaluationCount());
 
         //System.out.println(nextMove.getX() + " "+nextMove.getY());
         
+
+    }
+    //Is used more for debugging purposes than an actual test to pass/fail
+    @Test
+    @Ignore
+    public void AITimeDepthFunction(){
+        Board board = new Board(6);
+
+
+        Player agent = new TestPlayerClass(TileColour.PLAYER1);
+
+        AI ai = new AI(board,agent);
+
+        long startTime = System.nanoTime();
+        Move nextMove = ai.getBestMoveWithTimeLimit(5);
+        long endTime = System.nanoTime();
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+        System.out.println("");
+        BoardEvaluator.resetEvaluationCount();
+
+        ai = new AI(board,agent);
+        ai.setDoMoveSorting(false);
+        startTime = System.nanoTime();
+        nextMove = ai.getBestMoveWithTimeLimit(5);
+        endTime = System.nanoTime();
+
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+
+        //System.out.println(nextMove.getX() + " "+nextMove.getY());
+
 
     }
 
@@ -203,9 +245,9 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long t1 = System.currentTimeMillis();
-        ai.getBestMoveWithTimeLimit(5);
+        ai.getBestMoveWithTimeLimit(1);
         long t2 = System.currentTimeMillis();
-        assertTrue(t2-t1 < 5100);
+        assertTrue(t2-t1 < 1100);
 
         //System.out.println(nextMove.getX() + " "+nextMove.getY());
 

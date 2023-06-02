@@ -8,6 +8,9 @@ import main.hex.ai.AIMove;
 import main.hex.ai.BoardHashTable;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class BoardHasherTester {
 
 
@@ -47,7 +50,7 @@ public class BoardHasherTester {
         BoardHasher bh = new BoardHasher(5);
 
         int b2Hash = bh.hash(b2);
-        assert(bh.hash(b1) == bh.toggleMoveToBoardHash(b2Hash,new AIMove(3,3,0),TileColour.PLAYER2));
+        assertEquals(bh.hash(b1), bh.toggleMoveToBoardHash(b2Hash, new AIMove(3, 3, 0, 0), TileColour.PLAYER2));
 
 
     }
