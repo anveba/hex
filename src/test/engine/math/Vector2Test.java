@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import main.engine.Point2;
+import main.engine.math.Point2;
 import main.engine.math.Vector2;
 
 public class Vector2Test {

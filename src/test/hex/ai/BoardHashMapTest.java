@@ -21,7 +21,7 @@ public class BoardHashMapTest {
         b2.setTileAtPosition(new Tile(TileColour.PLAYER2),3,3);
 
         BoardHashTable t = new BoardHashTable();
-        t.putBoard(b1,new AIMove(0,0,0.0));
+        t.putBoard(b1,new AIMove(0,0,0.0,0));
         assert(t.containsKey(b2));
 
 

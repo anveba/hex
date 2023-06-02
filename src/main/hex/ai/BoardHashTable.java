@@ -15,6 +15,7 @@ public class BoardHashTable {
         this.hashMap = new HashMap<>();
     }
 
+
     public void putBoard(Board b,AIMove m){
         hashMap.put(b.getHash(),m);
     }

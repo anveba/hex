@@ -17,6 +17,7 @@ import test.hex.TestPlayerClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AITest {
 
@@ -37,31 +38,7 @@ public class AITest {
     }
 
 
-    /*
-    Test not completed yet
-    @Test
-    public void AIFindsWinningMoveB(){
 
-        Board board = new Board(3);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 0,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 1,0);
-        board.setTileAtPosition(new Tile(TileColour.BLUE), 2,0);
-
-        board.setTileAtPosition(new Tile(TileColour.RED), 1,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,2);
-        board.setTileAtPosition(new Tile(TileColour.RED), 2,1);
-
-        Player agent = new AIPlayer(TileColour.RED, 1);
-
-        AI ai = new AI(board, agent);
-
-        Move nextMove = ai.getBestMove(2);
-        assertEquals(1, nextMove.getX());
-        assertEquals(1, nextMove.getY());
-    }
-
-
-     */
 
     @Test
     //Test for a bug found, where the AI would not play a valid move on a board state where it should
@@ -81,7 +58,7 @@ public class AITest {
 
         AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
-        assert(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour().equals(TileColour.WHITE));
+        assertEquals(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour(), TileColour.WHITE);
     }
 
     @Test
@@ -116,8 +93,8 @@ public class AITest {
 
         AIMove nextMove = ai.getBestMoveWithDepth(1);
         System.out.println(nextMove.getValue());
-        assert(nextMove.getX() == 2);
-        assert(nextMove.getY() == 0);
+        assertEquals(2, nextMove.getX());
+        assertEquals(0, nextMove.getY());
     }
 
 
@@ -142,8 +119,8 @@ public class AITest {
         AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
         //System.out.println(nextMove.getX());
-        assert(nextMove.getX() == 0);
-        assert(nextMove.getY() == 2);
+        assertEquals(0, nextMove.getX());
+        assertEquals(nextMove.getY(), 2);
     }
 
 
@@ -168,7 +145,7 @@ public class AITest {
 
         AIMove nextMove = ai.getBestMoveWithDepth(1);
         //System.out.println(nextMove.getValue());
-        assert(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour().equals(TileColour.WHITE));
+        assertEquals(board.getTileAtPosition(nextMove.getX(), nextMove.getY()).getColour(), TileColour.WHITE);
     }
 
 
@@ -186,8 +163,8 @@ public class AITest {
 
         System.out.println(d0.getX()+ ","+d0.getY());
 
-        assert(d0.getX() == t0.getX() && d0.getY() == t1.getY());
-        assert(t0.getX() != t1.getX() || t0.getY() != t1.getY());
+        assertTrue(d0.getX() == t0.getX() && d0.getY() == t1.getY());
+        assertTrue(t0.getX() != t1.getX() || t0.getY() != t1.getY());
     }
 
 
@@ -196,7 +173,7 @@ public class AITest {
     @Test
     @Ignore
     public void AIDepthFunction(){
-        Board board = new Board(10);
+        Board board = new Board(6);
 
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
@@ -206,12 +183,54 @@ public class AITest {
         long startTime = System.nanoTime();
         Move nextMove = ai.getBestMoveWithDepth(5);
         long endTime = System.nanoTime();
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+        System.out.println("");
+        BoardEvaluator.resetEvaluationCount();
+
+        ai = new AI(board,agent);
+        ai.setDoMoveSorting(false);
+        startTime = System.nanoTime();
+        nextMove = ai.getBestMoveWithDepth(5);
+        endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");
         System.out.println(BoardEvaluator.getEvaluationCount());
 
         //System.out.println(nextMove.getX() + " "+nextMove.getY());
         
+
+    }
+    //Is used more for debugging purposes than an actual test to pass/fail
+    @Test
+    @Ignore
+    public void AITimeDepthFunction(){
+        Board board = new Board(6);
+
+
+        Player agent = new TestPlayerClass(TileColour.PLAYER1);
+
+        AI ai = new AI(board,agent);
+
+        long startTime = System.nanoTime();
+        Move nextMove = ai.getBestMoveWithTimeLimit(5);
+        long endTime = System.nanoTime();
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+        System.out.println("");
+        BoardEvaluator.resetEvaluationCount();
+
+        ai = new AI(board,agent);
+        ai.setDoMoveSorting(false);
+        startTime = System.nanoTime();
+        nextMove = ai.getBestMoveWithTimeLimit(5);
+        endTime = System.nanoTime();
+
+        System.out.println((endTime - startTime)/1000000000 + "s");
+        System.out.println(BoardEvaluator.getEvaluationCount());
+
+        //System.out.println(nextMove.getX() + " "+nextMove.getY());
+
 
     }
 
@@ -226,9 +245,9 @@ public class AITest {
         AI ai = new AI(board,agent);
 
         long t1 = System.currentTimeMillis();
-        ai.getBestMoveWithTimeLimit(5);
+        ai.getBestMoveWithTimeLimit(1);
         long t2 = System.currentTimeMillis();
-        assert(t2-t1 < 5100);
+        assertTrue(t2-t1 < 1100);
 
         //System.out.println(nextMove.getX() + " "+nextMove.getY());
 

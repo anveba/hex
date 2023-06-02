@@ -49,6 +49,9 @@ public class BoardEvaluator {
     public static int getEvaluationCount() {
         return evaluationCount;
     }
+    public static void resetEvaluationCount(){
+        evaluationCount = 0;
+    }
 
 
     //Evaluates current boardstate, using signal heuristics
