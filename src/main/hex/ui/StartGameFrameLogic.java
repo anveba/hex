@@ -14,7 +14,6 @@ public class StartGameFrameLogic {
 
     private boolean swapRule = false;
     private TextField[] playerNames = new TextField[2];
-
     private Slider boardSizeSlider;
     private Slider turnTimeSlider;
     private int[] playerTextureIndex = new int[2];
@@ -22,6 +21,8 @@ public class StartGameFrameLogic {
     private int[] playerTypeIndex = new int[2];
     private ArrayList<Texture> hexTextures = new ArrayList<>();
     private ArrayList<Colour> hexColours = new ArrayList<>();
+    private Map<Texture, String> hexTextureMap = new HashMap<>();
+    private Map<Colour, String> hexColourMap = new HashMap<>();
     private Map<PlayerType, String> opponentTypeMap = new HashMap<>();
     private ArrayList<PlayerType> opponentTypes = new ArrayList<>();
 
@@ -42,15 +43,53 @@ public class StartGameFrameLogic {
     }
 
     public void nextColour(int playerIndex) {
-        int i = playerColourIndex[playerIndex];
-        i = (i >= hexTextures.size() - 1) ? 0 : i + 1;
-        setPlayerColourIndex(playerIndex, i);
+        int playerCol = playerColourIndex[playerIndex];
+        for (int i = 0; i < playerColourIndex.length; i++) {
+            if (i != playerIndex) {
+                int otherPlayerCol = playerColourIndex[i];
+                if (playerCol == hexColours.size() - 1) {
+                    if (otherPlayerCol == 0) {
+                        playerCol = 1;
+                    } else {
+                        playerCol = 0;
+                    }
+                } else if (playerCol + 1 == otherPlayerCol) {
+                    if (otherPlayerCol == hexColours.size() - 1) {
+                        playerCol = 0;
+                    } else {
+                        playerCol += 2;
+                    }
+                } else {
+                    playerCol++;
+                }
+            }
+        }
+        setPlayerColourIndex(playerIndex, playerCol);
     }
 
     public void previousColour(int playerIndex) {
-        int i = playerColourIndex[playerIndex];
-        i = (i == 0) ? hexTextures.size() - 1 : i - 1;
-        setPlayerColourIndex(playerIndex, i);
+        int playerCol = playerColourIndex[playerIndex];
+        for (int i = 0; i < playerColourIndex.length; i++) {
+            if (i != playerIndex) {
+                int otherPlayerCol = playerColourIndex[i];
+                if (playerCol == 0) {
+                    if (otherPlayerCol == hexColours.size() - 1) {
+                        playerCol = hexColours.size() - 2;
+                    } else {
+                        playerCol = hexColours.size() - 1;
+                    }
+                } else if (playerCol - 1 == otherPlayerCol) {
+                    if (otherPlayerCol == 0) {
+                        playerCol = hexColours.size() - 1;
+                    } else {
+                        playerCol -= 2;
+                    }
+                } else {
+                    playerCol--;
+                }
+            }
+        }
+        setPlayerColourIndex(playerIndex, playerCol);
     }
 
     public void nextPlayerType(int playerIndex) {
@@ -81,12 +120,14 @@ public class StartGameFrameLogic {
         playerTypeIndex[playerIndex] = typeIndex;
     }
 
-    public void addHexTexture(Texture texture) {
+    public void addHexTexture(Texture texture, String displayString) {
         hexTextures.add(texture);
+        hexTextureMap.put(texture, displayString);
     }
 
-    public void addHexColour(Colour colour) {
+    public void addHexColour(Colour colour, String displayString) {
         hexColours.add(colour);
+        hexColourMap.put(colour, displayString);
     }
 
     public void addPlayerType(PlayerType type, String displayString) {
@@ -102,12 +143,20 @@ public class StartGameFrameLogic {
         return hexTextures.get(playerTextureIndex[playerIndex]);
     }
 
+    public String getPlayerTextureString(int playerIndex) {
+        return hexTextureMap.get(getPlayerTexture(playerIndex));
+    }
+
     public Colour getHexColour(int index) {
         return hexColours.get(index);
     }
 
     public Colour getPlayerColour(int playerIndex) {
         return hexColours.get(playerColourIndex[playerIndex]);
+    }
+
+    public String getPlayerColourString(int playerIndex) {
+        return hexColourMap.get(getPlayerColour(playerIndex));
     }
 
     public PlayerType getPlayerType(int playerIndex) {
