@@ -217,6 +217,7 @@ public class AI {
 
         //We create a list of valid moves, that being the locations on board, currently white
         ArrayList<AIMove> children = boardChildGenerator.createChildren(state);
+        children = PatternPruner.pruneByPatterns(children,board,agentColour);
         //Sort the children based on previous evaluations of the board state if they exist, if not by running the board evaluation heuristic
         if (doMoveSorting){
             sortChildren(children, state, agentColour);
