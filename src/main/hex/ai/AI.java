@@ -84,30 +84,6 @@ public class AI {
         return bestMove;
     }
 
-    //Wrapper call for negamax algorithm, where we use iterative deepening until a time limit is reached
-    //Meaning that we start by searching at depth 1, then 2... until the time limit is reached
-    public AIMove getBestMoveWithTimeLimitParallel(long timeLimitInSeconds){
-        AIMove bestMove = getBestMoveWithDepth(1);
-
-        long timeLimitMillis = timeLimitInSeconds * 1000;
-
-        AITimedDepthRunnable runnable = new AITimedDepthRunnable(this);
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        Future<?> future = service.submit(runnable);
-
-        try {
-            future.get(timeLimitMillis, TimeUnit.MILLISECONDS);
-        } catch (Exception ignored){
-
-        }
-        finally {
-            service.shutdown();
-        }
-        if (runnable.getBestMove() != null){
-            bestMove = runnable.getBestMove();
-        }
-        return bestMove;
-    }
 
 
 

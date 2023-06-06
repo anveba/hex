@@ -205,8 +205,8 @@ public class AITest {
     @Test
     @Ignore
     public void AITimeDepthFunction(){
-        Board board = new Board(5);
-        int timelimit = 8;
+        Board board = new Board(6);
+        int timelimit = 5;
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
 
