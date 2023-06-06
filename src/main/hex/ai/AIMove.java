@@ -24,4 +24,7 @@ public class AIMove extends Move{
     }
 
 
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
 }

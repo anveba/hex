@@ -6,6 +6,7 @@ import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
+import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.player.AIPlayer;
@@ -35,26 +36,33 @@ public class StartGameFrame extends Frame {
 	private final String BOARD_SIZE_LABEL = "Board Size: {}x{}";
 	private final String GAME_TIME_LABEL = "{} Seconds";
 
-	private float fontSize = 0.07f;
-	private float headerFontSize = 0.12f;
-	private float playerTypeFontSize = 0.05f;
+	private final float standardFontSize = 0.07f;
+	private final float playerFontSize = 0.08f;
+	private final float skinCarouselFontSize = 0.06f;
+	private final float headerFontSize = 0.12f;
+	private final float playerTypeFontSize = 0.05f;
 
 	//LOGIC
-
 	private StartGameFrameLogic startGameFrameLogic;
 
 	//Constructors
 	public StartGameFrame() {
-
 		startGameFrameLogic = new StartGameFrameLogic();
 
-		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
-		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture());
-		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
-		startGameFrameLogic.setPlayerTextureIndex(1,0);
+		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture(), "Basic");
+		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture(), "Zebra");
+		startGameFrameLogic.addHexTexture(TextureLibrary.BUBBLE_TILE.getTexture(), "Bubble");
+		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture(), "Duck");
 
-		startGameFrameLogic.setPlayer1Col(Colour.Red); // TODO: Colour to be chosen by player in gui
-		startGameFrameLogic.setPlayer2Col(Colour.Blue); // TODO: Colour to be chosen by player in gui
+		startGameFrameLogic.addHexColour(Colour.Red, "Red");
+		startGameFrameLogic.addHexColour(Colour.Pink, "Pink");
+		startGameFrameLogic.addHexColour(Colour.Purple, "Purple");
+		startGameFrameLogic.addHexColour(Colour.Blue, "Blue");
+		startGameFrameLogic.addHexColour(Colour.Aqua, "Aqua");
+		startGameFrameLogic.addHexColour(Colour.Green, "Green");
+		startGameFrameLogic.addHexColour(Colour.Yellow, "Yellow");
+		startGameFrameLogic.addHexColour(Colour.Orange, "Orange");
+		startGameFrameLogic.setPlayerColourIndex(1, 3);
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
@@ -62,13 +70,10 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
 		startGameFrameLogic.setPlayerTypeIndex(0, 2);
 
-
 		UIGroup root = new UIGroup(0.0f, 0.0f);
 		initializeFrameView(root);
 		setRoot(root);
-
 	}
-
 
 	private void initializeFrameView(UIGroup root) {
 
@@ -84,8 +89,8 @@ public class StartGameFrame extends Frame {
 			System.out.println("Game started!");
 			startGame();
 		};
-		RectButton startGameBtn = new RectButton(0.0f, -0.775f, 0.8f, 0.2f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, headerFontSize, startGameBtnClicked, null, null);
+		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, startGameBtnClicked, null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 
@@ -107,13 +112,13 @@ public class StartGameFrame extends Frame {
 	}
 
 	private UIGroup createGameSettings() {
-		UIGroup gameSettings = new UIGroup(-0.6f, 0.45f);
+		UIGroup gameSettings = new UIGroup(-0.6f, 0.5f);
 
 		//Board Size
 		UIGroup boardSize = new UIGroup(0.0f, 0.0f);
 		gameSettings.addChild(boardSize);
 
-		Text sizeText = new Text(-0.1f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SIZE_TEXT, fontSize);
+		Text sizeText = new Text(-0.1f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SIZE_TEXT, standardFontSize);
 		boardSize.addChild(sizeText);
 		sizeText.setAnchorPoint(AnchorPoint.Left);
 
@@ -121,7 +126,7 @@ public class StartGameFrame extends Frame {
 		boardSize.addChild(boardSizeSlider);
 		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
 		//Creating slider text object(optional):
-		Text boardSizeSliderText = new Text(boardSizeSlider.getX() + boardSizeSlider.getWidth()/2f + 0.05f, boardSizeSlider.getY() + 0.015f, FONT_FREDOKA_ONE, BOARD_SIZE_LABEL, fontSize - 0.01f);
+		Text boardSizeSliderText = new Text(boardSizeSlider.getX() + boardSizeSlider.getWidth()/2f + 0.05f, boardSizeSlider.getY() + 0.015f, FONT_FREDOKA_ONE, BOARD_SIZE_LABEL, standardFontSize - 0.01f);
 		boardSizeSliderText.setColour(Colour.Grey);
 		boardSizeSliderText.setAnchorPoint(AnchorPoint.Left);
 		boardSizeSlider.setText(boardSizeSliderText);
@@ -131,7 +136,7 @@ public class StartGameFrame extends Frame {
 		UIGroup timeLimit = new UIGroup(-0.0f, -0.13f);
 		gameSettings.addChild(timeLimit);
 
-		Text timeText = new Text(-0.1f,0, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, fontSize);
+		Text timeText = new Text(-0.1f,0, FONT_FREDOKA_ONE, GAME_SETTINGS_TIME_TEXT, standardFontSize);
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
@@ -139,7 +144,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):
-		Text timeLimitSliderText = new Text(timeLimitSlider.getX() + timeLimitSlider.getWidth()/2f + 0.05f, timeLimitSlider.getY() + 0.015f, FONT_FREDOKA_ONE, GAME_TIME_LABEL, fontSize - 0.01f);
+		Text timeLimitSliderText = new Text(timeLimitSlider.getX() + timeLimitSlider.getWidth()/2f + 0.05f, timeLimitSlider.getY() + 0.015f, FONT_FREDOKA_ONE, GAME_TIME_LABEL, standardFontSize - 0.01f);
 		timeLimitSliderText.setColour(Colour.Grey);
 		timeLimitSliderText.setAnchorPoint(AnchorPoint.Left);
 		timeLimitSlider.setText(timeLimitSliderText);
@@ -149,21 +154,18 @@ public class StartGameFrame extends Frame {
 		UIGroup swapRuleUIGroup = new UIGroup(-0.1f, -0.26f);
 		gameSettings.addChild(swapRuleUIGroup);
 
-		Text swapRuleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SWAP_RULE_TEXT, fontSize);
+		Text swapRuleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GAME_SETTINGS_SWAP_RULE_TEXT, standardFontSize);
 		swapRuleUIGroup.addChild(swapRuleText);
 		swapRuleText.setAnchorPoint(AnchorPoint.Left);
 
 		RectButton swapRuleBtn = new RectButton(0.75f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
-				FONT_ROBOTO, "", fontSize, null, null, null);
+				FONT_ROBOTO, "", standardFontSize, null, null, null);
 
 		ButtonCallback swapruleBtnClicked = (args) -> {
 			toggleSwapRule(swapRuleBtn);
 		};
 		swapRuleBtn.setClickCallback(swapruleBtnClicked);
 		swapRuleUIGroup.addChild(swapRuleBtn);
-
-
-
 
 		return gameSettings;
 	}
@@ -178,102 +180,118 @@ public class StartGameFrame extends Frame {
 		}
 	}
 
-
-
 	private UIGroup createPlayerSettings() {
 		UIGroup playerSettingsUIGroup = new UIGroup(0.0f, -0.05f);
 
-		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.0f, PLAYER1_TITLE, 0, startGameFrameLogic.getPlayer1Col()));
-		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.0f, PLAYER2_TITLE, 1, startGameFrameLogic.getPlayer2Col()));
-
+		playerSettingsUIGroup.addChild(createPlayerSetting(-0.45f, 0.14f, PLAYER1_TITLE, 0));
+		playerSettingsUIGroup.addChild(createPlayerSetting(0.45f, 0.14f, PLAYER2_TITLE, 1));
 
 		return playerSettingsUIGroup;
 	}
 
-	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex, Colour playerCol) {
+	private UIGroup createPlayerSetting(float x,float y, String title, int playerIndex) {
 		UIGroup playerSettingUIGroup = new UIGroup(x, y);
 		//Title
-		Text titleText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, title, fontSize);
+		Text titleText = new Text(0.0f, -0.02f, FONT_FREDOKA_ONE, title, playerFontSize);
 		playerSettingUIGroup.addChild(titleText);
 
-
-		/**
-		 * Texture Carousel
+		/*
+		  Skin Selection (Texture and Colour)
 		 */
-		UIGroup colorCarouselUIGroup = new UIGroup(0.0f, -0.2f);
-
+		UIGroup skinCarouselUIGroup = new UIGroup(0.0f, -0.2f);
+		// skinImage showcase
 		float c = (float)Math.cos(Math.toRadians(30.0f));
-		
-		//texture
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
-		colorCarouselUIGroup.addChild(colorImage);
+		Image skinImage = new Image(0.0f, -0.235f, 0.22f * c, 0.22f, startGameFrameLogic.getHexTexture(0), startGameFrameLogic.getPlayerColour(playerIndex));
+		skinCarouselUIGroup.addChild(skinImage);
 
-		//left arrow
-		ButtonCallback leftClicked = (args) -> {
-			carouselLeft(colorImage, playerIndex);
-		};
-		RectButton leftCarouselArrow = new RectButton(-0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, leftClicked, null, null);
-		colorCarouselUIGroup.addChild(leftCarouselArrow);
+		// Texture carousel text
+		Text textureCarouselText = new Text(0.0f, 0.06f, FONT_FREDOKA_ONE,
+				startGameFrameLogic.getPlayerTextureString(playerIndex), skinCarouselFontSize);
+		skinCarouselUIGroup.addChild(textureCarouselText);
+		// Texture carousel left arrow
+		skinCarouselUIGroup.addChild(carouselButton(-0.22f, 0.05f, 0.07f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> textureCarouselLeft(skinImage, textureCarouselText, playerIndex)));
+		// Texture carousel right arrow
+		skinCarouselUIGroup.addChild(carouselButton(0.22f, 0.05f, 0.07f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> textureCarouselRight(skinImage, textureCarouselText, playerIndex)));
 
-		//right arrow
-		ButtonCallback rightClicked = (args) -> {
-			carouselRight(colorImage, playerIndex);
-		};
-		RectButton rightCarouselArrow = new RectButton(0.25f, 0.0f, 0.08f, 0.08f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, rightClicked, null, null);
-		colorCarouselUIGroup.addChild(rightCarouselArrow);
+		// Texture carousel text
+		Text colourCarouselText = new Text(0.0f, -0.04f, FONT_FREDOKA_ONE,
+				startGameFrameLogic.getPlayerColourString(playerIndex), skinCarouselFontSize);
+		skinCarouselUIGroup.addChild(colourCarouselText);
+		// Colour carousel left arrow
+		skinCarouselUIGroup.addChild(carouselButton(-0.22f, -0.05f, 0.07f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> colourCarouselLeft(skinImage, colourCarouselText, playerIndex)));
+		// Colour carousel right arrow
+		skinCarouselUIGroup.addChild(carouselButton(0.22f, -0.05f, 0.07f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> colourCarouselRight(skinImage, colourCarouselText, playerIndex)));
 
-		playerSettingUIGroup.addChild(colorCarouselUIGroup);
+		playerSettingUIGroup.addChild(skinCarouselUIGroup);
 
-
-		//Name text field
-		Text nameText = new Text(-0.24f, -0.40f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, fontSize);
+		/*
+		  Player Name
+		 */
+		Text nameText = new Text(-0.24f, -0.60f, FONT_FREDOKA_ONE, PLAYER_NAME_LABEL, standardFontSize);
 		playerSettingUIGroup.addChild(nameText);
-		TextField playerNameTextField = new TextField(0.105f, -0.40f, FONT_FREDOKA_ONE, "Player " + (playerIndex + 1),0.49f, 0.06f, Colour.LightGrey);
+		TextField playerNameTextField = new TextField(0.105f, -0.60f, FONT_FREDOKA_ONE, "Player " + (playerIndex + 1),0.49f, 0.06f, Colour.LightGrey);
 		startGameFrameLogic.setPlayerName(playerIndex, playerNameTextField);
 		playerSettingUIGroup.addChild(playerNameTextField);
 
-
-		/**
-		 * Type Carousel
+		/*
+		  Player Type Carousel
 		 */
-		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.5f);
-
+		UIGroup typeCarouselUIGroup = new UIGroup(0.0f, -0.7f);
 		//text
 		Text typeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, startGameFrameLogic.getPlayerTypeString(playerIndex), playerTypeFontSize);
 		typeCarouselUIGroup.addChild(typeText);
 
-		//left arrow
-		ButtonCallback typeLeftClicked = (args) -> {
-			playerTypeLeft(typeText, playerIndex);
-		};
-		RectButton typeLeftCarouselArrow = new RectButton(-0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, typeLeftClicked, null, null);
-		typeCarouselUIGroup.addChild(typeLeftCarouselArrow);
+		// Player type carousel left arrow
+		typeCarouselUIGroup.addChild(carouselButton(-0.32f, 0.0f, 0.06f,
+				TextureLibrary.LEFT_CAROUSEL_ARROW.getTexture(),
+				(args) -> playerTypeLeft(typeText, playerIndex)));
 
-		//right arrow
-		ButtonCallback typeRightClicked = (args) -> {
-			playerTypeRight(typeText, playerIndex);
-		};
-		RectButton typeRightCarouselArrow = new RectButton(0.32f, 0.0f, 0.06f, 0.06f, TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
-				FONT_ROBOTO, "", fontSize, typeRightClicked, null, null);
-		typeCarouselUIGroup.addChild(typeRightCarouselArrow);
+		// Player type carousel right arrow
+		typeCarouselUIGroup.addChild(carouselButton(0.32f, 0.0f, 0.06f,
+				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
+				(args) -> playerTypeRight(typeText, playerIndex)));
 
 		playerSettingUIGroup.addChild(typeCarouselUIGroup);
-
 
 		return playerSettingUIGroup;
 	}
 
-	public void carouselLeft(Image colorImage, int playerIndex) {
-		startGameFrameLogic.previousTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	// A fast way to create a carouselButton
+	public RectButton carouselButton(float x, float y, float size, Texture texture, ButtonCallback callback) {
+		return new RectButton(x, y, size, size, texture, FONT_ROBOTO, "", standardFontSize, callback,
+				null, null);
 	}
 
-	public void carouselRight(Image colorImage, int playerIndex) {
+	public void textureCarouselLeft(Image skinImage, Text textureText, int playerIndex) {
+		startGameFrameLogic.previousTexture(playerIndex);
+		textureText.setText(startGameFrameLogic.getPlayerTextureString(playerIndex));
+		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	}
+
+	public void textureCarouselRight(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		textureText.setText(startGameFrameLogic.getPlayerTextureString(playerIndex));
+		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+	}
+
+	public void colourCarouselLeft(Image skinImage, Text colourText, int playerIndex) {
+		startGameFrameLogic.previousColour(playerIndex);
+		colourText.setText(startGameFrameLogic.getPlayerColourString(playerIndex));
+		skinImage.setColour(startGameFrameLogic.getHexColour(startGameFrameLogic.getPlayerColourIndex(playerIndex)));
+	}
+
+	public void colourCarouselRight(Image skinImage, Text colourText, int playerIndex) {
+		startGameFrameLogic.nextColour(playerIndex);
+		colourText.setText(startGameFrameLogic.getPlayerColourString(playerIndex));
+		skinImage.setColour(startGameFrameLogic.getHexColour(startGameFrameLogic.getPlayerColourIndex(playerIndex)));
 	}
 
 	public void playerTypeLeft(Text typeText, int playerIndex) {
@@ -290,8 +308,8 @@ public class StartGameFrame extends Frame {
 		GameCustomisation gameCustomisation = new GameCustomisation(
 				startGameFrameLogic.getPlayerName(0),
 				startGameFrameLogic.getPlayerName(1),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayer2Col()),
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayerColour(0)),
+				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayerColour(1)),
 				startGameFrameLogic.getTurnTime(),
 				startGameFrameLogic.getSwapRule());
 
@@ -299,9 +317,9 @@ public class StartGameFrame extends Frame {
 
 		Board b = new Board(startGameFrameLogic.getBoardSize());
 		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, 2);
+				new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, 3);
 		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, 2);
+				new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, 3);
 
 		SceneDirector.changeScene(
 				new GameplayScene(

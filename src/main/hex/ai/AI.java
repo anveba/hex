@@ -11,6 +11,7 @@ import main.hex.board.TileColour;
 import main.hex.player.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.*;
 
@@ -39,6 +40,7 @@ public class AI {
 
     private final Board board;
     private final Player player;
+
 
     public AI(Board state, Player player){
         doMoveSorting = true;
@@ -134,10 +136,12 @@ public class AI {
 
         //If we've already processed this board state, no need to process it again.
         //All transpositions will be at the same depth, so there is no loss of accuracy.
+        Optional<AIMove> bestChildLastTime = Optional.empty();
+
         if(memoizationTable.containsKey(state)){
-            AIMove previousEvaluationOfState = memoizationTable.getBoard(state).get();
-            if(previousEvaluationOfState.getDepth() >= depth){
-                return Optional.of(previousEvaluationOfState);
+            bestChildLastTime = Optional.of(memoizationTable.getBoard(state).get());
+            if(bestChildLastTime.get().getDepth() >= depth){
+                return bestChildLastTime;
             }
 
         }
@@ -181,6 +185,12 @@ public class AI {
 
         //We create a list of valid moves, that being the locations on board, currently uncoloured
         ArrayList<AIMove> children = boardChildGenerator.createChildren(state);
+
+        //Search the move that was best last time first
+        if(bestChildLastTime.isPresent() && bestChildLastTime.get().getX() != -1){
+            bestChildLastTime.get().setValue(Double.POSITIVE_INFINITY);
+            children.add(bestChildLastTime.get());
+        }
         children = PatternPruner.pruneByPatterns(children,board,agentColour);
 
         //Sort the children based on previous evaluations of the board state if they exist, if not by running the board evaluation heuristic
@@ -240,15 +250,10 @@ public class AI {
                 move.setValue(memoizationTable.getBoard(parentState).get().getValue());
             }
             else {
-                BoardEvaluator g = new BoardEvaluator(parentState,verticalColour,horizontalColour,tileConnectionFunction,graphHeuristicFunction);
-                //System.out.println("AAAAAAAAAA");
-                move.setValue(g.evaluateBoard());
+                move.setValue(0);
             }
             parentState.unMakeMove(move,agentColour);
-
-
         }
-
         children.sort(new AIMoveComparator());
     }
 
