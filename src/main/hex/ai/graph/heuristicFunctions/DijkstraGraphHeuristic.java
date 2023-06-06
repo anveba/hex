@@ -5,7 +5,14 @@ import main.hex.ai.graph.Graph;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.SortedMap;
+
+
+/*
+Author Nikolaj
+
+A graph heuristic function that evaluates boards by shortest path from border to border,
+by use of Dijkstra's shortest path algorithm
+ */
 
 public class DijkstraGraphHeuristic implements GraphHeuristicFunction {
 

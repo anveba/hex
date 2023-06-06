@@ -2,17 +2,21 @@ package main.hex.ai.graph;
 
 import java.util.Optional;
 
-import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
 import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.ai.graph.connectionFunctions.WinConnectionFunction;
-import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.ai.graph.heuristicFunctions.GraphHeuristicFunction;
-import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
-import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
+/*
+   Author: Nikolaj
+
+   Board evaluator is made to evaluate a given board state for AI purposes
+   Also has capabilities to check whether a player has won
+
+    */
 public class BoardEvaluator {
+
 
     private static int evaluationCount = 0;
 
@@ -24,17 +28,14 @@ public class BoardEvaluator {
 
     private int boardSize;
 
+    //The board evaluator can be made to use different heuristics,
+    //By changing the tileConnectionFunction, we can change the rules for connecting neighbours
     private TileConnectionFunction tileConnectionFunction;
+    //By changing the graphHeuristicFunction we can change how the resulting graph is evaluated
     private GraphHeuristicFunction graphHeuristicFunction;
 
 
-    /*
-    Author: Nikolaj
 
-    Board evaluator is made to evaluate a given board state for AI purposes
-    Also has capabilities to check whether a player has won
-
-     */
 
     public BoardEvaluator(Board board, TileColour verticalColour, TileColour horizontalColour,TileConnectionFunction t, GraphHeuristicFunction h) {
         gridGraph = new GridGraph(board.size());
@@ -86,13 +87,13 @@ public class BoardEvaluator {
     }
 
 
+    //Tells the chosen tileConnectionFunction to connect two tiles, based on their colours, and the agent colour
     public void connectByColour(int x1, int y1, int x2, int y2, TileColour agentColour) {
         tileConnectionFunction.connectTiles(gridGraph,board,x1,y1,x2,y2,agentColour);
     }
 
 
     public boolean hasWonVertically() {
-
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.getStartEndWeight());
         connectNeighboursWithColourWeight(verticalColour,new WinConnectionFunction());
@@ -106,9 +107,10 @@ public class BoardEvaluator {
         return gridGraph.startAndEndAreConnected();
     }
 
-    public Optional<Double> fadeOfAdjacencyXY(int fromX, int fromY, int toX, int toY) {
-        return gridGraph.fadeOfAdjacencyXY(fromX,fromY,toX,toY);
+    public Optional<Double> weightOfAdjacencyXY(int fromX, int fromY, int toX, int toY) {
+        return gridGraph.weightOfAdjacencyXY(fromX,fromY,toX,toY);
     }
+
 
     public void connectHorizontalEvaluation() {
         connectNeighboursWithColourWeight(horizontalColour, tileConnectionFunction);

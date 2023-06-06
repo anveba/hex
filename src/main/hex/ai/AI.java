@@ -89,6 +89,7 @@ public class AI {
             }
             bestMove = searchAtNewDepth.get();
         }
+        System.out.println(depth);
         return bestMove;
     }
 
@@ -193,15 +194,16 @@ public class AI {
         }
         children = PatternPruner.pruneByPatterns(children,board,agentColour);
 
-        //Sort the children based on previous evaluations of the board state if they exist, if not by running the board evaluation heuristic
+        //Sort the children based on previous evaluations of the board state if they exist, otherwise by setting them to 0 (neither more nor less prioritized)
         if (doMoveSorting){
             sortChildren(children, state, agentColour);
         }
 
 
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
-
         for (AIMove child : children) {
+
+            //We add a move to the board, also changing it's hash
             state.makeMove(child,agentColour);
 
             Optional<AIMove> childEvaluation = negamaxAB(state, depth - 1, TileColour.opposite(agentColour), -beta, -alpha, endTime);
@@ -212,8 +214,11 @@ public class AI {
             //Note that we multiply the child values by -1, as the recursive call, will try to minimize
             child.setValue(-childEvaluation.get().getValue());
 
+            //We undo the move we made, and undo the change of hash
             state.unMakeMove(child,agentColour);
 
+
+            //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
                 maxValue = child.getValue();
                 maxMove = Optional.of(child);
@@ -237,11 +242,17 @@ public class AI {
 
         //Put the found move into the memoization table, and then return it.
         AIMove bestMove = maxMove.get();
+
+        //We note down the best move, and what depth it was found at into the memoization table
         AIMove newMove = new AIMove(bestMove.getX(),bestMove.getY(),bestMove.getValue(),depth);
         memoizationTable.putBoard(state,newMove);
+
+        //We return the best move
         return maxMove;
     }
 
+    //We sort the child moves, based on their values in previous searches
+    //If a state hasn't been evaluated previously, we set its priority to 0
     private void sortChildren(ArrayList<AIMove> children, Board parentState, TileColour agentColour){
         for (AIMove move: children
              ) {
@@ -261,12 +272,5 @@ public class AI {
     public void setDoMoveSorting(boolean b){
         doMoveSorting = b;
     }
-/*
-    private Board moveToBoard(Board currentState, AIMove move, TileColour colourToPlay){
-        Board childState = currentState.clone();
-        childState.setTileAtPosition(new Tile(colourToPlay), move.getX(), move.getY());
-        return childState;
-    }
 
- */
 }

@@ -11,7 +11,7 @@ Author Nikolaj
 
 An interface for functions that takes two tiles and connects them based on their variables
 This is useful since just about any graph based board heuristic would look to connect all neighbouring tiles
-But the weight for these connections may vary
+But the rules for how neighbours are connected, and with which weight, depending on colour, can vary
 
  */
 public abstract class TileConnectionFunction {

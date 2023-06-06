@@ -4,8 +4,22 @@ import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
+/*
+Author Niko
+A connection function made to connect to prepare for Dijkstra's shortest path evaluation
+
+Connects tiles based on their colours, with the following rule
+(Symmetric, connect(x,y) = connect(y,x))
+
+Agent - Agent -> 0-weight connection
+Agent - White -> Low weight connection
+White - White -> Medium weight connection
+nonAgent - Any -> No connection
+ */
+
 public class DijkstraBasedTileConnector extends TileConnectionFunction{
 
+    //Some constant to increase weight with when a tile is uncoloured
     private final float weightConstant = 1;
 
     @Override
