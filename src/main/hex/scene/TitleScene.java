@@ -28,7 +28,7 @@ public class TitleScene extends Scene {
 	}
 
 	@Override
-	public void update(TimeRecord time) {
+	protected void updateScene(TimeRecord time) {
 		
 	}
 

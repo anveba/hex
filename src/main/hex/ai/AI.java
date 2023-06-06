@@ -227,7 +227,7 @@ public class AI {
             bestChildLastTime.get().setValue(Double.POSITIVE_INFINITY);
             children.add(bestChildLastTime.get());
         }
-
+        children = PatternPruner.pruneByPatterns(children,board,agentColour);
 
 
         //Sort the children based on previous evaluations of the board state if they exist, if not by running the board evaluation heuristic

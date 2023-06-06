@@ -218,4 +218,53 @@ public class UIGroupTest {
 		final TimeRecord actualArgs = captor.getValue();
 		assertEquals(args.elapsedSeconds(), actualArgs.elapsedSeconds(), 0.0001f);
 	}
+
+	@Test
+	public void disableCallsChildDisableMethod() {
+		float gx = 1.2f, gy = 0.242f;
+		UIGroup g = new UIGroup(gx, gy);
+
+		Assert.assertFalse(g.isDisabled());
+
+		var e1 = spy(new TestClickableElementClass());
+		var e2 = spy(new TestClickableElementClass());
+
+		g.addChild(e1);
+		g.addChild(e2);
+
+		g.disable();
+
+		Assert.assertTrue(g.isDisabled());
+
+		verify(e1, times(1)).disable();
+		verify(e2, times(1)).disable();
+	}
+
+	@Test
+	public void enableCallsChildEnableMethod() {
+		float gx = 1.2f, gy = 0.242f;
+		UIGroup g = new UIGroup(gx, gy);
+
+		Assert.assertFalse(g.isDisabled());
+
+		var e1 = spy(new TestClickableElementClass());
+		var e2 = spy(new TestClickableElementClass());
+
+		g.addChild(e1);
+		g.addChild(e2);
+
+		g.disable();
+
+		Assert.assertTrue(g.isDisabled());
+
+		verify(e1, times(1)).disable();
+		verify(e2, times(1)).disable();
+
+		g.enable();
+
+		Assert.assertFalse(g.isDisabled());
+
+		verify(e1, times(1)).enable();
+		verify(e2, times(1)).enable();
+	}
 }

@@ -95,7 +95,7 @@ public class Image extends RectElement {
 	}
 
 	@Override
-	public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		renderer.drawSprite(getTexture(), getX() + offsetX, getY() + offsetY, getWidth(), getHeight(), 
 				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), getColour());
 	}
