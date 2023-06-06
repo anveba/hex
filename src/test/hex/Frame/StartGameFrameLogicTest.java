@@ -88,7 +88,7 @@ public class StartGameFrameLogicTest {
     }
 
     @Test
-    public void getPlayerTextureIndex_player0TextureIndex1_skin1() {
+    public void getPlayerTextureIndex_player0TextureIndex1_colour1() {
         Texture t0 = mock(Texture.class);
         Texture t1 = mock(Texture.class);
 
@@ -218,6 +218,149 @@ public class StartGameFrameLogicTest {
         Assert.assertEquals(3, startGameFrameLogic.getHexColourCount());
     }
 
+    @Test
+    public void nextColour_opponentDoesNotHaveTheNextColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 0);
+        startGameFrameLogic.setPlayerColourIndex(1, 2);
+
+        startGameFrameLogic.nextColour(0);
+
+        Assert.assertEquals(1, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+    @Test
+    public void nextColour_opponentHasNextColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 0);
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+
+        startGameFrameLogic.nextColour(0);
+
+        Assert.assertEquals(2, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+    @Test
+    public void nextColour_loopAround_opponentDoesNotHaveNextColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 2);
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+
+        startGameFrameLogic.nextColour(0);
+
+        Assert.assertEquals(0, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+    @Test
+    public void nextColour_loopAround_opponentHasNextColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 2);
+        startGameFrameLogic.setPlayerColourIndex(1, 0);
+
+        startGameFrameLogic.nextColour(0);
+
+        Assert.assertEquals(1, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+    @Test
+    public void previousColour_opponentDoesNotHavePreviousColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 2);
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+
+        startGameFrameLogic.previousColour(1);
+
+        Assert.assertEquals(0, startGameFrameLogic.getPlayerColourIndex(1));
+    }
+
+    @Test
+    public void previousColour_opponentHasPreviousColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 1);
+        startGameFrameLogic.setPlayerColourIndex(1, 2);
+
+        startGameFrameLogic.previousColour(1);
+
+        Assert.assertEquals(0, startGameFrameLogic.getPlayerColourIndex(1));
+    }
+
+    @Test
+    public void previousColour_loopAround_opponentDoesNotHavePreviousColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 0);
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+
+        startGameFrameLogic.previousColour(0);
+
+        Assert.assertEquals(2, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+    @Test
+    public void previousColour_loopAround_opponentHasPreviousColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 0);
+        startGameFrameLogic.setPlayerColourIndex(1, 1);
+
+        startGameFrameLogic.previousColour(1);
+
+        Assert.assertEquals(2, startGameFrameLogic.getPlayerColourIndex(1));
+    }
 
     /**
      * Player type
@@ -369,5 +512,4 @@ public class StartGameFrameLogicTest {
         startGameFrameLogic.setPlayerName(0, textField);
         Assert.assertEquals("player0", startGameFrameLogic.getPlayerName(0));
     }
-
 }

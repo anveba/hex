@@ -6,6 +6,7 @@ import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
+import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.player.AIPlayer;
