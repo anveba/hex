@@ -31,8 +31,13 @@ public class Colour {
 	public static final Colour Grey = new Colour(0.5f, 0.5f, 0.5f, 1.0f);
 	public static final Colour LightGrey = new Colour(0.75f, 0.75f, 0.75f, 1.0f);
 	public static final Colour Red = new Colour(1.0f, 0.0f, 0.0f, 1.0f);
-	public static final Colour Green = new Colour(0.0f, 1.0f, 0.0f, 1.0f);
+	public static final Colour Pink = new Colour(1.0f, 0.0f, 0.6f, 1.0f);
+	public static final Colour Purple = new Colour(0.25f, 0.05f, 0.55f, 1.0f);
 	public static final Colour Blue = new Colour(0.0f, 0.0f, 1.0f, 1.0f);
+	public static final Colour Aqua = new Colour(0.0f, 0.8f, 0.7f, 1.0f);
+	public static final Colour Green = new Colour(0.0f, 1.0f, 0.0f, 1.0f);
+	public static final Colour Yellow = new Colour(1.0f, 1.0f, 0.0f, 1.0f);
+	public static final Colour Orange = new Colour(1.0f, 0.15f, 0.0f, 1.0f);
 
 	public static Colour add(Colour c1, Colour c2) {
 		if (c1 == null || c2 == null)

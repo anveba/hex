@@ -50,13 +50,19 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture(), "Basic");
-		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture(), "Duck");
 		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture(), "Zebra");
+		startGameFrameLogic.addHexTexture(TextureLibrary.BUBBLE_TILE.getTexture(), "Bubble");
+		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture(), "Duck");
 
 		startGameFrameLogic.addHexColour(Colour.Red, "Red");
+		startGameFrameLogic.addHexColour(Colour.Pink, "Pink");
+		startGameFrameLogic.addHexColour(Colour.Purple, "Purple");
 		startGameFrameLogic.addHexColour(Colour.Blue, "Blue");
+		startGameFrameLogic.addHexColour(Colour.Aqua, "Aqua");
 		startGameFrameLogic.addHexColour(Colour.Green, "Green");
-		startGameFrameLogic.setPlayerColourIndex(1, 1);
+		startGameFrameLogic.addHexColour(Colour.Yellow, "Yellow");
+		startGameFrameLogic.addHexColour(Colour.Orange, "Orange");
+		startGameFrameLogic.setPlayerColourIndex(1, 3);
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
 		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
