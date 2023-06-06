@@ -205,16 +205,17 @@ public class AITest {
     @Test
     @Ignore
     public void AITimeDepthFunction(){
-        Board board = new Board(6);
-
+        Board board = new Board(5);
+        int timelimit = 8;
 
         Player agent = new TestPlayerClass(TileColour.PLAYER1);
 
         AI ai = new AI(board,agent);
 
         long startTime = System.nanoTime();
-        Move nextMove = ai.getBestMoveWithTimeLimit(5);
+        Move nextMove = ai.getBestMoveWithTimeLimit(timelimit);
         long endTime = System.nanoTime();
+        System.out.println("With ordering");
         System.out.println((endTime - startTime)/1000000000 + "s");
         System.out.println(BoardEvaluator.getEvaluationCount());
         System.out.println("");
@@ -222,8 +223,9 @@ public class AITest {
 
         ai = new AI(board,agent);
         ai.setDoMoveSorting(false);
+        System.out.println("No move ordering");
         startTime = System.nanoTime();
-        nextMove = ai.getBestMoveWithTimeLimit(5);
+        nextMove = ai.getBestMoveWithTimeLimit(timelimit);
         endTime = System.nanoTime();
 
         System.out.println((endTime - startTime)/1000000000 + "s");
