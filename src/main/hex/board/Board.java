@@ -7,16 +7,21 @@ import main.engine.math.Vector2;
 import main.engine.math.Vector3;
 import main.hex.GameCustomisation;
 import main.hex.HexException;
+import main.hex.Move;
 import main.hex.ai.AIMove;
 import main.hex.ai.BoardHasher;
+
+/**
+ * Representation of the board. This class does not hold any gameplay logic.
+ * @author Andreas
+ *
+ */
 
 public class Board implements IBoard {
 
     private int hash = 0;
     private Tile[][] board;
     private static BoardRenderer2D renderer2D;
-
-
 
     private static BoardRenderer2D getRenderer2D() {
     	if (renderer2D == null)
@@ -128,13 +133,13 @@ public class Board implements IBoard {
 		return getRenderer3D().tileToWorld(x, y, size());
 	}
 
-    public void makeMove(AIMove m, TileColour colour) {
+    public void makeMove(Move m, TileColour colour) {
         setTileAtPosition(new Tile(colour),m.getX(),m.getY());
         BoardHasher bh = BoardHasher.getInstance(board.length);
         hash = bh.toggleMoveToBoardHash(hash,m,colour);
     }
 
-    public void unMakeMove(AIMove m,TileColour colour) {
+    public void unmakeMove(Move m,TileColour colour) {
         setTileAtPosition(new Tile(TileColour.WHITE),m.getX(),m.getY());
         BoardHasher bh = BoardHasher.getInstance(board.length);
         hash = bh.toggleMoveToBoardHash(hash,m,colour);

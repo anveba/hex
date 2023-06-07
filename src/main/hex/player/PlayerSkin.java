@@ -1,19 +1,21 @@
 package main.hex.player;
 
+import main.engine.ResourceManager;
 import main.engine.graphics.*;
+import main.hex.resources.SkinDatabase;
 
 public class PlayerSkin {
 
-    private Texture playerTexture;
+    private int playerTextureId;
     private Colour playerColour;
 
-    public PlayerSkin(Texture playerTexture, Colour playerColour) {
-        this.playerTexture = playerTexture;
+    public PlayerSkin(int playerTextureId, Colour playerColour) {
+        this.playerTextureId = playerTextureId;
         this.playerColour = playerColour;
     }
 
     public Texture getTexture() {
-        return playerTexture;
+        return SkinDatabase.getInstance().getTextureFromId(playerTextureId);
     }
 
     public Colour getTint() {

@@ -1,5 +1,6 @@
 package main.hex.ai;
 
+import main.hex.Move;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
@@ -71,7 +72,7 @@ public class BoardHasher {
         return hash;
     }
 
-    public int toggleMoveToBoardHash(int hash, AIMove m, TileColour colour){
+    public int toggleMoveToBoardHash(int hash, Move m, TileColour colour){
         if(colour == TileColour.WHITE){
             return  hash;
         }
@@ -83,6 +84,7 @@ public class BoardHasher {
         }
         //Catchall, that should never be reached
         //Note that the Colour = white at the top is still added, since it's the most common case
+        assert false;
         return hash;
 
     }

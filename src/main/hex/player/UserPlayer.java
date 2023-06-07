@@ -25,7 +25,7 @@ public class UserPlayer extends Player {
 		isCurrentTurn = false;
 	}
 
-	public UserPlayer(TileColour playerColour, int timeLimit) {
+	public UserPlayer(TileColour playerColour, float timeLimit) {
 		super(playerColour, timeLimit);
 		isCurrentTurn = false;
 	}

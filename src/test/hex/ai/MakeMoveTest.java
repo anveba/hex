@@ -26,7 +26,7 @@ public class MakeMoveTest {
         Board b = new Board(5);
         b.setTileAtPosition(new Tile(TileColour.PLAYER2),2,3);
         AIMove m = new AIMove(2,3,0);
-        b.unMakeMove(m,TileColour.PLAYER2);
+        b.unmakeMove(m,TileColour.PLAYER2);
         assert(b.getTileAtPosition(2,3).getColour() == TileColour.WHITE);
     }
 }

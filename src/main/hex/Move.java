@@ -1,11 +1,11 @@
 package main.hex;
 
 public class Move {
-	private int x, y;
+	private short x, y;
 	
 	public Move(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.x = (short)x;
+		this.y = (short)y;
 	}
 	
 	public int getX() { return x; }

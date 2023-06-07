@@ -8,7 +8,7 @@ import main.engine.EngineException;
  *
  */
 public class Colour {
-	private float r, g, b, a;
+	private final float r, g, b, a;
 	
 	public Colour() {
 		this(0.0f, 0.0f, 0.0f, 1.0f);

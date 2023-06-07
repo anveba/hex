@@ -8,6 +8,7 @@ import main.hex.player.PlayerType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StartGameFrameLogic {
@@ -19,7 +20,7 @@ public class StartGameFrameLogic {
     private Slider turnTimeSlider;
     private int[] playerTextureIndex = new int[2];
     private int[] playerTypeIndex = new int[2];
-    private ArrayList<Texture> hexTextures = new ArrayList<>();
+    private List<Integer> hexTextures = new ArrayList<>();
     private Colour player1Col = Colour.White;
     private Colour player2Col = Colour.White;
     private Map<PlayerType, String> opponentTypeMap = new HashMap<>();
@@ -65,8 +66,8 @@ public class StartGameFrameLogic {
         playerTypeIndex[playerIndex] = typeIndex;
     }
 
-    public void addHexTexture(Texture texture) {
-        hexTextures.add(texture);
+    public void addHexTextureId(int id) {
+        hexTextures.add(id);
     }
 
     public void addPlayerType(PlayerType type, String displayString) {
@@ -74,11 +75,11 @@ public class StartGameFrameLogic {
         opponentTypeMap.put(type, displayString);
     }
 
-    public Texture getHexTexture(int index) {
+    public int getHexTextureId(int index) {
         return hexTextures.get(index);
     }
 
-    public Texture getPlayerTexture(int playerIndex) {
+    public int getPlayerTextureId(int playerIndex) {
         return hexTextures.get(playerTextureIndex[playerIndex]);
     }
 

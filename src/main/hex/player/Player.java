@@ -14,9 +14,11 @@ import main.hex.board.TileColour;
 
     private TileColour playerColour;
     private PlayerTimer playerTimer;
+    
+    public static final float defaultTimeLimit = 60.0f;
 
     public Player (TileColour playerColour) {
-    	this(playerColour, 10.0f);
+    	this(playerColour, defaultTimeLimit);
     }
 
     public Player (TileColour playerColour, double timeLimit) {

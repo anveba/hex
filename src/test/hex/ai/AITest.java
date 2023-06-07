@@ -192,7 +192,6 @@ public class AITest {
 
     }
 
-
     @Test
     public void AITimedSearchDoesNotGoOverTime(){
         Board board = new Board(10);

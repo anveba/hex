@@ -7,9 +7,13 @@ import main.hex.board.TileColour;
 import main.hex.player.ConcurrentPlayerResponse;
 import main.hex.player.Player;
 import main.hex.player.PlayerCondition;
+import main.hex.serialisation.GameStateSerialiser;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.Stack;
 
 public class GameLogic implements Updateable {
 
@@ -19,12 +23,14 @@ public class GameLogic implements Updateable {
 
     private Deque<Player> players = new ArrayDeque<>();
     
-    private int currentTurn;
     private boolean gameIsOver;
 	private boolean swapRuleEnabled;
 	private boolean coloursSwapped;
+	private boolean gameHasStarted;
     
     private PlayerCondition playerWinCallback;
+    
+    private Stack<GameStateChange> history;
     
     public GameLogic(Board board, Player player1, Player player2) {
     	if (board == null || player1 == null || player2 == null)
@@ -34,17 +40,20 @@ public class GameLogic implements Updateable {
         this.player2 = player2;
 		this.player1.getTimer().setCallback(() -> handleWinFor(player2));
 		this.player2.getTimer().setCallback(() -> handleWinFor(player1));
-        players.addLast(player2);
-        players.addLast(player1);
-        currentTurn = -1;
+		players.addLast(player2);
+		players.addLast(player1);
         gameIsOver = false;
 		swapRuleEnabled = false;
 		coloursSwapped = false;
+		gameHasStarted = false;
+		
+		history = new Stack<>();
     }
 
     public void start() {
-    	if (currentTurn == -1) {
+    	if (!gameHasStarted()) {
 			nextTurn();
+			gameHasStarted = true;
 		} else {
 			throw new HexException("Game already started");
 		}
@@ -55,7 +64,7 @@ public class GameLogic implements Updateable {
     }
 
     public Player getCurrentTurnsPlayer() {
-    	if (currentTurn < 0)
+    	if (!gameHasStarted())
     		throw new HexException("Game hasn't started yet.");
         return players.peekFirst();
     }
@@ -74,13 +83,16 @@ public class GameLogic implements Updateable {
 
         Tile tile = board.getTileAtPosition(move.getX(), move.getY());
 
+        boolean swapped = false;
         if (tile.getColour() == TileColour.WHITE) {
         	board.setTileAtPosition(new Tile(players.peekFirst().getColour()), move.getX(), move.getY());
-		} else if (tile.getColour() == player1.getColour() && currentTurn == 1 && swapRuleEnabled) {
+		} else if (tile.getColour() == player1.getColour() && getCurrentTurnNumber() == 1 && swapRuleEnabled) {
 			swapColours();
+			swapped = true;
 		} else {
 			return false;
 		}
+        history.push(new GameStateChange(move, swapped));
         return true;
     }
     
@@ -90,7 +102,7 @@ public class GameLogic implements Updateable {
     }
     
     public boolean playerHasWon(Player player) {
-    	if (currentTurn < 0)
+    	if (!gameHasStarted())
     		throw new HexException("Game hasn't started yet.");
     	
     	boolean[][] target = new boolean[board.size()][board.size()];
@@ -162,7 +174,7 @@ public class GameLogic implements Updateable {
 	}
 	
     private void nextTurn() {
-    	if (currentTurn >= 0) {
+    	if (gameHasStarted()) {
 	    	for (Player p : players) {
 		        if (playerHasWon(p)) {
 		        	handleWinFor(p);
@@ -172,7 +184,6 @@ public class GameLogic implements Updateable {
     	}
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
-        currentTurn++;
 		currentPlayer.getTimer().pauseTimer(); // Stop timer for current player
         currentPlayer.onEndOfTurn();
 
@@ -201,5 +212,32 @@ public class GameLogic implements Updateable {
 
 	public Player getPlayer2() {
 		return player2;
+	}
+	
+	public int getCurrentTurnNumber() {
+		if (gameHasStarted())
+			return history.size();
+		else
+			throw new HexException("Game hasn't started");
+	}
+	
+	public boolean gameHasStarted() {
+		return gameHasStarted;
+	}
+	
+	public GameStateChange[] getHistory() {
+		GameStateChange[] copy = new GameStateChange[history.size()];
+		for (int i = 0; i < history.size(); i++)
+			copy[i] = history.get(i);
+		return copy;
+	}
+	
+	public void makeStateChanges(GameStateChange[] changes) {
+		if (!gameHasStarted())
+			throw new HexException("Game hasn't started");
+		for(int i = 0; i < changes.length; i++) {
+			if (!executeMoveOfCurrentPlayer(changes[i].move))
+				throw new HexException("Invalid state change");
+		}
 	}
 }

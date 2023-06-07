@@ -8,6 +8,8 @@ import main.engine.graphics.Renderer3D;
 import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.player.Player;
+import main.hex.serialisation.GameState;
+import main.hex.serialisation.GameStateSerialiser;
 import main.hex.ui.GameplayFrame;
 
 public class GameplayScene extends Scene {

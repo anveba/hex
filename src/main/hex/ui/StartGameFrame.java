@@ -13,6 +13,7 @@ import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.player.PlayerType;
 import main.hex.player.UserPlayer;
+import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
@@ -48,9 +49,9 @@ public class StartGameFrame extends Frame {
 
 		startGameFrameLogic = new StartGameFrameLogic();
 
-		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture());
-		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture());
-		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture());
+		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultSkinId);
+		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraSkinId);
+		startGameFrameLogic.addHexTextureId(SkinDatabase.duckSkinId);
 		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
 		startGameFrameLogic.setPlayer1Col(Colour.Red); // TODO: Colour to be chosen by player in gui
@@ -205,7 +206,9 @@ public class StartGameFrame extends Frame {
 		float c = (float)Math.cos(Math.toRadians(30.0f));
 		
 		//texture
-		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, startGameFrameLogic.getHexTexture(0), playerCol);
+		Image colorImage = new Image(0.0f, 0.0f, 0.2f * c, 0.2f, 
+				SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(0)), 
+				playerCol);
 		colorCarouselUIGroup.addChild(colorImage);
 
 		//left arrow
@@ -268,12 +271,14 @@ public class StartGameFrame extends Frame {
 
 	public void carouselLeft(Image colorImage, int playerIndex) {
 		startGameFrameLogic.previousTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		colorImage.setTexture(SkinDatabase.getInstance().getTextureFromId(
+				startGameFrameLogic.getHexTextureId(startGameFrameLogic.getPlayerTextureIndex(playerIndex))));
 	}
 
 	public void carouselRight(Image colorImage, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
-		colorImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		colorImage.setTexture(SkinDatabase.getInstance().getTextureFromId(
+				startGameFrameLogic.getHexTextureId(startGameFrameLogic.getPlayerTextureIndex(playerIndex))));
 	}
 
 	public void playerTypeLeft(Text typeText, int playerIndex) {
@@ -290,8 +295,8 @@ public class StartGameFrame extends Frame {
 		GameCustomisation gameCustomisation = new GameCustomisation(
 				startGameFrameLogic.getPlayerName(0),
 				startGameFrameLogic.getPlayerName(1),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(0), startGameFrameLogic.getPlayer1Col()),
-				new PlayerSkin(startGameFrameLogic.getPlayerTexture(1), startGameFrameLogic.getPlayer2Col()),
+				new PlayerSkin(startGameFrameLogic.getPlayerTextureId(0), startGameFrameLogic.getPlayer1Col()),
+				new PlayerSkin(startGameFrameLogic.getPlayerTextureId(1), startGameFrameLogic.getPlayer2Col()),
 				startGameFrameLogic.getTurnTime(),
 				startGameFrameLogic.getSwapRule());
 
@@ -311,9 +316,5 @@ public class StartGameFrame extends Frame {
 
 	public boolean getSwapRule() {
 		return startGameFrameLogic.getSwapRule();
-	}
-
-	public Texture getHexSkin(int playerIndex) {
-		return startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 	}
 }

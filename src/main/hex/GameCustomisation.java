@@ -3,28 +3,30 @@ package main.hex;
 import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
 import main.hex.player.PlayerSkin;
+import main.hex.resources.SkinDatabase;
 
 public class GameCustomisation {
 
-    private String player1Name, player2Name;
-    private PlayerSkin player1Skin, player2Skin;
-    private int timeLimit;
-    private boolean swapRule;
+    private final String player1Name, player2Name;
+    private final PlayerSkin player1Skin, player2Skin;
+    private final int initialTimeLimit;
+    private final boolean swapRule;
     private boolean playersSwapped;
 
     private PlayerSkin blankSkin;
     
-    public GameCustomisation(String player1Name, String player2Name, PlayerSkin player1Skin, PlayerSkin player2Skin, int timeLimit, boolean swapRule) {
+    public GameCustomisation(String player1Name, String player2Name, 
+    		PlayerSkin player1Skin, PlayerSkin player2Skin, 
+    		int initialTimeLimit, boolean swapRule) {
+    	
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         this.player1Skin = player1Skin;
         this.player2Skin = player2Skin;
-        this.timeLimit = timeLimit;
+        this.initialTimeLimit = initialTimeLimit;
         this.swapRule = swapRule;
         playersSwapped = false;
-        blankSkin = new PlayerSkin(
-        		ResourceManager.getInstance().loadTexture("textures/board/white_tile.png"), 
-        		Colour.White);
+        blankSkin = new PlayerSkin(SkinDatabase.defaultSkinId, Colour.White);
     }
 
     public String getPlayer1Name() {
@@ -51,8 +53,8 @@ public class GameCustomisation {
         return player2Skin;
     }
 
-    public int getTimeLimit() {
-        return timeLimit;
+    public int getInitialTimeLimit() {
+        return initialTimeLimit;
     }
 
     public boolean getSwapRule() {
@@ -65,5 +67,21 @@ public class GameCustomisation {
     
     public void setPlayersAsSwapped() {
     	playersSwapped = true;
+    }
+    
+    public String getOriginalPlayer1Name() {
+        return player1Name;
+    }
+
+    public String getOriginalPlayer2Name() {
+        return player2Name;
+    }
+
+    public PlayerSkin getOriginalPlayer1Skin() {
+        return player1Skin;
+    }
+
+    public PlayerSkin getOriginalPlayer2Skin() {
+        return player2Skin;
     }
 }

@@ -192,7 +192,7 @@ public class AI {
         for (AIMove child : children) {
             state.makeMove(child,agentColour);
             child.setValue(-negamaxAB(state, depth - 1, TileColour.opposite(agentColour),-beta,-alpha).getValue());
-            state.unMakeMove(child,agentColour);
+            state.unmakeMove(child,agentColour);
             if (child.getValue() >= maxValue) {
                 maxValue = child.getValue();
                 maxMove = Optional.of(child);

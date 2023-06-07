@@ -14,7 +14,7 @@ public class AIPlayer extends Player {
 		setSearchDepth(searchDepth);
 	}
 
-	public AIPlayer(TileColour playerColour, int timeLimit, int searchDepth) {
+	public AIPlayer(TileColour playerColour, float timeLimit, int searchDepth) {
 		super(playerColour, timeLimit);
 		setSearchDepth(searchDepth);
 	}
