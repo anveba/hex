@@ -1,6 +1,7 @@
 package main.hex;
 
 import main.engine.input.InputType;
+import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
 import main.hex.ui.GameplayFrame;
@@ -38,7 +39,7 @@ public class Game extends GameWindow {
     	setupGraphics();
     	setupUserInterface();
     	
-    	SceneDirector.changeScene(new TitleScene());
+    	SceneDirector.changeScene(new MainMenuScene());
     }
     
     private void setupUserInterface() {
@@ -61,8 +62,9 @@ public class Game extends GameWindow {
     	renderer2D = new Renderer2D(this);
     	camera = new Camera(0.1f, 100.0f, (float)Math.PI / 4.0f);
     	renderer3D = new Renderer3D(camera, this);
-    	
-        setClearColor(0.4f, 0.2f, 0.5f);
+
+        // Purple colour: 0.4f, 0.2f, 0.5f
+        setClearColor(0.15f, 0.15f, 0.16f);
     }
 
     @Override

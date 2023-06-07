@@ -9,6 +9,7 @@ import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.player.Player;
 import main.hex.ui.GameplayFrame;
+import main.hex.ui.MainMenuFrame;
 
 public class GameplayScene extends Scene {
 

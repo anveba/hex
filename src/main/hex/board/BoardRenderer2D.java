@@ -13,8 +13,8 @@ import main.hex.resources.TextureLibrary;
 public class BoardRenderer2D {
 
     private boolean hasLoadedResources;
-    private Texture whiteTileTexture;
-    private Texture borderTexture;
+    private Texture whiteTileTexture, borderTexture, topBorderTexture, bottomBorderTexture;
+
 
     public static final float tileSize = 0.08f;
     public static final float tileHeight = tileSize * 1.1547005f;
@@ -53,7 +53,7 @@ public class BoardRenderer2D {
             }
              */
             Vector2 bottomBorderScreenPos = tileToScreen(x, -1, board.size());
-            renderer.drawSprite(borderTexture, p1Col, bottomBorderScreenPos.getX(),
+            renderer.drawSprite(bottomBorderTexture, p1Col, bottomBorderScreenPos.getX(),
                     bottomBorderScreenPos.getY(), tileSize, tileHeight);
         }
         if (y == board.size() - 1) { // Top border
@@ -65,7 +65,7 @@ public class BoardRenderer2D {
             }
              */
             Vector2 topBorderScreenPos = tileToScreen(x, board.size(), board.size());
-            renderer.drawSprite(borderTexture, p1Col, topBorderScreenPos.getX(),
+            renderer.drawSprite(topBorderTexture, p1Col, topBorderScreenPos.getX(),
                     topBorderScreenPos.getY(), tileSize, tileHeight);
         }
         if (x == 0) { // Left border
@@ -147,6 +147,8 @@ public class BoardRenderer2D {
                 .loadTexture("textures/board/light_grey_tile.png");
         hasLoadedResources = true;
         borderTexture = TextureLibrary.WHITE_TILE_FULL.getTexture();
+        topBorderTexture = TextureLibrary.TOP_BORDER_TEXTURE.getTexture();
+        bottomBorderTexture = TextureLibrary.BOTTOM_BORDER_TEXTURE.getTexture();
 	}
 	
 	public float getTileSize() {

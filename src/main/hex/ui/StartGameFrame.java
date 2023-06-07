@@ -6,7 +6,6 @@ import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
-import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.player.AIPlayer;
@@ -51,7 +50,9 @@ public class StartGameFrame extends Frame {
 
 		startGameFrameLogic.addHexTexture(TextureLibrary.WHITE_TILE.getTexture(), "Basic");
 		startGameFrameLogic.addHexTexture(TextureLibrary.ZEBRA_TILE.getTexture(), "Zebra");
-		startGameFrameLogic.addHexTexture(TextureLibrary.BUBBLE_TILE.getTexture(), "Bubble");
+		startGameFrameLogic.addHexTexture(TextureLibrary.LARGE_BUBBLE_TILE.getTexture(), "Large Bubble");
+		startGameFrameLogic.addHexTexture(TextureLibrary.SMALL_BUBBLE_TILE.getTexture(), "Small Bubble");
+		startGameFrameLogic.addHexTexture(TextureLibrary.ABSTRACT_TILE.getTexture(), "Abstract");
 		startGameFrameLogic.addHexTexture(TextureLibrary.DUCK_TILE.getTexture(), "Duck");
 
 		startGameFrameLogic.addHexColour(Colour.Red, "Red");

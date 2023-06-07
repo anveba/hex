@@ -3,7 +3,9 @@ package main.hex.scene;
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
+import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
+import main.hex.ui.MainMenuFrame;
 import main.hex.ui.StartGameFrame;
 
 public class TitleScene extends Scene {

@@ -7,8 +7,11 @@ public enum TextureLibrary {
     LOGO("textures/gui/misc/logo.png"),
     WHITE_TILE("textures/board/white_tile.png"),
     WHITE_TILE_FULL("textures/board/white_tile_full.png"),
+    TOP_BORDER_TEXTURE("textures/board/top_border.png"),
+    BOTTOM_BORDER_TEXTURE("textures/board/bottom_border.png"),
     ZEBRA_TILE("textures/board/zebra_tile.png"),
-    BUBBLE_TILE("textures/board/large_bubble_tile.png"),
+    SMALL_BUBBLE_TILE("textures/board/small_bubble_tile.png"),
+    LARGE_BUBBLE_TILE("textures/board/large_bubble_tile.png"),
     ABSTRACT_TILE("textures/board/abstract_tile.png"),
     DUCK_TILE("textures/board/duck_tile.png"),
     GREY_SQUARE_BOX("textures/gui/BoxesBanners/Box_Square.png"),
@@ -27,9 +30,10 @@ public enum TextureLibrary {
     BUTTON_TEXT_LARGE_ORANGE_ROUND("textures/gui/ButtonsText/ButtonText_Large_Orange_Round.png"),
     PREMADE_BUTTONS_X_WHITE_OUTLINE("textures/gui/ButtonsText/PremadeButtons_XWhiteOutline.png"),
     BUTTON_TEXT_LARGE_RED_ROUND("textures/gui/ButtonsText/ButtonText_Large_Red_Round.png"),
-
     BUTTON_TEXT_LARGE_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Square.png"),
-    BACKGROUND_SQUARE("textures/gui/ButtonsIcons/IconButton_Large_Background_Square.png");
+    BUTTON_TEXT_LARGE_OUTLINE_ROUND("textures/gui/ButtonsText/ButtonText_Large_GreyOutline_Round.png"),
+    BACKGROUND_SQUARE("textures/gui/ButtonsIcons/IconButton_Large_Background_Square.png"),
+    HEX_LOGO("textures/gui/misc/HEX_Logo.png");
 
     private String texturePath;
     TextureLibrary(String texturePath) {
