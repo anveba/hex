@@ -104,4 +104,13 @@ public class PlayerTimerTest {
 
         verify(callback, times(1)).run();
     }
+
+    @Test
+    public void addTimeMethodAddsTimeToTimer() {
+        assertEquals(initialDuration, player1.getTimer().getRemainingTime(), 0.0);
+
+        player1.getTimer().addTime(3);
+
+        assertEquals(initialDuration + 3, player1.getTimer().getRemainingTime(), 0.0);
+    }
 }

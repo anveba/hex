@@ -174,6 +174,8 @@ public class GameLogic implements Updateable {
         players.addLast(currentPlayer);
         currentTurn++;
 		currentPlayer.getTimer().pauseTimer(); // Stop timer for current player
+		if (currentTurn > 0)
+			currentPlayer.getTimer().addTime(3);
         currentPlayer.onEndOfTurn();
 
 		players.peekFirst().getTimer().startTimer(); // Start timer for next player

@@ -45,6 +45,10 @@ public class PlayerTimer implements Updateable {
         return remainingTime;
     }
 
+    public void addTime(int addedSeconds) {
+        remainingTime += addedSeconds;
+    }
+
     @Override
     public void update(TimeRecord elapsed) {
         if (!isPaused) {
