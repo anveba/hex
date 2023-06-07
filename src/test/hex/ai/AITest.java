@@ -123,6 +123,33 @@ public class AITest {
         assertEquals(nextMove.getY(), 2);
     }
 
+    //During play-testing, the AI seemed to make a weird choice in this particular state.
+    @Test
+    public void AIFindsNonLosingMoveA(){
+        Board board = new Board(6);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,5);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 3,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 4,5);
+
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,4);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
+
+
+        Player agent = new AIPlayer(TileColour.PLAYER1, 5);
+
+        AI ai = new AI(board, agent);
+        AIMove m = ai.getBestMoveWithTimeLimit(5);
+        assertTrue("AI picked a move that allowed opponent to win in next turn",m.getX() == 2 && m.getY() == 2);
+
+    }
+
 
     @Test
     //Test for a bug found, where the AI would not play a valid move on a board state where it should
@@ -255,6 +282,8 @@ public class AITest {
 
 
     }
+
+
 
 
 }

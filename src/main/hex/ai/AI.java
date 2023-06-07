@@ -80,7 +80,7 @@ public class AI {
             bestMove = searchAtNewDepth.get();
         }
 
-        System.out.println(depth);
+        System.out.println("Found move with depth: "+depth);
         return bestMove;
     }
 
@@ -215,11 +215,15 @@ public class AI {
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
         //Note that we multiply the child values by -1, as the recursive call, will try to minimize
         for (AIMove child : children) {
+
             state.makeMove(child,agentColour);
             Optional<AIMove> childEvaluation = negamaxAB(state, depth - 1, TileColour.opposite(agentColour), -beta, -alpha, endTime);
+
             if(childEvaluation.isEmpty()){
                 return Optional.empty();
             }
+
+
             child.setValue(-childEvaluation.get().getValue());
 
             //child.setValue(childEvaluation.get().getValue());
