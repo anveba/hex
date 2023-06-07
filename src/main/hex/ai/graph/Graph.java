@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /*
 Author Nikolaj
-A weighted graph
+Simple representation of an undirected weighted graph
  */
 
 
@@ -92,6 +92,7 @@ public class Graph {
         return adjacencyList;
     }
 
+    //print function for debugging purposes
     public void printAdjacencies(){
         for(int i = 0; i<adjacencyList.length; i++){
             System.out.println("Node: "+i);

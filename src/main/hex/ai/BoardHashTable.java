@@ -7,6 +7,13 @@ import main.hex.board.TileColour;
 import java.util.HashMap;
 import java.util.Optional;
 
+/*
+Author: Nikolaj
+Simply a wrapper class for the Java Hashmap
+We use a separate class, because we considered it very likely that we would create our own Hashmap
+to optimize the AI, and this allows us to make all the changes we want, as long as it supports the operations in this class
+ */
+
 public class BoardHashTable {
 
     private HashMap<Integer, AIMove> hashMap;
@@ -14,6 +21,7 @@ public class BoardHashTable {
     public BoardHashTable(){
         this.hashMap = new HashMap<>();
     }
+
 
     public void putBoard(Board b,AIMove m){
         hashMap.put(b.getHash(),m);

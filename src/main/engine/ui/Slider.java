@@ -113,8 +113,7 @@ public class Slider extends RectElement implements Dragable {
     }
 
     @Override
-    public void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        super.draw(renderer, offsetX, offsetY, colour);
+    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         background.draw(renderer, offsetX, offsetY, colour);
         sliderBtn.draw(renderer, offsetX, offsetY, colour);
         if(text != null) text.draw(renderer, offsetX, offsetY, colour);

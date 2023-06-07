@@ -16,7 +16,7 @@ public class MakeMoveTest {
     @Test
     public void MakingAMoveOnBoardResultsInNewBoardWithTileAddedOnMoveCoordinates(){
         Board b = new Board(5);
-        AIMove m = new AIMove(2,3,0);
+        AIMove m = new AIMove(2,3,0,0);
         b.makeMove(m, TileColour.PLAYER1);
         assert(b.getTileAtPosition(2,3).getColour() == TileColour.PLAYER1);
     }
@@ -25,7 +25,8 @@ public class MakeMoveTest {
     public void UnMakingMoveOnBoardResultsInWhiteOnMoveCoordinates(){
         Board b = new Board(5);
         b.setTileAtPosition(new Tile(TileColour.PLAYER2),2,3);
-        AIMove m = new AIMove(2,3,0);
+        
+        AIMove m = new AIMove(2,3,0,0);
         b.unmakeMove(m,TileColour.PLAYER2);
         assert(b.getTileAtPosition(2,3).getColour() == TileColour.WHITE);
     }

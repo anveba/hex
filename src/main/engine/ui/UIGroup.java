@@ -7,7 +7,6 @@ import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.ControlsArgs;
-import main.engine.math.Vector2;
 
 /**
  * Represents a group of UI elements that itself is a UI element.
@@ -65,7 +64,12 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 		assert !(e.getParent() == this) || children.contains(e);
 		assert !(children.contains(e)) || e.getParent() == this;
 	}
-	
+
+	public void removeAllChildren() {
+		for (var c : children)
+			removeChild(c);
+	}
+
 	@Override
 	public void setPosition(float x, float y) {
 		this.x = x;
@@ -85,7 +89,7 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 	}
 
 	@Override
-	void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
 			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
 	}
@@ -162,6 +166,22 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 	public void update(TimeRecord elapsed) {
 		for (var child : children) {
 			child.update(elapsed);
+		}
+	}
+
+	@Override
+	public void disable() {
+		super.disable();
+		for (var child : children) {
+			child.disable();
+		}
+	}
+
+	@Override
+	public void enable() {
+		super.enable();
+		for (var child : children) {
+			child.enable();
 		}
 	}
 }

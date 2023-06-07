@@ -1,7 +1,5 @@
 package test.hex.ai;
 
-import main.hex.ai.AI;
-import main.hex.ai.AIMove;
 import main.hex.ai.graph.BoardEvaluator;
 import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
 import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
@@ -10,8 +8,6 @@ import main.hex.ai.graph.heuristicFunctions.SignalGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
-import main.hex.player.AIPlayer;
-import main.hex.player.Player;
 
 import org.junit.Test;
 
@@ -35,7 +31,7 @@ public class BoardEvaluatorTest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
         BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         b.connectByColour(1,1,1,2, TileColour.PLAYER2);
-        assertEquals(1.0, b.fadeOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
+        assertEquals(1.0, b.weightOfAdjacencyXY(1, 1, 1, 2).get(), 0.0);
     }
 
 
@@ -63,17 +59,17 @@ public class BoardEvaluatorTest {
             b.connectByColour(i,0,i+1,0, TileColour.PLAYER2);
         }
 
-        double c1 = b.fadeOfAdjacencyXY(0, 0, 1, 0).get();
-        double c2 = b.fadeOfAdjacencyXY(1, 0, 2, 0).get();
-        double c3 = b.fadeOfAdjacencyXY(2, 0, 3, 0).get();
+        double c1 = b.weightOfAdjacencyXY(0, 0, 1, 0).get();
+        double c2 = b.weightOfAdjacencyXY(1, 0, 2, 0).get();
+        double c3 = b.weightOfAdjacencyXY(2, 0, 3, 0).get();
 
 
         assertTrue(c1 < c2);
         assertTrue(c2 < c3);
 
-        assertTrue( b.fadeOfAdjacencyXY(3, 0, 4, 0).isEmpty());
-        assertTrue( b.fadeOfAdjacencyXY(4, 0, 5, 0).isEmpty());
-        assertTrue( b.fadeOfAdjacencyXY(5, 0, 6, 0).isEmpty());
+        assertTrue( b.weightOfAdjacencyXY(3, 0, 4, 0).isEmpty());
+        assertTrue( b.weightOfAdjacencyXY(4, 0, 5, 0).isEmpty());
+        assertTrue( b.weightOfAdjacencyXY(5, 0, 6, 0).isEmpty());
 
 
     }
@@ -90,8 +86,8 @@ public class BoardEvaluatorTest {
         }
         BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         b.connectHorizontalEvaluation();
-        assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
-        assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
+        assertTrue(b.weightOfAdjacencyXY(0,0,0,1).isPresent());
+        assertEquals(1.0, b.weightOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
     }
 
     @Test
@@ -105,8 +101,8 @@ public class BoardEvaluatorTest {
         }
         BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER1,TileColour.PLAYER2,new SignalBasedTileConnector(), new SignalGraphHeuristic());
         b.connectVerticalEvaluation();
-        assertTrue(b.fadeOfAdjacencyXY(0,0,0,1).isPresent());
-        assertEquals(1.0, b.fadeOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
+        assertTrue(b.weightOfAdjacencyXY(0,0,0,1).isPresent());
+        assertEquals(1.0, b.weightOfAdjacencyXY(0, 0, 0, 1).get(), 0.0);
     }
 
 

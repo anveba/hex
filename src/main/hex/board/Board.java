@@ -92,7 +92,7 @@ public class Board implements IBoard {
 
     public Tile getTileAtPosition(int x, int y){
         if(isOutOfBounds(x, y)){
-            throw new HexException("Out of bounds of board");
+            throw new HexException("Out of bounds of board, values x: "+x +" y: "+y );
         }
         return board[x][y];
     }

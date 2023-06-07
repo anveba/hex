@@ -11,6 +11,7 @@ import main.hex.board.TileColour;
 import main.hex.player.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.*;
 
@@ -19,10 +20,14 @@ import java.util.concurrent.*;
 Author: Nikolaj
 A class to find "good" moves, by searching the tree of possible moves,
 using the minimax algorithm (negamax variant)
+
+We use pruning of moves by inferior cell analysis, as well as alpha beta pruning
+We also use hashing of board states, so we do not need to evaluate them twice
  */
 
 public class AI {
-	
+
+    private boolean doMoveSorting;
     private final TileColour verticalColour;
     private final TileColour horizontalColour;
 
@@ -36,7 +41,9 @@ public class AI {
     private final Board board;
     private final Player player;
 
+
     public AI(Board state, Player player){
+        doMoveSorting = true;
     	this.board = state.clone();
         this.player = player;
         board.doFullHash();
@@ -59,16 +66,41 @@ public class AI {
 
     //Wrapper call for the negamax algorithm, where you only need to specify the depth you want to search with
     public AIMove getBestMoveWithDepth(int depth){
-        return negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        //We allow to use get without the presence check, because None is only returned if the time limit is reached
+        return negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY,-1).get();
     }
 
 
+
+    public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
+        //Always search with depth 1 first, so that we return something regardless of the time limit
+        AIMove bestMove = getBestMoveWithDepth(1);
+        long timeLimitInMillis = timeLimitInSeconds*1000 + System.currentTimeMillis();
+        int depth = 1;
+
+        //Keep searching until the time limit is reached
+        while(true){
+            depth++;
+
+            //negamax will return none if time limit is reached
+            Optional<AIMove> searchAtNewDepth = negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY,timeLimitInMillis);
+            if(searchAtNewDepth.isEmpty()){
+                break;
+            }
+            bestMove = searchAtNewDepth.get();
+        }
+        System.out.println(depth);
+        return bestMove;
+    }
+
     //Wrapper call for negamax algorithm, where we use iterative deepening until a time limit is reached
     //Meaning that we start by searching at depth 1, then 2... until the time limit is reached
-    public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
+    //Should not be used, is not safe, use "getBestMoveWithTimeLimit" instead
+    public AIMove getBestMoveWithTimeLimitParallel(long timeLimitInSeconds){
         AIMove bestMove = getBestMoveWithDepth(1);
 
         long timeLimitMillis = timeLimitInSeconds * 1000;
+
         AITimedDepthRunnable runnable = new AITimedDepthRunnable(this);
         ExecutorService service = Executors.newSingleThreadExecutor();
         Future<?> future = service.submit(runnable);
@@ -90,72 +122,38 @@ public class AI {
 
 
     /*
+    The central function of this class
+    Negamax is a search like minimax, but simply with a negated recursive call, instead of two different symmetric cases
 
-    private AIMove negamax(Board state, int depth, TileColour agentColour){
+    Supports time limit in system time millis
+    Can be set to -1 for no time limit
+     */
+    private Optional<AIMove> negamaxAB(Board state, int depth, TileColour agentColour,double alpha, double beta, long endTime){
 
-        //If we've already processed this board state, no need to process it again.
-    	//All transpositions will be at the same depth, so there is no loss of accuracy.
-        if(memoizationTable.containsKey(state)){
-            return memoizationTable.getBoard(state).get();
+        //Returns none if end time is reached
+        if(endTime != -1 && endTime <= System.currentTimeMillis()){
+            return Optional.empty();
         }
-
-        //We evaluate the current state of the board
-        BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
-        double eval = g.evaluateBoard();
-        if(agentColour != verticalColour){
-            eval *= -1;
-        }
-
-
-        //If the board state is win/loss, or we've run out of depth, we return no move, but just the value of this state
-        if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
-            return new AIMove(-1,-1, eval);
-        }
-
-        //Next part is about finding the highest value child.
-
-        //First we set the max value to -inf, and the best move to None
-        double maxValue = Double.NEGATIVE_INFINITY;
-        Optional<AIMove> maxMove = Optional.empty();
-
-        //We create a list of valid moves, that being the locations on board, currently white
-        ArrayList<AIMove> children = boardChildGenerator.createChildren(state);
-
-        //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
-        //Note that we multiply the child values by -1, as the recursive call, will try to minimize
-        for (AIMove child : children) {
-            state.makeMove(child,agentColour);
-            child.setValue(-negamax(state, depth - 1, TileColour.opposite(agentColour)).getValue());
-            state.unMakeMove(child,agentColour);
-            if (child.getValue() >= maxValue) {
-                maxValue = child.getValue();
-                maxMove = Optional.of(child);
-            }
-
-        }
-        //Throw an exception if no child moves were found
-        if(maxMove.isEmpty()){
-            throw new HexException("No move was returned by AI");
-        }
-
-        //Put the found move into the memoization table, and then return it.
-        memoizationTable.putBoard(state,maxMove.get());
-        return maxMove.get();
-    }
-    */
-
-    private AIMove negamaxAB(Board state, int depth, TileColour agentColour,double alpha, double beta){
 
         //If we've already processed this board state, no need to process it again.
         //All transpositions will be at the same depth, so there is no loss of accuracy.
+        Optional<AIMove> bestChildLastTime = Optional.empty();
+
         if(memoizationTable.containsKey(state)){
-            return memoizationTable.getBoard(state).get();
+            bestChildLastTime = Optional.of(memoizationTable.getBoard(state).get());
+            if(bestChildLastTime.get().getDepth() >= depth){
+                return bestChildLastTime;
+            }
+
         }
 
-        //We evaluate the current state of the board
+        //We use a board evaluator to evaluate the board
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,tileConnectionFunction,graphHeuristicFunction);
 
         double eval = 0;
+
+
+        //We always check whether the board is a win/loss state
         if(g.hasWonHorizontally()){
             eval = Double.NEGATIVE_INFINITY;
         }
@@ -166,16 +164,18 @@ public class AI {
 
         if(depth == 0){
             eval = g.evaluateBoard();
-            //System.out.println(eval);
         }
 
         if(agentColour != verticalColour){
             eval *= -1;
         }
-        //System.out.println(eval);
+
+
         //If the board state is win/loss, or we've run out of depth, we return no move, but just the value of this state
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
-            return new AIMove(-1,-1, eval);
+            AIMove newMove = new AIMove(-1,-1, eval,0);
+            memoizationTable.putBoard(state,newMove);
+            return Optional.of(newMove);
         }
 
         //Next part is about finding the highest value child.
@@ -184,21 +184,52 @@ public class AI {
         double maxValue = Double.NEGATIVE_INFINITY;
         Optional<AIMove> maxMove = Optional.empty();
 
-        //We create a list of valid moves, that being the locations on board, currently white
+        //We create a list of valid moves, that being the locations on board, currently uncoloured
         ArrayList<AIMove> children = boardChildGenerator.createChildren(state);
 
+        //Search the move that was best last time first
+        if(bestChildLastTime.isPresent() && bestChildLastTime.get().getX() != -1){
+            bestChildLastTime.get().setValue(Double.POSITIVE_INFINITY);
+            children.add(bestChildLastTime.get());
+        }
+        children = PatternPruner.pruneByPatterns(children,board,agentColour);
+
+        //Sort the children based on previous evaluations of the board state if they exist, otherwise by setting them to 0 (neither more nor less prioritized)
+        if (doMoveSorting){
+            sortChildren(children, state, agentColour);
+        }
+
+
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
-        //Note that we multiply the child values by -1, as the recursive call, will try to minimize
         for (AIMove child : children) {
+
+            //We add a move to the board, also changing it's hash
             state.makeMove(child,agentColour);
-            child.setValue(-negamaxAB(state, depth - 1, TileColour.opposite(agentColour),-beta,-alpha).getValue());
+
+            Optional<AIMove> childEvaluation = negamaxAB(state, depth - 1, TileColour.opposite(agentColour), -beta, -alpha, endTime);
+            if(childEvaluation.isEmpty()){
+                return Optional.empty();
+            }
+
+            //Note that we multiply the child values by -1, as the recursive call, will try to minimize
+            child.setValue(-childEvaluation.get().getValue());
+
+            //We undo the move we made, and undo the change of hash
             state.unmakeMove(child,agentColour);
+
+
+            //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
                 maxValue = child.getValue();
                 maxMove = Optional.of(child);
-
             }
+
             alpha = Double.max(alpha,maxValue);
+
+            //If we have a play where our child's value is greater than the lowest value our opponent can guarantee,
+            //Then the opponent, if playing optimally, will not allow us to take this path
+            //Therefore we do not need to look at other children of this state,
+            //As the other player can guarantee a worse outcome, than our best play
             if(alpha >= beta){
                 break;
             }
@@ -210,17 +241,36 @@ public class AI {
         }
 
         //Put the found move into the memoization table, and then return it.
-        memoizationTable.putBoard(state,maxMove.get());
-        return maxMove.get();
+        AIMove bestMove = maxMove.get();
+
+        //We note down the best move, and what depth it was found at into the memoization table
+        AIMove newMove = new AIMove(bestMove.getX(),bestMove.getY(),bestMove.getValue(),depth);
+        memoizationTable.putBoard(state,newMove);
+
+        //We return the best move
+        return maxMove;
+    }
+
+    //We sort the child moves, based on their values in previous searches
+    //If a state hasn't been evaluated previously, we set its priority to 0
+    private void sortChildren(ArrayList<AIMove> children, Board parentState, TileColour agentColour){
+        for (AIMove move: children
+             ) {
+            parentState.makeMove(move,agentColour);
+            if(memoizationTable.containsKey(parentState)){
+                move.setValue(memoizationTable.getBoard(parentState).get().getValue());
+            }
+            else {
+                move.setValue(0);
+            }
+            parentState.unmakeMove(move,agentColour);
+        }
+        children.sort(new AIMoveComparator());
     }
 
 
-/*
-    private Board moveToBoard(Board currentState, AIMove move, TileColour colourToPlay){
-        Board childState = currentState.clone();
-        childState.setTileAtPosition(new Tile(colourToPlay), move.getX(), move.getY());
-        return childState;
+    public void setDoMoveSorting(boolean b){
+        doMoveSorting = b;
     }
 
- */
 }

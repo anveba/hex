@@ -68,7 +68,10 @@ public class GameplayScene extends Scene {
 	}
 
 	@Override
-	public void update(TimeRecord time) {
+	protected void updateScene(TimeRecord time) {
+
+		if(isUpdatesPaused()) return;
+
 		gameLogic.update(time);
 		if (gameLogic.coloursSwapped())
 			gameCustomization.setPlayersAsSwapped();

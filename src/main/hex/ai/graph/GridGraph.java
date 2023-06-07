@@ -24,7 +24,7 @@ public class GridGraph extends Graph{
     }
 
 
-    public Optional<Double> fadeOfAdjacencyXY(int fromX,int fromY, int toX, int toY) {
+    public Optional<Double> weightOfAdjacencyXY(int fromX, int fromY, int toX, int toY) {
         return super.weightOfAdjacency(xyToNum(fromX,fromY), xyToNum(toX,toY));
     }
 

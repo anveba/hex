@@ -8,8 +8,13 @@ import main.hex.board.TileColour;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/*
+Author: Nikolaj
+Class to generate child moves for a given board
+ */
 public class BoardChildGenerator {
 
+    //Given a board, returns a list of all valid moves
     public ArrayList<AIMove> createChildren(Board parentState){
         ArrayList<AIMove> children = new ArrayList<>((parentState.size()*parentState.size())/2);
         for(int i = 0; i< parentState.size(); i++){
@@ -22,6 +27,7 @@ public class BoardChildGenerator {
         return children;
     }
 
+
     public Optional<AIMove> createChildMove(Board parentState, int x, int y){
 
         if(x >= parentState.size() || y >= parentState.size()){
@@ -33,6 +39,6 @@ public class BoardChildGenerator {
             return Optional.empty();
         }
 
-        return Optional.of(new AIMove(x,y,0.0));
+        return Optional.of(new AIMove(x,y,0.0,0));
     }
 }

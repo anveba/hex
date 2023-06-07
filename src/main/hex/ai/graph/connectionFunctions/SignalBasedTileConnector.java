@@ -5,7 +5,17 @@ import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
+/*
+Author Nikolaj
+A tile connection function to use for SignalBased Graph evaluation
+A heuristic we tried to use in the beginning of the project
 
+Connects two tiles with fade based on their colour
+If they both have agent colour -> 1
+If one has agent colour, other is white -> 1 - fadeConstant
+If both are white -> 1- 2*fadeConstant
+If one is nonAgentColour -> No edge
+ */
 
 public class SignalBasedTileConnector extends TileConnectionFunction {
 
@@ -19,11 +29,7 @@ public class SignalBasedTileConnector extends TileConnectionFunction {
         return startEndWeight;
     }
 
-    //Connects two tiles with fade based on their colour
-    //If they both have agent colour -> 1
-    //If one has agent colour, other is white -> 1 - fadeConstant
-    //If both are white -> 1- 2*fadeConstant
-    //If one is nonAgentColour -> No edge
+
 
     @Override
     public void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour) {

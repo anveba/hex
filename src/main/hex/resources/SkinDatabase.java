@@ -27,6 +27,7 @@ public class SkinDatabase {
 	public final static int defaultSkinId = 0;
 	public final static int zebraSkinId = 1;
 	public final static int duckSkinId = 2;
+	public final static int bubbleSkinId = 3;
 	
 	private Map<Integer, String> idToTexturePath;
 	
@@ -36,6 +37,7 @@ public class SkinDatabase {
 		idToTexturePath.put(defaultSkinId, "textures/board/white_tile.png");
 		idToTexturePath.put(zebraSkinId, "textures/board/zebra_tile.png");
 		idToTexturePath.put(duckSkinId, "textures/board/duck_tile.png");
+		idToTexturePath.put(bubbleSkinId, "textures/board/large_bubble_tile.png");
 	}
 
 	public Texture getTextureFromId(int id) {
