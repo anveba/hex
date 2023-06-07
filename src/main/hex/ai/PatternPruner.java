@@ -6,12 +6,20 @@ import main.hex.board.TileColour;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/*
+Author Nikolaj
+Class to prune moves, by looking for patterns on the board
+The mathematical term is inferior cell analysis
+The code in some of the contained functions isn't super readable,
+but that is hard to avoid, as we are essentially checking for a bunch of possible combinations
+ */
+
 public class PatternPruner {
 
 
+    //Checks all moves against various prunable predicates
     public static ArrayList<AIMove> pruneByPatterns(ArrayList<AIMove> moves, Board b, TileColour agent){
-        ArrayList<AIMove> unprunedMoves = new ArrayList<>();
-
+        ArrayList<AIMove> unPrunedMoves = new ArrayList<>();
         for (AIMove m: moves
         ) { if(
                 !(borderBridgePredicate(m,b,agent)
@@ -19,18 +27,19 @@ public class PatternPruner {
                         || deadCellOpposingPairsPredicate(m,b)
                 ))
         {
-            unprunedMoves.add(m);
+            unPrunedMoves.add(m);
         }
 
         }
-        //if(unprunedMoves.size() == 0){return moves;}
+        //Should we somehow have removed all moves, we backtrack
+        //This is not supposed to happen, but is added as a fail-safe
+        if(unPrunedMoves.size() == 0){return moves;}
 
-        return unprunedMoves;
+        return unPrunedMoves;
     }
 
 
-
-
+    //Searchs for bridges near all borders
 
     private static boolean borderBridgePredicate(AIMove m, Board b, TileColour agent){
         int x = m.getX();
@@ -106,7 +115,7 @@ public class PatternPruner {
 
 
 
-    //If 4 of the moves neighbours are same-coloured neighbours, the move can be pruned
+    //If 4 of the moves neighbours are in a same coloured group, the move can be pruned
     private static boolean deadCellCagePredicate(AIMove m, Board b){
         int x = m.getX();
         int y = m.getY();

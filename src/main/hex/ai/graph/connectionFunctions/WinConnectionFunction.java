@@ -4,6 +4,13 @@ import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
+
+/*
+Author Nikolaj
+
+A tile connection function that has the simple rule that only agent-coloured pairs get connected.
+Used to setup for bfs to check for game win
+ */
 public class WinConnectionFunction extends TileConnectionFunction{
     @Override
     public void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour) {
