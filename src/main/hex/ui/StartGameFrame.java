@@ -17,8 +17,6 @@ import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
-import main.hex.serialisation.GameSession;
-import main.hex.serialisation.HexFileSystem;
 
 public class StartGameFrame extends Frame {
 
@@ -51,12 +49,12 @@ public class StartGameFrame extends Frame {
 	public StartGameFrame() {
 		startGameFrameLogic = new StartGameFrameLogic();
 
-		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultSkinId, "Basic");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraSkinId, "Zebra");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.duckSkinId, "Duck");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.bubbleSkinId, "Large Bubble");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.smallBubbleSkinId, "Small Bubble");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.abstractSkinId, "Abstract");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultTextureId, "Basic");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraTextureId, "Zebra");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.largeBubbleTextureId, "Large Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.smallBubbleTextureId, "Small Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.abstractTextureId, "Abstract");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.duckTextureId, "Duck");
 		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
 		startGameFrameLogic.addHexColour(Colour.Red, "Red");

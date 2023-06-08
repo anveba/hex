@@ -29,7 +29,9 @@ public enum TextureLibrary {
     BUTTON_TEXT_LARGE_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Square.png"),
     BUTTON_TEXT_LARGE_OUTLINE_ROUND("textures/gui/ButtonsText/ButtonText_Large_GreyOutline_Round.png"),
     BACKGROUND_SQUARE("textures/gui/ButtonsIcons/IconButton_Large_Background_Square.png"),
-    HEX_LOGO("textures/gui/misc/HEX_Logo.png");
+    HEX_LOGO("textures/gui/misc/HEX_Logo.png"),
+    TOGGLE_SWITCH_FOREGROUND("textures/gui/ButtonsText/ButtonText_OnOffButton.png"),
+    TOGGLE_SWITCH_BACKGROUND("textures/gui/ButtonsText/ButtonText_OnOffBackground.png");
 
     private String texturePath;
     TextureLibrary(String texturePath) {

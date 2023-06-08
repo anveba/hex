@@ -32,6 +32,8 @@ public class MainMenuFrame extends Frame {
         UIGroup mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
 
+        mainMenuView.addChild(new ToggleSwitch(-0.7f, 0.0f, 0.15f, 0.15f * 0.45f, false,
+                null, null, null, null));
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
     }
