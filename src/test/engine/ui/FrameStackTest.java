@@ -65,27 +65,27 @@ public class FrameStackTest {
 	@Test
 	public void pressingCallsTopFramePressHandlingMethod() {
 		Frame f = mock(Frame.class);
-		Mockito.doCallRealMethod().when(f).pressAt(anyFloat(), anyFloat());
+		Mockito.doCallRealMethod().when(f).clickDownAt(anyFloat(), anyFloat());
 
 		FrameStack.getInstance().pressAt(0.0f, 0.0f);
-		verify(f, times(0)).pressAt(anyFloat(), anyFloat());
+		verify(f, times(0)).clickDownAt(anyFloat(), anyFloat());
 
 		FrameStack.getInstance().push(f);
 		FrameStack.getInstance().pressAt(0.0f, 0.0f);
-		verify(f, times(1)).pressAt(anyFloat(), anyFloat());
+		verify(f, times(1)).clickDownAt(anyFloat(), anyFloat());
 	}
 
 	@Test
 	public void releasingCallsTopFrameReleaseHandlingMethod() {
 		Frame f = mock(Frame.class);
-		Mockito.doCallRealMethod().when(f).releaseAt(anyFloat(), anyFloat());
+		Mockito.doCallRealMethod().when(f).clickReleaseAt(anyFloat(), anyFloat());
 
-		FrameStack.getInstance().releaseAt(0.0f, 0.0f);
-		verify(f, times(0)).releaseAt(anyFloat(), anyFloat());
+		FrameStack.getInstance().clickReleaseAt(0.0f, 0.0f);
+		verify(f, times(0)).clickReleaseAt(anyFloat(), anyFloat());
 
 		FrameStack.getInstance().push(f);
-		FrameStack.getInstance().releaseAt(0.0f, 0.0f);
-		verify(f, times(1)).releaseAt(anyFloat(), anyFloat());
+		FrameStack.getInstance().clickReleaseAt(0.0f, 0.0f);
+		verify(f, times(1)).clickReleaseAt(anyFloat(), anyFloat());
 	}
 	
 	@Test

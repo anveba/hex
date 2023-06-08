@@ -5,12 +5,15 @@ import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.hex.Game;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
+import main.hex.serialisation.GameSession;
+import main.hex.serialisation.HexFileSystem;
 
 public class GameplayFrame extends Frame {
 
@@ -26,13 +29,13 @@ public class GameplayFrame extends Frame {
 
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
-    private GameCustomisation gameCustomization;
+    private GameCustomisation gameCustomisation;
     private GameLogic gameLogic;
     private UIGroup pauseMenuUIGroup;
 
     public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
         //Main menu extends Frame, so it has a UI element as a root
-        this.gameCustomization = gameCustomisation;
+        this.gameCustomisation = gameCustomisation;
         this.gameLogic = gameLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
@@ -103,8 +106,8 @@ public class GameplayFrame extends Frame {
         UIGroup player1UIGroup = new UIGroup(0.0f, 0.0f);
 
         player1UIGroup.addChild(createPlayerViewBackground(-0.715f, -0.8f));
-        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomization.getPlayer1Skin()));
-        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomization.getPlayer1Name()));
+        player1UIGroup.addChild(createTileView(-0.88f, -0.705f, gameCustomisation.getPlayer1Skin()));
+        player1UIGroup.addChild(createPlayerNameView(-0.665f, -0.705f, gameCustomisation.getPlayer1Name()));
         player1TimerText = new Text(-0.72f, -0.85f, FONT_FREDOKA_ONE, gameLogic.getPlayer1().getTimer().getFormattedTime(), 0.08f);
         player1UIGroup.addChild(player1TimerText);
 
@@ -115,8 +118,8 @@ public class GameplayFrame extends Frame {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
         player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
-        player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomization.getPlayer2Skin()));
-        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomization.getPlayer2Name()));
+        player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomisation.getPlayer2Skin()));
+        player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomisation.getPlayer2Name()));
         player2TimerText = new Text(0.72f, -0.85f, FONT_FREDOKA_ONE, gameLogic.getPlayer2().getTimer().getFormattedTime(), 0.08f);
         player2UIGroup.addChild(player2TimerText);
 
@@ -218,10 +221,10 @@ public class GameplayFrame extends Frame {
     }
 
     private void saveGaneBtnClicked() {
-        System.out.println("Save game button clicked");
+    	HexFileSystem.getInstance().saveGame(new GameSession(gameCustomisation, gameLogic));
     }
 
     private void exitGameBtnClicked() {
-        System.exit(0);
+        Game.getInstance().closeWindow();
     }
 }

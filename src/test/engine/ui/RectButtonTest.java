@@ -262,10 +262,10 @@ public class RectButtonTest {
 		verify(callback, times(0)).call(any());
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
 		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(false);
-		button.processClick(args);
+		button.processClickRelease(args);
 		verify(callback, times(0)).call(any());
 		when(button.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
-		button.processClick(args);
+		button.processClickRelease(args);
 		verify(callback, times(1)).call(any());
 	}
 	
@@ -285,7 +285,7 @@ public class RectButtonTest {
 				null, null, null);
 
 		ClickArgs args = new ClickArgs(0.0f, 0.0f);
-		button.processClick(args);
+		button.processClickRelease(args);
 	}
 	
 	@Test

@@ -73,9 +73,14 @@ public class TextField extends RectElement implements Clickable {
         image.draw(renderer, offsetX, offsetY, colour);
         text.draw(renderer, offsetX, offsetY, colour);
     }
+    
+	@Override
+	public void processClickDown(ClickArgs args) {
+		
+	}
 
     @Override
-    public void processClick(ClickArgs args) {
+    public void processClickRelease(ClickArgs args) {
     	if (containsPosition(args.getX(), args.getY()))
 	        focus();
     	else 

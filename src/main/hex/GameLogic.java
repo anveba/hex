@@ -32,7 +32,7 @@ public class GameLogic implements Updateable {
     
     private Stack<GameStateChange> history;
     
-    public GameLogic(Board board, Player player1, Player player2) {
+    public GameLogic(Board board, Player player1, Player player2, boolean enableSwapRule) {
     	if (board == null || player1 == null || player2 == null)
     		throw new HexException("null was given");
         this.board = board;
@@ -40,10 +40,10 @@ public class GameLogic implements Updateable {
         this.player2 = player2;
 		this.player1.getTimer().setCallback(() -> handleWinFor(player2));
 		this.player2.getTimer().setCallback(() -> handleWinFor(player1));
-		players.addLast(player2);
 		players.addLast(player1);
+		players.addLast(player2);
         gameIsOver = false;
-		swapRuleEnabled = false;
+		this.swapRuleEnabled = enableSwapRule;
 		coloursSwapped = false;
 		gameHasStarted = false;
 		
@@ -52,7 +52,7 @@ public class GameLogic implements Updateable {
 
     public void start() {
     	if (!gameHasStarted()) {
-			nextTurn();
+			startTurn();
 			gameHasStarted = true;
 		} else {
 			throw new HexException("Game already started");
@@ -163,7 +163,8 @@ public class GameLogic implements Updateable {
 			if (m != null) {
 				players.peekFirst().onTurnReceival();
 				if (executeMoveOfCurrentPlayer(m)) {
-					nextTurn();
+					endTurn();
+					startTurn();
 				}
 				else {
 					playerResponse = new ConcurrentPlayerResponse();
@@ -173,7 +174,7 @@ public class GameLogic implements Updateable {
 		}
 	}
 	
-    private void nextTurn() {
+    private void endTurn() {
     	if (gameHasStarted()) {
 	    	for (Player p : players) {
 		        if (playerHasWon(p)) {
@@ -182,24 +183,28 @@ public class GameLogic implements Updateable {
 		        }
 	        }
     	}
-        Player currentPlayer = players.removeFirst();
-        players.addLast(currentPlayer);
-		currentPlayer.getTimer().pauseTimer(); // Stop timer for current player
-        currentPlayer.onEndOfTurn();
+        
+    	players.peekFirst().getTimer().pauseTimer(); // Stop timer for current player
+    	players.peekFirst().onEndOfTurn();
 
-		players.peekFirst().getTimer().startTimer(); // Start timer for next player
+    	putCurrentPlayerInTheEndOfTheTurnQueue();
+    }
+    
+    private void startTurn() {
+    	players.peekFirst().getTimer().startTimer(); // Start timer for next player
         playerResponse = new ConcurrentPlayerResponse();
         players.peekFirst().processTurn(board, playerResponse);
+    }
+    
+    private void putCurrentPlayerInTheEndOfTheTurnQueue() {
+    	Player currentPlayer = players.removeFirst();
+        players.addLast(currentPlayer);
     }
 
 	private void handleWinFor(Player p) {
 		gameIsOver = true;
 		if (playerWinCallback != null)
 			playerWinCallback.met(p);
-	}
-
-	public void setSwapRuleState(boolean swapRuleState) {
-		this.swapRuleEnabled = swapRuleState;
 	}
 	
 	public boolean coloursSwapped() {
@@ -233,10 +238,10 @@ public class GameLogic implements Updateable {
 	}
 	
 	public void makeStateChanges(GameStateChange[] changes) {
-		if (!gameHasStarted())
-			throw new HexException("Game hasn't started");
 		for(int i = 0; i < changes.length; i++) {
-			if (!executeMoveOfCurrentPlayer(changes[i].move))
+			if (executeMoveOfCurrentPlayer(changes[i].move))
+				putCurrentPlayerInTheEndOfTheTurnQueue();
+			else
 				throw new HexException("Invalid state change");
 		}
 	}

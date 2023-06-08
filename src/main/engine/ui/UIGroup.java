@@ -13,7 +13,7 @@ import main.engine.input.ControlsArgs;
  * @author Andreas
  *
  */
-public class UIGroup extends UIElement implements Clickable, Dragable {
+public class UIGroup extends UIElement implements Clickable {
 
 	private float x, y;
 	private List<UIElement> children;
@@ -95,39 +95,26 @@ public class UIGroup extends UIElement implements Clickable, Dragable {
 	}
 
 	@Override
-	public void processClick(ClickArgs args) {
+	public void processClickDown(ClickArgs args) {
 		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
-			clickable.processClick(args);
+			clickable.processClickDown(args);
 		}
 	}
-
+	
 	@Override
-	public void processPress(ClickArgs args) {
+	public void processClickRelease(ClickArgs args) {
 		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
-			if (!(child instanceof Dragable))
+			if (!(child instanceof Clickable))
 				continue;
-			Dragable dragable = (Dragable)child;
-			dragable.processPress(args);
+			Clickable clickable = (Clickable)child;
+			clickable.processClickRelease(args);
 		}
 	}
-
-	@Override
-	public void processRelease(ClickArgs args) {
-		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
-		for (var child : children) {
-			if (!(child instanceof Dragable))
-				continue;
-			Dragable dragable = (Dragable)child;
-			dragable.processRelease(args);
-		}
-	}
-
-
 
 	@Override
 	public void updateCursorPosition(HoverArgs args) {

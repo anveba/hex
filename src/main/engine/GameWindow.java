@@ -242,7 +242,7 @@ public abstract class GameWindow implements GraphicsContext {
         });
     }
     
-    private Controls mapGLFWInputToControls(int input) {
+    private static Controls mapGLFWInputToControls(int input) {
         switch(input) {
         case GLFW_KEY_Q:
             return Controls.Q;

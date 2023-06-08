@@ -26,30 +26,20 @@ public class Frame {
 		return root;
 	}
 
-	public void pressAt(float x, float y) {
-		if (!(root instanceof Dragable))
-			return;
-		Dragable d = (Dragable) root;
-		var args = new ClickArgs(x, y);
-		d.processPress(args);
-	}
-
-	public void releaseAt(float x, float y) {
-		clickAt(x,y); //Release is a click
-
-		if (!(root instanceof Dragable))
-			return;
-		Dragable d = (Dragable) root;
-		var args = new ClickArgs(x, y);
-		d.processRelease(args);
-	}
-
-	public void clickAt(float x, float y) {
+	public void clickDownAt(float x, float y) {
 		if (!(root instanceof Clickable))
 			return;
 		Clickable c = (Clickable)root;
 		var args = new ClickArgs(x, y);
-		c.processClick(args);
+		c.processClickDown(args);
+	}
+	
+	public void clickReleaseAt(float x, float y) {
+		if (!(root instanceof Clickable))
+			return;
+		Clickable c = (Clickable)root;
+		var args = new ClickArgs(x, y);
+		c.processClickRelease(args);
 	}
 
 	public void hoverAt(float x, float y) {

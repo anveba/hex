@@ -21,7 +21,7 @@ public class GameLogicTest {
         board = new Board(11);
         player1 = spy(new TestPlayerClass(TileColour.PLAYER1));
         player2 = spy(new TestPlayerClass(TileColour.PLAYER2));
-        gameLogic = new GameLogic(board, player1, player2);
+        gameLogic = new GameLogic(board, player1, player2, false);
         gameLogic.start();
     }
     
@@ -55,7 +55,8 @@ public class GameLogicTest {
     // Tests for swap rule
     @Test
     public void swapRuleSwapsPlayersCorrectly() {
-        gameLogic.setSwapRuleState(true);
+    	gameLogic = new GameLogic(board, player1, player2, true);
+        gameLogic.start();
     	player1.relayResponseAsMove(0, 0);
         gameLogic.update(mock(TimeRecord.class));
         player2.relayResponseAsMove(0, 0);

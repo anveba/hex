@@ -74,7 +74,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
-        textField.processClick(clickArgs);
+        textField.processClickRelease(clickArgs);
 
         Assert.assertTrue(textField.isFocused());
     }
@@ -87,7 +87,7 @@ public class TextFieldTest {
         String defaultString = "default";
         TextField textField = new TextField(x, y, width, height, text, image, defaultString,0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
-        textField.processClick(clickArgs);
+        textField.processClickRelease(clickArgs);
         Assert.assertTrue(textField.isFocused());
         assertEquals(defaultString, textField.getText());
     }
@@ -98,7 +98,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
-        textField.processClick(clickArgs);
+        textField.processClickRelease(clickArgs);
 
         TextInputArgs textInputArgs = new TextInputArgs('a');
         textField.processTextInput(textInputArgs);
@@ -113,7 +113,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
-        textField.processClick(clickArgs);
+        textField.processClickRelease(clickArgs);
 
         textField.processTextInput(new TextInputArgs('a'));
         textField.processTextInput(new TextInputArgs('b'));
@@ -128,7 +128,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
         ClickArgs clickArgs = new ClickArgs(x,y);
-        textField.processClick(clickArgs);
+        textField.processClickRelease(clickArgs);
 
         textField.processTextInput(new TextInputArgs('a'));
         textField.processTextInput(new TextInputArgs('b'));
@@ -145,10 +145,10 @@ public class TextFieldTest {
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
-        textField.processClick(new ClickArgs(x,y));
+        textField.processClickRelease(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
-        textField.processClick(new ClickArgs(x + 2 * width,y + 2 * height));
+        textField.processClickRelease(new ClickArgs(x + 2 * width,y + 2 * height));
         Assert.assertFalse(textField.isFocused());
         assertEquals(textField.getDefaultString(), textField.getText());
     }
@@ -158,13 +158,13 @@ public class TextFieldTest {
         Image image = mock(Image.class);
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
-        textField.processClick(new ClickArgs(x,y));
+        textField.processClickRelease(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
         textField.processTextInput(new TextInputArgs('a'));
         assertEquals("a", textField.getText());
 
-        textField.processClick(new ClickArgs(x + 2 * width,y + 2 * height));
+        textField.processClickRelease(new ClickArgs(x + 2 * width,y + 2 * height));
         Assert.assertFalse(textField.isFocused());
         assertEquals("a", textField.getText());
     }
@@ -175,7 +175,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f;
         TextField textField = new TextField(x, y, width, height, text, image, "default",0.6f);
 
-        textField.processClick(new ClickArgs(x,y));
+        textField.processClickRelease(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
         textField.processControlsInput(new ControlsArgs(Controls.ESCAPE));
@@ -189,7 +189,7 @@ public class TextFieldTest {
         float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f, animationTime = 0.6f;
         TextField textField = new TextField(x, y, width, height, text, image, "default", animationTime);
 
-        textField.processClick(new ClickArgs(x,y));
+        textField.processClickRelease(new ClickArgs(x,y));
         Assert.assertTrue(textField.isFocused());
 
         textField.processTextInput(new TextInputArgs('a'));

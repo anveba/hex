@@ -57,7 +57,7 @@ public class GameStateSerialiserTest {
     	Board b = new Board(3);
         Player p1 = mockPlayer(TileColour.PLAYER1, player1Time, false);
         Player p2 = mockPlayer(TileColour.PLAYER2, player2Time, true);
-        GameLogic g = new GameLogic(b, p1, p2);
+        GameLogic g = new GameLogic(b, p1, p2, false);
         g.start();
         return g;
     }

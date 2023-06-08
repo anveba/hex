@@ -18,6 +18,8 @@ import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
+import main.hex.serialisation.GameSession;
+import main.hex.serialisation.HexFileSystem;
 
 public class StartGameFrame extends Frame {
 
@@ -93,6 +95,24 @@ public class StartGameFrame extends Frame {
 		};
 		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
 				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, startGameBtnClicked, null, null);
+		
+		//Load game button TODO TEMPORARY ----------------
+		ButtonCallback loadGameBtnClicked = (args) -> {
+			System.out.println("Game Loaded!");
+			
+			GameSession session = HexFileSystem.getInstance().loadGame();
+			
+			SceneDirector.changeScene(
+					new GameplayScene(
+							session.gameLogic,
+							session.customisation));
+		};
+		RectButton loadGameBtn = new RectButton(0.5f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+				FONT_FREDOKA_ONE, "Load previous game", standardFontSize, loadGameBtnClicked, null, null);
+		settingsMenu.addChild(loadGameBtn);
+		// --------------------------------------------
+		
+		
 		settingsMenu.addChild(startGameBtn);
 	}
 
@@ -328,7 +348,7 @@ public class StartGameFrame extends Frame {
 
 		SceneDirector.changeScene(
 				new GameplayScene(
-						new GameLogic(b, p1, p2),
+						new GameLogic(b, p1, p2, gameCustomisation.getSwapRule()),
 						gameCustomisation));
 	}
 

@@ -107,7 +107,7 @@ public class SliderTest {
         ClickArgs clickArgs = mock(ClickArgs.class);
         when(clickArgs.getX()).thenReturn(x);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
         Assert.assertTrue(slider.isPressed());
     }
 
@@ -116,10 +116,10 @@ public class SliderTest {
         ClickArgs clickArgs = mock(ClickArgs.class);
         when(clickArgs.getX()).thenReturn(x);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
         Assert.assertTrue(slider.isPressed());
 
-        slider.processRelease(clickArgs);
+        slider.processClickRelease(clickArgs);
         Assert.assertFalse(slider.isPressed());
     }
 
@@ -130,7 +130,7 @@ public class SliderTest {
         when(clickArgs.getX()).thenReturn(x - width);
         when(clickArgs.getY()).thenReturn(y);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
 
         Assert.assertTrue(slider.isPressed());
 
@@ -149,7 +149,7 @@ public class SliderTest {
         when(clickArgs.getX()).thenReturn(x + width);
         when(clickArgs.getY()).thenReturn(y);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
 
         Assert.assertTrue(slider.isPressed());
 
@@ -176,7 +176,7 @@ public class SliderTest {
         ClickArgs clickArgs = mock(ClickArgs.class);
         when(clickArgs.getX()).thenReturn(x);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
 
         Assert.assertTrue(slider.isPressed());
 
@@ -195,7 +195,7 @@ public class SliderTest {
         ClickArgs clickArgs = mock(ClickArgs.class);
         when(clickArgs.getX()).thenReturn(x+width);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
         Assert.assertFalse(slider.isPressed());
     }
 
@@ -204,12 +204,12 @@ public class SliderTest {
         ClickArgs clickArgs = mock(ClickArgs.class);
         when(clickArgs.getX()).thenReturn(x);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processPress(clickArgs);
+        slider.processClickDown(clickArgs);
         Assert.assertTrue(slider.isPressed());
 
         when(clickArgs.getX()).thenReturn(x+width);
         when(clickArgs.getY()).thenReturn(y);
-        slider.processRelease(clickArgs);
+        slider.processClickRelease(clickArgs);
         Assert.assertFalse(slider.isPressed());
     }
 

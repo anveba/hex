@@ -10,7 +10,7 @@ import main.engine.ui.TextInputArgs;
 class TestClickableElementClass extends TestUIElementClass implements Clickable {
 
 	@Override
-	public void processClick(ClickArgs args) {
+	public void processClickRelease(ClickArgs args) {
 	}
 
 	@Override
@@ -34,6 +34,11 @@ class TestClickableElementClass extends TestUIElementClass implements Clickable 
 	
 	@Override
 	public void update(TimeRecord elapsed) {
+		
+	}
+
+	@Override
+	public void processClickDown(ClickArgs args) {
 		
 	}
 }

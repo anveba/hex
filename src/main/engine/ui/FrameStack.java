@@ -60,14 +60,16 @@ public class FrameStack {
 
 	public void pressAt(float x, float y) {
 		if (top > 0) {
-			stack.get(top - 1).pressAt(x, y);
+			stack.get(top - 1).clickDownAt(x, y);
 		}
 	}
-	public void releaseAt(float x, float y) {
+	
+	public void clickReleaseAt(float x, float y) {
 		if (top > 0) {
-			stack.get(top - 1).releaseAt(x, y);
+			stack.get(top - 1).clickReleaseAt(x, y);
 		}
 	}
+	
 	public void hoverAt(float x, float y) {
 		if (top > 0) {
 			stack.get(top - 1).hoverAt(x, y);

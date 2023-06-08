@@ -51,10 +51,6 @@ public class Game extends GameWindow {
             FrameStack.getInstance().processTextInput(ch);
         });
 
-        //getControlsListener().addOnAnyPressCallback((args) -> {
-        //    FrameStack.getInstance().processControlsInput(args);
-        //});
-
     }
     
     private void setupGraphics() {
@@ -77,7 +73,7 @@ public class Game extends GameWindow {
             		);
     	}
         if (getControlsListener().isReleased(Controls.LEFT_MOUSE)) {
-            FrameStack.getInstance().releaseAt(
+            FrameStack.getInstance().clickReleaseAt(
                     getControlsListener().getCursorX(),
                     getControlsListener().getCursorY()
             );

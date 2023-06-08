@@ -43,8 +43,8 @@ public class GameplayScene extends Scene {
     private void startGameplay() {
     	
     	gameLogic.setPlayerWinCallback(this::onPlayerWin);
-		gameLogic.setSwapRuleState(gameCustomization.getSwapRule());
-    	gameLogic.start();
+    	if (!gameLogic.gameHasStarted())
+    		gameLogic.start();
     }
     
     private void setUpCamera() {

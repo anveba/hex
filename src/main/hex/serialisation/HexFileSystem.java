@@ -1,5 +1,6 @@
 package main.hex.serialisation;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ public class HexFileSystem {
 		return instance;
 	}
 	
-	private static final String savedGamesDir = "saves/";
+	private static final String savedGamesDir = "/saves/";
 	private static final String tempSaveName = "previous.json";
 	
 	private GameStateSerialiser serialiser;
@@ -35,10 +36,11 @@ public class HexFileSystem {
 	public void saveGame(GameSession session) {
 		String json = serialiser.gameStateToJson(GameState.sessionToState(session));
 		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + tempSaveName);
+		ensureDirectoryExists(path);
 		try {
 			Files.write(path, json.getBytes());
 		} catch (IOException e) {
-			throw new HexException("Could not save to file system: " + e.getMessage());
+			throw new HexException("Could not save to file system: " + e.toString());
 		}
 	}
 	
@@ -49,12 +51,16 @@ public class HexFileSystem {
 		try {
 			json = Files.readString(path);
 		} catch (IOException e) {
-			throw new HexException("Could not read file: " + e.getMessage());
+			throw new HexException("Could not read file: " + e.toString());
 		}
 		
 		GameState state = serialiser.gameStateFromJson(json);
 		
 		return state.stateToSession();
+	}
+	
+	private void ensureDirectoryExists(Path path) {
+		path.getParent().toFile().mkdirs();
 	}
 	
 	private String getPersistentDataPath() {

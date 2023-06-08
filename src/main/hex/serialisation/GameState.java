@@ -24,8 +24,6 @@ public class GameState {
 	private GameState(GameCustomisation custom, GameLogic logic) {
 		if (custom == null || logic == null)
 			throw new HexException("Null argument given");
-		if (!logic.gameHasStarted())
-			throw new HexException("Game hasn't started");
 		
 		swapRuleEnabled = custom.getSwapRule();
 		history = logic.getHistory();
@@ -60,8 +58,7 @@ public class GameState {
 		Board board = new Board(boardSize);
 		Player p1 = generatePlayerFromPlayerState(player1, TileColour.PLAYER1);
 		Player p2 = generatePlayerFromPlayerState(player2, TileColour.PLAYER2);
-		GameLogic logic = new GameLogic(board, p1, p2);
-		logic.start();
+		GameLogic logic = new GameLogic(board, p1, p2, custom.getSwapRule());
 		logic.makeStateChanges(history);
 		return new GameSession(custom, logic);
 	}

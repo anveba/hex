@@ -31,7 +31,7 @@ public class PlayerTimerTest {
 
         board = new Board(11);
 
-        gameLogic = new GameLogic(board, player1, player2);
+        gameLogic = new GameLogic(board, player1, player2, false);
         gameLogic.start();
     }
 

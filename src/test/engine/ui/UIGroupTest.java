@@ -126,16 +126,16 @@ public class UIGroupTest {
 		UIGroup g = new UIGroup(gx, gy);
 		var e = spy(new TestClickableElementClass());
 		when(e.containsPosition(anyFloat(), anyFloat())).thenReturn(true);
-		Mockito.doCallRealMethod().when(e).processClick(any());
+		Mockito.doCallRealMethod().when(e).processClickRelease(any());
 
 		ClickArgs args = new ClickArgs(cx, cy);
-		g.processClick(args);
-		verify(e, times(0)).processClick(any());
+		g.processClickRelease(args);
+		verify(e, times(0)).processClickRelease(any());
 
 		g.addChild(e);
-		g.processClick(args);
+		g.processClickRelease(args);
 		final ArgumentCaptor<ClickArgs> captor = ArgumentCaptor.forClass(ClickArgs.class);		
-		verify(e, times(1)).processClick(captor.capture());
+		verify(e, times(1)).processClickRelease(captor.capture());
 		final ClickArgs actualArgs = captor.getValue();
 		assertEquals(cx - gx, actualArgs.getX(), 0.001f);
 		assertEquals(cy - gy, actualArgs.getY(), 0.001f);

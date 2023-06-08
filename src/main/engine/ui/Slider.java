@@ -8,7 +8,7 @@ import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.hex.resources.TextureLibrary;
 
-public class Slider extends RectElement implements Dragable {
+public class Slider extends RectElement implements Clickable {
     private Image background, sliderBtn;
     private Text text;
     private String textLayout;
@@ -91,14 +91,14 @@ public class Slider extends RectElement implements Dragable {
     }
 
     @Override
-    public void processPress(ClickArgs args) {
+    public void processClickDown(ClickArgs args) {
         if(!containsPosition(args.getX(), args.getY())) return;
         isPressed = true;
         moveSlider(args.getX());
     }
 
     @Override
-    public void processRelease(ClickArgs args) {
+    public void processClickRelease(ClickArgs args) {
         if(!isPressed) return;
 
         isPressed = false;
@@ -163,4 +163,14 @@ public class Slider extends RectElement implements Dragable {
     public Image getSliderBtn() {
         return sliderBtn;
     }
+
+	@Override
+	public void processTextInput(TextInputArgs args) {
+		
+	}
+
+	@Override
+	public void processControlsInput(ControlsArgs args) {
+		
+	}
 }

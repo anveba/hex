@@ -25,42 +25,42 @@ public class FrameTest {
 	public void clickingCallsRootClickHandlingMethod() {
 		Frame f = new Frame();
 		RectButton e = mock(RectButton.class);
-		Mockito.doCallRealMethod().when(e).processClick(any());
+		Mockito.doCallRealMethod().when(e).processClickRelease(any());
 
-		f.clickAt(0.0f, 0.0f);
-		verify(e, times(0)).processClick(any());
+		f.clickReleaseAt(0.0f, 0.0f);
+		verify(e, times(0)).processClickRelease(any());
 		
 		f.setRoot(e);
-		f.clickAt(0.0f, 0.0f);
-		verify(e, times(1)).processClick(any());
+		f.clickReleaseAt(0.0f, 0.0f);
+		verify(e, times(1)).processClickRelease(any());
 	}
 
 	@Test
 	public void pressingCallsRootPressHandlingMethod() {
 		Frame f = new Frame();
 		Slider e = mock(Slider.class);
-		Mockito.doCallRealMethod().when(e).processPress(any());
+		Mockito.doCallRealMethod().when(e).processClickDown(any());
 
-		f.pressAt(0.0f, 0.0f);
-		verify(e, times(0)).processPress(any());
+		f.clickDownAt(0.0f, 0.0f);
+		verify(e, times(0)).processClickDown(any());
 
 		f.setRoot(e);
-		f.pressAt(0.0f, 0.0f);
-		verify(e, times(1)).processPress(any());
+		f.clickDownAt(0.0f, 0.0f);
+		verify(e, times(1)).processClickDown(any());
 	}
 
 	@Test
 	public void releasingCallsRootReleaseHandlingMethod() {
 		Frame f = new Frame();
 		Slider e = mock(Slider.class);
-		Mockito.doCallRealMethod().when(e).processRelease(any());
+		Mockito.doCallRealMethod().when(e).processClickRelease(any());
 
-		f.releaseAt(0.0f, 0.0f);
-		verify(e, times(0)).processRelease(any());
+		f.clickReleaseAt(0.0f, 0.0f);
+		verify(e, times(0)).processClickRelease(any());
 
 		f.setRoot(e);
-		f.releaseAt(0.0f, 0.0f);
-		verify(e, times(1)).processRelease(any());
+		f.clickReleaseAt(0.0f, 0.0f);
+		verify(e, times(1)).processClickRelease(any());
 	}
 
 	@Test
