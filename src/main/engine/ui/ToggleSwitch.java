@@ -7,23 +7,29 @@ import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
 import main.hex.resources.TextureLibrary;
 
+/**
+ * ToggleSwitch (disabled/enabled switch) allows for something to be disabled or enabled depending on
+ * how the switch is set. The switch is enabled when the circle is to the right and disabled when the switch is
+ * to the left. (The initial state can be set in the constructor).
+ *
+ * @Author Oliver Siggaard - s204450
+ */
+
 public class ToggleSwitch extends RectElement implements Clickable {
 
     private ButtonCallback enableCallback, disableCallback, hoverEnterCallback, hoverExitCallback;
     private boolean isHovering, toggleSwitchOn;
-
-    private final Image backgroundImage;
-    private final Image foregroundImage;
+    private final Image backgroundImage, foregroundImage;
 
     public ToggleSwitch(float x, float y, float width, float height, boolean initialToggleOn,
+                        Texture backgroundTexture,
+                        Texture foregroundTexture,
                         ButtonCallback enableCallback,
                         ButtonCallback disableCallback,
                         ButtonCallback onHoverEnterCallback,
                         ButtonCallback onHoverExitCallback) {
         super(x, y, width, height);
-        toggleSwitchOn = initialToggleOn;
-        Texture backgroundTexture = TextureLibrary.TOGGLE_SWITCH_BACKGROUND.getTexture();
-        Texture foregroundTexture = TextureLibrary.TOGGLE_SWITCH_FOREGROUND.getTexture();
+        this.toggleSwitchOn = initialToggleOn;
         backgroundImage = new Image(x, y, width * 0.9f, height * 0.9f, backgroundTexture);
         foregroundImage = new Image(x - width/2 + height/2, y, height, height, foregroundTexture);
         if (toggleSwitchOn) {
@@ -36,6 +42,17 @@ public class ToggleSwitch extends RectElement implements Clickable {
         setWidth(width);
         setHeight(height);
         setPosition(x, y);
+    }
+
+    public ToggleSwitch(float x, float y, float width, float height, boolean initialToggleOn,
+                        ButtonCallback enableCallback,
+                        ButtonCallback disableCallback,
+                        ButtonCallback onHoverEnterCallback,
+                        ButtonCallback onHoverExitCallback) {
+        this (x, y, width, height, initialToggleOn,
+                TextureLibrary.TOGGLE_SWITCH_BACKGROUND.getTexture(),
+                TextureLibrary.TOGGLE_SWITCH_FOREGROUND.getTexture(),
+                enableCallback, disableCallback, onHoverEnterCallback, onHoverExitCallback);
     }
 
     public void setEnableCallback(ButtonCallback callback) {
@@ -52,6 +69,18 @@ public class ToggleSwitch extends RectElement implements Clickable {
 
     public void setHoverExitCallback(ButtonCallback callback) {
         this.hoverExitCallback = callback;
+    }
+
+    public boolean getToggleSwitchOn() {
+        return toggleSwitchOn;
+    }
+
+    public Image getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public Image getForegroundImage() {
+        return foregroundImage;
     }
 
     @Override

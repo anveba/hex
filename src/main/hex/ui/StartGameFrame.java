@@ -29,7 +29,9 @@ public class StartGameFrame extends Frame {
 	private final String START_GAME_BTN_TEXT = "Start Game";
 	private final String GAME_SETTINGS_SIZE_TEXT = "Board Size:";
 	private final String GAME_SETTINGS_TIME_TEXT = "Time Limit:";
-	private final String GAME_SETTINGS_SWAP_RULE_TEXT = "Enable Swap Rule:";
+	private final String GAME_SETTINGS_SWAP_RULE_TEXT = "Swap Rule:";
+	private final String ENABLED_TEXT = "Enabled";
+	private final String DISABLED_TEXT = "Disabled";
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
@@ -162,26 +164,24 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(swapRuleText);
 		swapRuleText.setAnchorPoint(AnchorPoint.Left);
 
-		RectButton swapRuleBtn = new RectButton(0.75f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
-				FONT_ROBOTO, "", standardFontSize, null, null, null);
+		Text swapRuleDisabledText = new Text(0.47f, 0.0f, FONT_FREDOKA_ONE, DISABLED_TEXT, playerTypeFontSize);
+		swapRuleUIGroup.addChild(swapRuleDisabledText);
 
-		ButtonCallback swapruleBtnClicked = (args) -> {
-			toggleSwapRule(swapRuleBtn);
-		};
-		swapRuleBtn.setClickCallback(swapruleBtnClicked);
-		swapRuleUIGroup.addChild(swapRuleBtn);
+		Text swapRuleEnabledText = new Text(0.82f, 0.0f, FONT_FREDOKA_ONE, ENABLED_TEXT, playerTypeFontSize);
+		swapRuleUIGroup.addChild(swapRuleEnabledText);
+
+		ToggleSwitch swapRuleToggleSwitch = new ToggleSwitch(0.65f, -0.01f, 0.15f, 0.07f,
+				false, (args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
+				null, null);
+
+
+		swapRuleUIGroup.addChild(swapRuleToggleSwitch);
 
 		return gameSettings;
 	}
 
-	public void toggleSwapRule(RectButton swapRuleBtn) {
+	private void toggleSwapRuleClicked() {
 		startGameFrameLogic.toggleSwapRule();
-
-		if(startGameFrameLogic.getSwapRule()) {
-			swapRuleBtn.updateImageTexture(TextureLibrary.GREEN_YES_BUTTON.getTexture());
-		} else {
-			swapRuleBtn.updateImageTexture(TextureLibrary.ORANGE_NO_BUTTON.getTexture());
-		}
 	}
 
 	private UIGroup createPlayerSettings() {
