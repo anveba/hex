@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL33.*;
 
 import main.engine.EngineException;
 import main.engine.ResourceManager;
+import main.engine.math.Matrix4;
 
 public class SpriteRenderer {
 	
@@ -29,35 +30,51 @@ public class SpriteRenderer {
         this.context = context;
     }
 	
-    public void draw(Texture tex, float x, float y, 
+	public void draw(Texture tex, float x, float y, 
     		float width, float height, int sourceX, int sourceY,
             int sourceWidth, int sourceHeight, Colour colour) {
+		draw(tex, x, y, width, height, sourceX, sourceY,
+				sourceWidth, sourceHeight, colour, 0.0f);
+	}
+	
+    public void draw(Texture tex, float x, float y, 
+    		float width, float height, int sourceX, int sourceY,
+            int sourceWidth, int sourceHeight, Colour colour, float rotation) {
     	
         setupPreDraw();
 
-        float[] vertices = generateVertexBufferForSpriteRendering(tex, x, y, width, height, sourceX, sourceY, sourceWidth, sourceHeight);
+        float[] vertices = generateVertexBufferForSpriteRendering(tex, width, height, sourceX, sourceY, sourceWidth, sourceHeight);
 
-        setImageUniforms(tex, colour);
+        setImageUniforms(tex, colour, x, y, rotation);
 
         drawUsingBuffers(vertices, quadIndices);
     }
 
-	private void setImageUniforms(Texture tex, Colour colour) {
+	private void setImageUniforms(Texture tex, Colour colour, float x, float y, float rotation) {
 		getShader().use();
+		
+		Matrix4 model;
+		{
+			Matrix4 rotMat = Matrix4.rotateYawPitchRoll(0.0f, 0.0f, rotation);
+			Matrix4 transMat = Matrix4.translate(x, y, 0.0f);
+			model = Matrix4.multiply(transMat, rotMat);
+		}
 
+		getShader().setMat4("u_model", model);
+		
         tex.use(0);
         getShader().setInt("u_tex", 0);
         getShader().setVec4("u_col", colour.r(), colour.g(), colour.b(), colour.a());
 	}
 
-	private float[] generateVertexBufferForSpriteRendering(Texture tex, float x, float y, float width, float height, int sourceX,
+	private float[] generateVertexBufferForSpriteRendering(Texture tex, float width, float height, int sourceX,
 			int sourceY, int sourceWidth, int sourceHeight) {
 		float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
 
         float iw = (float) 1.0f / tex.width();
         float ih = (float) 1.0f / tex.height();
-        x -= width / 2.0f;
-        y -= height / 2.0f;
+        float x = -width / 2.0f;
+        float y = -height / 2.0f;
         x /= aspectRatio;
         width /= aspectRatio;
 

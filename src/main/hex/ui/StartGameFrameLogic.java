@@ -142,7 +142,7 @@ public class StartGameFrameLogic {
     }
 
     public int getPlayerTextureId(int playerIndex) {
-        return hexTextures.get(playerTextureIndex[playerIndex]);
+        return getHexTextureId(playerTextureIndex[playerIndex]);
     }
 
     public String getPlayerTextureString(int playerIndex) {
@@ -194,7 +194,7 @@ public class StartGameFrameLogic {
     }
     
 	public Texture getHexTexture(int index) {
-		return SkinDatabase.getInstance().getTextureFromId(index);
+		return SkinDatabase.getInstance().getTextureFromId(getHexTextureId(index));
 	}
 
     public int getPlayerColourIndex(int playerIndex) {

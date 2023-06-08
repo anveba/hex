@@ -28,8 +28,8 @@ public class SkinDatabase {
 	public final static int zebraSkinId = 1;
 	public final static int duckSkinId = 2;
 	public final static int bubbleSkinId = 3;
-	public final static int abstractSkinId = 2;
-	public final static int smallBubbleSkinId = 3;
+	public final static int abstractSkinId = 4;
+	public final static int smallBubbleSkinId = 5;
 	
 	private Map<Integer, String> idToTexturePath;
 	
