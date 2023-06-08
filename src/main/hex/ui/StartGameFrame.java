@@ -16,6 +16,7 @@ import main.hex.player.UserPlayer;
 import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
+import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 
 public class StartGameFrame extends Frame {
@@ -89,14 +90,13 @@ public class StartGameFrame extends Frame {
 		settingsMenu.addChild(createGameSettings());
 		settingsMenu.addChild(createPlayerSettings());
 
-		//Start Game Button
-		ButtonCallback startGameBtnClicked = (args) -> {
-			System.out.println("Game started!");
-			startGame();
-		};
+
+		RectButton backToMainMenuBtn = new RectButton(-0.75f, 0.68f, 0.1f, 0.1f, TextureLibrary.BLANK_ARROW_LEFT.getTexture(),
+				FONT_FREDOKA_ONE,"", standardFontSize, args -> backToMainMenu(), null, null);
+		settingsMenu.addChild(backToMainMenuBtn);
+
 		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, startGameBtnClicked, null, null);
-		
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, args -> startGame(), null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 
@@ -342,4 +342,9 @@ public class StartGameFrame extends Frame {
 		return startGameFrameLogic.getHexTexture(
 					startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 	}
+
+	public void backToMainMenu() {
+		SceneDirector.changeScene(new MainMenuScene());
+	}
+
 }
