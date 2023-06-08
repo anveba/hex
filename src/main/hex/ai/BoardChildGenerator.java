@@ -28,6 +28,20 @@ public class BoardChildGenerator {
     }
 
 
+    public static ArrayList<AIMove> createMoveForEachCell(Board board){
+        ArrayList<AIMove> moves = new ArrayList<>((board.size()*board.size())/2);
+        for(int x = 0; x< board.size(); x++){
+            for(int y = 0; y< board.size(); y++) {
+                if(x >= board.size() || y >= board.size()){
+                    throw new AIException("Created too many moves");
+                }
+
+                moves.add( new AIMove(x,y,0.0,0));
+            }
+        }
+        return moves;
+    }
+
     public Optional<AIMove> createChildMove(Board parentState, int x, int y){
 
         if(x >= parentState.size() || y >= parentState.size()){

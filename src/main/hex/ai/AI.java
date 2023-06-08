@@ -11,7 +11,6 @@ import main.hex.board.TileColour;
 import main.hex.player.Player;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.*;
 
@@ -195,7 +194,7 @@ public class AI {
             bestChildLastTime.get().setValue(Double.POSITIVE_INFINITY);
             children.add(bestChildLastTime.get());
         }
-        children = PatternPruner.pruneByPatterns(children,board,agentColour);
+        children = PatternMatcher.pruneByPatterns(children,board,agentColour);
 
         //Sort the children based on previous evaluations of the board state if they exist, otherwise by setting them to 0 (neither more nor less prioritized)
         if (doMoveSorting){

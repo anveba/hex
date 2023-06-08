@@ -9,10 +9,10 @@ public class Edge {
     private int to;
     private Double weight;
 
-    public Edge(int from, int to, Double fade){
+    public Edge(int from, int to, Double weight){
         this.from = from;
         this.to = to;
-        this.weight = fade;
+        this.weight = weight;
     }
 
     public int getFrom(){
