@@ -3,6 +3,7 @@ package main.hex.ui;
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
+import main.engine.graphics.Texture;
 import main.engine.ui.*;
 import main.engine.ui.Frame;
 import main.engine.ui.Image;
@@ -78,15 +79,43 @@ public class OptionsFrame extends Frame {
         musicText.setAnchorPoint(AnchorPoint.Left);
         musicSection.addChild(musicText);
 
+        Slider musicSlider = new Slider(
+                0.85f,
+                -0.015f,
+                0.7f,
+                0.06f,
+                TextureLibrary.SCROLLBAR_GREY.getTexture(),
+                TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
+                0, 100, 50,
+                args -> logic.setMusicVolume(args.getIntArg())
+        );
+        musicSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
+        musicSection.addChild(musicSlider);
+
+
+
         soundOptions.addChild(musicSection);
 
         //Sounds Slider
-        UIGroup SoundsSection = new UIGroup(0.0f, -0.28f);
+        UIGroup soundsSection = new UIGroup(0.0f, -0.28f);
         Text soundsText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, SOUND_SETTING, SETTING_FONT_SIZE, SETTING_COLOUR);
         soundsText.setAnchorPoint(AnchorPoint.Left);
-        SoundsSection.addChild(soundsText);
+        soundsSection.addChild(soundsText);
 
-        soundOptions.addChild(SoundsSection);
+        Slider soundsSlider = new Slider(
+                0.85f,
+                -0.015f,
+                0.7f,
+                0.06f,
+                TextureLibrary.SCROLLBAR_GREY.getTexture(),
+                TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
+                0, 100, 50,
+                args -> logic.setSoundVolume(args.getIntArg())
+        );
+        soundsSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
+        soundsSection.addChild(soundsSlider);
+
+        soundOptions.addChild(soundsSection);
 
         return soundOptions;
     }

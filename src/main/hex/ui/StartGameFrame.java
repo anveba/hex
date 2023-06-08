@@ -128,7 +128,7 @@ public class StartGameFrame extends Frame {
 		boardSize.addChild(sizeText);
 		sizeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11);
+		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11,null);
 		boardSize.addChild(boardSizeSlider);
 		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
 		//Creating slider text object(optional):
@@ -146,7 +146,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300);
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300, null);
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):

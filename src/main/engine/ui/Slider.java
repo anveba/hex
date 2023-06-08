@@ -9,6 +9,8 @@ import main.engine.input.ControlsArgs;
 import main.hex.resources.TextureLibrary;
 
 public class Slider extends RectElement implements Clickable {
+
+    private ButtonCallback sliderChangedCallback;
     private Image background, sliderBtn;
     private Text text;
     private String textLayout;
@@ -16,7 +18,7 @@ public class Slider extends RectElement implements Clickable {
     private int min, max, current;
     private float sliderMaxX, sliderMinX;
 
-    public Slider(float x, float y, float width,float height, Texture backgroundTexture, Texture sliderTexture, int min, int max, int initial) {
+    public Slider(float x, float y, float width,float height, Texture backgroundTexture, Texture sliderTexture, int min, int max, int initial, ButtonCallback sliderChangedCallback) {
         this(x,
              y,
              width,
@@ -26,12 +28,13 @@ public class Slider extends RectElement implements Clickable {
              min,
              max,
              initial,
-             "{}x{}"
+             "{}x{}",
+             sliderChangedCallback
         );
 
     }
 
-    public Slider(float x, float y, float width, float height, Image background, Image sliderBtn, int min, int max, int initial, String textLayout) {
+    public Slider(float x, float y, float width, float height, Image background, Image sliderBtn, int min, int max, int initial, String textLayout, ButtonCallback sliderChangedCallback) {
         super(x, y, width, height);
         this.background = background;
         this.sliderBtn = sliderBtn;
@@ -46,6 +49,8 @@ public class Slider extends RectElement implements Clickable {
 
         this.text = null;
         this.textLayout = textLayout; // {} is replaced with current value
+
+        this.sliderChangedCallback = sliderChangedCallback;
 
         isPressed = false;
     }
@@ -102,6 +107,10 @@ public class Slider extends RectElement implements Clickable {
         if(!isPressed) return;
 
         isPressed = false;
+
+        if (sliderChangedCallback != null) {
+            sliderChangedCallback.call(new ButtonCallbackArgs(current));
+        }
     }
 
     @Override
