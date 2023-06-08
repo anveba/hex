@@ -11,7 +11,7 @@ import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
 /**
- * Main menu of the game HEX which is the first thing shown to the user.
+ * Main menu of the game HEX, which is the first thing shown to the user.
  *
  * @Author Oliver Siggaard - s204450
  */
@@ -32,8 +32,6 @@ public class MainMenuFrame extends Frame {
         UIGroup mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
 
-        mainMenuView.addChild(new ToggleSwitch(-0.7f, 0.0f, 0.15f, 0.15f * 0.45f, false,
-                null, null, null, null));
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
     }
