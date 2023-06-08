@@ -82,7 +82,7 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        System.out.println("Options button clicked - MainMenuFrame");
+        FrameStack.getInstance().push(new OptionsFrame());
     }
 
     private void quitClicked() {
