@@ -11,6 +11,7 @@ import main.hex.player.Player;
 import main.hex.serialisation.GameState;
 import main.hex.serialisation.GameStateSerialiser;
 import main.hex.ui.GameplayFrame;
+import main.hex.ui.MainMenuFrame;
 
 public class GameplayScene extends Scene {
 

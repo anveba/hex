@@ -5,6 +5,8 @@ import main.engine.TimeRecord;
 /**
  * This class is the logic behind the chess-inspired timers for each of the two players
  * indicating how long they have left. When a player runs out of time the other player wins.
+ *
+ * @Author Oliver Siggaard
  */
 
 public class PlayerTimer implements Updateable {
@@ -41,6 +43,10 @@ public class PlayerTimer implements Updateable {
 
     public double getRemainingTime() {
         return remainingTime;
+    }
+
+    public void addTime(int addedSeconds) {
+        remainingTime += addedSeconds;
     }
 
     @Override

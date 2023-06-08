@@ -72,7 +72,7 @@ public class GameState {
 		case AI_EASY:
 		case AI_NORMAL:
 		case AI_HARD:
-			p = new AIPlayer(col, state.timeRemaining, 2); //TODO set depth properly
+			p = new AIPlayer(col, state.timeRemaining, AIPlayer.defaultMaximumProcessingTime);
 			break;
 		default:
 			throw new HexException("Unrecognised player type");

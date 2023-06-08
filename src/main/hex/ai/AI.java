@@ -72,10 +72,12 @@ public class AI {
 
 
 
-    public AIMove getBestMoveWithTimeLimit(long timeLimitInSeconds){
+    public AIMove getBestMoveWithTimeLimit(float timeLimitInSeconds){
+    	if (timeLimitInSeconds <= 0.0f)
+    		throw new AIException("Non-positive time limit given");
         //Always search with depth 1 first, so that we return something regardless of the time limit
         AIMove bestMove = getBestMoveWithDepth(1);
-        long timeLimitInMillis = timeLimitInSeconds*1000 + System.currentTimeMillis();
+        long timeLimitInMillis = (long)(timeLimitInSeconds * 1000.0f + 1.0f) + System.currentTimeMillis();
         int depth = 1;
 
         //Keep searching until the time limit is reached
@@ -89,7 +91,8 @@ public class AI {
             }
             bestMove = searchAtNewDepth.get();
         }
-        System.out.println(depth);
+
+        System.out.println("Found move with depth: "+depth);
         return bestMove;
     }
 
@@ -207,6 +210,7 @@ public class AI {
             state.makeMove(child,agentColour);
 
             Optional<AIMove> childEvaluation = negamaxAB(state, depth - 1, TileColour.opposite(agentColour), -beta, -alpha, endTime);
+
             if(childEvaluation.isEmpty()){
                 return Optional.empty();
             }

@@ -28,7 +28,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
 
-        Player agent = new AIPlayer(TileColour.PLAYER1, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1);
 
         AI ai = new AI(board, agent);
 
@@ -52,7 +52,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1);
 
         AI ai = new AI(board, agent);
 
@@ -86,7 +86,7 @@ public class AITest {
         System.out.println(boardEvaluator1.evaluateBoard());
         System.out.println(boardEvaluator2.evaluateBoard());
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1);
         //System.out.println(agent.winsByVerticalConnection());
 
         AI ai = new AI(board, agent);
@@ -112,7 +112,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
 
-        Player agent = new AIPlayer(TileColour.PLAYER1, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1);
 
         AI ai = new AI(board, agent);
 
@@ -121,6 +121,33 @@ public class AITest {
         //System.out.println(nextMove.getX());
         assertEquals(0, nextMove.getX());
         assertEquals(nextMove.getY(), 2);
+    }
+
+    //During play-testing, the AI seemed to make a weird choice in this particular state.
+    @Test
+    public void AIFindsNonLosingMoveA(){
+        Board board = new Board(6);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,5);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 3,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 4,5);
+
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,4);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
+
+
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 5.0f);
+
+        AI ai = new AI(board, agent);
+        AIMove m = ai.getBestMoveWithTimeLimit(10.0f);
+        assertTrue("AI picked a move that allowed opponent to win in next turn",m.getX() == 2 && m.getY() == 2);
+
     }
 
 
@@ -139,7 +166,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,0);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,0);
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1.0f);
 
         AI ai = new AI(board, agent);
 
@@ -254,6 +281,8 @@ public class AITest {
 
 
     }
+
+
 
 
 }

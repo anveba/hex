@@ -7,21 +7,18 @@ import main.hex.board.TileColour;
 
 public class AIPlayer extends Player {
 
-	private int searchDepth;
-	
-	public AIPlayer(TileColour playerColour, int searchDepth) {
-		super(playerColour);
-		setSearchDepth(searchDepth);
-	}
+	private float timeLimitPerTurnInSeconds;
 
-	public AIPlayer(TileColour playerColour, float timeLimit, int searchDepth) {
-		super(playerColour, timeLimit);
-		setSearchDepth(searchDepth);
+	public static final float defaultMaximumProcessingTime = 5.0f;
+
+	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds) {
+		super(playerColour, initialTimerDuration);
+		setTimeLimitPerTurnInSeconds(timeLimitPerTurnInSeconds);
 	}
 
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
-		Thread t = new Thread(() -> response.placeMove(new AI(board, this).getBestMoveWithDepth(searchDepth)));
+		Thread t = new Thread(() -> response.placeMove(new AI(board, this).getBestMoveWithTimeLimit(timeLimitPerTurnInSeconds)));
 		t.setUncaughtExceptionHandler((th, ex) -> { response.setError(ex); });
 		t.start();
 	}
@@ -41,13 +38,13 @@ public class AIPlayer extends Player {
 		
 	}
 
-	private int getSearchDepth() {
-		return searchDepth;
+	private float getTimeLimitPerTurnInSeconds() {
+		return timeLimitPerTurnInSeconds;
 	}
 
-	private void setSearchDepth(int searchDepth) {
-		if (searchDepth < 1)
+	private void setTimeLimitPerTurnInSeconds(float timeLimitPerTurnInSeconds) {
+		if (timeLimitPerTurnInSeconds <= 0.0f)
 			throw new HexException("Search depth set to zero or negative number");
-		this.searchDepth = searchDepth;
+		this.timeLimitPerTurnInSeconds = timeLimitPerTurnInSeconds;
 	}
 }

@@ -6,7 +6,6 @@ import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
-import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.player.AIPlayer;
@@ -55,7 +54,9 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultSkinId, "Basic");
 		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraSkinId, "Zebra");
 		startGameFrameLogic.addHexTextureId(SkinDatabase.duckSkinId, "Duck");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.bubbleSkinId, "Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.bubbleSkinId, "Large Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.smallBubbleSkinId, "Small Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.abstractSkinId, "Abstract");
 		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
 		startGameFrameLogic.addHexColour(Colour.Red, "Red");
@@ -95,23 +96,6 @@ public class StartGameFrame extends Frame {
 		};
 		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
 				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, startGameBtnClicked, null, null);
-		
-		//Load game button TODO TEMPORARY ----------------
-		ButtonCallback loadGameBtnClicked = (args) -> {
-			System.out.println("Game Loaded!");
-			
-			GameSession session = HexFileSystem.getInstance().loadGame();
-			
-			SceneDirector.changeScene(
-					new GameplayScene(
-							session.gameLogic,
-							session.customisation));
-		};
-		RectButton loadGameBtn = new RectButton(0.5f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
-				FONT_FREDOKA_ONE, "Load previous game", standardFontSize, loadGameBtnClicked, null, null);
-		settingsMenu.addChild(loadGameBtn);
-		// --------------------------------------------
-		
 		
 		settingsMenu.addChild(startGameBtn);
 	}
@@ -342,9 +326,9 @@ public class StartGameFrame extends Frame {
 
 		Board b = new Board(startGameFrameLogic.getBoardSize());
 		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, 3);
+				new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, AIPlayer.defaultMaximumProcessingTime);
 		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, 3);
+				new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, AIPlayer.defaultMaximumProcessingTime);
 
 		SceneDirector.changeScene(
 				new GameplayScene(

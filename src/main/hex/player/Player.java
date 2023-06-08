@@ -21,9 +21,9 @@ import main.hex.board.TileColour;
     	this(playerColour, defaultTimeLimit);
     }
 
-    public Player (TileColour playerColour, double timeLimit) {
+    public Player (TileColour playerColour, double InitialTimerDuration) {
         setColour(playerColour);
-        this.playerTimer = new PlayerTimer(timeLimit);
+        this.playerTimer = new PlayerTimer(InitialTimerDuration);
     }
 
     public TileColour getColour() {

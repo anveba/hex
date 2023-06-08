@@ -111,7 +111,7 @@ public class PatternPruner {
 
 
     private static final int[] neighbourXCoordinateOffsets =  { 0, 1, 1, 0,-1,-1};
-    private static final int[] neighbourYCoordinateOffsets =  {-1,-1, 0, 1, 1, 0};
+    private static final int[] neighbourYCoordinateOffsets =  {-1,0, 1, 1, 0, -1};
 
 
 
@@ -160,60 +160,32 @@ public class PatternPruner {
         int x = m.getX();
         int y = m.getY();
 
-        Optional<TileColour> primaryTileColour = Optional.empty();
-        Optional<TileColour> opposingTileColour = Optional.empty();
-        int chainCount = 0;
-
-        for(int i = 0; i <= neighbourXCoordinateOffsets.length;i++){
-            int primaryNeighbourIndex = i%neighbourXCoordinateOffsets.length;
-            //The opposing neighbour to neighbour in
-            int opposingNeighbourIndex = (i+3)%neighbourXCoordinateOffsets.length;
-
-            if(neighbourIsOutOfBounds(b,primaryNeighbourIndex,x,y) || neighbourIsOutOfBounds(b,opposingNeighbourIndex,x,y)){
-                chainCount = 0;
-                primaryTileColour = Optional.empty();
-                opposingTileColour = Optional.empty();
-                continue;
+        //Check that all neighbours are inside the board
+        for(int i = 0; i < neighbourXCoordinateOffsets.length;i++){
+            if(neighbourIsOutOfBounds(b,i,x,y)){
+                return false;
             }
-            boolean opposingTileOutOfBounds = neighbourIsOutOfBounds(b,opposingNeighbourIndex,x,y);
+        }
 
 
+        for(int i = 0; i < neighbourXCoordinateOffsets.length /2; i++){
+            int firstPairFirstIndex = i % neighbourXCoordinateOffsets.length;
+            int firstPairSecondIndex = (i+1) % neighbourXCoordinateOffsets.length;
 
-            if(primaryTileColour.isEmpty() && getColorOfNeighbour(b,primaryNeighbourIndex,x,y) != TileColour.WHITE){
-                primaryTileColour = Optional.of(getColorOfNeighbour(b,primaryNeighbourIndex,x,y));
-            }
-            else if(primaryTileColour.isPresent() && getColorOfNeighbour(b,primaryNeighbourIndex,x,y) == primaryTileColour.get()){
+            int secondPairFirstIndex = (i+3) % neighbourXCoordinateOffsets.length;
+            int secondPairSecondIndex = (i+4) % neighbourXCoordinateOffsets.length;
 
-            }
-            else {
-                chainCount = 0;
-                primaryTileColour = Optional.empty();
-                opposingTileColour = Optional.empty();
-                continue;
-            }
-
-
-            if(opposingTileColour.isEmpty() && getColorOfNeighbour(b,opposingNeighbourIndex,x,y) != TileColour.WHITE
-                    && (primaryTileColour.isEmpty() || getColorOfNeighbour(b,opposingNeighbourIndex,x,y) != primaryTileColour.get()) ){
-                    chainCount++;
-                    opposingTileColour = Optional.of(getColorOfNeighbour(b,opposingNeighbourIndex,x,y));
-            }
-
-            else if(opposingTileColour.isPresent() && getColorOfNeighbour(b,opposingNeighbourIndex,x,y) == opposingTileColour.get() && primaryTileColour.isEmpty()
-                    || primaryTileColour.isPresent() && primaryTileColour.get() == TileColour.opposite(getColorOfNeighbour(b,opposingNeighbourIndex,x,y))){
-                    chainCount++;
-            }
-            else {
-                chainCount = 0;
-                primaryTileColour = Optional.empty();
-                opposingTileColour = Optional.empty();
-                continue;
-            }
-            if(chainCount >= 2){
+            //Check for opposing pairs
+            if(
+                    getColorOfNeighbour(b,firstPairFirstIndex,x,y) == getColorOfNeighbour(b,firstPairSecondIndex,x,y)
+                    && getColorOfNeighbour(b,firstPairFirstIndex,x,y) != TileColour.WHITE
+                    && getColorOfNeighbour(b,firstPairFirstIndex,x,y) == TileColour.opposite(getColorOfNeighbour(b,secondPairFirstIndex,x,y))
+                    && getColorOfNeighbour(b,secondPairFirstIndex,x,y) == getColorOfNeighbour(b,secondPairSecondIndex,x,y)
+            ){
                 return true;
             }
-
         }
+
         return false;
     }
 

@@ -10,6 +10,7 @@ import main.hex.GameCustomisation;
 import main.hex.GameLogic;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
+import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
 import main.hex.serialisation.GameSession;
@@ -34,7 +35,7 @@ public class GameplayFrame extends Frame {
     private UIGroup pauseMenuUIGroup;
 
     public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
-        //Main menu extends Frame, so it has a UI element as a root
+
         this.gameCustomisation = gameCustomisation;
         this.gameLogic = gameLogic;
         UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -217,7 +218,7 @@ public class GameplayFrame extends Frame {
         System.out.println("Options button clicked");
     }
     private void mainMenuBtnClicked() {
-        SceneDirector.changeScene(new TitleScene());
+        SceneDirector.changeScene(new MainMenuScene());
     }
 
     private void saveGaneBtnClicked() {
