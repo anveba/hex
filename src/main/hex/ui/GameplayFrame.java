@@ -215,7 +215,7 @@ public class GameplayFrame extends Frame {
         SceneDirector.currentScene().resumeUpdates();
     }
     private void optionsBtnClicked() {
-        System.out.println("Options button clicked");
+        FrameStack.getInstance().push(new OptionsFrame());
     }
     private void mainMenuBtnClicked() {
         SceneDirector.changeScene(new MainMenuScene());
