@@ -1,6 +1,5 @@
 package main.hex.board;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
@@ -13,7 +12,7 @@ import main.hex.resources.TextureLibrary;
 public class BoardRenderer2D {
 
     private boolean hasLoadedResources;
-    private Texture whiteTileTexture, borderTexture, topBorderTexture, bottomBorderTexture;
+    private Texture standardTileTexture, borderTexture, leftBorderCornerTexture, rightBorderCornerTexture;
 
 
     public static final float tileSize = 0.08f;
@@ -40,52 +39,70 @@ public class BoardRenderer2D {
     }
 
     private void drawBorder(int x, int y, Renderer2D renderer, Board board, GameCustomisation gameCustomisation) {
+        Colour verticalWinColour = gameCustomisation.getPlayer1Skin().getTint();
+        Colour horizontalWinColour = gameCustomisation.getPlayer2Skin().getTint();
+        
+        if (TileColour.PLAYER2.winsByVerticalConnection()) {
+        	Colour temp = verticalWinColour;
+        	verticalWinColour = horizontalWinColour;
+        	horizontalWinColour = temp;
+        }
 
-        Colour p1Col = gameCustomisation.getPlayer1Skin().getTint();
-        Colour p2Col = gameCustomisation.getPlayer2Skin().getTint();
+        // Bottom left corner
+        Vector2 bottomLeftCornerScreenPos = tileToScreen(-1, -1, board.size());
+        renderer.drawSprite(leftBorderCornerTexture, horizontalWinColour, (float) -Math.PI/3, bottomLeftCornerScreenPos.getX(),
+                bottomLeftCornerScreenPos.getY(), tileSize, tileHeight);
 
-        if (y == 0) { // Bottom border
-            /*
-            if (x == board.size() - 1) { // Bottom right corner
-                Vector2 bottomRightCornerScreenPos = tileToScreen(board.size(), -1, board.size());
-                renderer.drawSprite(gameCustomisation.getPlayer2Skin(), bottomRightCornerScreenPos.getX(),
-                        bottomRightCornerScreenPos.getY(), tileSize, tileSize * 1.1547005f);
-            }
-             */
+        // Bottom right corner
+        Vector2 topRightCornerScreenPos = tileToScreen(board.size(), board.size(), board.size());
+        renderer.drawSprite(leftBorderCornerTexture, horizontalWinColour, (float) (2*Math.PI)/3, topRightCornerScreenPos.getX(),
+                topRightCornerScreenPos.getY(), tileSize, tileHeight);
+
+        // Bottom border
+        if (y == 0) {
             Vector2 bottomBorderScreenPos = tileToScreen(x, -1, board.size());
-            renderer.drawSprite(bottomBorderTexture, p2Col, bottomBorderScreenPos.getX(),
+            Texture texture = borderTexture;
+
+            if (x == board.size() - 1)
+                texture = leftBorderCornerTexture;
+
+            renderer.drawSprite(texture, verticalWinColour, 0, bottomBorderScreenPos.getX(),
                     bottomBorderScreenPos.getY(), tileSize, tileHeight);
         }
-        if (y == board.size() - 1) { // Top border
-            /*
-            if (x == 0) { // Top left corner
-                Vector2 topLeftCornerScreenPos = tileToScreen(-1, board.size(), board.size());
-                renderer.drawSprite(gameCustomisation.getPlayer2Skin(), topLeftCornerScreenPos.getX(),
-                        topLeftCornerScreenPos.getY(), tileSize, tileSize * 1.1547005f);
-            }
-             */
+
+        // Top border
+        if (y == board.size() - 1) {
             Vector2 topBorderScreenPos = tileToScreen(x, board.size(), board.size());
-            renderer.drawSprite(topBorderTexture, p2Col, topBorderScreenPos.getX(),
+            Texture texture = borderTexture;
+
+            if (x == 0)
+                texture = leftBorderCornerTexture;
+
+            renderer.drawSprite(texture, verticalWinColour, (float) Math.PI, topBorderScreenPos.getX(),
                     topBorderScreenPos.getY(), tileSize, tileHeight);
         }
-        if (x == 0) { // Left border
-            if (y == 0) { // Bottom left corner
-                Vector2 topLeftCornerScreenPos = tileToScreen(-1, -1, board.size());
-                renderer.drawSprite(borderTexture, p1Col, topLeftCornerScreenPos.getX(),
-                        topLeftCornerScreenPos.getY(), tileSize, tileHeight);;
-            }
+
+        // Left border
+        if (x == 0) {
             Vector2 leftBorderScreenPos = tileToScreen(-1, y, board.size());
-            renderer.drawSprite(borderTexture, p1Col, leftBorderScreenPos.getX(),
+            Texture texture = borderTexture;
+
+            if (y == board.size() - 1)
+                texture = rightBorderCornerTexture;
+
+            renderer.drawSprite(texture, horizontalWinColour, (float) -Math.PI / 3, leftBorderScreenPos.getX(),
                     leftBorderScreenPos.getY(), tileSize, tileHeight);
         }
-        if (x == board.size() - 1) { // Right border
-            if (y == board.size() - 1) { // Top right corner
-                Vector2 topRightCornerScreenPos = tileToScreen(board.size(), board.size(), board.size());
-                renderer.drawSprite(borderTexture, p1Col, topRightCornerScreenPos.getX(),
-                        topRightCornerScreenPos.getY(), tileSize, tileHeight);
-            }
+
+        // Right border
+        if (x == board.size() - 1) {
             Vector2 rightBorderScreenPos = tileToScreen(board.size(), y, board.size());
-            renderer.drawSprite(borderTexture, p1Col, rightBorderScreenPos.getX(),
+            Texture texture = borderTexture;
+
+            if (y == 0)
+                texture = rightBorderCornerTexture;
+
+            renderer.drawSprite(texture, horizontalWinColour, (float) (2*Math.PI)/3, rightBorderScreenPos.getX(),
                     rightBorderScreenPos.getY(), tileSize, tileHeight);
         }
     }
@@ -134,21 +151,20 @@ public class BoardRenderer2D {
                             gameCustomisation.getPlayer2Skin().getTexture().height(),
                             gameCustomisation.getPlayer2Skin().getTint());
                 } else {
-                    renderer.drawSprite(whiteTileTexture,
+                    renderer.drawSprite(standardTileTexture,
                             screenPos.getX(), screenPos.getY(), (tileSize), (tileSize * 1.1547005f),
-                            0, 0, whiteTileTexture.width(), whiteTileTexture.height(), drawColour);
+                            0, 0, standardTileTexture.width(), standardTileTexture.height(), drawColour);
                 }
             }
         }
     }
 
 	private void loadResources() {
-        whiteTileTexture = ResourceManager.getInstance()
-                .loadTexture("textures/board/light_grey_tile.png");
+        standardTileTexture = TextureLibrary.LIGHT_GREY_TILE.getTexture();
+        borderTexture = TextureLibrary.BORDER.getTexture();
+        leftBorderCornerTexture = TextureLibrary.LEFT_BORDER_CORNER.getTexture();
+        rightBorderCornerTexture = TextureLibrary.RIGHT_BORDER_CORNER.getTexture();
         hasLoadedResources = true;
-        borderTexture = TextureLibrary.WHITE_TILE_FULL.getTexture();
-        topBorderTexture = TextureLibrary.TOP_BORDER_TEXTURE.getTexture();
-        bottomBorderTexture = TextureLibrary.BOTTOM_BORDER_TEXTURE.getTexture();
 	}
 	
 	public float getTileSize() {

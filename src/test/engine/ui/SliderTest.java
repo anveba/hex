@@ -26,7 +26,7 @@ public class SliderTest {
         when(sliderBtn.getX()).thenReturn(x);
         doNothing().when(sliderBtn).setPosition(anyFloat(),anyFloat());
 
-        slider = new Slider(x,y,width,height,background,sliderBtn,min,max,initial,textLayout);
+        slider = new Slider(x,y,width,height,background,sliderBtn,min,max,initial,textLayout, null);
     }
 
 

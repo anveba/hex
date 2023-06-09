@@ -23,8 +23,6 @@ public class CameraController implements Updateable {
 		pitch = -(float)Math.PI * 0.25f;
     	radius = 10.0f;
 	}
-
-	private SoundInstance p;
 	
 	@Override
 	public void update(TimeRecord elapsed) {
@@ -46,7 +44,7 @@ public class CameraController implements Updateable {
     	if (listener.isDown(Controls.LEFT_SHIFT))
     		radius += zoomSpeed;
     	
-    	pitch = Utility.clamp(pitch, -(float)Math.PI * 0.5f, -(float)Math.PI * 1.0f);
+    	pitch = Utility.clamp(pitch, -(float)Math.PI * 0.05f, -(float)Math.PI * 0.5f);
     	radius = Utility.clamp(radius, 5.0f, 25.0f);
     	
     	camera.setX((float)Math.cos(angle) * (float)Math.cos(pitch) * radius);
@@ -55,5 +53,6 @@ public class CameraController implements Updateable {
     	
     	camera.setYaw(angle + (float)Math.PI * 0.5f);
     	camera.setPitch(pitch);
+    	camera.setRoll(0.0f);
 	}
 }

@@ -1,5 +1,6 @@
 package main.hex.ai.graph.connectionFunctions;
 
+import main.hex.ai.Bridge;
 import main.hex.ai.graph.GridGraph;
 import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.board.Board;
@@ -29,6 +30,10 @@ public class SignalBasedTileConnector extends TileConnectionFunction {
         return startEndWeight;
     }
 
+    @Override
+    public void connectBridge(GridGraph gridGraph, Bridge b) {
+        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.99);
+    }
 
 
     @Override

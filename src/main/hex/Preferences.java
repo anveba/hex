@@ -20,7 +20,7 @@ public class Preferences {
 	private boolean enable3D;
 	
 	private Preferences() {
-		enable3D = false;
+		enable3D = true;
 	}
 	
 	public void enable3D() {

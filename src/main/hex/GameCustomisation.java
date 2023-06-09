@@ -1,6 +1,5 @@
 package main.hex;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.Colour;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.SkinDatabase;
@@ -26,7 +25,7 @@ public class GameCustomisation {
         this.initialTimeLimit = initialTimeLimit;
         this.swapRule = swapRule;
         playersSwapped = false;
-        blankSkin = new PlayerSkin(SkinDatabase.defaultSkinId, Colour.White);
+        blankSkin = new PlayerSkin(SkinDatabase.defaultTextureId, Colour.White);
     }
 
     public String getPlayer1Name() {

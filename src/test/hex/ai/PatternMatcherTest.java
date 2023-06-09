@@ -2,8 +2,7 @@ package test.hex.ai;
 
 import main.hex.ai.AIMove;
 import main.hex.ai.BoardChildGenerator;
-import main.hex.ai.PatternPruner;
-import main.hex.ai.graph.Graph;
+import main.hex.ai.PatternMatcher;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
-public class PatternPrunerTest {
+public class PatternMatcherTest {
 
     @Test
     public void borderBridgeDominatedCellsGetRemovedFromEmptyBoardWithHorizontalPlayer(){
@@ -28,7 +27,7 @@ public class PatternPrunerTest {
 
         ArrayList<AIMove> moves = bcg.createChildren(b);
 
-        moves = PatternPruner.pruneByPatterns(moves,b,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,b,agent.getColour());
         for (AIMove m: moves
              ) { assertTrue("Failed with values: x: "+m.getX() + " y: "+m.getY(),m.getX() != 0 && m.getX() != b.size()-1);
 
@@ -39,7 +38,7 @@ public class PatternPrunerTest {
     @Test
     public void borderBridgeDominatedCellsGetRemovedFromEmptyBoardWithVerticalPlayer(){
         Board b = new Board(5);
-        PatternPruner p = new PatternPruner();
+        PatternMatcher p = new PatternMatcher();
         BoardChildGenerator bcg = new BoardChildGenerator();
         Player agent = new TestPlayerClass(TileColour.PLAYER2);
 
@@ -66,7 +65,7 @@ public class PatternPrunerTest {
         b.setTileAtPosition(new Tile(TileColour.PLAYER2),5,7);
 
         ArrayList<AIMove> moves = bcg.createChildren(b);
-        moves = PatternPruner.pruneByPatterns(moves,b,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,b,agent.getColour());
         for (AIMove m: moves
         ) { assertTrue("Failed with values: x: "+m.getX() + " y: "+m.getY(),m.getX() != 5 || m.getY() !=6 );
 
@@ -87,7 +86,7 @@ public class PatternPrunerTest {
         b.setTileAtPosition(new Tile(TileColour.PLAYER1),5,3);
 
         ArrayList<AIMove> moves = bcg.createChildren(b);
-        moves = PatternPruner.pruneByPatterns(moves,b,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,b,agent.getColour());
         for (AIMove m: moves
         ) { assertTrue("Failed with values: x: "+m.getX() + " y: "+m.getY(),m.getX() != 5 || m.getY() !=4 );
 
@@ -117,7 +116,7 @@ public class PatternPrunerTest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
 
         ArrayList<AIMove> moves = bcg.createChildren(board);
-        moves = PatternPruner.pruneByPatterns(moves,board,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,board,agent.getColour());
         assertTrue("Non-pruneable move got removed",moves.stream().anyMatch(m -> m.getX() == 2 && m.getY() == 2));
     }
 
@@ -139,7 +138,7 @@ public class PatternPrunerTest {
         b.setTileAtPosition(new Tile(TileColour.PLAYER2),x,y-1);
 
         ArrayList<AIMove> moves = bcg.createChildren(b);
-        moves = PatternPruner.pruneByPatterns(moves,b,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,b,agent.getColour());
         assertTrue("Non-pruneable move got removed",moves.stream().anyMatch(m -> m.getX() == x && m.getY() == y));
     }
 
@@ -158,7 +157,7 @@ public class PatternPrunerTest {
 
 
         ArrayList<AIMove> moves = bcg.createChildren(b);
-        moves = PatternPruner.pruneByPatterns(moves,b,agent.getColour());
+        moves = PatternMatcher.pruneByPatterns(moves,b,agent.getColour());
         assertTrue("Non-pruneable move got removed",moves.stream().anyMatch(m -> m.getX() == 2 && m.getY() == 0));
     }
 }

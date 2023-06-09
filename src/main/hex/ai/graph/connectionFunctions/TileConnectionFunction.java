@@ -1,6 +1,7 @@
 package main.hex.ai.graph.connectionFunctions;
 
 
+import main.hex.ai.Bridge;
 import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.Tile;
@@ -24,6 +25,5 @@ public abstract class TileConnectionFunction {
     public abstract double getStartEndWeight();
 
 
-
-
+    public abstract  void connectBridge(GridGraph gridGraph, Bridge b);
 }

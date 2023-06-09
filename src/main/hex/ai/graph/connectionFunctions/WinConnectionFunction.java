@@ -1,5 +1,6 @@
 package main.hex.ai.graph.connectionFunctions;
 
+import main.hex.ai.Bridge;
 import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
@@ -28,5 +29,9 @@ public class WinConnectionFunction extends TileConnectionFunction{
     @Override
     public double getStartEndWeight() {
         return 1;
+    }
+
+    @Override
+    public void connectBridge(GridGraph gridGraph, Bridge b) {
     }
 }

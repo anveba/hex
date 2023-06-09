@@ -16,9 +16,8 @@ import main.hex.player.UserPlayer;
 import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
+import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
-import main.hex.serialisation.GameSession;
-import main.hex.serialisation.HexFileSystem;
 
 public class StartGameFrame extends Frame {
 
@@ -31,7 +30,9 @@ public class StartGameFrame extends Frame {
 	private final String START_GAME_BTN_TEXT = "Start Game";
 	private final String GAME_SETTINGS_SIZE_TEXT = "Board Size:";
 	private final String GAME_SETTINGS_TIME_TEXT = "Time Limit:";
-	private final String GAME_SETTINGS_SWAP_RULE_TEXT = "Enable Swap Rule:";
+	private final String GAME_SETTINGS_SWAP_RULE_TEXT = "Swap Rule:";
+	private final String ENABLED_TEXT = "Enabled";
+	private final String DISABLED_TEXT = "Disabled";
 	private final String PLAYER1_TITLE = "Player 1";
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
@@ -51,12 +52,12 @@ public class StartGameFrame extends Frame {
 	public StartGameFrame() {
 		startGameFrameLogic = new StartGameFrameLogic();
 
-		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultSkinId, "Basic");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraSkinId, "Zebra");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.duckSkinId, "Duck");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.bubbleSkinId, "Large Bubble");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.smallBubbleSkinId, "Small Bubble");
-		startGameFrameLogic.addHexTextureId(SkinDatabase.abstractSkinId, "Abstract");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultTextureId, "Basic");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.zebraTextureId, "Zebra");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.largeBubbleTextureId, "Large Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.smallBubbleTextureId, "Small Bubble");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.abstractTextureId, "Abstract");
+		startGameFrameLogic.addHexTextureId(SkinDatabase.duckTextureId, "Duck");
 		startGameFrameLogic.setPlayerTextureIndex(1,0);
 
 		startGameFrameLogic.addHexColour(Colour.Red, "Red");
@@ -89,14 +90,13 @@ public class StartGameFrame extends Frame {
 		settingsMenu.addChild(createGameSettings());
 		settingsMenu.addChild(createPlayerSettings());
 
-		//Start Game Button
-		ButtonCallback startGameBtnClicked = (args) -> {
-			System.out.println("Game started!");
-			startGame();
-		};
+
+		RectButton backToMainMenuBtn = new RectButton(-0.75f, 0.68f, 0.1f, 0.1f, TextureLibrary.BLANK_ARROW_LEFT.getTexture(),
+				FONT_FREDOKA_ONE,"", standardFontSize, args -> backToMainMenu(), null, null);
+		settingsMenu.addChild(backToMainMenuBtn);
+
 		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, startGameBtnClicked, null, null);
-		
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, args -> startGame(), null, null);
 		settingsMenu.addChild(startGameBtn);
 	}
 
@@ -128,7 +128,7 @@ public class StartGameFrame extends Frame {
 		boardSize.addChild(sizeText);
 		sizeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11);
+		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11,null);
 		boardSize.addChild(boardSizeSlider);
 		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
 		//Creating slider text object(optional):
@@ -146,7 +146,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300);
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300, null);
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):
@@ -164,26 +164,24 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(swapRuleText);
 		swapRuleText.setAnchorPoint(AnchorPoint.Left);
 
-		RectButton swapRuleBtn = new RectButton(0.75f, -0.01f, 0.25f, 0.1f, TextureLibrary.ORANGE_NO_BUTTON.getTexture(),
-				FONT_ROBOTO, "", standardFontSize, null, null, null);
+		Text swapRuleDisabledText = new Text(0.47f, 0.0f, FONT_FREDOKA_ONE, DISABLED_TEXT, playerTypeFontSize);
+		swapRuleUIGroup.addChild(swapRuleDisabledText);
 
-		ButtonCallback swapruleBtnClicked = (args) -> {
-			toggleSwapRule(swapRuleBtn);
-		};
-		swapRuleBtn.setClickCallback(swapruleBtnClicked);
-		swapRuleUIGroup.addChild(swapRuleBtn);
+		Text swapRuleEnabledText = new Text(0.82f, 0.0f, FONT_FREDOKA_ONE, ENABLED_TEXT, playerTypeFontSize);
+		swapRuleUIGroup.addChild(swapRuleEnabledText);
+
+		ToggleSwitch swapRuleToggleSwitch = new ToggleSwitch(0.65f, -0.01f, 0.15f, 0.07f,
+				false, (args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
+				null, null);
+
+
+		swapRuleUIGroup.addChild(swapRuleToggleSwitch);
 
 		return gameSettings;
 	}
 
-	public void toggleSwapRule(RectButton swapRuleBtn) {
+	private void toggleSwapRuleClicked() {
 		startGameFrameLogic.toggleSwapRule();
-
-		if(startGameFrameLogic.getSwapRule()) {
-			swapRuleBtn.updateImageTexture(TextureLibrary.GREEN_YES_BUTTON.getTexture());
-		} else {
-			swapRuleBtn.updateImageTexture(TextureLibrary.ORANGE_NO_BUTTON.getTexture());
-		}
 	}
 
 	private UIGroup createPlayerSettings() {
@@ -344,4 +342,9 @@ public class StartGameFrame extends Frame {
 		return startGameFrameLogic.getHexTexture(
 					startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 	}
+
+	public void backToMainMenu() {
+		SceneDirector.changeScene(new MainMenuScene());
+	}
+
 }

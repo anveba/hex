@@ -17,7 +17,7 @@ public class AIMove extends Move{
     public double getValue() {
         return value;
     }
-    public double getDepth(){return depth;}
+    public int getDepth(){return depth;}
 
     void setValue(double v){
         this.value = v;

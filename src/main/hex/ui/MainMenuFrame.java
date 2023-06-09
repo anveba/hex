@@ -11,7 +11,7 @@ import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
 /**
- * Main menu of the game HEX which is the first thing shown to the user.
+ * Main menu of the game HEX, which is the first thing shown to the user.
  *
  * @Author Oliver Siggaard - s204450
  */
@@ -80,7 +80,7 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        System.out.println("Options button clicked - MainMenuFrame");
+        FrameStack.getInstance().push(new OptionsFrame());
     }
 
     private void quitClicked() {

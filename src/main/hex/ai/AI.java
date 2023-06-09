@@ -11,7 +11,6 @@ import main.hex.board.TileColour;
 import main.hex.player.Player;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.*;
 
@@ -93,6 +92,7 @@ public class AI {
         }
 
         System.out.println("Found move with depth: "+depth);
+        System.out.println("X: "+bestMove.getX()+"Y: "+bestMove.getY());
         return bestMove;
     }
 
@@ -139,11 +139,11 @@ public class AI {
         }
 
         //If we've already processed this board state, no need to process it again.
-        //All transpositions will be at the same depth, so there is no loss of accuracy.
         Optional<AIMove> bestChildLastTime = Optional.empty();
 
         if(memoizationTable.containsKey(state)){
-            bestChildLastTime = Optional.of(memoizationTable.getBoard(state).get());
+            AIMove foundMove = memoizationTable.getBoard(state).get();
+            bestChildLastTime = Optional.of(new AIMove(foundMove.getX(), foundMove.getY(), foundMove.getValue(), foundMove.getDepth()));
             if(bestChildLastTime.get().getDepth() >= depth){
                 return bestChildLastTime;
             }
@@ -190,12 +190,8 @@ public class AI {
         //We create a list of valid moves, that being the locations on board, currently uncoloured
         ArrayList<AIMove> children = boardChildGenerator.createChildren(state);
 
-        //Search the move that was best last time first
-        if(bestChildLastTime.isPresent() && bestChildLastTime.get().getX() != -1){
-            bestChildLastTime.get().setValue(Double.POSITIVE_INFINITY);
-            children.add(bestChildLastTime.get());
-        }
-        children = PatternPruner.pruneByPatterns(children,board,agentColour);
+
+        children = PatternMatcher.pruneByPatterns(children,board,agentColour);
 
         //Sort the children based on previous evaluations of the board state if they exist, otherwise by setting them to 0 (neither more nor less prioritized)
         if (doMoveSorting){
@@ -206,7 +202,7 @@ public class AI {
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
         for (AIMove child : children) {
 
-            //We add a move to the board, also changing it's hash
+            //We add a move to the board, also changing its hash
             state.makeMove(child,agentColour);
 
             Optional<AIMove> childEvaluation = negamaxAB(state, depth - 1, TileColour.opposite(agentColour), -beta, -alpha, endTime);
@@ -218,9 +214,9 @@ public class AI {
             //Note that we multiply the child values by -1, as the recursive call, will try to minimize
             child.setValue(-childEvaluation.get().getValue());
 
+
             //We undo the move we made, and undo the change of hash
             state.unmakeMove(child,agentColour);
-
 
             //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
@@ -237,8 +233,8 @@ public class AI {
             if(alpha >= beta){
                 break;
             }
-
         }
+
         //Throw an exception if no child moves were found
         if(maxMove.isEmpty()){
             throw new HexException("No move was returned by AI");
@@ -262,7 +258,7 @@ public class AI {
              ) {
             parentState.makeMove(move,agentColour);
             if(memoizationTable.containsKey(parentState)){
-                move.setValue(memoizationTable.getBoard(parentState).get().getValue());
+               move.setValue(memoizationTable.getBoard(parentState).get().getValue());
             }
             else {
                 move.setValue(0);

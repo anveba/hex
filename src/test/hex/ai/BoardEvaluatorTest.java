@@ -1,5 +1,6 @@
 package test.hex.ai;
 
+import main.hex.ai.BridgeFinder;
 import main.hex.ai.graph.BoardEvaluator;
 import main.hex.ai.graph.connectionFunctions.DijkstraBasedTileConnector;
 import main.hex.ai.graph.connectionFunctions.SignalBasedTileConnector;
@@ -306,6 +307,51 @@ public class BoardEvaluatorTest {
 
 
         System.out.println(b.evaluateBoard());
+
+    }
+
+    @Test
+    public void testingForSimpleBridgesChangesEvaluation(){
+        Board board = new Board(5);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
+
+        assertTrue(BridgeFinder.findLevelOneBridges(board,TileColour.PLAYER1).size() != 0);
+
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER2,TileColour.PLAYER1, new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+        double evalWithBridgeConnections = b.evaluateBoard();
+        b.setDoBridgeConnections(false);
+        double evalWithoutBridgeConnections = b.evaluateBoard();
+
+        assertTrue(BridgeFinder.findLevelOneBridges(board,TileColour.PLAYER1).size() == 1);
+        System.out.println("Evals: \n No bridges: "+evalWithoutBridgeConnections+ " \n Bridges: "+evalWithBridgeConnections);
+        assertTrue("Bridge made no effect",evalWithBridgeConnections != evalWithoutBridgeConnections);
+
+    }
+
+    @Test
+    public void winningBoardIsWinning(){
+        Board board = new Board(6);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,5);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 3,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER1), 4,5);
+
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,0);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,1);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,2);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,3);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,4);
+        board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
+
+
+        BoardEvaluator b = new BoardEvaluator(board,TileColour.PLAYER2,TileColour.PLAYER1, new DijkstraBasedTileConnector(), new DijkstraGraphHeuristic());
+
+
+        assertTrue(b.hasWonVertically());
 
     }
 

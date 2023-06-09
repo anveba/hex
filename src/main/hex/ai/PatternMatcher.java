@@ -14,14 +14,14 @@ The code in some of the contained functions isn't super readable,
 but that is hard to avoid, as we are essentially checking for a bunch of possible combinations
  */
 
-public class PatternPruner {
+public class PatternMatcher {
 
 
     //Checks all moves against various prunable predicates
     public static ArrayList<AIMove> pruneByPatterns(ArrayList<AIMove> moves, Board b, TileColour agent){
         ArrayList<AIMove> unPrunedMoves = new ArrayList<>();
         for (AIMove m: moves
-        ) { if(
+        ) {if(
                 !(borderBridgePredicate(m,b,agent)
                         || deadCellCagePredicate(m,b)
                         || deadCellOpposingPairsPredicate(m,b)
@@ -149,6 +149,7 @@ public class PatternPruner {
             }
             if(lengthOfCurrentChain >= 4){
                 return true;
+
             }
 
         }
@@ -200,5 +201,9 @@ public class PatternPruner {
     private static boolean outOfBounds(Board b, int x, int y){
         return x < 0 || y < 0 || x >= b.size() || y >= b.size();
     }
+
+
+
+
 
 }
