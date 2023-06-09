@@ -20,7 +20,8 @@ public class Renderer2D {
         spriteRenderer = new SpriteRenderer(context);
         stringRenderer = new StringRenderer(context);
     }
-	
+
+    // Without rotation
     public void drawSprite(Texture tex, float x, float y, 
     		float width, float height, int sourceX, int sourceY,
             int sourceWidth, int sourceHeight, Colour colour) {
@@ -29,8 +30,18 @@ public class Renderer2D {
     			colour);
     }
 
-    public void drawSprite(Texture tex, Colour col, float x, float y, float width, float height) {
-        spriteRenderer.draw(tex, x, y, width, height, 0, 0, tex.width(), tex.height(), col);
+    // With rotation
+    public void drawSprite(Texture tex, float x, float y,
+                           float width, float height, int sourceX, int sourceY,
+                           int sourceWidth, int sourceHeight, Colour colour, float rotation) {
+        spriteRenderer.draw(tex, x, y, width, height,
+                sourceX, sourceY, sourceWidth, sourceHeight,
+                colour, rotation);
+    }
+
+    // Simple with rotation
+    public void drawSprite(Texture tex, Colour col, float rotation, float x, float y, float width, float height) {
+        spriteRenderer.draw(tex, x, y, width, height, 0, 0, tex.width(), tex.height(), col, rotation);
     }
     
     public void drawString(BitmapFont font, String text, 

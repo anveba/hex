@@ -5,9 +5,10 @@ import main.engine.graphics.Texture;
 
 public enum TextureLibrary {
     LOGO("textures/gui/misc/logo.png"),
-    WHITE_TILE_FULL("textures/board/white_tile_full.png"),
-    TOP_BORDER_TEXTURE("textures/board/top_border.png"),
-    BOTTOM_BORDER_TEXTURE("textures/board/bottom_border.png"),
+    LIGHT_GREY_TILE("textures/board/light_grey_tile.png"),
+    BORDER("textures/board/border.png"),
+    LEFT_BORDER_CORNER("textures/board/left_border_corner.png"),
+    RIGHT_BORDER_CORNER("textures/board/right_border_corner.png"),
     GREY_SQUARE_BOX("textures/gui/BoxesBanners/Box_Square.png"),
     BANNER_GREY("textures/gui/BoxesBanners/Banner_Grey.png"),
     GREEN_YES_BUTTON("textures/gui/ButtonsText/PremadeButtons_YesGreen.png"),
