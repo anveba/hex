@@ -1,5 +1,6 @@
 package main.hex.ai.graph.connectionFunctions;
 
+import main.hex.ai.Bridge;
 import main.hex.ai.graph.GridGraph;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
@@ -41,6 +42,11 @@ public class DijkstraBasedTileConnector extends TileConnectionFunction{
             weight += weightConstant;
         }
         gridGraph.connectXyWithWeight(fromX,fromY,toX,toY,weight);
+    }
+
+    @Override
+    public void connectBridge(GridGraph gridGraph, Bridge b) {
+        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.1);
     }
 
     @Override

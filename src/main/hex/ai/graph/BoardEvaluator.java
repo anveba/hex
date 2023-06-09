@@ -1,7 +1,10 @@
 package main.hex.ai.graph;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
+import main.hex.ai.Bridge;
+import main.hex.ai.BridgeFinder;
 import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.ai.graph.connectionFunctions.WinConnectionFunction;
 import main.hex.ai.graph.heuristicFunctions.GraphHeuristicFunction;
@@ -24,6 +27,8 @@ public class BoardEvaluator {
     private TileColour verticalColour;
     private TileColour horizontalColour;
 
+    private boolean doBridgeConnections;
+
     private Board board;
 
     private int boardSize;
@@ -45,6 +50,23 @@ public class BoardEvaluator {
         this.boardSize = board.size();
         this.tileConnectionFunction = t;
         this.graphHeuristicFunction = h;
+        this.doBridgeConnections = true;
+    }
+
+
+
+    public void setDoBridgeConnections(boolean doBridgeConnections) {
+        this.doBridgeConnections = doBridgeConnections;
+    }
+
+    public void connectBridges(TileColour playerColour){
+        ArrayList<Bridge> bridges = BridgeFinder.findLevelOneBridges(board,playerColour);
+
+        for (Bridge b: bridges
+             ) {
+            tileConnectionFunction.connectBridge(gridGraph,b);
+
+        }
     }
 
     public static int getEvaluationCount() {
@@ -55,7 +77,7 @@ public class BoardEvaluator {
     }
 
 
-    //Evaluates current boardstate, using signal heuristics
+    //Evaluates current board state
     //Positive number -> Vertical is favoured
     //Negative number -> Horizontal is favoured
     public double evaluateBoard() {
@@ -63,6 +85,9 @@ public class BoardEvaluator {
         gridGraph.resetAdjacencyList();;
         gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.getStartEndWeight());
         connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);
+        if(doBridgeConnections){
+            connectBridges(verticalColour);
+        }
         double verticalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
 
@@ -70,6 +95,16 @@ public class BoardEvaluator {
         gridGraph.resetAdjacencyList();
         gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.getStartEndWeight());
         connectNeighboursWithColourWeight(horizontalColour,tileConnectionFunction);
+        if(doBridgeConnections){
+            ArrayList<Edge>[] adj1 = gridGraph.getAdjacencyList();
+            connectBridges(horizontalColour);
+            ArrayList<Edge>[] adj2 = gridGraph.getAdjacencyList();
+            for(int i = 0; i < adj1.length; i++){
+                if(adj1[i].size() != adj2[i].size()){
+                    System.out.println("Diff");
+                }
+            }
+        }
         double horizontalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
 
@@ -95,14 +130,14 @@ public class BoardEvaluator {
 
     public boolean hasWonVertically() {
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.getStartEndWeight());
+        gridGraph.connectStartAndEndNodesVertical(new WinConnectionFunction().getStartEndWeight());
         connectNeighboursWithColourWeight(verticalColour,new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
 
     public boolean hasWonHorizontally() {
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.getStartEndWeight());
+        gridGraph.connectStartAndEndNodesHorizontal(new WinConnectionFunction().getStartEndWeight());
         connectNeighboursWithColourWeight(horizontalColour, new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
@@ -124,6 +159,9 @@ public class BoardEvaluator {
 
     }
 
+    public GridGraph getGridGraph() {
+        return gridGraph;
+    }
 
     //Connects all neighbours based on their colours
     public void connectNeighboursWithColourWeight(TileColour agentColour,TileConnectionFunction t){

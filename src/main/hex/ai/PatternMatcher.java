@@ -21,7 +21,7 @@ public class PatternMatcher {
     public static ArrayList<AIMove> pruneByPatterns(ArrayList<AIMove> moves, Board b, TileColour agent){
         ArrayList<AIMove> unPrunedMoves = new ArrayList<>();
         for (AIMove m: moves
-        ) { if(
+        ) {if(
                 !(borderBridgePredicate(m,b,agent)
                         || deadCellCagePredicate(m,b)
                         || deadCellOpposingPairsPredicate(m,b)
@@ -149,6 +149,7 @@ public class PatternMatcher {
             }
             if(lengthOfCurrentChain >= 4){
                 return true;
+
             }
 
         }
