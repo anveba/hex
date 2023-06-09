@@ -55,6 +55,8 @@ public class SpriteRenderer {
 		
 		Matrix4 model;
 		{
+			float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
+			x /= aspectRatio;
 			Matrix4 rotMat = Matrix4.rotateYawPitchRoll(0.0f, 0.0f, rotation);
 			Matrix4 transMat = Matrix4.translate(x, y, 0.0f);
 			model = Matrix4.multiply(transMat, rotMat);

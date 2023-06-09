@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
+import main.engine.sound.Sound;
 
 /**
  * This class handles all IO pertaining to resources such as textures and shaders.
@@ -35,12 +37,14 @@ public class ResourceManager {
     private Map<String, Shader> shaders;
     private Map<String, BitmapFont> fonts;
     private Map<String, Cubemap> cubemaps;
+    private Map<String, Sound> sounds;
     
     private ResourceManager() {
         textures = new HashMap<>();
         shaders = new HashMap<>();
         fonts = new HashMap<>();
         cubemaps = new HashMap<>();
+        sounds = new HashMap<>();
     }
     
     public Texture loadTexture(String path) {
@@ -64,10 +68,10 @@ public class ResourceManager {
     	return cubemap;
     }
     
-    private String getCubemapFaceName(int i) {
+    private String getCubemapFaceName(int index) {
     	String face = "";
-		face += i % 2 == 0 ? "p" : "n";
-		face += i < 2 ? "x" : i < 4 ? "y" : "z";
+		face += index % 2 == 0 ? "p" : "n";
+		face += index < 2 ? "x" : index < 4 ? "y" : "z";
 		return face;
     }
     
@@ -87,6 +91,23 @@ public class ResourceManager {
         BitmapFont f = new BitmapFont(readBytesFromRelativePath(path), 128.0f);
         fonts.put(path, f);
         return f;
+    }
+    
+    public Sound loadSound(String path) {
+    	if (sounds.containsKey(path))
+            return sounds.get(path);
+        Sound s = Sound.load(getAbsolutePathOf(path));
+        sounds.put(path, s);
+        return s;
+    }
+    
+    public String getAbsolutePathOf(String path) {
+    	path = "res/" + path;
+        var cl = getClass().getClassLoader();
+        var res = cl.getResource(path);
+        if (res == null)
+        	throw new EngineException("Resource not found: " + path);
+    	return res.toString();
     }
     
     public byte[] readBytesFromRelativePath(String path) {

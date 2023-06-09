@@ -2,7 +2,9 @@ package main.hex;
 
 /**
  * 
- * Singleton.
+ * Singleton that contains the user preferences (options/settings) to
+ * be used in the game.
+ * @author andreas
  *
  */
 public class Preferences {

@@ -53,7 +53,7 @@ public class BoardRenderer2D {
             }
              */
             Vector2 bottomBorderScreenPos = tileToScreen(x, -1, board.size());
-            renderer.drawSprite(bottomBorderTexture, p1Col, bottomBorderScreenPos.getX(),
+            renderer.drawSprite(bottomBorderTexture, p2Col, bottomBorderScreenPos.getX(),
                     bottomBorderScreenPos.getY(), tileSize, tileHeight);
         }
         if (y == board.size() - 1) { // Top border
@@ -65,27 +65,27 @@ public class BoardRenderer2D {
             }
              */
             Vector2 topBorderScreenPos = tileToScreen(x, board.size(), board.size());
-            renderer.drawSprite(topBorderTexture, p1Col, topBorderScreenPos.getX(),
+            renderer.drawSprite(topBorderTexture, p2Col, topBorderScreenPos.getX(),
                     topBorderScreenPos.getY(), tileSize, tileHeight);
         }
         if (x == 0) { // Left border
             if (y == 0) { // Bottom left corner
                 Vector2 topLeftCornerScreenPos = tileToScreen(-1, -1, board.size());
-                renderer.drawSprite(borderTexture, p2Col, topLeftCornerScreenPos.getX(),
+                renderer.drawSprite(borderTexture, p1Col, topLeftCornerScreenPos.getX(),
                         topLeftCornerScreenPos.getY(), tileSize, tileHeight);;
             }
             Vector2 leftBorderScreenPos = tileToScreen(-1, y, board.size());
-            renderer.drawSprite(borderTexture, p2Col, leftBorderScreenPos.getX(),
+            renderer.drawSprite(borderTexture, p1Col, leftBorderScreenPos.getX(),
                     leftBorderScreenPos.getY(), tileSize, tileHeight);
         }
         if (x == board.size() - 1) { // Right border
             if (y == board.size() - 1) { // Top right corner
                 Vector2 topRightCornerScreenPos = tileToScreen(board.size(), board.size(), board.size());
-                renderer.drawSprite(borderTexture, p2Col, topRightCornerScreenPos.getX(),
+                renderer.drawSprite(borderTexture, p1Col, topRightCornerScreenPos.getX(),
                         topRightCornerScreenPos.getY(), tileSize, tileHeight);
             }
             Vector2 rightBorderScreenPos = tileToScreen(board.size(), y, board.size());
-            renderer.drawSprite(borderTexture, p2Col, rightBorderScreenPos.getX(),
+            renderer.drawSprite(borderTexture, p1Col, rightBorderScreenPos.getX(),
                     rightBorderScreenPos.getY(), tileSize, tileHeight);
         }
     }

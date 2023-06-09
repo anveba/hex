@@ -1,10 +1,13 @@
 package main.hex;
 
+import main.engine.ResourceManager;
 import main.engine.TimeRecord;
 import main.engine.Utility;
 import main.engine.graphics.Camera;
 import main.engine.input.*;
 import main.engine.math.Vector3;
+import main.engine.sound.SoundInstance;
+import main.engine.sound.SoundPlayer;
 
 public class CameraController implements Updateable {
 
@@ -21,6 +24,8 @@ public class CameraController implements Updateable {
     	radius = 10.0f;
 	}
 
+	private SoundInstance p;
+	
 	@Override
 	public void update(TimeRecord elapsed) {
 		var listener = Game.getInstance().getControlsListener();
@@ -41,7 +46,7 @@ public class CameraController implements Updateable {
     	if (listener.isDown(Controls.LEFT_SHIFT))
     		radius += zoomSpeed;
     	
-    	pitch = Utility.clamp(pitch, -(float)Math.PI * 0.5f, -(float)Math.PI * 0.1f);
+    	pitch = Utility.clamp(pitch, -(float)Math.PI * 0.5f, -(float)Math.PI * 1.0f);
     	radius = Utility.clamp(radius, 5.0f, 25.0f);
     	
     	camera.setX((float)Math.cos(angle) * (float)Math.cos(pitch) * radius);
