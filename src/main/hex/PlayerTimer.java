@@ -48,6 +48,9 @@ public class PlayerTimer implements Updateable {
     public void addTime(int addedSeconds) {
         remainingTime += addedSeconds;
     }
+    public void setTime(int newTime) {
+        remainingTime = newTime;
+    }
 
     @Override
     public void update(TimeRecord elapsed) {
