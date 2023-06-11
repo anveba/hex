@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.google.gson.Gson;
+
 import main.engine.io.GameFileSystem;
 import main.hex.*;
 import net.harawata.appdirs.*;
@@ -25,8 +27,9 @@ public class HexFileSystem extends GameFileSystem {
 		return instance;
 	}
 	
-	private static final String savedGamesDir = "/saves/";
-	private static final String tempSaveName = "previous.json";
+	private static final String savedGamesDir = "saves/";
+	private static final String previousGameSaveName = "previous.json";
+	private static final String preferencesFileName = "pref.json";
 	
 	private GameStateSerialiser serialiser;
 	
@@ -36,7 +39,7 @@ public class HexFileSystem extends GameFileSystem {
 	
 	public void saveGame(GameSession session) {
 		String json = serialiser.gameStateToJson(GameState.sessionToState(session));
-		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + tempSaveName);
+		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + previousGameSaveName);
 		ensureDirectoryExists(path);
 		try {
 			Files.write(path, json.getBytes());
@@ -46,7 +49,7 @@ public class HexFileSystem extends GameFileSystem {
 	}
 	
 	public GameSession loadGame() {
-		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + tempSaveName);
+		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + previousGameSaveName);
 		
 		String json;
 		try {
@@ -58,6 +61,29 @@ public class HexFileSystem extends GameFileSystem {
 		GameState state = serialiser.gameStateFromJson(json);
 		
 		return state.stateToSession();
+	}
+	
+	public void savePreferences(Preferences pref) {
+		String json = new Gson().toJson(pref);
+		Path path = Paths.get(getPersistentDataPath() + preferencesFileName);
+		ensureDirectoryExists(path);
+		try {
+			Files.write(path, json.getBytes());
+		} catch (IOException e) {
+			throw new HexException("Could not save to file system: " + e.toString());
+		}
+	}
+	
+	public Preferences loadPreferences() {
+		Path path = Paths.get(getPersistentDataPath() + preferencesFileName);
+		
+		String json;
+		try {
+			json = Files.readString(path);
+		} catch (IOException e) {
+			throw new HexException("Could not read file: " + e.toString());
+		}
+		return new Gson().fromJson(json, Preferences.class);
 	}
 	
 	private void ensureDirectoryExists(Path path) {

@@ -8,6 +8,10 @@ import static org.mockito.Mockito.*;
 import main.engine.EngineException;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.engine.ui.callback.ButtonCallback;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+
 import org.junit.Test;
 
 /**

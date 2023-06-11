@@ -35,14 +35,16 @@ public class MeshRenderer {
     }
 	
     public void draw(Mesh mesh, Material mat, Vector3 position, 
-    		Vector3 rotation, Colour colour) {
+    		Vector3 rotation, Colour colour, Cubemap skybox, float environmentStrength) {
     	if (mesh == null || mat == null || position == null 
     			|| rotation == null || colour == null)
     		throw new EngineException("Null argument given");
+    	if (skybox == null)
+    		throw new EngineException("No skybox given");
     	
         setupPreDraw();
 
-        setUniforms(mat, position, rotation, colour);
+        setUniforms(mat, position, rotation, colour, skybox, environmentStrength);
         
         float[] vertices = mesh.getVertexBuffer();
         int[] indices = mesh.getIndexBuffer();
@@ -50,7 +52,8 @@ public class MeshRenderer {
         drawUsingBuffers(vertices, indices);
     }
 
-	private void setUniforms(Material mat, Vector3 position, Vector3 rotation, Colour colour) {
+	private void setUniforms(Material mat, Vector3 position, Vector3 rotation, 
+			Colour colour, Cubemap skybox, float environmentStrength) {
 		getMeshShader().use();
 
 		Matrix4 model;
@@ -90,6 +93,12 @@ public class MeshRenderer {
         mat.diffuseMap.use(0);
         getMeshShader().setInt("u_material.map_diffuse", 0);
         getMeshShader().setFloat("u_material.shininess", mat.shininess);
+        getMeshShader().setFloat("u_material.reflectance", mat.reflectance);
+        getMeshShader().setFloat("u_material.fuzziness", mat.fuzziness);
+        
+        skybox.use(1);
+        getMeshShader().setInt("u_skybox", 1);
+        getMeshShader().setFloat("u_environment_strength", environmentStrength);
         
         getMeshShader().setVec4("u_col", colour.r(), colour.g(), colour.b(), colour.a());
 	}

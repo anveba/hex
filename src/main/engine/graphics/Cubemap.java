@@ -5,8 +5,7 @@ import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.stb.STBImage.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
+import java.nio.*;
 
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
@@ -46,13 +45,13 @@ public class Cubemap {
 	        	if (!stbi_info_from_memory(buffer, x, y, channels))
 	        		throw new EngineException("Failed to load image information: " + stbi_failure_reason());
 	        	
-	        	ByteBuffer data = STBImage.stbi_load_from_memory(buffer, x, y, channels, 4);
+	        	FloatBuffer data = STBImage.stbi_loadf_from_memory(buffer, x, y, channels, 4);
 	        	if (data == null)
 	        		throw new EngineException("Cubemap load failed: " + STBImage.stbi_failure_reason());
 	        	int width = x.get(0);
 	        	int height = y.get(0);
 	        	
-	            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, data);
 	            
 	            STBImage.stbi_image_free(data);
 	        }

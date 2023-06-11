@@ -5,6 +5,7 @@ import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
@@ -86,8 +87,11 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createUndoView() {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
-        Image undoSymbol = new Image(0.0f, -0.91f, 0.12f, 0.12f, TextureLibrary.SMALL_UNDO_GREY.getTexture());
-        undoView.addChild(undoSymbol);
+        RectButton undoBtn= new RectButton(0.0f, -0.91f, 0.12f, 0.12f, 
+        		TextureLibrary.SMALL_UNDO_GREY.getTexture(), FONT_FREDOKA_ONE, "", 
+        		0, null, null, null);
+        undoBtn.setClickCallback(args -> undoBtnClicked());
+        undoView.addChild(undoBtn);
 
         return undoView;
     }
@@ -208,11 +212,11 @@ public class GameplayFrame extends Frame {
 
     private void openPauseMenuBtnClicked() {
         pauseMenuUIGroup.enable();
-        SceneDirector.currentScene().pauseUpdates();
+        SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
         pauseMenuUIGroup.disable();
-        SceneDirector.currentScene().resumeUpdates();
+        SceneDirector.resume();
     }
     private void optionsBtnClicked() {
         FrameStack.getInstance().push(new OptionsFrame());
@@ -227,5 +231,10 @@ public class GameplayFrame extends Frame {
 
     private void exitGameBtnClicked() {
         Game.getInstance().closeWindow();
+    }
+    
+    private void undoBtnClicked() {
+    	if (gameLogic.historyLength() > 0)
+    		gameLogic.undoLast();
     }
 }

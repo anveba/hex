@@ -6,11 +6,18 @@ import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
+import main.engine.ui.callback.ButtonCallback;
+import main.engine.ui.callback.ButtonCallbackArgs;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.SliderCallback;
+import main.engine.ui.callback.SliderCallbackArgs;
+import main.engine.ui.callback.TextInputArgs;
 import main.hex.resources.TextureLibrary;
 
 public class Slider extends RectElement implements Clickable {
 
-    private ButtonCallback sliderChangedCallback;
+    private SliderCallback sliderChangedCallback;
     private Image background, sliderBtn;
     private Text text;
     private String textLayout;
@@ -18,7 +25,9 @@ public class Slider extends RectElement implements Clickable {
     private int min, max, current;
     private float sliderMaxX, sliderMinX;
 
-    public Slider(float x, float y, float width,float height, Texture backgroundTexture, Texture sliderTexture, int min, int max, int initial, ButtonCallback sliderChangedCallback) {
+    public Slider(float x, float y, float width,float height, 
+    		Texture backgroundTexture, Texture sliderTexture, 
+    		int min, int max, int initial, SliderCallback sliderChangedCallback) {
         this(x,
              y,
              width,
@@ -34,7 +43,8 @@ public class Slider extends RectElement implements Clickable {
 
     }
 
-    public Slider(float x, float y, float width, float height, Image background, Image sliderBtn, int min, int max, int initial, String textLayout, ButtonCallback sliderChangedCallback) {
+    public Slider(float x, float y, float width, float height, Image background, Image sliderBtn, 
+    		int min, int max, int initial, String textLayout, SliderCallback sliderChangedCallback) {
         super(x, y, width, height);
         this.background = background;
         this.sliderBtn = sliderBtn;
@@ -109,7 +119,7 @@ public class Slider extends RectElement implements Clickable {
         isPressed = false;
 
         if (sliderChangedCallback != null) {
-            sliderChangedCallback.call(new ButtonCallbackArgs(current));
+            sliderChangedCallback.call(new SliderCallbackArgs(current));
         }
     }
 

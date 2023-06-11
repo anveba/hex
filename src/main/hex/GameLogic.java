@@ -101,6 +101,11 @@ public class GameLogic implements Updateable {
     	coloursSwapped = true;
     }
     
+    private void unswapColours() {
+    	players.stream().forEach((p) -> p.setColour(TileColour.opposite(p.getColour())));
+    	coloursSwapped = false;
+    }
+    
     public boolean playerHasWon(Player player) {
     	if (!gameHasStarted())
     		throw new HexException("Game hasn't started yet.");
@@ -150,7 +155,13 @@ public class GameLogic implements Updateable {
 
 	@Override
 	public void update(TimeRecord elapsed) {
-		players.stream().forEach(p -> p.update(elapsed));
+		players.stream().forEach(p -> {
+			p.update(elapsed); 
+			if (p == players.getFirst())
+				players.peekFirst().getTimer().startTimer();
+			else
+				p.getTimer().pauseTimer(); 
+		});
 		pollPlayerResponse();
 	}
 	
@@ -184,7 +195,6 @@ public class GameLogic implements Updateable {
 	        }
     	}
         
-    	players.peekFirst().getTimer().pauseTimer(); // Stop timer for current player
     	players.peekFirst().onEndOfTurn();
 		players.peekFirst().getTimer().addTime(3);
 
@@ -192,7 +202,6 @@ public class GameLogic implements Updateable {
     }
     
     private void startTurn() {
-    	players.peekFirst().getTimer().startTimer(); // Start timer for next player
         playerResponse = new ConcurrentPlayerResponse();
         players.peekFirst().processTurn(board, playerResponse);
     }
@@ -200,6 +209,11 @@ public class GameLogic implements Updateable {
     private void putCurrentPlayerInTheEndOfTheTurnQueue() {
     	Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
+    }
+    
+    private void putPreviousPlayerInTheFrontOfTheTurnQueue() {
+    	Player lastPlayer = players.removeLast();
+        players.addFirst(lastPlayer);
     }
 
 	private void handleWinFor(Player p) {
@@ -238,6 +252,10 @@ public class GameLogic implements Updateable {
 		return copy;
 	}
 	
+	public int historyLength() {
+		return history.size();
+	}
+	
 	public void makeStateChanges(GameStateChange[] changes) {
 		for(int i = 0; i < changes.length; i++) {
 			if (executeMoveOfCurrentPlayer(changes[i].move))
@@ -245,5 +263,22 @@ public class GameLogic implements Updateable {
 			else
 				throw new HexException("Invalid state change");
 		}
+	}
+	
+	public void undoLast() {
+		if (historyLength() == 0)
+			throw new HexException("There is nothing to undo!");
+		GameStateChange latest = history.pop();
+		TileColour colourToReplace = TileColour.WHITE;
+		if (latest.swapRuleExecuted) {
+			assert coloursSwapped();
+			unswapColours();
+			colourToReplace = getCurrentTurnsPlayer().getColour();
+		}
+		board.setTileAtPosition(
+				new Tile(colourToReplace), 
+				latest.move.getX(), latest.move.getY());
+		putPreviousPlayerInTheFrontOfTheTurnQueue();
+		startTurn();
 	}
 }

@@ -165,4 +165,44 @@ public class GameLogicTest {
     	player1.relayResponseAsError(mock(Throwable.class));
 		gameLogic.update(mock(TimeRecord.class));
     }
+    
+    @Test
+    public void makingSingleNonSwapRuleStateChangeChangesStateAccordingly() {
+    	final int x = 0, y = 0;
+    	GameStateChange[] changes = { new GameStateChange(new Move(x, y), false) };
+    	TileColour colourToMove = gameLogic.getCurrentTurnsPlayer().getColour();
+    	gameLogic.makeStateChanges(changes);
+    	assertEquals(colourToMove, gameLogic.getBoard().getTileAtPosition(x, y).getColour());
+    	assertEquals(TileColour.opposite(colourToMove), gameLogic.getCurrentTurnsPlayer().getColour());
+    	assertEquals(changes.length, gameLogic.historyLength());
+    }
+    
+    @Test
+    public void undoingNonSwapRuleMoveMakesTheRelevantTileWhite() {
+    	final int x = 0, y = 0;
+    	GameStateChange[] changes = { new GameStateChange(new Move(x, y), false) };
+    	TileColour colourToMove = gameLogic.getCurrentTurnsPlayer().getColour();
+    	gameLogic.makeStateChanges(changes);
+    	gameLogic.undoLast();
+    	assertEquals(TileColour.WHITE, gameLogic.getBoard().getTileAtPosition(x, y).getColour());
+    	assertEquals(colourToMove, gameLogic.getCurrentTurnsPlayer().getColour());
+    	assertEquals(changes.length - 1, gameLogic.historyLength());
+    }
+    
+    @Test
+    public void undoingSwapRuleMoveMakesTheRelevantTileOpponentColour() {
+    	final int x = 0, y = 0;
+    	gameLogic = new GameLogic(board, player1, player2, true);
+    	gameLogic.start();
+    	GameStateChange[] changes = { 
+    			new GameStateChange(new Move(x, y), false),
+    			new GameStateChange(new Move(x, y), true)
+    			};
+    	TileColour colourToMove = gameLogic.getCurrentTurnsPlayer().getColour();
+    	gameLogic.makeStateChanges(changes);
+    	gameLogic.undoLast();
+    	assertEquals(colourToMove, gameLogic.getBoard().getTileAtPosition(x, y).getColour());
+    	assertEquals(TileColour.opposite(colourToMove), gameLogic.getCurrentTurnsPlayer().getColour());
+    	assertEquals(changes.length - 1, gameLogic.historyLength());
+    }
 }

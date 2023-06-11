@@ -61,7 +61,7 @@ public class ResourceManager {
     	
     	byte[][] fileData = new byte[6][];
     	for(int i = 0; i < 6; i++) 
-    		fileData[i] = readBytesFromRelativePath(basePath + "/" + getCubemapFaceName(i) + ".png");
+    		fileData[i] = readBytesFromRelativePath(basePath + "/" + getCubemapFaceName(i) + ".hdr");
     	
     	Cubemap cubemap = new Cubemap(fileData);
     	cubemaps.put(basePath, cubemap);

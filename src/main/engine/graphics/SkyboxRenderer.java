@@ -96,11 +96,11 @@ public class SkyboxRenderer {
 			glDeleteBuffers(vboHandle);
 	}
 	
-	public void draw(Cubemap cubemap) {
+	public void draw(Cubemap cubemap, float strength) {
 		if (cubemap == null)
 			throw new EngineException("Null argument given");
 		setupPreDraw();
-		setUniforms(cubemap);
+		setUniforms(cubemap, strength);
 		drawCube();
 	}
 
@@ -112,7 +112,7 @@ public class SkyboxRenderer {
         glEnable(GL_MULTISAMPLE);
     }
 	
-	private void setUniforms(Cubemap cubemap) {
+	private void setUniforms(Cubemap cubemap, float strength) {
 		getSkyboxShader().use();
 		
 		Matrix4 view;
@@ -132,6 +132,7 @@ public class SkyboxRenderer {
 		getSkyboxShader().setMat4("u_view", view);
 		getSkyboxShader().setMat4("u_proj", proj);
 		cubemap.use(0);
+		getSkyboxShader().setFloat("u_strength", strength);
         getSkyboxShader().setInt("u_cubemap", 0);
 	}
 	

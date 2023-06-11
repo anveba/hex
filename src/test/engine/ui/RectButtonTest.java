@@ -12,13 +12,13 @@ import main.engine.EngineException;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.math.Vector2;
-import main.engine.ui.ButtonCallback;
-import main.engine.ui.ClickArgs;
-import main.engine.ui.HoverArgs;
 import main.engine.ui.Image;
 import main.engine.ui.RectButton;
 import main.engine.ui.Text;
 import main.engine.ui.UIGroup;
+import main.engine.ui.callback.ButtonCallback;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
 
 public class RectButtonTest {
 

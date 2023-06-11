@@ -30,7 +30,7 @@ public class GameplayScene extends Scene {
 	}
 	
 	@Override
-	public void begin() {
+	protected void begin() {
 		setUpUserInterface();
 		startGameplay();
 		setUpCamera();
@@ -65,17 +65,15 @@ public class GameplayScene extends Scene {
     }
 	
 	@Override
-	public void end() {
+	protected void end() {
+		
 	}
 
 	@Override
-	protected void updateScene(TimeRecord time) {
-
-		if(isUpdatesPaused()) return;
+	protected void update(TimeRecord time) {
 
 		gameLogic.update(time);
-		if (gameLogic.coloursSwapped())
-			gameCustomization.setPlayersAsSwapped();
+		gameCustomization.setSwapped(gameLogic.coloursSwapped());
 		camController.update(time);
 
 		gameLogic.getPlayer1().getTimer().update(time);
@@ -83,14 +81,15 @@ public class GameplayScene extends Scene {
 	}
 
 	@Override
-	public void draw2D(Renderer2D renderer) {
+	protected void draw2D(Renderer2D renderer) {
 		gameLogic.getBoard().draw2D(renderer, gameCustomization);
 	}
 	
 	@Override
-	public void draw3D(Renderer3D renderer) {
+	protected void draw3D(Renderer3D renderer) {
+		renderer.setSkybox(skybox, 2.0f);
 		gameLogic.getBoard().draw3D(renderer, gameCustomization);
-		renderer.drawSkybox(skybox);
+		renderer.drawSkybox();
 	}
 
 }

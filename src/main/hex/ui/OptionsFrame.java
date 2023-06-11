@@ -87,7 +87,7 @@ public class OptionsFrame extends Frame {
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
                 0, 100, 50,
-                args -> logic.setMusicVolume(args.getIntArg())
+                args -> logic.setMusicVolume(args.getSliderLevel())
         );
         musicSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
         musicSection.addChild(musicSlider);
@@ -110,7 +110,7 @@ public class OptionsFrame extends Frame {
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
                 0, 100, 50,
-                args -> logic.setSoundVolume(args.getIntArg())
+                args -> logic.setSoundVolume(args.getSliderLevel())
         );
         soundsSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
         soundsSection.addChild(soundsSlider);

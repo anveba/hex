@@ -3,6 +3,8 @@ package main.hex.ui;
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.ui.*;
+import main.engine.ui.callback.ButtonCallback;
+import main.hex.Game;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
@@ -84,6 +86,6 @@ public class MainMenuFrame extends Frame {
     }
 
     private void quitClicked() {
-        System.out.println("Quit button clicked - MainMenuFrame");
+        Game.getInstance().closeWindow();
     }
 }

@@ -16,48 +16,50 @@ import main.hex.player.PlayerSkin;
 public class BoardRenderer3D {
 	
 	private Mesh hexMesh;
-	private Mesh tableQuad;
+	private Mesh tableMesh;
 	private Material tableMaterial;
 	
 	private final float tileSize = 1.0f;
 	private final float tileHeight = 0.5f;
+	private final float tableSize = 32.0f;
+	private final float tableHeight = 2.0f;
 	
 	public BoardRenderer3D() {
 		hexMesh = Meshes.buildHexTile(1.154700538f * tileSize, tileHeight);
-		float tableSize = 32.0f;
-		tableQuad = Meshes.buildQuadMesh( 
-				new Vector3(-tableSize * 0.5f, 0.0f, tableSize * 0.5f), 
-				new Vector3(tableSize * 0.5f, 0.0f, tableSize * 0.5f), 
-				new Vector3(tableSize * 0.5f, 0.0f, -tableSize * 0.5f), 
-				new Vector3(-tableSize * 0.5f, 0.0f, -tableSize * 0.5f), 
-				false);
+		tableMesh = Meshes.buildParallelepipedMesh( 
+				new Vector3(tableSize, 0.0f, 0.0f), 
+				new Vector3(0.0f, -tableHeight, 0.0f), 
+				new Vector3(0.0f, 0.0f, tableSize));
 		tableMaterial = new Material(
 			0.02f, 0.02f, 0.02f,
 			0.9f, 0.9f, 0.9f,
 			0.2f, 0.2f, 0.2f,
-			256.0f,
+			256.0f, 0.02f, 0.005f,
 			ResourceManager.getInstance().loadTexture("textures/oak.jpg"), null
 			);
 	}
 	
-	public Material buildTileMaterial(PlayerSkin skin) {
+	public Material buildTileMaterial(PlayerSkin skin, boolean isWhite) {
+		float reflectance = 0.04f;
+		if (!isWhite)
+			reflectance = 0.04f;
 		return new Material(
 			0.02f, 0.02f, 0.02f,
 			0.8f, 0.8f, 0.8f,
 			0.6f, 0.6f, 0.6f,
-			2048.0f,
+			2048.0f, reflectance, 0.0f,
 			skin.getTexture(), null
-			);
+		);
 	}
 	
 	public Material buildBorderMaterial() {
 		return new Material(
-				0.02f, 0.02f, 0.02f,
-				0.8f, 0.8f, 0.8f,
-				0.6f, 0.6f, 0.6f,
-				2048.0f,
-				ResourceManager.getInstance().loadTexture("textures/white_px.png"), null
-			);
+			0.02f, 0.02f, 0.02f,
+			0.8f, 0.8f, 0.8f,
+			0.6f, 0.6f, 0.01f,
+			2048.0f, 0.015f, 0.005f,
+			ResourceManager.getInstance().loadTexture("textures/white_px.png"), null
+		);
 	}
 	
 	public Vector3 tileToWorld(int i, int j, int size) {
@@ -169,14 +171,14 @@ public class BoardRenderer3D {
 					col = Colour.multiply(col, Colour.LightGrey);
 				if (tile.getColour() != TileColour.WHITE)
 					position.y += 0.2f;
-				renderer.draw(hexMesh, buildTileMaterial(skin), position, rotation, col);
+				renderer.draw(hexMesh, buildTileMaterial(skin, skin == custom.getBlankSkin()), position, rotation, col);
 			}
 		}
 	}
 	
 	private void drawTable(Renderer3D renderer, Board board, GameCustomisation custom) {
-		renderer.draw(tableQuad, tableMaterial, 
-				new Vector3(0.0f, -tileHeight, 0.0f), 
+		renderer.draw(tableMesh, tableMaterial, 
+				new Vector3(-tableSize / 2.0f, -tileHeight, -tableSize / 2.0f), 
 				new Vector3(), 
 				Colour.White);
 	}
