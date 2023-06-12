@@ -66,7 +66,7 @@ public class GameplayFrame extends Frame {
 
         //Pause menu (added last, so it's on top of everything else)
         pauseMenuUIGroup = createPauseMenu();
-        pauseMenuUIGroup.unhide(); //Initially hidden
+        pauseMenuUIGroup.hide(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
 
         //Pause menu (added last, so it's on top of everything else)
@@ -232,8 +232,6 @@ public class GameplayFrame extends Frame {
         winMenuBanner.addChild(bannerText);
         winMenu.addChild(winMenuBanner);
 
-
-
         //Creating button callbacks:
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
         ButtonCallback restartGameClicked = (args) -> restartGameBtnClicked();
@@ -284,11 +282,11 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-        pauseMenuUIGroup.hide();
+        pauseMenuUIGroup.unhide();
         SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
-        pauseMenuUIGroup.unhide();
+        pauseMenuUIGroup.hide();
         SceneDirector.resume();
     }
     private void optionsBtnClicked() {
@@ -337,5 +335,4 @@ public class GameplayFrame extends Frame {
         System.out.println("here");
         winMenuUIGroup.unhide();
     }
-
 }
