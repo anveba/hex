@@ -80,7 +80,7 @@ public class PlayerTimerTest {
 
     @Test
     public void timerTextFormattedCorrectly() {
-        assertEquals("0:10", player1.getTimer().getFormattedTime());
+        assertEquals("00:10", player1.getTimer().getFormattedTime());
     }
 
     @Test
