@@ -3,12 +3,12 @@ package main.engine.ui.animation;
 import main.engine.EngineException;
 import main.engine.ui.UIElement;
 
-public class Unhide extends Animation {
+public class Show extends Animation {
 
 	private boolean isDone;
 	private final UIElement element;
 	
-	public Unhide(UIElement element) {
+	public Show(UIElement element) {
 		if (element == null)
 			throw new EngineException("Element was null");
 		this.element = element;
@@ -19,7 +19,7 @@ public class Unhide extends Animation {
 	protected void animate(float time) {
 		if (isDone || time == 0.0f)
 			return;
-		element.unhide();
+		element.show();
 		isDone = true;
 	}
 

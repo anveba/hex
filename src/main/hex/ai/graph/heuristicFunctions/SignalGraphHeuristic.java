@@ -5,11 +5,12 @@ import main.hex.ai.graph.Graph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /*
 Author Nikolaj
 
-A heuristic function designed by Nikolaj to try to emulate some of the properties of electrical networks
+A heuristic function designed by Nikolaj to try to emulate some properties of electrical networks
 while maintaining bfs runtimes
 
 The heuristic has the characteristic that longer paths are good (Short paths on the hex board are transformed to long paths by the connection function to match this),
@@ -27,7 +28,7 @@ public class SignalGraphHeuristic implements GraphHeuristicFunction{
 
 
         int numberOfNodes = g.getNumberOfNodes();
-        ArrayList<Edge>[] adjacencyList = g.getAdjacencyList();
+        LinkedList<Edge>[] adjacencyList = g.getAdjacencyList();
 
         ArrayDeque<Integer> q = new ArrayDeque<>();
         boolean[] visited = new boolean[numberOfNodes];

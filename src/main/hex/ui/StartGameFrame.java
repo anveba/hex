@@ -18,7 +18,6 @@ import main.hex.player.UserPlayer;
 import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
-import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 
 public class StartGameFrame extends Frame {
@@ -349,7 +348,6 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void backToMainMenu() {
-		SceneDirector.changeScene(new MainMenuScene());
+		SceneDirector.currentScene().changeFrame(new MainMenuFrame());
 	}
-
 }

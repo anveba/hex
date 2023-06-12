@@ -6,22 +6,20 @@ import main.engine.graphics.Renderer3D;
 import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.ui.MainMenuFrame;
-import main.hex.ui.StartGameFrame;
 
-public class TitleScene extends Scene {
+/**
+ * This scene allows for switching between all the frames related to the game setup.
+ */
 
-	public TitleScene() {
+public class GameSetupScene extends Scene {
+
+	public GameSetupScene() {
 		
 	}
 	
 	@Override
 	protected void begin() {
-		setupUserInterface();
-	}
-	
-	private void setupUserInterface() {
-		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(new StartGameFrame());
+		changeFrame(new MainMenuFrame());
 	}
 	
 	@Override
@@ -44,4 +42,9 @@ public class TitleScene extends Scene {
 		
 	}
 
+	@Override
+	public void changeFrame(Frame newFrame) {
+		FrameStack.getInstance().clear();
+		FrameStack.getInstance().push(newFrame);
+	}
 }

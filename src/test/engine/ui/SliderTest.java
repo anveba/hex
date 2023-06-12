@@ -26,7 +26,7 @@ public class SliderTest {
     @Before
     public void before() {
 
-        when(sliderBtn.getX()).thenReturn(x);
+        when(sliderBtn.getX()).thenReturn(0.0f);
         doNothing().when(sliderBtn).setPosition(anyFloat(),anyFloat());
 
         slider = new Slider(x,y,width,height,background,sliderBtn,min,max,initial,textLayout, null);
@@ -228,12 +228,12 @@ public class SliderTest {
 
     @Test
     public void SliderMaxXIsCorrect() {
-        Assert.assertEquals(x + width / 2.0f - width/16f, slider.getSliderMaxX(), 0.00001f);
+        Assert.assertEquals(width / 2.0f - width/16f, slider.getSliderMaxX(), 0.00001f);
     }
 
     @Test
     public void SliderMinXIsCorrect() {
-        Assert.assertEquals(x - width / 2.0f + width/16f, slider.getSliderMinX(), 0.00001f);
+        Assert.assertEquals(-width / 2.0f + width/16f, slider.getSliderMinX(), 0.00001f);
     }
 
 }

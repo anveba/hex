@@ -5,6 +5,7 @@ import main.engine.TimeRecord;
 import main.engine.graphics.Cubemap;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
+import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.player.Player;
@@ -12,6 +13,10 @@ import main.hex.serialisation.GameState;
 import main.hex.serialisation.GameStateSerialiser;
 import main.hex.ui.GameplayFrame;
 import main.hex.ui.MainMenuFrame;
+
+/**
+ * This scene allows for switching between all the frames related to the gameplay.
+ */
 
 public class GameplayScene extends Scene {
 
@@ -93,4 +98,8 @@ public class GameplayScene extends Scene {
 		renderer.drawSkybox();
 	}
 
+	@Override
+	public void changeFrame(Frame newFrame) {
+
+	}
 }

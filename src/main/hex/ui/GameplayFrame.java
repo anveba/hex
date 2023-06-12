@@ -16,9 +16,8 @@ import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
-import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
-import main.hex.scene.TitleScene;
+import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
@@ -238,8 +237,6 @@ public class GameplayFrame extends Frame {
         winMenuBanner.addChild(bannerText);
         winMenu.addChild(winMenuBanner);
 
-
-
         //Creating button callbacks:
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
         ButtonCallback restartGameClicked = (args) -> restartGameBtnClicked();
@@ -294,7 +291,7 @@ public class GameplayFrame extends Frame {
     					2.0f, 0.0f, 0.0f, 0.0f, 
     					pauseMenuAnimationTime));
     	addAnimator(pauseMenuAnimator);
-        pauseMenuUIGroup.unhide();
+        pauseMenuUIGroup.show();
         SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
@@ -314,7 +311,7 @@ public class GameplayFrame extends Frame {
         FrameStack.getInstance().push(new OptionsFrame());
     }
     private void mainMenuBtnClicked() {
-        SceneDirector.changeScene(new MainMenuScene());
+        SceneDirector.changeScene(new GameSetupScene());
         SceneDirector.resume();
     }
     private void restartGameBtnClicked() {
@@ -354,7 +351,6 @@ public class GameplayFrame extends Frame {
     public void onPlayerWin(Player player) {
         SceneDirector.pause();
         System.out.println("here");
-        winMenuUIGroup.unhide();
+        winMenuUIGroup.show();
     }
-
 }

@@ -49,8 +49,7 @@ public abstract class UIElement {
 		isHidden = true;
 	}
 	
-	public void unhide() {
-		isHidden = false;
+	public void show() {
 	}
 	
 	public boolean isHidden() {

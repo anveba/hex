@@ -1,6 +1,7 @@
 package main.hex.ai.graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 
 import main.hex.ai.Bridge;
@@ -83,7 +84,7 @@ public class BoardEvaluator {
     public double evaluateBoard() {
         evaluationCount++;
         gridGraph.resetAdjacencyList();;
-        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.getStartEndWeight());
+        connectStartAndEndNodesVertical(tileConnectionFunction);
         connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);
         if(doBridgeConnections){
             connectBridges(verticalColour);
@@ -93,12 +94,12 @@ public class BoardEvaluator {
 
 
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.getStartEndWeight());
+        connectStartAndEndNodesHorizontal(tileConnectionFunction);
         connectNeighboursWithColourWeight(horizontalColour,tileConnectionFunction);
         if(doBridgeConnections){
-            ArrayList<Edge>[] adj1 = gridGraph.getAdjacencyList();
+            LinkedList<Edge>[] adj1 = gridGraph.getAdjacencyList();
             connectBridges(horizontalColour);
-            ArrayList<Edge>[] adj2 = gridGraph.getAdjacencyList();
+            LinkedList<Edge>[]  adj2 = gridGraph.getAdjacencyList();
             for(int i = 0; i < adj1.length; i++){
                 if(adj1[i].size() != adj2[i].size()){
                     System.out.println("Diff");
@@ -130,14 +131,14 @@ public class BoardEvaluator {
 
     public boolean hasWonVertically() {
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesVertical(new WinConnectionFunction().getStartEndWeight());
+        connectStartAndEndNodesVertical(new WinConnectionFunction());
         connectNeighboursWithColourWeight(verticalColour,new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
 
     public boolean hasWonHorizontally() {
         gridGraph.resetAdjacencyList();
-        gridGraph.connectStartAndEndNodesHorizontal(new WinConnectionFunction().getStartEndWeight());
+        connectStartAndEndNodesHorizontal(new WinConnectionFunction());
         connectNeighboursWithColourWeight(horizontalColour, new WinConnectionFunction());
         return gridGraph.startAndEndAreConnected();
     }
@@ -146,16 +147,29 @@ public class BoardEvaluator {
         return gridGraph.weightOfAdjacencyXY(fromX,fromY,toX,toY);
     }
 
+    public void connectStartAndEndNodesVertical(TileConnectionFunction t){
+        for(int x = 0; x < boardSize; x++){
+            t.connectEnds(gridGraph,x,0,boardSize,boardSize-1,board.getTileAtPosition(x,boardSize-1).getColour(),horizontalColour);
+            t.connectEnds(gridGraph,x,boardSize-1,boardSize+1,boardSize-1,board.getTileAtPosition(x,boardSize-1).getColour(),horizontalColour);
+        }
+    }
+
+    public void connectStartAndEndNodesHorizontal(TileConnectionFunction t){
+        for(int y = 0; y < boardSize; y++){
+            t.connectEnds(gridGraph,0,y,boardSize,boardSize-1,board.getTileAtPosition(0,y).getColour(),horizontalColour);
+            t.connectEnds(gridGraph,boardSize-1,y,boardSize+1,boardSize-1,board.getTileAtPosition(0,y).getColour(),horizontalColour);
+        }
+    }
 
     public void connectHorizontalEvaluation() {
         connectNeighboursWithColourWeight(horizontalColour, tileConnectionFunction);
-        gridGraph.connectStartAndEndNodesHorizontal(tileConnectionFunction.getStartEndWeight());
+        connectStartAndEndNodesHorizontal(tileConnectionFunction);
 
     }
 
     public void connectVerticalEvaluation() {
         connectNeighboursWithColourWeight(verticalColour,tileConnectionFunction);
-        gridGraph.connectStartAndEndNodesVertical(tileConnectionFunction.getStartEndWeight());
+        connectStartAndEndNodesVertical(tileConnectionFunction);
 
     }
 
