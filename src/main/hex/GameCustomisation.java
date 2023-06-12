@@ -64,8 +64,8 @@ public class GameCustomisation {
 		return blankSkin;
 	}
     
-    public void setPlayersAsSwapped() {
-    	playersSwapped = true;
+    public void setSwapped(boolean swapped) {
+    	playersSwapped = swapped;
     }
     
     public String getOriginalPlayer1Name() {

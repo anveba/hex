@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import main.engine.ui.ClickArgs;
+import main.engine.ui.callback.ClickArgs;
 
 public class ClickArgsTest {
 

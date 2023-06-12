@@ -19,7 +19,7 @@ public class MainMenuScene extends Scene {
     }
 
     @Override
-    public void begin() {
+    protected void begin() {
         setupUserInterface();
     }
 
@@ -29,22 +29,22 @@ public class MainMenuScene extends Scene {
     }
 
     @Override
-    public void end() {
+    protected void end() {
 
     }
 
     @Override
-    protected void updateScene(TimeRecord time) {
+    protected void update(TimeRecord time) {
 
     }
 
     @Override
-    public void draw2D(Renderer2D renderer) {
+    protected void draw2D(Renderer2D renderer) {
 
     }
 
     @Override
-    public void draw3D(Renderer3D renderer) {
+    protected void draw3D(Renderer3D renderer) {
 
     }
 }

@@ -9,10 +9,11 @@ import org.junit.*;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
+import main.engine.graphics.Renderer3D;
 import main.hex.scene.*;
 import main.hex.HexException;
 
-public class SceneDirectorTest {
+public class SceneDirectorTest  {
 	
 	@Before
 	public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -23,7 +24,7 @@ public class SceneDirectorTest {
 	
 	@Test
 	public void changingSceneCallsScenesBeginMethod() {
-		Scene s = mock(Scene.class);
+		TestScene s = mock(TestScene.class);
 		
 		verify(s, times(0)).begin();
 		
@@ -34,8 +35,8 @@ public class SceneDirectorTest {
 	
 	@Test
 	public void changingSceneCallsOldScenesEndMethod() {
-		Scene s1 = mock(Scene.class);
-		Scene s2 = mock(Scene.class);
+		TestScene s1 = mock(TestScene.class);
+		TestScene s2 = mock(TestScene.class);
 		
 		SceneDirector.changeScene(s1);
 		
@@ -51,7 +52,7 @@ public class SceneDirectorTest {
 	
 	@Test
 	public void updatingCurrentSceneCallsCurrentScenesUpdateMethod() {
-		Scene s = mock(Scene.class);
+		TestScene s = mock(TestScene.class);
 		SceneDirector.changeScene(s);
 		
 		var time = mock(TimeRecord.class);
@@ -70,7 +71,7 @@ public class SceneDirectorTest {
 	
 	@Test
 	public void drawingCurrentSceneCallsCurrentScenesDrawMethod2D() {
-		Scene s = mock(Scene.class);
+		TestScene s = mock(TestScene.class);
 		SceneDirector.changeScene(s);
 		
 		var r = mock(Renderer2D.class);
@@ -81,10 +82,29 @@ public class SceneDirectorTest {
 		verify(s, times(1)).draw2D(r);
 	}
 	
+	@Test
+	public void drawingCurrentSceneCallsCurrentScenesDrawMethod3D() {
+		TestScene s = mock(TestScene.class);
+		SceneDirector.changeScene(s);
+		
+		var r = mock(Renderer3D.class);
+		SceneDirector.updateCurrentScene(mock(TimeRecord.class));
+		verify(s, times(0)).draw3D(r);
+		
+		SceneDirector.drawCurrentScene3D(r);
+		verify(s, times(1)).draw3D(r);
+	}
+	
 	@Test(expected = HexException.class)
 	public void drawingCurrentScene2DWithNoSceneActiveThrowsException() {
 		var r = mock(Renderer2D.class);
 		SceneDirector.drawCurrentScene2D(r);
+	}
+	
+	@Test(expected = HexException.class)
+	public void drawingCurrentScene3DWithNoSceneActiveThrowsException() {
+		var r = mock(Renderer3D.class);
+		SceneDirector.drawCurrentScene3D(r);
 	}
 	
 	@Test
@@ -97,5 +117,34 @@ public class SceneDirectorTest {
 		Scene s = mock(Scene.class);
 		SceneDirector.changeScene(s);
 		assertEquals(s, SceneDirector.currentScene());
+	}
+	
+	@Test
+	public void pausingBlocksUpdates() {
+		TestScene s = mock(TestScene.class);
+		SceneDirector.changeScene(s);
+		
+		var time = mock(TimeRecord.class);
+		SceneDirector.updateCurrentScene(time);
+		verify(s, times(1)).update(time);
+		
+		SceneDirector.pause();
+		
+		time = mock(TimeRecord.class);
+		SceneDirector.updateCurrentScene(time);
+		verify(s, times(0)).update(time);
+	}
+	
+	@Test
+	public void resumingUnblocksUpdates() {
+		TestScene s = mock(TestScene.class);
+		SceneDirector.changeScene(s);
+		
+		SceneDirector.pause();
+		SceneDirector.resume();
+		
+		var time = mock(TimeRecord.class);
+		SceneDirector.updateCurrentScene(time);
+		verify(s, times(1)).update(time);
 	}
 }

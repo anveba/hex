@@ -2,23 +2,25 @@ package main.hex.ui;
 
 import main.engine.ui.FrameStack;
 import main.hex.Preferences;
+import main.hex.serialisation.HexFileSystem;
 
 public class OptionsFrameLogic {
 
     public void exitSettingsButtonPressed() {
+    	HexFileSystem.getInstance().savePreferences(Preferences.getCurrent());
         FrameStack.getInstance().pop();
     }
 
     public void enable3DGraphics() {
-        Preferences.getInstance().enable3D();
+        Preferences.getCurrent().enable3D();
     }
 
     public void enable2DGraphics() {
-        Preferences.getInstance().disable3D();
+        Preferences.getCurrent().disable3D();
     }
 
     public boolean is3DEnabled() {
-        return Preferences.getInstance().is3DEnabled();
+        return Preferences.getCurrent().is3DEnabled();
     }
 
     public void setSoundVolume(int volume) {

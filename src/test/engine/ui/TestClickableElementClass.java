@@ -2,10 +2,10 @@ package test.engine.ui;
 
 import main.engine.TimeRecord;
 import main.engine.input.ControlsArgs;
-import main.engine.ui.ClickArgs;
 import main.engine.ui.Clickable;
-import main.engine.ui.HoverArgs;
-import main.engine.ui.TextInputArgs;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.TextInputArgs;
 
 class TestClickableElementClass extends TestUIElementClass implements Clickable {
 

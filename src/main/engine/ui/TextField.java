@@ -8,6 +8,9 @@ import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.input.InputType;
 import main.engine.math.Vector2;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.TextInputArgs;
 import main.hex.resources.TextureLibrary;
 
 /**

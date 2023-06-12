@@ -14,8 +14,9 @@ public class TimeRecordTest {
         float elapsed = 4.596f;
         float total = 52.56f;
         var r = new TimeRecord(elapsed, total);
-        assertTrue(floatEquals(r.elapsedSeconds(), elapsed));
-        assertTrue(floatEquals(r.totalSeconds(), total));
+        float delta = 0.001f;
+        assertEquals(elapsed, r.elapsedSeconds(), delta);
+        assertEquals(total, r.totalSeconds(), delta);
     }
 
 }

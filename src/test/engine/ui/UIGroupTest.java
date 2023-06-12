@@ -12,6 +12,9 @@ import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.*;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.TextInputArgs;
 
 public class UIGroupTest {
 	@Test

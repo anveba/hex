@@ -15,9 +15,10 @@ public class SceneDirector {
 	}
 	
 	private Scene currentScene;
+	private boolean isPaused;
 	
 	private SceneDirector() {
-		
+		isPaused = false;
 	}
 	
 	public static void changeScene(Scene scene) {
@@ -27,9 +28,12 @@ public class SceneDirector {
 			getInstance().currentScene.end();
 		getInstance().currentScene = scene;
 		getInstance().currentScene.begin();
+		resume();
 	}
 	
 	public static void updateCurrentScene(TimeRecord time) {
+		if (isPaused())
+			return;
 		if (getInstance().currentScene == null)
 			throw new HexException("No current scene active");
 		getInstance().currentScene.update(time);
@@ -49,5 +53,17 @@ public class SceneDirector {
 	
 	public static Scene currentScene() {
 		return getInstance().currentScene;
+	}
+	
+	public static boolean isPaused() {
+		return getInstance().isPaused;
+	}
+	
+	public static void pause() {
+		getInstance().isPaused = true;
+	}
+	
+	public static void resume() {
+		getInstance().isPaused = false;
 	}
 }

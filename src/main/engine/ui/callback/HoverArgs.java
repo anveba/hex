@@ -1,14 +1,14 @@
-package main.engine.ui;
+package main.engine.ui.callback;
 
 /**
  * Immutable.
  * @author andreas
  *
  */
-public class ClickArgs {
+public class HoverArgs {
 	private float x, y;
 	
-	public ClickArgs(float x, float y) {
+	public HoverArgs(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

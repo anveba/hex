@@ -5,11 +5,15 @@ import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
+import main.hex.board.Board;
+import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
+import main.hex.scene.GameplayScene;
 import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
@@ -24,15 +28,20 @@ public class GameplayFrame extends Frame {
     private final String PAUSE_MENU_TITLE = "PAUSED";
     private final String PAUSE_MENU_RESUME_BTN = "Resume";
     private final String PAUSE_MENU_OPTIONS_BTN = "Options";
-    private final String PAUSE_MENU_SAVE_GAME_BTN = "Save game";
-    private final String PAUSE_MENU_MAIN_MENU_BTN = "Main menu";
+    private final String PAUSE_MENU_SAVE_GAME_BTN = "Save Game";
+    private final String PAUSE_MENU_MAIN_MENU_BTN = "Main Menu";
     private final String PAUSE_MENU_EXIT_BTN = "Exit Game";
+
+    private final String WIN_MENU_TITLE = "GAME ENDED";
+    private final String WIN_MENU_RESTART_BTN = "Restart Game";
+    private final String WIN_MENU_MAIN_MENU_BTN = "Main Menu";
 
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
     private GameCustomisation gameCustomisation;
     private GameLogic gameLogic;
     private UIGroup pauseMenuUIGroup;
+    private UIGroup winMenuUIGroup;
 
     public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
 
@@ -52,10 +61,20 @@ public class GameplayFrame extends Frame {
         gameFrameView.addChild(createUndoView());
         gameFrameView.addChild(createPlayerViews());
 
+        //Win menu (added almost last, so it's on top of everything else but the pause menu)
+
+
         //Pause menu (added last, so it's on top of everything else)
         pauseMenuUIGroup = createPauseMenu();
         pauseMenuUIGroup.disable(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
+
+        //Pause menu (added last, so it's on top of everything else)
+        winMenuUIGroup = createWinMenu();
+        winMenuUIGroup.disable(); //Initially hidden
+        root.addChild(winMenuUIGroup);
+
+
 
     }
 
@@ -86,8 +105,11 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createUndoView() {
         UIGroup undoView = new UIGroup(0.0f, 0.0f);
-        Image undoSymbol = new Image(0.0f, -0.91f, 0.12f, 0.12f, TextureLibrary.SMALL_UNDO_GREY.getTexture());
-        undoView.addChild(undoSymbol);
+        RectButton undoBtn= new RectButton(0.0f, -0.91f, 0.12f, 0.12f, 
+        		TextureLibrary.SMALL_UNDO_GREY.getTexture(), FONT_FREDOKA_ONE, "", 
+        		0, null, null, null);
+        undoBtn.setClickCallback(args -> undoBtnClicked());
+        undoView.addChild(undoBtn);
 
         return undoView;
     }
@@ -196,6 +218,61 @@ public class GameplayFrame extends Frame {
         return pauseMenu;
     }
 
+    private UIGroup createWinMenu() {
+        UIGroup winMenu = new UIGroup(0.0f, 0.1f);
+
+        Image winMenuBackground = new Image(0.0f, 0.0f, 1.0f, 1.1f, TextureLibrary.BOX_ORANGE_ROUNDED.getTexture());
+        winMenu.addChild(winMenuBackground);
+
+        //Creating banner
+        UIGroup winMenuBanner = new UIGroup(0.0f, 0.51f);
+        Image winMenuBannerBackground = new Image(0.0f, 0.0f, 0.7f, 0.2f, TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture());
+        winMenuBanner.addChild(winMenuBannerBackground);
+        Text bannerText = new Text(0.0f, 0.03f, FONT_FREDOKA_ONE, WIN_MENU_TITLE, 0.11f);
+        winMenuBanner.addChild(bannerText);
+        winMenu.addChild(winMenuBanner);
+
+
+
+        //Creating button callbacks:
+        ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
+        ButtonCallback restartGameClicked = (args) -> restartGameBtnClicked();
+
+        RectButton mainMenuBtn = new RectButton(
+                0.0f,
+                -0.17f,
+                0.7f,
+                0.18f,
+                TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+                FONT_FREDOKA_ONE,
+                WIN_MENU_MAIN_MENU_BTN,
+                0.11f,
+                mainMenuClicked,
+                null,
+                null
+        );
+        winMenu.addChild(mainMenuBtn);
+
+        RectButton restartGameBtn = new RectButton(
+                0.0f,
+                -0.37f,
+                0.7f,
+                0.18f,
+                TextureLibrary.BUTTON_TEXT_LARGE_GREEN_ROUND.getTexture(),
+                FONT_FREDOKA_ONE,
+                WIN_MENU_RESTART_BTN,
+                0.10f,
+                restartGameClicked,
+                null,
+                null
+        );
+        winMenu.addChild(restartGameBtn);
+
+        return winMenu;
+    }
+
+
+
     public RectButton createPauseMenuButton(int n, Texture texture, String string, ButtonCallback clickCallback) {
         return new RectButton(0.0f, 0.37f - 0.21f * n, 0.7f, 0.18f, texture, FONT_FREDOKA_ONE, string, 0.12f, clickCallback, null, null);
     }
@@ -208,17 +285,37 @@ public class GameplayFrame extends Frame {
 
     private void openPauseMenuBtnClicked() {
         pauseMenuUIGroup.enable();
-        SceneDirector.currentScene().pauseUpdates();
+        SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
         pauseMenuUIGroup.disable();
-        SceneDirector.currentScene().resumeUpdates();
+        SceneDirector.resume();
     }
     private void optionsBtnClicked() {
         FrameStack.getInstance().push(new OptionsFrame());
     }
     private void mainMenuBtnClicked() {
         SceneDirector.changeScene(new MainMenuScene());
+    }
+    private void restartGameBtnClicked() {
+
+        boolean swapRule = gameCustomisation.getSwapRule();
+        Board board = new Board(gameLogic.getBoard().size());
+        Player player1 = gameLogic.getPlayer1();
+        player1.getTimer().setTime(gameCustomisation.getInitialTimeLimit());
+        Player player2 = gameLogic.getPlayer2();
+        player2.getTimer().setTime(gameCustomisation.getInitialTimeLimit());
+
+        SceneDirector.changeScene(
+                new GameplayScene(
+                        new GameLogic(
+                                board,
+                                player1,
+                                player2,
+                                swapRule
+                        ),
+                        gameCustomisation)
+        );
     }
 
     private void saveGaneBtnClicked() {
@@ -228,4 +325,16 @@ public class GameplayFrame extends Frame {
     private void exitGameBtnClicked() {
         Game.getInstance().closeWindow();
     }
+    
+    private void undoBtnClicked() {
+    	if (gameLogic.historyLength() > 0)
+    		gameLogic.undoLast();
+    }
+
+    public void onPlayerWin(Player player) {
+        SceneDirector.pause();
+        System.out.println("here");
+        winMenuUIGroup.enable();
+    }
+
 }

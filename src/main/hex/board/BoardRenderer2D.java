@@ -39,17 +39,23 @@ public class BoardRenderer2D {
     }
 
     private void drawBorder(int x, int y, Renderer2D renderer, Board board, GameCustomisation gameCustomisation) {
-        Colour p1Col = gameCustomisation.getPlayer1Skin().getTint();
-        Colour p2Col = gameCustomisation.getPlayer2Skin().getTint();
+        Colour verticalWinColour = gameCustomisation.getPlayer1Skin().getTint();
+        Colour horizontalWinColour = gameCustomisation.getPlayer2Skin().getTint();
+        
+        if (TileColour.PLAYER2.winsByVerticalConnection()) {
+        	Colour temp = verticalWinColour;
+        	verticalWinColour = horizontalWinColour;
+        	horizontalWinColour = temp;
+        }
 
         // Bottom left corner
         Vector2 bottomLeftCornerScreenPos = tileToScreen(-1, -1, board.size());
-        renderer.drawSprite(leftBorderCornerTexture, p2Col, (float) -Math.PI/3, bottomLeftCornerScreenPos.getX(),
+        renderer.drawSprite(leftBorderCornerTexture, horizontalWinColour, (float) -Math.PI/3, bottomLeftCornerScreenPos.getX(),
                 bottomLeftCornerScreenPos.getY(), tileSize, tileHeight);
 
         // Bottom right corner
         Vector2 topRightCornerScreenPos = tileToScreen(board.size(), board.size(), board.size());
-        renderer.drawSprite(leftBorderCornerTexture, p2Col, (float) (2*Math.PI)/3, topRightCornerScreenPos.getX(),
+        renderer.drawSprite(leftBorderCornerTexture, horizontalWinColour, (float) (2*Math.PI)/3, topRightCornerScreenPos.getX(),
                 topRightCornerScreenPos.getY(), tileSize, tileHeight);
 
         // Bottom border
@@ -60,7 +66,7 @@ public class BoardRenderer2D {
             if (x == board.size() - 1)
                 texture = leftBorderCornerTexture;
 
-            renderer.drawSprite(texture, p1Col, 0, bottomBorderScreenPos.getX(),
+            renderer.drawSprite(texture, verticalWinColour, 0, bottomBorderScreenPos.getX(),
                     bottomBorderScreenPos.getY(), tileSize, tileHeight);
         }
 
@@ -72,7 +78,7 @@ public class BoardRenderer2D {
             if (x == 0)
                 texture = leftBorderCornerTexture;
 
-            renderer.drawSprite(texture, p1Col, (float) Math.PI, topBorderScreenPos.getX(),
+            renderer.drawSprite(texture, verticalWinColour, (float) Math.PI, topBorderScreenPos.getX(),
                     topBorderScreenPos.getY(), tileSize, tileHeight);
         }
 
@@ -84,7 +90,7 @@ public class BoardRenderer2D {
             if (y == board.size() - 1)
                 texture = rightBorderCornerTexture;
 
-            renderer.drawSprite(texture, p2Col, (float) -Math.PI / 3, leftBorderScreenPos.getX(),
+            renderer.drawSprite(texture, horizontalWinColour, (float) -Math.PI / 3, leftBorderScreenPos.getX(),
                     leftBorderScreenPos.getY(), tileSize, tileHeight);
         }
 
@@ -96,7 +102,7 @@ public class BoardRenderer2D {
             if (y == 0)
                 texture = rightBorderCornerTexture;
 
-            renderer.drawSprite(texture, p2Col, (float) (2*Math.PI)/3, rightBorderScreenPos.getX(),
+            renderer.drawSprite(texture, horizontalWinColour, (float) (2*Math.PI)/3, rightBorderScreenPos.getX(),
                     rightBorderScreenPos.getY(), tileSize, tileHeight);
         }
     }

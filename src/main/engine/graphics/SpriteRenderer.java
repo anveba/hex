@@ -55,9 +55,11 @@ public class SpriteRenderer {
 		
 		Matrix4 model;
 		{
+			float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
+			Matrix4 aspectRatioCorrectionScaleMat = Matrix4.scale(1.0f / aspectRatio, 1.0f, 1.0f);
 			Matrix4 rotMat = Matrix4.rotateYawPitchRoll(0.0f, 0.0f, rotation);
-			Matrix4 transMat = Matrix4.translate(x, y, 0.0f);
-			model = Matrix4.multiply(transMat, rotMat);
+			Matrix4 transMat = Matrix4.translate(x / aspectRatio, y, 0.0f);
+			model = Matrix4.multiply(Matrix4.multiply(transMat, aspectRatioCorrectionScaleMat), rotMat);
 		}
 
 		getShader().setMat4("u_model", model);
@@ -69,14 +71,11 @@ public class SpriteRenderer {
 
 	private float[] generateVertexBufferForSpriteRendering(Texture tex, float width, float height, int sourceX,
 			int sourceY, int sourceWidth, int sourceHeight) {
-		float aspectRatio = (float) context.getFramebufferWidth() / context.getFramebufferHeight();
 
         float iw = (float) 1.0f / tex.width();
         float ih = (float) 1.0f / tex.height();
         float x = -width / 2.0f;
         float y = -height / 2.0f;
-        x /= aspectRatio;
-        width /= aspectRatio;
 
         float[] vertices = { x, y, sourceX * iw, sourceY * ih, x + width, y, (sourceX + sourceWidth) * iw, sourceY * ih,
                 x + width, y + height, (sourceX + sourceWidth) * iw, (sourceY + sourceHeight) * ih, x, y + height,

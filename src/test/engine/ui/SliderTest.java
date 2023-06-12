@@ -3,6 +3,9 @@ package test.engine.ui;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.ui.*;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;

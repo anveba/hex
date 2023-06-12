@@ -4,6 +4,7 @@ import main.engine.input.InputType;
 import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.TitleScene;
+import main.hex.serialisation.HexFileSystem;
 import main.hex.ui.GameplayFrame;
 
 import main.engine.*;
@@ -36,13 +37,23 @@ public class Game extends GameWindow {
     
     @Override
     protected void begin() {
+    	loadPersistentData();
     	setupGraphics();
     	setupUserInterface();
     	
     	SceneDirector.changeScene(new MainMenuScene());
     }
     
-    private void setupUserInterface() {
+    private void loadPersistentData() {
+		try {
+			Preferences pref = HexFileSystem.getInstance().loadPreferences();
+			Preferences.setCurrent(pref);
+		} catch (Exception ex) {
+			
+		}
+	}
+
+	private void setupUserInterface() {
         
         getControlsListener().addOnCursorMoveCallback((x, y) -> {
             FrameStack.getInstance().hoverAt(x, y);
@@ -90,7 +101,7 @@ public class Game extends GameWindow {
     @Override
     protected void draw() {
         clear();
-        if (Preferences.getInstance().is3DEnabled())
+        if (Preferences.getCurrent().is3DEnabled())
         	SceneDirector.drawCurrentScene3D(renderer3D);
         else
         	SceneDirector.drawCurrentScene2D(renderer2D);

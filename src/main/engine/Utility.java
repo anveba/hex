@@ -56,4 +56,12 @@ public class Utility {
     		return upper;
     	return val;
     }
+    
+    public static float lerp(float val, float lower, float upper) {
+    	if (val < 0.0f || val > 1.0f)
+    		throw new EngineException("Value wasn't between 0 and 1");
+    	
+    	float delta = upper - lower;
+    	return lower + delta * val;
+    }
 }

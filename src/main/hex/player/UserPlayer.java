@@ -35,7 +35,7 @@ public class UserPlayer extends Player {
 		if (response == null)
 			return;
 		Point2 tileIndex;
-		if (Preferences.getInstance().is3DEnabled()) {
+		if (Preferences.getCurrent().is3DEnabled()) {
 			tileIndex = board.screenToTile3D(Game.getInstance().getControlsListener().getCursorX(),
 					Game.getInstance().getControlsListener().getCursorY());
 		} else {

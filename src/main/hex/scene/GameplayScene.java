@@ -19,6 +19,7 @@ public class GameplayScene extends Scene {
 	private GameCustomisation gameCustomization;
 	private CameraController camController;
 	private Cubemap skybox;
+	private GameplayFrame gameplayFrame;
 	
 	public GameplayScene(GameLogic gameLogic, GameCustomisation gameCustomisation) {
 		if (gameLogic == null || gameCustomisation == null)
@@ -30,7 +31,7 @@ public class GameplayScene extends Scene {
 	}
 	
 	@Override
-	public void begin() {
+	protected void begin() {
 		setUpUserInterface();
 		startGameplay();
 		setUpCamera();
@@ -38,7 +39,8 @@ public class GameplayScene extends Scene {
 	
 	private void setUpUserInterface() {
 		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(new GameplayFrame(gameCustomization, gameLogic));
+		gameplayFrame = new GameplayFrame(gameCustomization, gameLogic);
+		FrameStack.getInstance().push(gameplayFrame);
 	}
 	
     private void startGameplay() {
@@ -59,23 +61,20 @@ public class GameplayScene extends Scene {
     }
     
     private void onPlayerWin(Player p) {
-    	//TODO currently a temporary method body
-    	System.out.println(p.getColour() + " has won!");
-    	SceneDirector.changeScene(new TitleScene());
+		gameplayFrame.onPlayerWin(p);
+    	//SceneDirector.changeScene(new TitleScene());
     }
 	
 	@Override
-	public void end() {
+	protected void end() {
+		
 	}
 
 	@Override
-	protected void updateScene(TimeRecord time) {
-
-		if(isUpdatesPaused()) return;
+	protected void update(TimeRecord time) {
 
 		gameLogic.update(time);
-		if (gameLogic.coloursSwapped())
-			gameCustomization.setPlayersAsSwapped();
+		gameCustomization.setSwapped(gameLogic.coloursSwapped());
 		camController.update(time);
 
 		gameLogic.getPlayer1().getTimer().update(time);
@@ -83,14 +82,15 @@ public class GameplayScene extends Scene {
 	}
 
 	@Override
-	public void draw2D(Renderer2D renderer) {
+	protected void draw2D(Renderer2D renderer) {
 		gameLogic.getBoard().draw2D(renderer, gameCustomization);
 	}
 	
 	@Override
-	public void draw3D(Renderer3D renderer) {
+	protected void draw3D(Renderer3D renderer) {
+		renderer.setSkybox(skybox, 2.0f);
 		gameLogic.getBoard().draw3D(renderer, gameCustomization);
-		renderer.drawSkybox(skybox);
+		renderer.drawSkybox();
 	}
 
 }

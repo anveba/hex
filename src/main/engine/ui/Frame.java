@@ -4,6 +4,9 @@ import main.engine.*;
 import main.engine.graphics.*;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.TextInputArgs;
 
 /**
  * Represents a menu in the user interface. Only one frame is active at a time

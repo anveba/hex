@@ -227,6 +227,19 @@ public class Matrix4 {
         return rot;
     }
     
+    public static Matrix4 scale(float x, float y, float z) {
+    	
+        Matrix4 scale = new Matrix4();
+        scale.setIdentity();
+
+        scale.m00 = x;
+        scale.m11 = y;
+        scale.m22 = z;
+
+        return scale;
+    }
+    
+    
 	public void populateBuffer(FloatBuffer buffer) {
 		buffer.put(m00).put(m10).put(m20).put(m30);
         buffer.put(m01).put(m11).put(m21).put(m31);

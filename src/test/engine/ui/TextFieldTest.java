@@ -5,6 +5,9 @@ import main.engine.graphics.Texture;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.*;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.TextInputArgs;
+
 import org.junit.Assert;
 import org.junit.Test;
 
