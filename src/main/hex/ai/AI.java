@@ -91,7 +91,7 @@ public class AI {
             bestMove = searchAtNewDepth.get();
         }
 
-        System.out.println("Found move with depth: "+depth);
+        System.out.println("Found move with depth: "+depth+ " Value: "+bestMove.getValue());
         System.out.println("X: "+bestMove.getX()+"Y: "+bestMove.getY());
         return bestMove;
     }
@@ -152,6 +152,7 @@ public class AI {
 
         //We use a board evaluator to evaluate the board
         BoardEvaluator g = new BoardEvaluator(state,verticalColour,horizontalColour,tileConnectionFunction,graphHeuristicFunction);
+
 
         double eval = 0;
 
