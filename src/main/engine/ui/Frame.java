@@ -1,12 +1,12 @@
 package main.engine.ui;
 
+import java.util.*;
+
 import main.engine.*;
 import main.engine.graphics.*;
-import main.engine.input.Controls;
-import main.engine.input.ControlsArgs;
-import main.engine.ui.callback.ClickArgs;
-import main.engine.ui.callback.HoverArgs;
-import main.engine.ui.callback.TextInputArgs;
+import main.engine.input.*;
+import main.engine.ui.animation.Animator;
+import main.engine.ui.callback.*;
 
 /**
  * Represents a menu in the user interface. Only one frame is active at a time
@@ -17,8 +17,10 @@ import main.engine.ui.callback.TextInputArgs;
 public class Frame {
 	
 	private UIElement root;
+	private Collection<Animator> animators;
 	
 	public Frame() {
+		animators = new ArrayList<>();
 	}
 	
 	public void setRoot(UIElement root) {
@@ -76,5 +78,32 @@ public class Frame {
 	protected void draw(Renderer2D renderer) {
 		if (root != null && !root.isHidden())
 			root.draw(renderer, 0, 0, Colour.White);
+	}
+	
+	public void addAnimator(Animator animator) {
+		if (animators.contains(animator))
+			throw new EngineException("Animator is already contained");
+		if (animator == null)
+			throw new EngineException("Animator is null");
+		animators.add(animator);
+	}
+	
+	public boolean removeAnimator(Animator animator) {
+		return animators.remove(animator);
+	}
+	
+	protected void animate(TimeRecord time) {
+		List<Animator> finishedAnimators = new ArrayList<>();
+		for (var animator : animators) {
+			if (animator.done()) {
+				finishedAnimators.add(animator);
+				continue;
+			}
+			animator.animate(time);
+		}
+		
+		for (var finished : finishedAnimators) {
+			animators.remove(finished);
+		}
 	}
 }

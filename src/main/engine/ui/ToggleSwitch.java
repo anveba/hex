@@ -41,13 +41,13 @@ public class ToggleSwitch extends RectElement implements Clickable {
         this.disabledColour = disabledColour;
         this.enabledColour = enabledColour;
         if (!initialToggleOn) {
-            backgroundImage = new Image(x, y, width * 0.9f, height * 0.9f, backgroundTexture, disabledColour);
+            backgroundImage = new Image(0.0f, 0.0f, width * 0.9f, height * 0.9f, backgroundTexture, disabledColour);
         } else {
-            backgroundImage = new Image(x, y, width * 0.9f, height * 0.9f, backgroundTexture, enabledColour);
+            backgroundImage = new Image(0.0f, 0.0f, width * 0.9f, height * 0.9f, backgroundTexture, enabledColour);
         }
-        foregroundImage = new Image(x - width/2 + height/2, y, height, height, foregroundTexture);
+        foregroundImage = new Image(-width / 2.0f + height / 2.0f, 0.0f, height, height, foregroundTexture);
         if (toggleSwitchOn) {
-            foregroundImage.setPosition(x + width/2 - height/2, y);
+            foregroundImage.setPosition(width / 2.0f - height / 2.0f, 0.0f);
         }
         setEnableCallback(enableCallback);
         setDisableCallback(disableCallback);
@@ -125,7 +125,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
                 }
                 toggleSwitchOn = true;
                 backgroundImage.setColour(enabledColour);
-                foregroundImage.setPosition(getX() + getWidth()/2 - getHeight()/2, getY());
+                foregroundImage.setPosition(getWidth()/2 - getHeight()/2, 0.0f);
              }
         } else {
             if (containsPosition(args.getX(), args.getY())) {
@@ -134,7 +134,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
                 }
                 toggleSwitchOn = false;
                 backgroundImage.setColour(disabledColour);
-                foregroundImage.setPosition(getX() - getWidth()/2 + getHeight()/2, getY());
+                foregroundImage.setPosition(-getWidth()/2 + getHeight()/2, 0.0f);
             }
         }
     }
@@ -185,7 +185,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
     @Override
     protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
-        backgroundImage.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
-        foregroundImage.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
+        backgroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));
+        foregroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));
     }
 }

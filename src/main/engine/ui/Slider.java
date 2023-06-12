@@ -34,8 +34,8 @@ public class Slider extends RectElement implements Clickable {
              y,
              width,
              height,
-             new Image(x, y, width, height, backgroundTexture),
-             new Image(x, y, height, height, sliderTexture), //We want the sliderBtn to be a square of height * height.
+             new Image(0.0f, 0.0f, width, height, backgroundTexture),
+             new Image(0.0f, 0.0f, height, height, sliderTexture), //We want the sliderBtn to be a square of height * height.
              min,
              max,
              initial,
@@ -50,8 +50,8 @@ public class Slider extends RectElement implements Clickable {
         super(x, y, width, height);
         this.background = background;
         this.sliderBtn = sliderBtn;
-        sliderMaxX = x + width / 2.0f - width/16f;
-        sliderMinX = x - width / 2.0f + width/16f;
+        sliderMaxX = width / 2.0f - width / 16f;
+        sliderMinX = -width / 2.0f + width / 16f;
         this.min = min;
         this.max = max;
         this.current = initial;
@@ -89,7 +89,7 @@ public class Slider extends RectElement implements Clickable {
         } else if (x > sliderMaxX) {
             sliderX = sliderMaxX;
         }
-        sliderBtn.setPosition(sliderX, this.getY());
+        sliderBtn.setPosition(sliderX, 0.0f);
         int newCurrent = (int) (min + (max - min) * getSliderPercent());
         if(current != newCurrent) {
         	current = newCurrent;
@@ -102,21 +102,21 @@ public class Slider extends RectElement implements Clickable {
     }
 
     private void setSliderPercent(float percent) {
-    	moveSlider(this.getX() + (sliderMaxX - sliderMinX) * percent - (sliderMaxX - sliderMinX) / 2);
+    	moveSlider((sliderMaxX - sliderMinX) * percent - (sliderMaxX - sliderMinX) / 2);
     }
 
 
     @Override
     public void updateCursorPosition(HoverArgs args) {
         if(!isPressed) return;
-        moveSlider(args.getX());
+        moveSlider(args.getX() - getX());
     }
 
     @Override
     public void processClickDown(ClickArgs args) {
         if(!containsPosition(args.getX(), args.getY())) return;
         isPressed = true;
-        moveSlider(args.getX());
+        moveSlider(args.getX() - getX());
     }
 
     @Override
@@ -140,9 +140,9 @@ public class Slider extends RectElement implements Clickable {
 
     @Override
     protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        background.draw(renderer, offsetX, offsetY, colour);
-        sliderBtn.draw(renderer, offsetX, offsetY, colour);
-        if(text != null) text.draw(renderer, offsetX, offsetY, colour);
+        background.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+        sliderBtn.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+        if(text != null) text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
     }
 
     @Override

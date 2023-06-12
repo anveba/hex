@@ -77,7 +77,6 @@ public class Game extends GameWindow {
     @Override
     protected void update(TimeRecord elapsed) {
     	SceneDirector.updateCurrentScene(elapsed);
-    	FrameStack.getInstance().update(elapsed);
     	
     	if (getControlsListener().isPressed(Controls.LEFT_MOUSE)) {
     		FrameStack.getInstance().pressAt(
@@ -94,6 +93,8 @@ public class Game extends GameWindow {
     	
     	for (Controls c : getControlsListener().currentlyReleased())
     		FrameStack.getInstance().processControlsInput(new ControlsArgs(c));
+    	
+    	FrameStack.getInstance().update(elapsed);
 
     	getControlsListener().flush();
     }

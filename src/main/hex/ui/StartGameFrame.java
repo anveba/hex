@@ -134,7 +134,7 @@ public class StartGameFrame extends Frame {
 		boardSize.addChild(boardSizeSlider);
 		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
 		//Creating slider text object(optional):
-		Text boardSizeSliderText = new Text(boardSizeSlider.getX() + boardSizeSlider.getWidth()/2f + 0.05f, boardSizeSlider.getY() + 0.015f, FONT_FREDOKA_ONE, BOARD_SIZE_LABEL, standardFontSize - 0.01f);
+		Text boardSizeSliderText = new Text(boardSizeSlider.getWidth()/2f + 0.05f, boardSizeSlider.getY() + 0.015f, FONT_FREDOKA_ONE, BOARD_SIZE_LABEL, standardFontSize - 0.01f);
 		boardSizeSliderText.setColour(Colour.Grey);
 		boardSizeSliderText.setAnchorPoint(AnchorPoint.Left);
 		boardSizeSlider.setText(boardSizeSliderText);
@@ -152,7 +152,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):
-		Text timeLimitSliderText = new Text(timeLimitSlider.getX() + timeLimitSlider.getWidth()/2f + 0.05f, timeLimitSlider.getY() + 0.015f, FONT_FREDOKA_ONE, GAME_TIME_LABEL, standardFontSize - 0.01f);
+		Text timeLimitSliderText = new Text(timeLimitSlider.getWidth()/2f + 0.05f, timeLimitSlider.getY() + 0.015f, FONT_FREDOKA_ONE, GAME_TIME_LABEL, standardFontSize - 0.01f);
 		timeLimitSliderText.setColour(Colour.Grey);
 		timeLimitSliderText.setAnchorPoint(AnchorPoint.Left);
 		timeLimitSlider.setText(timeLimitSliderText);

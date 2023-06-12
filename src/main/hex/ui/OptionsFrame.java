@@ -89,7 +89,7 @@ public class OptionsFrame extends Frame {
                 0, 100, 50,
                 args -> logic.setMusicVolume(args.getSliderLevel())
         );
-        musicSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
+        musicSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
         musicSection.addChild(musicSlider);
 
 

@@ -73,8 +73,8 @@ public class TextField extends RectElement implements Clickable {
 
     @Override
     protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        image.draw(renderer, offsetX, offsetY, colour);
-        text.draw(renderer, offsetX, offsetY, colour);
+        image.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+        text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
     }
     
 	@Override
@@ -125,7 +125,7 @@ public class TextField extends RectElement implements Clickable {
         truncateTextIfTooLong();
 	}
 
-    //TODO: Make this dependt on text width. Also create test.
+    //TODO: Make this depend on text width. Also create test.
     public void truncateTextIfTooLong() {
         if (textString.length() > 12) {
             textString.deleteCharAt(textString.length() - 1);

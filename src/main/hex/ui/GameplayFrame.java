@@ -5,6 +5,8 @@ import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
+import main.engine.ui.animation.*;
+import main.engine.ui.animation.easing.*;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.GameCustomisation;
@@ -35,6 +37,8 @@ public class GameplayFrame extends Frame {
     private final String WIN_MENU_TITLE = "GAME ENDED";
     private final String WIN_MENU_RESTART_BTN = "Restart Game";
     private final String WIN_MENU_MAIN_MENU_BTN = "Main Menu";
+    
+    private final float pauseMenuAnimationTime = 0.8f;
 
     private static final float tileSizeX = 0.08f;
     private static final float tileSizeY = tileSizeX * 1.1547005f;
@@ -42,6 +46,8 @@ public class GameplayFrame extends Frame {
     private GameLogic gameLogic;
     private UIGroup pauseMenuUIGroup;
     private UIGroup winMenuUIGroup;
+    
+    private Animator pauseMenuAnimator;
 
     public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
 
@@ -66,7 +72,7 @@ public class GameplayFrame extends Frame {
 
         //Pause menu (added last, so it's on top of everything else)
         pauseMenuUIGroup = createPauseMenu();
-        pauseMenuUIGroup.unhide(); //Initially hidden
+        pauseMenuUIGroup.hide(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
 
         //Pause menu (added last, so it's on top of everything else)
@@ -271,24 +277,37 @@ public class GameplayFrame extends Frame {
         return winMenu;
     }
 
-
-
     public RectButton createPauseMenuButton(int n, Texture texture, String string, ButtonCallback clickCallback) {
         return new RectButton(0.0f, 0.37f - 0.21f * n, 0.7f, 0.18f, texture, FONT_FREDOKA_ONE, string, 0.12f, clickCallback, null, null);
     }
 
     @Override
-    public void update(TimeRecord elapsed) {
+	public void update(TimeRecord elapsed) {
         player1TimerText.setText(gameLogic.getPlayer1().getTimer().getFormattedTime());
         player2TimerText.setText(gameLogic.getPlayer2().getTimer().getFormattedTime());
     }
 
     private void openPauseMenuBtnClicked() {
-        pauseMenuUIGroup.hide();
+    	removeAnimator(pauseMenuAnimator);
+    	pauseMenuAnimator = new Animator(
+    			new Ease(pauseMenuUIGroup, new CubicInOut(),
+    					2.0f, 0.0f, 0.0f, 0.0f, 
+    					pauseMenuAnimationTime));
+    	addAnimator(pauseMenuAnimator);
+        pauseMenuUIGroup.unhide();
         SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
-        pauseMenuUIGroup.unhide();
+    	removeAnimator(pauseMenuAnimator);
+    	pauseMenuAnimator = new Animator(
+    			new AnimationSequence(
+    	    			new Ease(pauseMenuUIGroup, new CubicInOut(),
+    	    					0.0f, 0.0f, -2.0f, 0.0f, 
+    	    					pauseMenuAnimationTime),
+    	    			new Wait(pauseMenuAnimationTime),
+    	    			new Hide(pauseMenuUIGroup)
+    			));
+    	addAnimator(pauseMenuAnimator);
         SceneDirector.resume();
     }
     private void optionsBtnClicked() {
