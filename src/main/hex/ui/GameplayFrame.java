@@ -66,12 +66,12 @@ public class GameplayFrame extends Frame {
 
         //Pause menu (added last, so it's on top of everything else)
         pauseMenuUIGroup = createPauseMenu();
-        pauseMenuUIGroup.disable(); //Initially hidden
+        pauseMenuUIGroup.unhide(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
 
         //Pause menu (added last, so it's on top of everything else)
         winMenuUIGroup = createWinMenu();
-        winMenuUIGroup.disable(); //Initially hidden
+        winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
 
 
@@ -284,11 +284,11 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-        pauseMenuUIGroup.enable();
+        pauseMenuUIGroup.hide();
         SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
-        pauseMenuUIGroup.disable();
+        pauseMenuUIGroup.unhide();
         SceneDirector.resume();
     }
     private void optionsBtnClicked() {
@@ -296,6 +296,7 @@ public class GameplayFrame extends Frame {
     }
     private void mainMenuBtnClicked() {
         SceneDirector.changeScene(new MainMenuScene());
+        SceneDirector.resume();
     }
     private void restartGameBtnClicked() {
 
@@ -334,7 +335,7 @@ public class GameplayFrame extends Frame {
     public void onPlayerWin(Player player) {
         SceneDirector.pause();
         System.out.println("here");
-        winMenuUIGroup.enable();
+        winMenuUIGroup.unhide();
     }
 
 }

@@ -30,7 +30,7 @@ public class Frame {
 	}
 
 	public void clickDownAt(float x, float y) {
-		if (!(root instanceof Clickable))
+		if (!(root instanceof Clickable) || root.isHidden())
 			return;
 		Clickable c = (Clickable)root;
 		var args = new ClickArgs(x, y);
@@ -38,7 +38,7 @@ public class Frame {
 	}
 	
 	public void clickReleaseAt(float x, float y) {
-		if (!(root instanceof Clickable))
+		if (!(root instanceof Clickable) || root.isHidden())
 			return;
 		Clickable c = (Clickable)root;
 		var args = new ClickArgs(x, y);
@@ -46,7 +46,7 @@ public class Frame {
 	}
 
 	public void hoverAt(float x, float y) {
-		if (!(root instanceof Hoverable))
+		if (!(root instanceof Hoverable) || root.isHidden())
 			return;
 		Hoverable h = (Hoverable)root;
 		var args = new HoverArgs(x, y);
@@ -54,7 +54,7 @@ public class Frame {
 	}
 	
 	public void processTextInput(char ch) {
-		if (!(root instanceof Clickable))
+		if (!(root instanceof Clickable) || root.isHidden())
 			return;
 		Clickable c = (Clickable)root;
 		var args = new TextInputArgs(ch);
@@ -62,19 +62,19 @@ public class Frame {
 	}
 	
 	public void processControlsInput(ControlsArgs args) {
-		if (!(root instanceof Clickable))
+		if (!(root instanceof Clickable) || root.isHidden())
 			return;
 		Clickable clickable = (Clickable)root;
 		clickable.processControlsInput(new ControlsArgs(args.getControls()));
 	}
 	
 	public void update(TimeRecord elapsed) {
-		if (root != null)
+		if (root != null && !root.isHidden())
 			root.update(elapsed);
 	}
 	
 	protected void draw(Renderer2D renderer) {
-		if (root != null)
+		if (root != null && !root.isHidden())
 			root.draw(renderer, 0, 0, Colour.White);
 	}
 }

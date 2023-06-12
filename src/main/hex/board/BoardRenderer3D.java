@@ -34,7 +34,7 @@ public class BoardRenderer3D {
 			0.02f, 0.02f, 0.02f,
 			0.9f, 0.9f, 0.9f,
 			0.2f, 0.2f, 0.2f,
-			256.0f, 0.02f, 0.005f,
+			256.0f, 0.02f, 0.01f,
 			ResourceManager.getInstance().loadTexture("textures/oak.jpg"), null
 			);
 	}
@@ -56,7 +56,7 @@ public class BoardRenderer3D {
 		return new Material(
 			0.02f, 0.02f, 0.02f,
 			0.8f, 0.8f, 0.8f,
-			0.6f, 0.6f, 0.01f,
+			0.6f, 0.6f, 0.6f,
 			2048.0f, 0.015f, 0.005f,
 			ResourceManager.getInstance().loadTexture("textures/white_px.png"), null
 		);

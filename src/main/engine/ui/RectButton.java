@@ -1,5 +1,6 @@
 package main.engine.ui;
 
+import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
@@ -12,12 +13,19 @@ import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.TextInputArgs;
 
+/**
+ * Represents a button in the UI with an image and text.
+ * @author andreas
+ *
+ */
 public class RectButton extends RectElement implements Clickable {
 	
 	private Image image;
 	private Text text;
 	private ButtonCallback clickCallback, hoverEnterCallback, hoverExitCallback;
 	private boolean isHovering, isDown;
+	private Colour colour;
+	private boolean isDisabled;
 	
 	private static final float downedOffset = -0.01f;
 	
@@ -38,8 +46,10 @@ public class RectButton extends RectElement implements Clickable {
 		setWidth(width);
 		setHeight(height);
 		setPosition(x, y);
+		isDisabled = false;
 		isHovering = false;
 		isDown = false;
+		setColour(Colour.White);
 	}
 
 	public RectButton(float x, float y, float width, float height,
@@ -47,16 +57,10 @@ public class RectButton extends RectElement implements Clickable {
 					  ButtonCallback clickCallback,
 					  ButtonCallback onHoverEnterCallback,
 					  ButtonCallback onHoverExitCallback) {
-		super(x, y, width, height);
-		image = new Image(x, y, width, height, imageTexture);
-		text = new Text(x, y  + textHeight  / 4 , font, displayedString, textHeight);
-		setClickCallback(clickCallback);
-		setHoverEnterCallback(onHoverEnterCallback);
-		setHoverExitCallback(onHoverExitCallback);
-		setWidth(width);
-		setHeight(height);
-		setPosition(x, y);
-		isHovering = false;
+		this(x, y, width, height, imageTexture, width, height, 
+				0, 0, imageTexture.width(), imageTexture.height(), 
+				font, displayedString, textHeight, 
+				clickCallback, onHoverEnterCallback, onHoverExitCallback);
 	}
 
 	public void setClickCallback(ButtonCallback callback) {
@@ -73,8 +77,8 @@ public class RectButton extends RectElement implements Clickable {
 	
 	@Override
 	public void processClickRelease(ClickArgs args) {
-		if(isDisabled()) return;
-
+		if (isDisabled)
+			return;
 		isDown = false;
 		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
@@ -83,14 +87,16 @@ public class RectButton extends RectElement implements Clickable {
 	
 	@Override
 	public void processClickDown(ClickArgs args) {
-		if(isDisabled()) return;
-
+		if (isDisabled)
+			return;
 		if (containsPosition(args.getX(), args.getY()))
 			isDown = true;
 	}
 
 	@Override
 	public void updateCursorPosition(HoverArgs args) {
+		if (isDisabled)
+			return;
 		boolean containsPos = containsPosition(args.getX(), args.getY());
 		if (!isHovering && containsPos) {
 			isHovering = true;
@@ -170,13 +176,34 @@ public class RectButton extends RectElement implements Clickable {
 	public void updateImageTexture(Texture texture) {
 		image.setTexture(texture);
 	}
+	
+	public Colour getColour() {
+		return colour;
+	}
+
+	public void setColour(Colour colour) {
+		if (colour == null)
+			throw new EngineException("Colour was null");
+		this.colour = colour;
+	}
+	
+	public void enable() {
+		isDisabled = false;
+	}
+	
+	public void disable() {
+		isDisabled = true;
+	}
 
 	@Override
-	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		if (isDown)
 			offsetY += downedOffset;
+		if (isDisabled)
+			colour = Colour.multiply(Colour.Grey, colour);
 		Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
-		image.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
-		text.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
+		Colour col = Colour.multiply(Colour.multiply(colour, highlight), getColour());
+		image.draw(renderer, offsetX, offsetY, col);
+		text.draw(renderer, offsetX, offsetY + text.getHeight() / 5.0f, col);
 	}
 }

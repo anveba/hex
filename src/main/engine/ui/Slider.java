@@ -1,6 +1,7 @@
 package main.engine.ui;
 
 import main.engine.TimeRecord;
+import main.engine.format.Format;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
@@ -24,6 +25,7 @@ public class Slider extends RectElement implements Clickable {
     private boolean isPressed;
     private int min, max, current;
     private float sliderMaxX, sliderMinX;
+    private Format format;
 
     public Slider(float x, float y, float width,float height, 
     		Texture backgroundTexture, Texture sliderTexture, 
@@ -57,6 +59,8 @@ public class Slider extends RectElement implements Clickable {
         float initialPercent = (float) (current - min) / (max - min);
         setSliderPercent(initialPercent);
 
+        this.format = null;
+
         this.text = null;
         this.textLayout = textLayout; // {} is replaced with current value
 
@@ -72,7 +76,10 @@ public class Slider extends RectElement implements Clickable {
     }
 
     private void updateText() {
-        if(text != null) text.setText(textLayout.replace("{}", current + ""));
+
+        String replacer = (format == null) ? Integer.toString(current) : format.formatInt(current);
+
+        if(text != null) text.setText(textLayout.replace("{}", replacer));
     }
 
     private void moveSlider(float x) {
@@ -132,7 +139,7 @@ public class Slider extends RectElement implements Clickable {
     }
 
     @Override
-    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         background.draw(renderer, offsetX, offsetY, colour);
         sliderBtn.draw(renderer, offsetX, offsetY, colour);
         if(text != null) text.draw(renderer, offsetX, offsetY, colour);
@@ -141,6 +148,11 @@ public class Slider extends RectElement implements Clickable {
     @Override
     public void update(TimeRecord elapsed) {
 
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+        updateText();
     }
 
     public int getMin() {

@@ -17,15 +17,15 @@ import static org.mockito.Mockito.*;
 
 public class PlayerTimerTest {
 
-    private TestPlayerClass player1, player2;
+    private test.hex.TestPlayerClass player1, player2;
     private PlayerTimer playerTimer;
     private Board board;
     private GameLogic gameLogic;
     private double initialDuration = 10.0;
     @Before
     public void setup() {
-        player1 = new TestPlayerClass(TileColour.PLAYER1, initialDuration);
-        player2 = new TestPlayerClass(TileColour.PLAYER2, initialDuration);
+        player1 = new test.hex.TestPlayerClass(TileColour.PLAYER1, initialDuration);
+        player2 = new test.hex.TestPlayerClass(TileColour.PLAYER2, initialDuration);
 
         playerTimer = new PlayerTimer(initialDuration);
 
@@ -80,7 +80,7 @@ public class PlayerTimerTest {
 
     @Test
     public void timerTextFormattedCorrectly() {
-        assertEquals("0:10", player1.getTimer().getFormattedTime());
+        assertEquals("00:10", player1.getTimer().getFormattedTime());
     }
 
     @Test

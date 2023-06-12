@@ -72,7 +72,7 @@ public class TextField extends RectElement implements Clickable {
     }
 
     @Override
-    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         image.draw(renderer, offsetX, offsetY, colour);
         text.draw(renderer, offsetX, offsetY, colour);
     }

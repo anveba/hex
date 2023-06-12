@@ -1,6 +1,7 @@
 package main.hex;
 
 import main.engine.TimeRecord;
+import main.engine.Utility;
 
 /**
  * This class is the logic behind the chess-inspired timers for each of the two players
@@ -64,10 +65,7 @@ public class PlayerTimer implements Updateable {
     }
 
     public String getFormattedTime() {
-        double remainingTime = getRemainingTime();
-        int minutes = (int)(remainingTime / 60.0);
-        int seconds = (int)(remainingTime % 60.0);
-        return String.format("%d:%02d", minutes, seconds);
+        return Utility.getFormattedTime(getRemainingTime());
     }
 
     public boolean getIsPaused() {

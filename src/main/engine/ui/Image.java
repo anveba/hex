@@ -3,40 +3,42 @@ package main.engine.ui;
 import main.engine.*;
 import main.engine.graphics.*;
 
+/**
+ * Represents an image in the user interface. Contains information pertaining to
+ * how to draw it.
+ * @author andreas
+ *
+ */
 public class Image extends RectElement {
 
 	private Texture texture;
 	private int sourceX, sourceY;
 	private int sourceWidth, sourceHeight;
-	private Colour colour = Colour.White; // If one of the constructors that does not specify color is used the default is white
+	private Colour colour; 
 	
 	public Image(float x, float y, float width, float height,
-			Texture tex, int sourceX, int sourceY, int sourceWidth, int sourceHeight) {
+			Texture tex, int sourceX, int sourceY, int sourceWidth, int sourceHeight,
+			Colour colour) {
 		super(x, y, width, height);
 		setTexture(tex);
 		setSourceX(sourceX);
 		setSourceY(sourceY);
 		setSourceWidth(sourceWidth);
 		setSourceHeight(sourceHeight);
+		setColour(colour);
 	}
-
-	public Image(float x, float y, float width, float height, Texture tex) {
-		super(x, y, width, height);
-		setTexture(tex);
-		setSourceX(0);
-		setSourceY(0);
-		setSourceWidth(tex.width());
-		setSourceHeight(tex.height());
+	
+	public Image(float x, float y, float width, float height,
+			Texture tex, int sourceX, int sourceY, int sourceWidth, int sourceHeight) {
+		this(x, y, width, height, tex, sourceX, sourceY, sourceWidth, sourceHeight, Colour.White);
 	}
 
 	public Image(float x, float y, float width, float height, Texture tex, Colour col) {
-		super(x, y, width, height);
-		setTexture(tex);
-		setSourceX(0);
-		setSourceY(0);
-		setSourceWidth(tex.width());
-		setSourceHeight(tex.height());
-		setColour(col);
+		this(x, y, width, height, tex, 0, 0, tex.width(), tex.height(), col);
+	}
+	
+	public Image(float x, float y, float width, float height, Texture tex) {
+		this(x, y, width, height, tex, Colour.White);
 	}
 	
 	public Texture getTexture() {
@@ -95,9 +97,10 @@ public class Image extends RectElement {
 	}
 
 	@Override
-	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+		Colour col = Colour.multiply(getColour(), colour);
 		renderer.drawSprite(getTexture(), getX() + offsetX, getY() + offsetY, getWidth(), getHeight(), 
-				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), getColour());
+				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), col);
 	}
 
 }
