@@ -26,12 +26,15 @@ public class WinConnectionFunction extends TileConnectionFunction{
 
     }
 
-    @Override
-    public double getStartEndWeight() {
-        return 1;
-    }
+
 
     @Override
     public void connectBridge(GridGraph gridGraph, Bridge b) {
+    }
+
+    @Override
+    public void connectEnds(GridGraph gridGraph, int x1, int y1, int x2, int y2, TileColour tileColour, TileColour agentColour) {
+        gridGraph.connectXyWithWeight(x1,y1,x2,y2,1);
+
     }
 }

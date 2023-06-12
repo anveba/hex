@@ -22,8 +22,9 @@ public abstract class TileConnectionFunction {
 
     public abstract void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour);
 
-    public abstract double getStartEndWeight();
 
 
     public abstract  void connectBridge(GridGraph gridGraph, Bridge b);
+
+    public abstract void connectEnds(GridGraph gridGraph, int x1, int y1, int x2, int y2, TileColour tileColour, TileColour agentColour);
 }

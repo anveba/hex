@@ -4,6 +4,7 @@ import main.hex.ai.graph.Edge;
 import main.hex.ai.graph.Graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 
@@ -30,7 +31,7 @@ public class DijkstraGraphHeuristic implements GraphHeuristicFunction {
         //g.printAdjacencies();
 
         PriorityQueue<KeyedVertex> priorityQ = new PriorityQueue<>();
-        ArrayList<Edge>[] adj = g.getAdjacencyList();
+        LinkedList<Edge>[]  adj = g.getAdjacencyList();
         double[] distance = new double[g.getNumberOfNodes()];
         boolean[] processed = new boolean[g.getNumberOfNodes()];
         for(int i = 0; i < g.getNumberOfNodes(); i++){

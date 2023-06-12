@@ -28,19 +28,7 @@ public class GridGraph extends Graph{
         return super.weightOfAdjacency(xyToNum(fromX,fromY), xyToNum(toX,toY));
     }
 
-    public void connectStartAndEndNodesVertical(double weight){
-        for(int x = 0; x < gridSize; x++){
-            connectXyWithWeight(x,0,gridSize, gridSize -1,weight);
-            connectXyWithWeight(x, gridSize -1, gridSize +1, gridSize -1,weight);
-        }
-    }
 
-    public void connectStartAndEndNodesHorizontal(double weight){
-        for(int y = 0; y < gridSize; y++){
-            connectXyWithWeight(0,y, gridSize, gridSize -1,weight);
-            connectXyWithWeight(gridSize -1,y, gridSize +1, gridSize -1,weight);
-        }
-    }
 
 
     public void connectXyWithWeight(int x1, int y1, int x2, int y2, double fade){

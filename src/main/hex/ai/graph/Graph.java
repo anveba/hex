@@ -2,6 +2,7 @@ package main.hex.ai.graph;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 
 
@@ -14,20 +15,20 @@ Simple representation of an undirected weighted graph
 public class Graph {
 
     private final int numberOfNodes;
-    private ArrayList<Edge>[] adjacencyList;
+    private LinkedList<Edge>[] adjacencyList;
 
 
 
     public Graph(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
-        adjacencyList = new ArrayList[numberOfNodes];
+        adjacencyList = new LinkedList[numberOfNodes];
         resetAdjacencyList();
 
     }
 
     public void resetAdjacencyList(){
         for(int i = 0; i < adjacencyList.length; i++){
-            adjacencyList[i] = new ArrayList<Edge>();
+            adjacencyList[i] = new LinkedList<Edge>();
         }
     }
 
@@ -88,7 +89,7 @@ public class Graph {
         return numberOfNodes;
     }
 
-    public ArrayList<Edge>[] getAdjacencyList() {
+    public LinkedList<Edge>[] getAdjacencyList() {
         return adjacencyList;
     }
 

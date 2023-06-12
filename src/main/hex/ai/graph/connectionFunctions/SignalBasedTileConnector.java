@@ -4,6 +4,7 @@ import main.hex.ai.Bridge;
 import main.hex.ai.graph.GridGraph;
 import main.hex.ai.graph.connectionFunctions.TileConnectionFunction;
 import main.hex.board.Board;
+import main.hex.board.Tile;
 import main.hex.board.TileColour;
 
 /*
@@ -20,23 +21,30 @@ If one is nonAgentColour -> No edge
 
 public class SignalBasedTileConnector extends TileConnectionFunction {
 
-    private final double fadeConstant = 0.1;
+    private final double fadeConstant = 0.2;
 
 
     public double startEndWeight = 1;
 
     @Override
-    public double getStartEndWeight() {
-        return startEndWeight;
-    }
-
-    @Override
     public void connectBridge(GridGraph gridGraph, Bridge b) {
-        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.99);
+        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.9);
+    }
+
+    @Override
+    public void connectEnds(GridGraph gridGraph, int x1, int y1, int x2, int y2, TileColour tileColour, TileColour agentColour) {
+        double fade = 1;
+        if(tileColour.equals(TileColour.opposite(agentColour))){
+            return;
+        }
+        if(tileColour == TileColour.WHITE){
+            fade -= fadeConstant;
+        }
+        gridGraph.connectXyWithWeight(x1,y1,x2,y2,fade);
     }
 
 
-    @Override
+        @Override
     public void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour) {
         TileColour nonAgentColour = TileColour.opposite(agentColour);
 
@@ -46,7 +54,7 @@ public class SignalBasedTileConnector extends TileConnectionFunction {
         if(t1Colour.equals(nonAgentColour) || t2Colour.equals(nonAgentColour)){
             return;
         }
-        float fade = 1;
+        double fade = 1;
         if(t1Colour.equals(TileColour.WHITE)){
             fade -= fadeConstant;
         }
