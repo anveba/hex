@@ -172,7 +172,9 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(swapRuleEnabledText);
 
 		ToggleSwitch swapRuleToggleSwitch = new ToggleSwitch(0.65f, -0.01f, 0.15f, 0.07f,
-				false, (args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
+				false,
+				Colour.Red, Colour.Green,
+				(args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
 				null, null);
 
 
