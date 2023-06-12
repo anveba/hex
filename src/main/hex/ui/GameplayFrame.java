@@ -71,7 +71,7 @@ public class GameplayFrame extends Frame {
 
         //Pause menu (added last, so it's on top of everything else)
         winMenuUIGroup = createWinMenu();
-        winMenuUIGroup.disable(); //Initially hidden
+        winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
 
 
@@ -335,7 +335,7 @@ public class GameplayFrame extends Frame {
     public void onPlayerWin(Player player) {
         SceneDirector.pause();
         System.out.println("here");
-        winMenuUIGroup.enable();
+        winMenuUIGroup.unhide();
     }
 
 }
