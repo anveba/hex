@@ -7,6 +7,10 @@ import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.ui.MainMenuFrame;
 
+/**
+ * This scene allows for switching between all the frames related to the game setup.
+ */
+
 public class GameSetupScene extends Scene {
 
 	public GameSetupScene() {
@@ -43,5 +47,4 @@ public class GameSetupScene extends Scene {
 		FrameStack.getInstance().clear();
 		FrameStack.getInstance().push(newFrame);
 	}
-
 }

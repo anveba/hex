@@ -350,5 +350,4 @@ public class StartGameFrame extends Frame {
 	public void backToMainMenu() {
 		SceneDirector.currentScene().changeFrame(new MainMenuFrame());
 	}
-
 }

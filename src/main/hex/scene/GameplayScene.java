@@ -14,6 +14,10 @@ import main.hex.serialisation.GameStateSerialiser;
 import main.hex.ui.GameplayFrame;
 import main.hex.ui.MainMenuFrame;
 
+/**
+ * This scene allows for switching between all the frames related to the gameplay.
+ */
+
 public class GameplayScene extends Scene {
 
 	private GameLogic gameLogic;
@@ -98,5 +102,4 @@ public class GameplayScene extends Scene {
 	public void changeFrame(Frame newFrame) {
 
 	}
-
 }
