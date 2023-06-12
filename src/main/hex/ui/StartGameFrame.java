@@ -2,6 +2,7 @@ package main.hex.ui;
 
 import main.engine.*;
 import main.engine.font.BitmapFont;
+import main.engine.format.TimeFormat;
 import main.engine.graphics.*;
 import main.engine.ui.*;
 import main.engine.ui.callback.ButtonCallback;
@@ -38,7 +39,7 @@ public class StartGameFrame extends Frame {
 	private final String PLAYER2_TITLE = "Player 2";
 	private final String PLAYER_NAME_LABEL = "Name:";
 	private final String BOARD_SIZE_LABEL = "Board Size: {}x{}";
-	private final String GAME_TIME_LABEL = "{} Seconds";
+	private final String GAME_TIME_LABEL = "{} mm:ss";
 
 	private final float standardFontSize = 0.07f;
 	private final float playerFontSize = 0.08f;
@@ -129,7 +130,7 @@ public class StartGameFrame extends Frame {
 		boardSize.addChild(sizeText);
 		sizeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 25, 11,null);
+		Slider boardSizeSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 3, 11, 11,null);
 		boardSize.addChild(boardSizeSlider);
 		startGameFrameLogic.setBoardSizeSlider(boardSizeSlider);
 		//Creating slider text object(optional):
@@ -155,6 +156,7 @@ public class StartGameFrame extends Frame {
 		timeLimitSliderText.setColour(Colour.Grey);
 		timeLimitSliderText.setAnchorPoint(AnchorPoint.Left);
 		timeLimitSlider.setText(timeLimitSliderText);
+		timeLimitSlider.setFormat(new TimeFormat());
 
 
 		//Swap Rule
@@ -172,7 +174,9 @@ public class StartGameFrame extends Frame {
 		swapRuleUIGroup.addChild(swapRuleEnabledText);
 
 		ToggleSwitch swapRuleToggleSwitch = new ToggleSwitch(0.65f, -0.01f, 0.15f, 0.07f,
-				false, (args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
+				false,
+				Colour.Red, Colour.Green,
+				(args) -> toggleSwapRuleClicked(), (args) -> toggleSwapRuleClicked(),
 				null, null);
 
 

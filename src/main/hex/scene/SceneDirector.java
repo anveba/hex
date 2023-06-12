@@ -28,6 +28,7 @@ public class SceneDirector {
 			getInstance().currentScene.end();
 		getInstance().currentScene = scene;
 		getInstance().currentScene.begin();
+		resume();
 	}
 	
 	public static void updateCurrentScene(TimeRecord time) {
