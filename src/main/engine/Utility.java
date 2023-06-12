@@ -64,4 +64,10 @@ public class Utility {
     	float delta = upper - lower;
     	return lower + delta * val;
     }
+
+    public static String getFormattedTime(double time) {
+        int minutes = (int)(time / 60.0);
+        int seconds = (int)(time % 60.0);
+        return String.format("%02d:%02d", minutes, seconds);
+    }
 }
