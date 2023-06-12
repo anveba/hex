@@ -50,6 +50,7 @@ public abstract class UIElement {
 	}
 	
 	public void show() {
+		isHidden = false;
 	}
 	
 	public boolean isHidden() {
