@@ -45,7 +45,7 @@ public abstract class UIElement {
     
     public abstract void update(TimeRecord elapsed);
 
-	public void unhide() {
+	public void show() {
 		isHidden = false;
 	}
 	

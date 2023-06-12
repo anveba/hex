@@ -16,7 +16,6 @@ import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
-import main.hex.scene.TitleScene;
 import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
@@ -282,7 +281,7 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-        pauseMenuUIGroup.unhide();
+        pauseMenuUIGroup.show();
         SceneDirector.pause();
     }
     private void resumeToGameBtnClicked() {
@@ -333,6 +332,6 @@ public class GameplayFrame extends Frame {
     public void onPlayerWin(Player player) {
         SceneDirector.pause();
         System.out.println("here");
-        winMenuUIGroup.unhide();
+        winMenuUIGroup.show();
     }
 }
