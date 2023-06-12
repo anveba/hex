@@ -90,7 +90,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
 
     @Override
     public void processClickRelease(ClickArgs args) {
-        if(isDisabled()) return;
+        if(isHidden()) return;
 
         if (!toggleSwitchOn) {
             if (containsPosition(args.getX(), args.getY())) {
@@ -113,7 +113,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
 
     @Override
     public void processClickDown(ClickArgs args) {
-        if(isDisabled()) return;
+        if(isHidden()) return;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class ToggleSwitch extends RectElement implements Clickable {
     }
 
     @Override
-    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
         backgroundImage.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));
         foregroundImage.draw(renderer, offsetX, offsetY, Colour.multiply(colour, highlight));

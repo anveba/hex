@@ -92,15 +92,18 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
-			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+			if (!c.isHidden())
+				c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
 	}
 
 	@Override
 	public void processClickDown(ClickArgs args) {
 		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
@@ -112,6 +115,8 @@ public class UIGroup extends UIElement implements Clickable {
 	public void processClickRelease(ClickArgs args) {
 		args = new ClickArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
@@ -123,6 +128,8 @@ public class UIGroup extends UIElement implements Clickable {
 	public void updateCursorPosition(HoverArgs args) {
 		args = new HoverArgs(args.getX() - getX(), args.getY() - getY());
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			if (!(child instanceof Hoverable))
 				continue;
 			Hoverable hoverable = (Hoverable)child;
@@ -134,6 +141,8 @@ public class UIGroup extends UIElement implements Clickable {
 	public void processTextInput(TextInputArgs args) {
 		args = new TextInputArgs(args.getCharacter());
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
@@ -145,6 +154,8 @@ public class UIGroup extends UIElement implements Clickable {
 	public void processControlsInput(ControlsArgs args) {
 		args = new ControlsArgs(args.getControls());
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			if (!(child instanceof Clickable))
 				continue;
 			Clickable clickable = (Clickable)child;
@@ -155,23 +166,9 @@ public class UIGroup extends UIElement implements Clickable {
 	@Override
 	public void update(TimeRecord elapsed) {
 		for (var child : children) {
+			if (child.isHidden())
+				continue;
 			child.update(elapsed);
-		}
-	}
-
-	@Override
-	public void disable() {
-		super.disable();
-		for (var child : children) {
-			child.disable();
-		}
-	}
-
-	@Override
-	public void enable() {
-		super.enable();
-		for (var child : children) {
-			child.enable();
 		}
 	}
 }

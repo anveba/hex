@@ -2,6 +2,7 @@ package main.hex.ui;
 
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 import main.engine.ui.*;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
@@ -49,16 +50,20 @@ public class MainMenuFrame extends Frame {
 
     private UIGroup createButtonMenuView() {
         UIGroup buttonMenuView = new UIGroup(0.0f, 0.0f);
-
+        
         buttonMenuView.addChild(createMenuButton(0, "New Game", (args) -> newGameClicked()));
-        buttonMenuView.addChild(createMenuButton(1, "Load Game", (args) -> loadGameClicked()));
+        var loadGameButton = createMenuButton(1, "Load Game", (args) -> loadGameClicked());
+        if (!HexFileSystem.getInstance().containsGameSave())
+        	loadGameButton.disable();
+        buttonMenuView.addChild(loadGameButton);
         buttonMenuView.addChild(createMenuButton(2, "Options", (args) -> optionsClicked()));
         buttonMenuView.addChild(createMenuButton(3, "Quit", (args) -> quitClicked()));
 
         return buttonMenuView;
     }
 
-    private RectButton createMenuButton(int buttonNumber, String buttonText, ButtonCallback onclickCallback) {
+    private RectButton createMenuButton(int buttonNumber, String buttonText,
+    		ButtonCallback onclickCallback) {
         RectButton menuButton = new RectButton(0.0f, 0.15f - 0.28f * buttonNumber, 0.85f, 0.85f * 0.24f,
                 TextureLibrary.BUTTON_TEXT_LARGE_SQUARE.getTexture(), FONT_FREDOKA_ONE,
                 buttonText, buttonFontSize, onclickCallback, null, null);
@@ -72,8 +77,13 @@ public class MainMenuFrame extends Frame {
 
     private void loadGameClicked() {
     	System.out.println("Game Loaded!");
-		
-		GameSession session = HexFileSystem.getInstance().loadGame();
+    	
+    	GameSession session;
+    	try {
+    		session = HexFileSystem.getInstance().loadGame();
+    	} catch (Exception e) {
+    		return;
+    	}
 		
 		SceneDirector.changeScene(
 				new GameplayScene(

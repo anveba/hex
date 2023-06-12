@@ -8,6 +8,12 @@ import main.engine.graphics.Renderer2D;
 import main.engine.math.Vector2;
 import main.hex.Game;
 
+/**
+ * Represent a piece of text in the user interface. It contains the information
+ * used to draw it and which string is drawn.
+ * @author andreas
+ *
+ */
 public class Text extends UIElement {
 
 	private float x, y;
@@ -98,7 +104,7 @@ public class Text extends UIElement {
 	}
 	
 	@Override
-	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
+	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour c) {
 		assert anchor != null;
 		float anchoredX = x + offsetX;
 		if (anchor != AnchorPoint.Center) {

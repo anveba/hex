@@ -63,6 +63,11 @@ public class HexFileSystem extends GameFileSystem {
 		return state.stateToSession();
 	}
 	
+	public boolean containsGameSave() {
+		Path path = Paths.get(getPersistentDataPath() + savedGamesDir + previousGameSaveName);
+		return Files.exists(path);
+	}
+	
 	public void savePreferences(Preferences pref) {
 		String json = new Gson().toJson(pref);
 		Path path = Paths.get(getPersistentDataPath() + preferencesFileName);
