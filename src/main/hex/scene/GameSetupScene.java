@@ -6,22 +6,16 @@ import main.engine.graphics.Renderer3D;
 import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.ui.MainMenuFrame;
-import main.hex.ui.StartGameFrame;
 
-public class TitleScene extends Scene {
+public class GameSetupScene extends Scene {
 
-	public TitleScene() {
+	public GameSetupScene() {
 		
 	}
 	
 	@Override
 	protected void begin() {
-		setupUserInterface();
-	}
-	
-	private void setupUserInterface() {
-		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(new StartGameFrame());
+		changeFrame(new MainMenuFrame());
 	}
 	
 	@Override
@@ -42,6 +36,12 @@ public class TitleScene extends Scene {
 	@Override
 	protected void draw3D(Renderer3D renderer) {
 		
+	}
+
+	@Override
+	public void changeFrame(Frame newFrame) {
+		FrameStack.getInstance().clear();
+		FrameStack.getInstance().push(newFrame);
 	}
 
 }

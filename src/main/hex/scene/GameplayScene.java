@@ -5,6 +5,7 @@ import main.engine.TimeRecord;
 import main.engine.graphics.Cubemap;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
+import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.*;
 import main.hex.player.Player;
@@ -91,6 +92,11 @@ public class GameplayScene extends Scene {
 		renderer.setSkybox(skybox, 2.0f);
 		gameLogic.getBoard().draw3D(renderer, gameCustomization);
 		renderer.drawSkybox();
+	}
+
+	@Override
+	public void changeFrame(Frame newFrame) {
+
 	}
 
 }

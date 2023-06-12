@@ -3,6 +3,7 @@ package test.hex.scene;
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
+import main.engine.ui.Frame;
 import main.hex.scene.Scene;
 
 public class TestScene extends Scene {
@@ -32,4 +33,8 @@ public class TestScene extends Scene {
 		
 	}
 
+	@Override
+	public void changeFrame(Frame newFrame) {
+
+	}
 }

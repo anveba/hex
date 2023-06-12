@@ -14,8 +14,8 @@ import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
-import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
+import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
@@ -292,7 +292,7 @@ public class GameplayFrame extends Frame {
         FrameStack.getInstance().push(new OptionsFrame());
     }
     private void mainMenuBtnClicked() {
-        SceneDirector.changeScene(new MainMenuScene());
+        SceneDirector.changeScene(new GameSetupScene());
         SceneDirector.resume();
     }
     private void restartGameBtnClicked() {

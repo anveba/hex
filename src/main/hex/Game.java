@@ -1,18 +1,14 @@
 package main.hex;
 
-import main.engine.input.InputType;
-import main.hex.scene.MainMenuScene;
 import main.hex.scene.SceneDirector;
-import main.hex.scene.TitleScene;
+import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.HexFileSystem;
-import main.hex.ui.GameplayFrame;
 
 import main.engine.*;
 import main.engine.graphics.*;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.FrameStack;
-import main.hex.ui.StartGameFrame;
 
 public class Game extends GameWindow {
 
@@ -41,7 +37,7 @@ public class Game extends GameWindow {
     	setupGraphics();
     	setupUserInterface();
     	
-    	SceneDirector.changeScene(new MainMenuScene());
+    	SceneDirector.changeScene(new GameSetupScene());
     }
     
     private void loadPersistentData() {

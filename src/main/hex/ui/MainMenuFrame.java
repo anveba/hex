@@ -2,14 +2,12 @@ package main.hex.ui;
 
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
-import main.engine.graphics.Colour;
 import main.engine.ui.*;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
-import main.hex.scene.TitleScene;
 import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
@@ -72,7 +70,7 @@ public class MainMenuFrame extends Frame {
     }
 
     private void newGameClicked() {
-        SceneDirector.changeScene(new TitleScene());
+        SceneDirector.currentScene().changeFrame(new StartGameFrame());
     }
 
     private void loadGameClicked() {
