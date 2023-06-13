@@ -14,16 +14,18 @@ import main.hex.board.TileColour;
 
     private TileColour playerColour;
     private PlayerTimer playerTimer;
+    private String name;
     
     public static final float defaultTimeLimit = 60.0f;
 
-    public Player (TileColour playerColour) {
-    	this(playerColour, defaultTimeLimit);
+    public Player (TileColour playerColour, String name) {
+    	this(playerColour, defaultTimeLimit, name);
     }
 
-    public Player (TileColour playerColour, double InitialTimerDuration) {
+    public Player (TileColour playerColour, double InitialTimerDuration, String name) {
         setColour(playerColour);
         this.playerTimer = new PlayerTimer(InitialTimerDuration);
+        this.name = name;
     }
 
     public TileColour getColour() {
@@ -53,9 +55,12 @@ import main.hex.board.TileColour;
     public abstract void onTurnReceival();
     
     public abstract void onEndOfTurn();
-    
 
-	@Override
+     public String getName() {
+         return name;
+     }
+
+     @Override
 	public void update(TimeRecord elapsed) {
 		
 	}

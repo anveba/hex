@@ -16,6 +16,16 @@ import main.engine.ui.callback.SliderCallbackArgs;
 import main.engine.ui.callback.TextInputArgs;
 import main.hex.resources.TextureLibrary;
 
+/**
+ *
+ * The slider is a UI element that allows the user to select a value from a range of values.
+ * The slider is used in the options frame, to allow the user to change the volume of the game, and in the
+ * startGameFrame, to allow the user to select the size of the board + the time limit.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ */
+
+
 public class Slider extends RectElement implements Clickable {
 
     private SliderCallback sliderChangedCallback;

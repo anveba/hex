@@ -13,8 +13,8 @@ public class AIPlayer extends Player {
 	
 	private Thread aiThread;
 
-	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds) {
-		super(playerColour, initialTimerDuration);
+	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds, String name) {
+		super(playerColour, initialTimerDuration, name);
 		setTimeLimitPerTurnInSeconds(timeLimitPerTurnInSeconds);
 	}
 

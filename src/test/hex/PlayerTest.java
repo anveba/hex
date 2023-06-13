@@ -15,7 +15,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        player1 = new UserPlayer(TileColour.PLAYER1);
+        player1 = new UserPlayer(TileColour.PLAYER1, "Player 1");
     }
 
     @Test
@@ -36,13 +36,13 @@ public class PlayerTest {
     
     @Test
     public void constructor_blue_playerDoesNotWinVertically() {
-        Player p = new UserPlayer(TileColour.PLAYER1);
+        Player p = new UserPlayer(TileColour.PLAYER1, "Player 1");
         assertFalse(p.winsByVerticalConnection());
     }
     
     @Test
     public void constructor_red_playerWinsVertically() {
-        Player p = new UserPlayer(TileColour.PLAYER2);
+        Player p = new UserPlayer(TileColour.PLAYER2, "Player 2");
         assertTrue(p.winsByVerticalConnection());
     }
 }

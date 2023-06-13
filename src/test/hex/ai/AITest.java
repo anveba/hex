@@ -28,7 +28,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 0,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
 
-        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1, "AI");
 
         AI ai = new AI(board, agent);
 
@@ -52,7 +52,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 2,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 1,2);
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1, "AI");
 
         AI ai = new AI(board, agent);
 
@@ -86,7 +86,7 @@ public class AITest {
         System.out.println(boardEvaluator1.evaluateBoard());
         System.out.println(boardEvaluator2.evaluateBoard());
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1, "AI");
         //System.out.println(agent.winsByVerticalConnection());
 
         AI ai = new AI(board, agent);
@@ -112,7 +112,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,1);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,2);
 
-        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 1, "AI");
 
         AI ai = new AI(board, agent);
 
@@ -142,7 +142,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
 
 
-        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 5.0f);
+        Player agent = new AIPlayer(TileColour.PLAYER1, 10.0f, 5.0f, "AI");
 
         AI ai = new AI(board, agent);
         AIMove m = ai.getBestMoveWithTimeLimit(10.0f);
@@ -170,7 +170,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER2), 3,5);
 
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 5.0f);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 5.0f, "AI");
 
         AI ai = new AI(board, agent);
         AIMove m = ai.getBestMoveWithTimeLimit(10.0f);
@@ -193,7 +193,7 @@ public class AITest {
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 2,0);
         board.setTileAtPosition(new Tile(TileColour.PLAYER1), 1,0);
 
-        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1.0f);
+        Player agent = new AIPlayer(TileColour.PLAYER2, 10.0f, 1.0f, "AI");
 
         AI ai = new AI(board, agent);
 

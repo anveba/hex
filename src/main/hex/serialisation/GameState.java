@@ -67,12 +67,12 @@ public class GameState {
 		Player p;
 		switch (state.type) {
 		case HUMAN:
-			p = new UserPlayer(col, state.timeRemaining);
+			p = new UserPlayer(col, state.timeRemaining, state.name);
 			break;
 		case AI_EASY:
 		case AI_NORMAL:
 		case AI_HARD:
-			p = new AIPlayer(col, state.timeRemaining, AIPlayer.defaultMaximumProcessingTime);
+			p = new AIPlayer(col, state.timeRemaining, AIPlayer.defaultMaximumProcessingTime, state.name);
 			break;
 		default:
 			throw new HexException("Unrecognised player type");

@@ -19,7 +19,7 @@ public class GameSetupScene extends Scene {
 	
 	@Override
 	protected void begin() {
-		changeFrame(new MainMenuFrame());
+		FrameStack.getInstance().push(new MainMenuFrame());
 	}
 	
 	@Override
@@ -40,11 +40,5 @@ public class GameSetupScene extends Scene {
 	@Override
 	protected void draw3D(Renderer3D renderer) {
 		
-	}
-
-	@Override
-	public void changeFrame(Frame newFrame) {
-		FrameStack.getInstance().clear();
-		FrameStack.getInstance().push(newFrame);
 	}
 }

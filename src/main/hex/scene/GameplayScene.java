@@ -68,7 +68,6 @@ public class GameplayScene extends Scene {
     
     private void onPlayerWin(Player p) {
 		gameplayFrame.onPlayerWin(p);
-    	//SceneDirector.changeScene(new TitleScene());
     }
 	
 	@Override
@@ -97,10 +96,5 @@ public class GameplayScene extends Scene {
 		renderer.setSkybox(skybox, 2.0f);
 		gameLogic.getBoard().draw3D(renderer, gameCustomization);
 		renderer.drawSkybox();
-	}
-
-	@Override
-	public void changeFrame(Frame newFrame) {
-
 	}
 }

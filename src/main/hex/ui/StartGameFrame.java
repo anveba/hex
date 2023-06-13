@@ -27,6 +27,16 @@ import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
 
+
+/**
+ * Represents a frame that allows the user to customise a game's settings.
+ * This frame mainly consists of UI elements, and is tightly coupled with the logic class "StartGameFrameLogic".
+ * As this class does not contain any logic significant logic, and is mainly UI, it is tested by manual inspection.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ * @Author Oliver Siggaard - s204450 (Texture/Color caoursel)
+ */
+
 public class StartGameFrame extends Frame {
 
 	//FONTS:
@@ -48,6 +58,7 @@ public class StartGameFrame extends Frame {
 	private final String GAME_TIME_LABEL = "{} mm:ss";
 
 	private final float standardFontSize = 0.07f;
+	private final float startBtnFontSize = 0.10f;
 	private final float playerFontSize = 0.08f;
 	private final float skinCarouselFontSize = 0.06f;
 	private final float headerFontSize = 0.12f;
@@ -82,10 +93,8 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.setPlayerColourIndex(1, 3);
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
-		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent - Easy");
-		startGameFrameLogic.addPlayerType(PlayerType.AI_NORMAL, "AI Opponent - Normal");
-		startGameFrameLogic.addPlayerType(PlayerType.AI_HARD, "AI Opponent - Hard");
-		startGameFrameLogic.setPlayerTypeIndex(0, 2);
+		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent");
+		//startGameFrameLogic.setPlayerTypeIndex(1, 1); //Sets player 2 to initially be an AI.
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
 		initializeFrameView(root);
@@ -106,8 +115,8 @@ public class StartGameFrame extends Frame {
 				FONT_FREDOKA_ONE,"", standardFontSize, args -> backToMainMenu(), null, null);
 		settingsMenu.addChild(backToMainMenuBtn);
 
-		startGameBtn = new RectButton(0.0f, -0.8f, 0.5f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
-				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, standardFontSize, args -> startGame(), null, null);
+		startGameBtn = new RectButton(0.0f, -0.8f, 0.55f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, startBtnFontSize, args -> startGame(), null, null);
 		settingsMenu.addChild(startGameBtn);
 		
 		blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
@@ -175,7 +184,7 @@ public class StartGameFrame extends Frame {
 		timeLimit.addChild(timeText);
 		timeText.setAnchorPoint(AnchorPoint.Left);
 
-		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 60, 600, 300, null);
+		Slider timeLimitSlider = new Slider(0.55f, -0.015f, 0.6f,0.06f, TextureLibrary.SCROLLBAR_GREY.getTexture(),TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(), 10, 600, 300, null);
 		timeLimit.addChild(timeLimitSlider);
 		startGameFrameLogic.setTurnTimeSlider(timeLimitSlider);
 		//Creating slider text object(optional):
@@ -345,9 +354,12 @@ public class StartGameFrame extends Frame {
 	private void startGame() {
 		startGameBtn.disable();
 		fadeOut(1.0f, () -> {
+			String p1Name = startGameFrameLogic.getPlayerName(0);
+			String p2Name = startGameFrameLogic.getPlayerName(1);
+	
 			GameCustomisation gameCustomisation = new GameCustomisation(
-					startGameFrameLogic.getPlayerName(0),
-					startGameFrameLogic.getPlayerName(1),
+					p1Name,
+					p2Name,
 					
 					new PlayerSkin(startGameFrameLogic.getPlayerTextureId(0), startGameFrameLogic.getPlayerColour(0)),
 					new PlayerSkin(startGameFrameLogic.getPlayerTextureId(1), startGameFrameLogic.getPlayerColour(1)),
@@ -358,9 +370,9 @@ public class StartGameFrame extends Frame {
 	
 			Board b = new Board(startGameFrameLogic.getBoardSize());
 			Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-					new UserPlayer(TileColour.PLAYER1, timeLimit) : new AIPlayer(TileColour.PLAYER1, timeLimit, AIPlayer.defaultMaximumProcessingTime);
+					new UserPlayer(TileColour.PLAYER1, timeLimit, p1Name) : new AIPlayer(TileColour.PLAYER1, timeLimit, AIPlayer.defaultMaximumProcessingTime, p1Name);
 			Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-					new UserPlayer(TileColour.PLAYER2, timeLimit) : new AIPlayer(TileColour.PLAYER2, timeLimit, AIPlayer.defaultMaximumProcessingTime);
+					new UserPlayer(TileColour.PLAYER2, timeLimit, p2Name) : new AIPlayer(TileColour.PLAYER2, timeLimit, AIPlayer.defaultMaximumProcessingTime, p2Name);
 	
 			SceneDirector.changeScene(
 					new GameplayScene(
@@ -379,6 +391,6 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void backToMainMenu() {
-		SceneDirector.currentScene().changeFrame(new MainMenuFrame());
+		FrameStack.getInstance().push(new MainMenuFrame());
 	}
 }

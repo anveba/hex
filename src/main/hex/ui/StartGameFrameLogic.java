@@ -12,6 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is responsible for the logic behind the StartGameFrame, but also acts as the model, containing all the data.
+ * There has been taken inspiration from the MVC pattern, but it is not a full implementation, as in this case,
+ * the model and the controller are the same class. This could however be easily achieved by extracting the private
+ * fields into a separate class, and creating the belonging getters and setters.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ * @Author Oliver Siggaard - s204450 (Texture/Color caoursel)
+ */
 public class StartGameFrameLogic {
 
     private boolean swapRule = false;

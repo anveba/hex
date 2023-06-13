@@ -32,9 +32,4 @@ public class TestScene extends Scene {
 	public void draw3D(Renderer3D renderer) {
 		
 	}
-
-	@Override
-	public void changeFrame(Frame newFrame) {
-
-	}
 }

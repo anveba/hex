@@ -40,6 +40,29 @@ public class Preferences {
 	public boolean is3DEnabled() {
 		return enable3D;
 	}
-	
-	
+
+	public float getMasterVolume() {
+		return masterVolume;
+	}
+
+	public void setMasterVolume(float masterVolume) {
+		System.out.println("Setting master volume to " + masterVolume);
+		this.masterVolume = masterVolume;
+	}
+
+	public float getMusicVolume() {
+		return musicVolume;
+	}
+
+	public void setMusicVolume(float musicVolume) {
+		this.musicVolume = musicVolume;
+	}
+
+	public float getSfxVolume() {
+		return sfxVolume;
+	}
+
+	public void setSfxVolume(float sfxVolume) {
+		this.sfxVolume = sfxVolume;
+	}
 }
