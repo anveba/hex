@@ -29,8 +29,11 @@ public class Animator {
 	
 	public void animate(TimeRecord elapsed) {
 		time += elapsed.elapsedSeconds();
-		if (animation != null && !animation.done())
+		if (animation != null && !animation.done()) {
 			animation.animate(time);
+			if (animation.done() && animation.getOnEndAction() != null)
+				animation.getOnEndAction().run();
+		}
 	}
 	
 	public boolean done() {

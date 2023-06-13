@@ -47,4 +47,10 @@ public class TestPlayerClass extends Player {
 	public void relayResponseAsError(Throwable error) {
 		response.setError(error);
 	}
+
+	@Override
+	public void stopProcessing() {
+		// TODO Auto-generated method stub
+		
+	}
 }

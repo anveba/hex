@@ -3,6 +3,7 @@ package main.hex.ui;
 import main.engine.ResourceManager;
 import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
 import main.engine.ui.*;
 import main.engine.ui.animation.*;
@@ -11,6 +12,7 @@ import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
+import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
@@ -59,6 +61,9 @@ public class GameplayFrame extends Frame {
     private UIGroup pauseMenuBtnUIGroup;
     private UIGroup pauseMenuUIGroup;
     private UIGroup winMenuUIGroup;
+    private RectButton undoBtn;
+    private Image blackOutImage;
+    private Text toastText;
 
     private Animator winMenuAnimator;
     private Animator pauseMenuAnimator;
@@ -95,9 +100,43 @@ public class GameplayFrame extends Frame {
         winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
 
+        blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f,
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+        blackOutImage.hide();
+        root.addChild(blackOutImage);
 
-
+        toastText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "", 0.1f);
+        toastText.hide();
+        root.addChild(toastText);
     }
+
+    public void fadeIn(float time) {
+    	if (time <= 0.0f)
+    		throw new HexException("Time was not positive");
+    	blackOutImage.show();
+    	AnimationSequence anim = new AnimationSequence(
+    			new Wait(0.4f),
+    			new Ease(blackOutImage, new CubicInOut(),
+    					0.0f, 0.0f, 0.0f, 2.0f,
+    					time),
+    			new Wait(time),
+    			new Hide(blackOutImage)
+    			);
+    	addAnimator(new Animator(anim));
+    }
+
+	private void fadeOut(float time, Runnable onEnd) {
+		if (time <= 0.0f)
+    		throw new HexException("Time was not positive");
+    	blackOutImage.show();
+    	AnimationSequence anim = new AnimationSequence(
+    			new Ease(blackOutImage, new CubicInOut(),
+    					0.0f, 2.0f, 0.0f, 0.0f,
+    					time)
+    			);
+    	anim.setOnEndAction(onEnd);
+    	addAnimator(new Animator(anim));
+	}
 
     /**
      *  Author: Oliver Siggaard
@@ -125,7 +164,7 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createUndoView() {
         undoBtnUIGroup = new UIGroup(0.0f, 0.0f);
-        RectButton undoBtn= new RectButton(0.0f, -0.91f, 0.12f, 0.12f, 
+        undoBtn = new RectButton(0.0f, -0.91f, 0.12f, 0.12f,
         		TextureLibrary.SMALL_UNDO_GREY.getTexture(), FONT_FREDOKA_ONE, "", 
         		0, null, null, null);
         undoBtn.setClickCallback(args -> undoBtnClicked());
@@ -197,6 +236,10 @@ public class GameplayFrame extends Frame {
     public void update(TimeRecord elapsed) {
         player1TimerText.setText(gameLogic.getPlayer1().getTimer().getFormattedTime());
         player2TimerText.setText(gameLogic.getPlayer2().getTimer().getFormattedTime());
+        if (gameLogic.historyLength() < 1)
+        	undoBtn.disable();
+        else
+        	undoBtn.enable();
     }
 
 
@@ -265,6 +308,7 @@ public class GameplayFrame extends Frame {
         winMenuTitleText = new Text(0.0f, textYPos, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
         winMenu.addChild(winMenuTitleText);
 
+
         //Restart button box
         UIGroup winMenuBtnBox = new UIGroup(0.0f, -0.80f);
         winMenu.addChild(winMenuBtnBox);
@@ -288,6 +332,7 @@ public class GameplayFrame extends Frame {
                 null
         );
         winMenuBtnBox.addChild(mainMenuBtn);
+
         RectButton restartGameBtn = new RectButton(
                 0.0f,
                 -btnYCenter,
@@ -324,15 +369,20 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-    	removeAnimator(pauseMenuAnimator);
-    	pauseMenuAnimator = new Animator(
-    			new Ease(pauseMenuUIGroup, new CubicInOut(),
-    					2.0f, 0.0f, 0.0f, 0.0f, 
-    					pauseMenuAnimationTime));
-    	addAnimator(pauseMenuAnimator);
-        pauseMenuUIGroup.show();
-        SceneDirector.pause();
+        if (SceneDirector.isPaused()) {
+            resumeToGameBtnClicked();
+        } else {
+            removeAnimator(pauseMenuAnimator);
+            pauseMenuAnimator = new Animator(
+                    new Ease(pauseMenuUIGroup, new CubicInOut(),
+                            2.0f, 0.0f, 0.0f, 0.0f,
+                            pauseMenuAnimationTime));
+            addAnimator(pauseMenuAnimator);
+            pauseMenuUIGroup.show();
+            SceneDirector.pause();
+        }
     }
+
     private void resumeToGameBtnClicked() {
     	removeAnimator(pauseMenuAnimator);
     	pauseMenuAnimator = new Animator(
@@ -350,8 +400,11 @@ public class GameplayFrame extends Frame {
         FrameStack.getInstance().push(new OptionsFrame());
     }
     private void mainMenuBtnClicked() {
-        SceneDirector.changeScene(new GameSetupScene());
-        SceneDirector.resume();
+    	fadeOut(1.0f, () -> {
+	    	gameLogic.stop();
+	        SceneDirector.changeScene(new GameSetupScene());
+	        SceneDirector.resume();
+    	});
     }
     private void restartGameBtnClicked() {
         boolean swapRule = gameCustomisation.getSwapRule();
@@ -374,16 +427,38 @@ public class GameplayFrame extends Frame {
     }
 
     private void saveGameBtnClicked() {
+    	toast(3.0f, "Game has been saved");
     	HexFileSystem.getInstance().saveGame(new GameSession(gameCustomisation, gameLogic));
     }
 
+    private void toast(float time, String text) {
+    	toastText.show();
+    	toastText.setText(text);
+    	final float start = -1.2f, end = -0.7f;
+    	AnimationSequence anim = new AnimationSequence(
+    		new Ease(toastText, new CubicInOut(),
+    				0.0f, start, 0.0f, end,
+    				1.0f
+				),
+    		new Wait(time),
+    		new Ease(toastText, new CubicInOut(),
+    				0.0f, end, 0.0f, start,
+    				1.0f
+				)
+    	);
+    	anim.setOnEndAction(() -> { toastText.hide(); });
+    	addAnimator(new Animator(anim));
+    }
+
     private void exitGameBtnClicked() {
-        Game.getInstance().closeWindow();
+    	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
     }
     
     private void undoBtnClicked() {
-    	if (gameLogic.historyLength() > 0)
+    	if (gameLogic.historyLength() > 0) {
+    		undoBtn.disable();
     		gameLogic.undoLast();
+    	}
     }
 
     public void onPlayerWin(Player player) {

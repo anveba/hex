@@ -39,8 +39,8 @@ public class TextField extends RectElement implements Clickable {
                 y,
                 width,
                 height,
-                new Text(x, y, font, defaultString, height, lineColour),
-                new Image(x, y-height/1.25f, width, height/8, TextureLibrary.WHITE_SQUARE.getTexture()),
+                new Text(0.0f, 0.0f, font, defaultString, height, lineColour),
+                new Image(0.0f, -height/1.25f, width, height/8, TextureLibrary.WHITE_SQUARE.getTexture()),
                 defaultString,
                 0.6f
         );
@@ -50,7 +50,7 @@ public class TextField extends RectElement implements Clickable {
         super(x,y,width,height);
         this.text = text;
         this.text.setAnchorPoint(AnchorPoint.Left);
-        this.text.setPosition(x - width / 2.0f, y);
+        this.text.setPosition(-width / 2.0f, 0.0f);
 
         this.image = image;
 
@@ -77,8 +77,8 @@ public class TextField extends RectElement implements Clickable {
 
     @Override
     protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        image.draw(renderer, offsetX, offsetY, colour);
-        text.draw(renderer, offsetX, offsetY, colour);
+        image.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+        text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
     }
     
 	@Override

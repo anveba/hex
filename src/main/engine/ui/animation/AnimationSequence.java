@@ -36,10 +36,14 @@ public class AnimationSequence extends Animation {
 			Animation anim = animations.get(i);
 			assert anim.blocksFor() >= 0.0f;
 			float t = time - timeBlocked;
-			if (t < 0.0f)
-				t = 0.0f;
-			if (!anim.done())
-				anim.animate(t);
+			if (t >= 0.0f) {				
+				if (!anim.done()) {
+					anim.animate(t);
+					if (anim.done() && anim.getOnEndAction() != null)
+						anim.getOnEndAction().run();
+				}
+			}
+			
 			timeBlocked += anim.blocksFor();
 		}
 	}

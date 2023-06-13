@@ -46,6 +46,7 @@ public class GameplayScene extends Scene {
 		FrameStack.getInstance().clear();
 		gameplayFrame = new GameplayFrame(gameCustomization, gameLogic);
 		FrameStack.getInstance().push(gameplayFrame);
+		gameplayFrame.fadeIn(1.0f);
 	}
 	
     private void startGameplay() {

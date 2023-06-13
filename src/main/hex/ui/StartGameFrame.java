@@ -5,9 +5,16 @@ import main.engine.font.BitmapFont;
 import main.engine.format.TimeFormat;
 import main.engine.graphics.*;
 import main.engine.ui.*;
+import main.engine.ui.animation.AnimationSequence;
+import main.engine.ui.animation.Animator;
+import main.engine.ui.animation.Ease;
+import main.engine.ui.animation.Hide;
+import main.engine.ui.animation.Wait;
+import main.engine.ui.animation.easing.CubicInOut;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.GameCustomisation;
 import main.hex.GameLogic;
+import main.hex.HexException;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.player.AIPlayer;
@@ -56,6 +63,9 @@ public class StartGameFrame extends Frame {
 	private final float skinCarouselFontSize = 0.06f;
 	private final float headerFontSize = 0.12f;
 	private final float playerTypeFontSize = 0.05f;
+	
+	private Image blackOutImage;
+	private RectButton startGameBtn;
 
 	//LOGIC
 	private StartGameFrameLogic startGameFrameLogic;
@@ -105,9 +115,27 @@ public class StartGameFrame extends Frame {
 				FONT_FREDOKA_ONE,"", standardFontSize, args -> backToMainMenu(), null, null);
 		settingsMenu.addChild(backToMainMenuBtn);
 
-		RectButton startGameBtn = new RectButton(0.0f, -0.8f, 0.55f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+		startGameBtn = new RectButton(0.0f, -0.8f, 0.55f, 0.18f, TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
 				FONT_FREDOKA_ONE, START_GAME_BTN_TEXT, startBtnFontSize, args -> startGame(), null, null);
 		settingsMenu.addChild(startGameBtn);
+		
+		blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+		blackOutImage.hide();
+		root.addChild(blackOutImage);
+	}
+	
+	private void fadeOut(float time, Runnable onEnd) {
+		if (time <= 0.0f)
+    		throw new HexException("Time was not positive");
+    	blackOutImage.show();
+    	AnimationSequence anim = new AnimationSequence(
+    			new Ease(blackOutImage, new CubicInOut(), 
+    					0.0f, 2.0f, 0.0f, 0.0f,
+    					time)
+    			);
+    	anim.setOnEndAction(onEnd);
+    	addAnimator(new Animator(anim));
 	}
 
 	private UIGroup createBackground() {
@@ -326,31 +354,33 @@ public class StartGameFrame extends Frame {
 	}
 
 	private void startGame() {
-
-		String p1Name = startGameFrameLogic.getPlayerName(0);
-		String p2Name = startGameFrameLogic.getPlayerName(1);
-
-		GameCustomisation gameCustomisation = new GameCustomisation(
-				p1Name,
-				p2Name,
-				
-				new PlayerSkin(startGameFrameLogic.getPlayerTextureId(0), startGameFrameLogic.getPlayerColour(0)),
-				new PlayerSkin(startGameFrameLogic.getPlayerTextureId(1), startGameFrameLogic.getPlayerColour(1)),
-				startGameFrameLogic.getTurnTime(),
-				startGameFrameLogic.getSwapRule());
-
-		int timeLimit = startGameFrameLogic.getTurnTime();
-
-		Board b = new Board(startGameFrameLogic.getBoardSize());
-		Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER1, timeLimit, p1Name) : new AIPlayer(TileColour.PLAYER1, timeLimit, AIPlayer.defaultMaximumProcessingTime, p1Name);
-		Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
-				new UserPlayer(TileColour.PLAYER2, timeLimit, p2Name) : new AIPlayer(TileColour.PLAYER2, timeLimit, AIPlayer.defaultMaximumProcessingTime, p2Name);
-
-		SceneDirector.changeScene(
-				new GameplayScene(
-						new GameLogic(b, p1, p2, gameCustomisation.getSwapRule()),
-						gameCustomisation));
+		startGameBtn.disable();
+		fadeOut(1.0f, () -> {
+			String p1Name = startGameFrameLogic.getPlayerName(0);
+			String p2Name = startGameFrameLogic.getPlayerName(1);
+	
+			GameCustomisation gameCustomisation = new GameCustomisation(
+					p1Name,
+					p2Name,
+					
+					new PlayerSkin(startGameFrameLogic.getPlayerTextureId(0), startGameFrameLogic.getPlayerColour(0)),
+					new PlayerSkin(startGameFrameLogic.getPlayerTextureId(1), startGameFrameLogic.getPlayerColour(1)),
+					startGameFrameLogic.getTurnTime(),
+					startGameFrameLogic.getSwapRule());
+	
+			int timeLimit = startGameFrameLogic.getTurnTime();
+	
+			Board b = new Board(startGameFrameLogic.getBoardSize());
+			Player p1 = (startGameFrameLogic.getPlayerType(0) == PlayerType.HUMAN)  ?
+					new UserPlayer(TileColour.PLAYER1, timeLimit, p1Name) : new AIPlayer(TileColour.PLAYER1, timeLimit, AIPlayer.defaultMaximumProcessingTime, p1Name);
+			Player p2 = (startGameFrameLogic.getPlayerType(1) == PlayerType.HUMAN)  ?
+					new UserPlayer(TileColour.PLAYER2, timeLimit, p2Name) : new AIPlayer(TileColour.PLAYER2, timeLimit, AIPlayer.defaultMaximumProcessingTime, p2Name);
+	
+			SceneDirector.changeScene(
+					new GameplayScene(
+							new GameLogic(b, p1, p2, gameCustomisation.getSwapRule()),
+							gameCustomisation));
+		});
 	}
 
 	public boolean getSwapRule() {

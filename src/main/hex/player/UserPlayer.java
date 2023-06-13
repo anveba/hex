@@ -55,6 +55,11 @@ public class UserPlayer extends Player {
 	}
 
 	@Override
+	public void stopProcessing() {
+		
+	}
+
+	@Override
 	public void correctInvalidTurn(Board board, ConcurrentPlayerResponse response) {
 		processTurn(board, response);
 	}

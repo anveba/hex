@@ -48,6 +48,8 @@ import main.hex.board.TileColour;
     
     public abstract void processTurn(Board board, ConcurrentPlayerResponse response);
     
+    public abstract void stopProcessing();
+    
     public abstract void correctInvalidTurn(Board board, ConcurrentPlayerResponse response);
     
     public abstract void onTurnReceival();

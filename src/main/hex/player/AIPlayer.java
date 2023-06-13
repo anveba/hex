@@ -10,6 +10,8 @@ public class AIPlayer extends Player {
 	private float timeLimitPerTurnInSeconds;
 
 	public static final float defaultMaximumProcessingTime = 5.0f;
+	
+	private Thread aiThread;
 
 	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds, String name) {
 		super(playerColour, initialTimerDuration, name);
@@ -18,9 +20,17 @@ public class AIPlayer extends Player {
 
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
-		Thread t = new Thread(() -> response.placeMove(new AI(board, this).getBestMoveWithTimeLimit(timeLimitPerTurnInSeconds)));
-		t.setUncaughtExceptionHandler((th, ex) -> { response.setError(ex); });
-		t.start();
+		aiThread = new Thread(() -> response.placeMove(new AI(board, this).getBestMoveWithTimeLimit(timeLimitPerTurnInSeconds)));
+		aiThread.setUncaughtExceptionHandler((th, ex) -> { response.setError(ex); });
+		aiThread.start();
+	}
+	
+	@Override
+	public void stopProcessing() {
+		if (aiThread != null && aiThread.isAlive()) {
+			aiThread.stop();
+			System.out.println("AI killed");
+		}
 	}
 
 	@Override
