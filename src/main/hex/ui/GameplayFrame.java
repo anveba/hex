@@ -351,15 +351,20 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-    	removeAnimator(pauseMenuAnimator);
-    	pauseMenuAnimator = new Animator(
-    			new Ease(pauseMenuUIGroup, new CubicInOut(),
-    					2.0f, 0.0f, 0.0f, 0.0f, 
-    					pauseMenuAnimationTime));
-    	addAnimator(pauseMenuAnimator);
-        pauseMenuUIGroup.show();
-        SceneDirector.pause();
+        if (SceneDirector.isPaused()) {
+            resumeToGameBtnClicked();
+        } else {
+            removeAnimator(pauseMenuAnimator);
+            pauseMenuAnimator = new Animator(
+                    new Ease(pauseMenuUIGroup, new CubicInOut(),
+                            2.0f, 0.0f, 0.0f, 0.0f,
+                            pauseMenuAnimationTime));
+            addAnimator(pauseMenuAnimator);
+            pauseMenuUIGroup.show();
+            SceneDirector.pause();
+        }
     }
+
     private void resumeToGameBtnClicked() {
     	removeAnimator(pauseMenuAnimator);
     	pauseMenuAnimator = new Animator(
