@@ -83,7 +83,8 @@ public class MainMenuFrame extends Frame {
     }
 
     private void newGameClicked() {
-        SceneDirector.currentScene().changeFrame(new StartGameFrame());
+        FrameStack.getInstance().push(new StartGameFrame());
+        //SceneDirector.currentScene().changeFrame(new StartGameFrame());
     }
 
     private void loadGameClicked() {

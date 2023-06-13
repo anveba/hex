@@ -16,6 +16,4 @@ public abstract class Scene {
 	protected abstract void draw2D(Renderer2D renderer);
 	
 	protected abstract void draw3D(Renderer3D renderer);
-
-	public abstract void changeFrame(Frame newFrame);
 }
