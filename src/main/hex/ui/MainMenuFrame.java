@@ -2,11 +2,13 @@ package main.hex.ui;
 
 import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
+import main.engine.graphics.Colour;
 import main.engine.ui.*;
 import main.engine.ui.animation.*;
 import main.engine.ui.animation.easing.CubicInOut;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
+import main.hex.HexException;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
 import main.hex.scene.SceneDirector;
@@ -23,6 +25,11 @@ public class MainMenuFrame extends Frame {
     // Font:
     private BitmapFont FONT_FREDOKA_ONE = ResourceManager.getInstance().loadFont("fonts/fredoka-one.one-regular.ttf");
     private float buttonFontSize = 0.10f;
+    
+    private Image blackOutImage;
+    
+    private RectButton loadGameBtn;
+    private RectButton newGameBtn;
 
     public MainMenuFrame() {
         UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -37,6 +44,8 @@ public class MainMenuFrame extends Frame {
 
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
+        mainMenuView.addChild(createBlackOutImage());
+        
     }
 
     private UIGroup createLogoView() {
@@ -53,13 +62,25 @@ public class MainMenuFrame extends Frame {
         
         AnimationSequence animSeq = new AnimationSequence();
         
-        buttonMenuView.addChild(createMenuButton(0, "New Game", (args) -> newGameClicked(), animSeq));
-        var loadGameButton = createMenuButton(1, "Load Game", (args) -> loadGameClicked(), animSeq);
+        newGameBtn = createMenuButton(0, "New Game", (args) -> newGameClicked(), animSeq);
+        buttonMenuView.addChild(newGameBtn);
+        loadGameBtn = createMenuButton(1, "Load Game", (args) -> loadGameClicked(), animSeq);
         if (!HexFileSystem.getInstance().containsGameSave())
-        	loadGameButton.disable();
-        buttonMenuView.addChild(loadGameButton);
-        buttonMenuView.addChild(createMenuButton(2, "Options", (args) -> optionsClicked(), animSeq));
-        buttonMenuView.addChild(createMenuButton(3, "Quit", (args) -> quitClicked(), animSeq));
+        	loadGameBtn.disable();
+        buttonMenuView.addChild(loadGameBtn);
+        var optionsBtn = createMenuButton(2, "Options", (args) -> optionsClicked(), animSeq);
+        buttonMenuView.addChild(optionsBtn);
+        var quitBtn = createMenuButton(3, "Quit", (args) -> quitClicked(), animSeq);
+        buttonMenuView.addChild(quitBtn);
+        
+        final float buttonStart = -1.5f;
+        animSeq = new AnimationSequence(
+        		new SetPosition(newGameBtn, 0.0f, buttonStart),
+        		new SetPosition(loadGameBtn, 0.0f, buttonStart),
+        		new SetPosition(optionsBtn, 0.0f, buttonStart),
+        		new SetPosition(quitBtn, 0.0f, buttonStart),
+        		animSeq
+        		); 
         
         addAnimator(new Animator(animSeq));
 
@@ -68,11 +89,11 @@ public class MainMenuFrame extends Frame {
 
     private RectButton createMenuButton(int buttonNumber, String buttonText,
     		ButtonCallback onclickCallback, AnimationSequence animationSequence) {
-    	float y = 0.15f - 0.28f * buttonNumber;
-        RectButton menuButton = new RectButton(0.0f, y, 0.85f, 0.85f * 0.24f,
+        RectButton menuButton = new RectButton(0.0f, -2.0f, 0.85f, 0.85f * 0.24f,
                 TextureLibrary.BUTTON_TEXT_LARGE_SQUARE.getTexture(), FONT_FREDOKA_ONE,
                 buttonText, buttonFontSize, onclickCallback, null, null);
         
+        float y = 0.15f - 0.28f * buttonNumber;
         Animation anim = new Ease(menuButton, new CubicInOut(),
         		0.0f, y - 2.0f, 
         		0.0f, y,
@@ -85,21 +106,43 @@ public class MainMenuFrame extends Frame {
     private void newGameClicked() {
         SceneDirector.currentScene().changeFrame(new StartGameFrame());
     }
+    
+    private Image createBlackOutImage() {
+    	blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+		blackOutImage.hide();
+		return blackOutImage;
+    }
 
+    private void fadeOut(float time, Runnable onEnd) {
+		if (time <= 0.0f)
+    		throw new HexException("Time was not positive");
+    	blackOutImage.show();
+    	AnimationSequence anim = new AnimationSequence(
+    			new Ease(blackOutImage, new CubicInOut(), 
+    					0.0f, 2.0f, 0.0f, 0.0f,
+    					time)
+    			);
+    	anim.setOnEndAction(onEnd);
+    	addAnimator(new Animator(anim));
+	}
+    
     private void loadGameClicked() {
-    	System.out.println("Game Loaded!");
-    	
-    	GameSession session;
-    	try {
-    		session = HexFileSystem.getInstance().loadGame();
-    	} catch (Exception e) {
-    		return;
-    	}
-		
-		SceneDirector.changeScene(
-				new GameplayScene(
-						session.gameLogic,
-						session.customisation));
+    	newGameBtn.disable();
+    	loadGameBtn.disable();
+    	fadeOut(1.0f, () -> {
+	    	GameSession session;
+	    	try {
+	    		session = HexFileSystem.getInstance().loadGame();
+	    	} catch (Exception e) {
+	    		return;
+	    	}
+			
+			SceneDirector.changeScene(
+					new GameplayScene(
+							session.gameLogic,
+							session.customisation));
+    	});
     }
 
     private void optionsClicked() {
@@ -107,6 +150,6 @@ public class MainMenuFrame extends Frame {
     }
 
     private void quitClicked() {
-        Game.getInstance().closeWindow();
+    	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
     }
 }

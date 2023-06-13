@@ -17,6 +17,8 @@ import java.util.Stack;
 
 public class GameLogic implements Updateable {
 
+	private final static float extraTimeOnEndOnTurnGiven = 3.0f;
+	
     private Board board;
     private Player player1, player2;
     private ConcurrentPlayerResponse playerResponse;
@@ -155,6 +157,8 @@ public class GameLogic implements Updateable {
 
 	@Override
 	public void update(TimeRecord elapsed) {
+		if (!gameHasStarted())
+			return;
 		players.stream().forEach(p -> {
 			p.update(elapsed); 
 			if (p == players.getFirst())
@@ -195,8 +199,9 @@ public class GameLogic implements Updateable {
 	        }
     	}
         
+    	players.peekFirst().stopProcessing();
     	players.peekFirst().onEndOfTurn();
-		players.peekFirst().getTimer().addTime(3);
+		players.peekFirst().getTimer().addTime(extraTimeOnEndOnTurnGiven);
 
     	putCurrentPlayerInTheEndOfTheTurnQueue();
     }
@@ -278,7 +283,12 @@ public class GameLogic implements Updateable {
 		board.setTileAtPosition(
 				new Tile(colourToReplace), 
 				latest.move.getX(), latest.move.getY());
+		players.peekFirst().stopProcessing();
 		putPreviousPlayerInTheFrontOfTheTurnQueue();
 		startTurn();
+	}
+
+	public void stop() {
+		players.peekFirst().stopProcessing();		
 	}
 }

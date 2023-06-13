@@ -6,6 +6,8 @@ import main.engine.ui.UIElement;
 
 public abstract class Animation {
 	
+	private Runnable onEndAction;
+	
 	public Animation() {
 		
 	}
@@ -16,4 +18,12 @@ public abstract class Animation {
 	protected abstract float blocksFor();
 	
 	protected abstract boolean done();
+	
+	public final void setOnEndAction(Runnable action) {
+		onEndAction = action;
+	}
+	
+	final Runnable getOnEndAction() {
+		return onEndAction;
+	}
 }

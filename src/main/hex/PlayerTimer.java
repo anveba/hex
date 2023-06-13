@@ -46,7 +46,7 @@ public class PlayerTimer implements Updateable {
         return remainingTime;
     }
 
-    public void addTime(int addedSeconds) {
+    public void addTime(float addedSeconds) {
         remainingTime += addedSeconds;
     }
     public void setTime(int newTime) {

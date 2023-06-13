@@ -39,9 +39,10 @@ public class Ease extends Animation {
 	protected void animate(float time) {
 		if (time >= duration) {
 			isDone = true;
-			return;
+			time = 1.0f;
 		}
 		float t = easingFunction.ease(time / duration);
+		t = Utility.clamp(t, 0.0f, 1.0f);
 		float x = Utility.lerp(t, startX, endX);
 		float y = Utility.lerp(t, startY, endY);
 		element.setPosition(x, y);

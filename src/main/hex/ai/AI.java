@@ -84,7 +84,9 @@ public class AI {
             depth++;
 
             //negamax will return none if time limit is reached
-            Optional<AIMove> searchAtNewDepth = negamaxAB(board,depth,player.getColour(),Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY,timeLimitInMillis);
+            Optional<AIMove> searchAtNewDepth = negamaxAB(board,depth,player.getColour(),
+            		Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY,
+            		timeLimitInMillis);
             if(searchAtNewDepth.isEmpty()){
                 break;
             }
@@ -92,7 +94,7 @@ public class AI {
         }
 
         System.out.println("Found move with depth: "+depth+ " Value: "+bestMove.getValue());
-        System.out.println("X: "+bestMove.getX()+"Y: "+bestMove.getY());
+        System.out.println("X: "+bestMove.getX()+", Y: "+bestMove.getY());
         return bestMove;
     }
 

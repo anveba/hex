@@ -12,6 +12,7 @@ import main.hex.Game;
 import main.hex.GameCustomisation;
 import main.hex.graphics.*;
 import main.hex.player.PlayerSkin;
+import main.hex.resources.TextureLibrary;
 
 public class BoardRenderer3D {
 	
@@ -58,7 +59,7 @@ public class BoardRenderer3D {
 			0.8f, 0.8f, 0.8f,
 			0.6f, 0.6f, 0.6f,
 			2048.0f, 0.015f, 0.005f,
-			ResourceManager.getInstance().loadTexture("textures/white_px.png"), null
+			TextureLibrary.WHITE_PX.getTexture(), null
 		);
 	}
 	
