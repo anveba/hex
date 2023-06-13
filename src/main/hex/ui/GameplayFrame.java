@@ -354,10 +354,10 @@ public class GameplayFrame extends Frame {
         AnimationSequence animationSequence = new AnimationSequence();
         float animationDelay = 0.0f;
 
-        animationSequence.append(new Ease(mainMenuBtn, new CubicInOut(), 0.0f, btnYCenter - 1.0f, 0.0f, btnYCenter, 1.1f), new Wait(animationDelay));
-        animationSequence.append(new Ease(restartGameBtn, new CubicInOut(), 0.0f, -btnYCenter - 1.0f, 0.0f, -btnYCenter, 1.1f), new Wait(animationDelay));
-        animationSequence.append(new Ease(winMenuTitleText, new CubicInOut(), 0.0f, textYPos + 1.0f, 0.0f, textYPos, 1.1f), new Wait(animationDelay));
-        animationSequence.append(new Ease(winMenuBanner, new CubicInOut(), 0.0f, bannerYPos + 1.0f, 0.0f, bannerYPos, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(mainMenuBtn, new CubicInOut(), 0.0f, btnYCenter - 0.5f, 0.0f, btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(restartGameBtn, new CubicInOut(), 0.0f, -btnYCenter - 0.5f, 0.0f, -btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuTitleText, new CubicInOut(), 0.0f, textYPos + 0.5f, 0.0f, textYPos, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuBanner, new CubicInOut(), 0.0f, bannerYPos + 0.5f, 0.0f, bannerYPos, 1.1f), new Wait(animationDelay));
 
         winMenuAnimator = new Animator(animationSequence);
 
