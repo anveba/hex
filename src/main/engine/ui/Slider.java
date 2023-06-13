@@ -101,6 +101,7 @@ public class Slider extends RectElement implements Clickable {
         }
         sliderBtn.setPosition(sliderX, 0.0f);
         int newCurrent = (int) (min + (max - min) * getSliderPercent());
+
         if(current != newCurrent) {
         	current = newCurrent;
         	updateText();
@@ -205,7 +206,11 @@ public class Slider extends RectElement implements Clickable {
         return sliderBtn;
     }
 
-	@Override
+    public Format getFormat() {
+        return format;
+    }
+
+    @Override
 	public void processTextInput(TextInputArgs args) {
 		
 	}

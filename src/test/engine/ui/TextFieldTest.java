@@ -220,5 +220,27 @@ public class TextFieldTest {
         Assert.assertEquals(animationTime, textField.getTimeTillNextUpdate(), 0.0001f);
     }
 
+    @Test
+    public void testTextTruncation() {
+        Text text = mock(Text.class);
+        Image image = mock(Image.class);
+        float x = 0.4f, y = -0.2f, height = 0.24f, width = 0.24f, animationTime = 0.6f;
+        TextField textField = new TextField(x, y, width, height, text, image, "0123456789a", animationTime);
+        textField.processClickRelease(new ClickArgs(x,y));
+
+        Assert.assertEquals(11, textField.getText().length());
+
+        TextInputArgs inputArgs = mock(TextInputArgs.class);
+        when(inputArgs.getCharacter()).thenReturn('a');
+
+        for(int i = 0; i < 12; i++) {
+            textField.processTextInput(inputArgs);
+            Assert.assertEquals(i + 1, textField.getText().length());
+        }
+
+        textField.processTextInput(inputArgs);
+        Assert.assertEquals(12, textField.getText().length());
+    }
+
 
 }

@@ -80,4 +80,10 @@ public class UtilityTest {
     public void lerpWithValueLargerThanOneThrowsException() {
         Utility.lerp(2.0f, 0.0f, 0.0f);
     }
+
+    @Test
+    public void testGetFormattedTime() {
+        int seconds = 100;
+        assertEquals("01:40", Utility.getFormattedTime(seconds));
+    }
 }

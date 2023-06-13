@@ -130,7 +130,7 @@ public class TextField extends RectElement implements Clickable {
 	}
 
     //TODO: Make this depend on text width. Also create test.
-    public void truncateTextIfTooLong() {
+    private void truncateTextIfTooLong() {
         if (textString.length() > 12) {
             textString.deleteCharAt(textString.length() - 1);
             text.setText(textString.toString());

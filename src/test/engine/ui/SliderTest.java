@@ -1,19 +1,25 @@
 package test.engine.ui;
 
+import main.engine.format.Format;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.ui.*;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 
+import main.engine.ui.callback.SliderCallback;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.swing.*;
+
 import static org.mockito.Mockito.*;
 
 public class SliderTest {
+
+    private SliderCallback sliderCallback = mock(SliderCallback.class);
 
     private Image background = mock(Image.class);
     private Image sliderBtn = mock(Image.class);
@@ -29,7 +35,7 @@ public class SliderTest {
         when(sliderBtn.getX()).thenReturn(0.0f);
         doNothing().when(sliderBtn).setPosition(anyFloat(),anyFloat());
 
-        slider = new Slider(x,y,width,height,background,sliderBtn,min,max,initial,textLayout, null);
+        slider = new Slider(x,y,width,height,background,sliderBtn,min,max,initial,textLayout, sliderCallback);
     }
 
 
@@ -191,6 +197,45 @@ public class SliderTest {
         verify(sliderBtn,times(3)).setPosition(anyFloat(),anyFloat());
     }
 
+    @Test
+    public void moveSliderToTheLeftWhenCursorIsToTheLeftOfSlider() {
+        ClickArgs clickArgs = mock(ClickArgs.class);
+        when(clickArgs.getX()).thenReturn(x);
+        when(clickArgs.getY()).thenReturn(y);
+        slider.processClickDown(clickArgs);
+
+        Assert.assertTrue(slider.isPressed());
+
+        HoverArgs hoverArgs = mock(HoverArgs.class);
+        when(hoverArgs.getX()).thenReturn(x-width);
+        when(sliderBtn.getX()).thenReturn(slider.getSliderMinX());
+        slider.updateCursorPosition(hoverArgs);
+
+        when(clickArgs.getX()).thenReturn(x-width);
+        slider.processClickRelease(clickArgs);
+
+        Assert.assertEquals(slider.getMin(), slider.getCurrent());
+    }
+    @Test
+    public void moveSliderToTheLeftWhenCursorIsToTheRightOfSlider() {
+        ClickArgs clickArgs = mock(ClickArgs.class);
+        when(clickArgs.getX()).thenReturn(x);
+        when(clickArgs.getY()).thenReturn(y);
+        slider.processClickDown(clickArgs);
+
+        Assert.assertTrue(slider.isPressed());
+
+        HoverArgs hoverArgs = mock(HoverArgs.class);
+        when(hoverArgs.getX()).thenReturn(x+width);
+        when(sliderBtn.getX()).thenReturn(slider.getSliderMaxX());
+        slider.updateCursorPosition(hoverArgs);
+
+        when(clickArgs.getX()).thenReturn(x+width);
+        slider.processClickRelease(clickArgs);
+
+        Assert.assertEquals(slider.getMax(), slider.getCurrent());
+    }
+
 
 
     @Test
@@ -235,5 +280,16 @@ public class SliderTest {
     public void SliderMinXIsCorrect() {
         Assert.assertEquals(-width / 2.0f + width/16f, slider.getSliderMinX(), 0.00001f);
     }
+
+    @Test
+    public void testSetFormat() {
+        Format format = mock(Format.class);
+
+        slider.setFormat(format);
+
+        Assert.assertEquals(format, slider.getFormat());
+    }
+
+
 
 }

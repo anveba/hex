@@ -2,15 +2,16 @@ package test.hex.Frame;
 
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.engine.ui.Slider;
 import main.engine.ui.TextField;
+import main.hex.player.Player;
 import main.hex.player.PlayerType;
 import main.hex.ui.StartGameFrameLogic;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class StartGameFrameLogicTest {
 
@@ -291,6 +292,25 @@ public class StartGameFrameLogicTest {
     }
 
     @Test
+    public void nextColour_opponentHasLast_loopedAroundToFirst() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 1);
+        startGameFrameLogic.setPlayerColourIndex(1, 2);
+
+        startGameFrameLogic.nextColour(0);
+
+        Assert.assertEquals(0, startGameFrameLogic.getPlayerColourIndex(0));
+    }
+
+
+    @Test
     public void previousColour_opponentDoesNotHavePreviousColour() {
         Colour c1 = mock(Colour.class);
         Colour c2 = mock(Colour.class);
@@ -360,6 +380,26 @@ public class StartGameFrameLogicTest {
         startGameFrameLogic.previousColour(1);
 
         Assert.assertEquals(2, startGameFrameLogic.getPlayerColourIndex(1));
+    }
+
+    @Test
+    public void previousColour_otherPlayerHasLastColour_playerHasSecondLastColour() {
+        Colour c1 = mock(Colour.class);
+        Colour c2 = mock(Colour.class);
+        Colour c3 = mock(Colour.class);
+        Colour c4 = mock(Colour.class);
+
+        startGameFrameLogic.addHexColour(c1, "c1");
+        startGameFrameLogic.addHexColour(c2, "c2");
+        startGameFrameLogic.addHexColour(c3, "c3");
+        startGameFrameLogic.addHexColour(c4, "c4");
+
+        startGameFrameLogic.setPlayerColourIndex(0, 0);
+        startGameFrameLogic.setPlayerColourIndex(1, 3);
+
+        startGameFrameLogic.previousColour(0);
+
+        Assert.assertEquals(2, startGameFrameLogic.getPlayerColourIndex(0));
     }
 
     /**
@@ -511,5 +551,54 @@ public class StartGameFrameLogicTest {
 
         startGameFrameLogic.setPlayerName(0, textField);
         Assert.assertEquals("player0", startGameFrameLogic.getPlayerName(0));
+    }
+
+    @Test
+    public void getPlayerTextureName_player0_isPlayer0TextureName() {
+        String name = "t0";
+
+        startGameFrameLogic.addHexTextureId(0, name);
+
+        Assert.assertEquals(name, startGameFrameLogic.getPlayerTextureName(0));
+    }
+
+    @Test
+    public void getPlayerColour_player0_isPlayer0Colour() {
+        Colour colour = mock(Colour.class);
+        String colourString = "color";
+        startGameFrameLogic.addHexColour(colour, colourString);
+
+        Assert.assertEquals(colour, startGameFrameLogic.getPlayerColour(0));
+    }
+
+    @Test
+    public void getPlayerColourString_player0_isPlayer0ColourString() {
+        Colour colour = mock(Colour.class);
+        String colourString = "color";
+        startGameFrameLogic.addHexColour(colour, colourString);
+
+        Assert.assertEquals(colourString, startGameFrameLogic.getPlayerColourString(0));
+    }
+
+    @Test
+    public void setBoardSizeSlider_someSlider_sliderIsSet() {
+        Slider slider = mock(Slider.class);
+        when(slider.getCurrent()).thenReturn(5);
+
+
+        startGameFrameLogic.setBoardSizeSlider(slider);
+
+        Assert.assertEquals(5, startGameFrameLogic.getBoardSize());
+    }
+
+    @Test
+    public void setTurnTimeSlider_someSlider_sliderIsSet() {
+        Slider slider = mock(Slider.class);
+        when(slider.getCurrent()).thenReturn(5);
+
+
+        startGameFrameLogic.setTurnTimeSlider(slider);
+
+        Assert.assertEquals(5, startGameFrameLogic.getTurnTime());
     }
 }

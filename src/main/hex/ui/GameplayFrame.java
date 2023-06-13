@@ -59,7 +59,8 @@ public class GameplayFrame extends Frame {
     private UIGroup pauseMenuBtnUIGroup;
     private UIGroup pauseMenuUIGroup;
     private UIGroup winMenuUIGroup;
-    
+
+    private Animator winMenuAnimator;
     private Animator pauseMenuAnimator;
     private Text winMenuTitleText;
 
@@ -247,10 +248,12 @@ public class GameplayFrame extends Frame {
     }
 
     private UIGroup createWinMenu() {
+
         UIGroup winMenu = new UIGroup(0.0f, 0.0f);
 
         //Creating banner
-        UIGroup winMenuBanner = new UIGroup(0.0f, 0.85f);
+        float bannerYPos = 0.85f;
+        UIGroup winMenuBanner = new UIGroup(0.0f, bannerYPos);
         Image winMenuBannerBackground = new Image(0.0f, 0.0f, 0.9f, 0.23f, TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture());
         winMenuBanner.addChild(winMenuBannerBackground);
         Text bannerText = new Text(0.0f, 0.03f, FONT_FREDOKA_ONE, WIN_MENU_TITLE, 0.13f);
@@ -258,9 +261,9 @@ public class GameplayFrame extends Frame {
         winMenu.addChild(winMenuBanner);
 
         //Win Text
-        winMenuTitleText = new Text(0.0f, 0.68f, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
+        float textYPos = 0.68f;
+        winMenuTitleText = new Text(0.0f, textYPos, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
         winMenu.addChild(winMenuTitleText);
-
 
         //Restart button box
         UIGroup winMenuBtnBox = new UIGroup(0.0f, -0.80f);
@@ -270,9 +273,10 @@ public class GameplayFrame extends Frame {
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
         ButtonCallback restartGameClicked = (args) -> restartGameBtnClicked();
 
+        float btnYCenter = 0.09f;
         RectButton mainMenuBtn = new RectButton(
                 0.0f,
-                0.09f,
+                btnYCenter,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture(),
@@ -284,10 +288,9 @@ public class GameplayFrame extends Frame {
                 null
         );
         winMenuBtnBox.addChild(mainMenuBtn);
-
         RectButton restartGameBtn = new RectButton(
                 0.0f,
-                -0.09f,
+                -btnYCenter,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_GREEN_SQUARE.getTexture(),
@@ -298,7 +301,20 @@ public class GameplayFrame extends Frame {
                 null,
                 null
         );
+
         winMenuBtnBox.addChild(restartGameBtn);
+
+
+        //Animations
+        AnimationSequence animationSequence = new AnimationSequence();
+        float animationDelay = 0.0f;
+
+        animationSequence.append(new Ease(mainMenuBtn, new CubicInOut(), 0.0f, btnYCenter - 1.0f, 0.0f, btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(restartGameBtn, new CubicInOut(), 0.0f, -btnYCenter - 1.0f, 0.0f, -btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuTitleText, new CubicInOut(), 0.0f, textYPos + 1.0f, 0.0f, textYPos, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuBanner, new CubicInOut(), 0.0f, bannerYPos + 1.0f, 0.0f, bannerYPos, 1.1f), new Wait(animationDelay));
+
+        winMenuAnimator = new Animator(animationSequence);
 
         return winMenu;
     }
@@ -376,6 +392,7 @@ public class GameplayFrame extends Frame {
         pauseMenuBtnUIGroup.hide();
         undoBtnUIGroup.hide();
         winMenuTitleText.setText(WIN_MENU_TEXT.replace("{}", player.getName()));
+        addAnimator(winMenuAnimator);
         winMenuUIGroup.show();
     }
 }
