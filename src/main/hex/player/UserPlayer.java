@@ -20,13 +20,13 @@ public class UserPlayer extends Player {
 	private ConcurrentPlayerResponse response;
 	private boolean isCurrentTurn;
 	
-	public UserPlayer(TileColour playerColour) {
-		super(playerColour);
+	public UserPlayer(TileColour playerColour, String name) {
+		super(playerColour, name);
 		isCurrentTurn = false;
 	}
 
-	public UserPlayer(TileColour playerColour, float timeLimit) {
-		super(playerColour, timeLimit);
+	public UserPlayer(TileColour playerColour, float timeLimit, String name) {
+		super(playerColour, timeLimit, name);
 		isCurrentTurn = false;
 	}
 	

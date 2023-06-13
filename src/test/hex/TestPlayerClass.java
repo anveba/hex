@@ -17,7 +17,7 @@ public class TestPlayerClass extends Player {
 	}
 
 	public TestPlayerClass(TileColour playerColour, double timeLimit) {
-		super(playerColour, timeLimit);
+		super(playerColour, timeLimit, "Player");
 	}
 
 	@Override

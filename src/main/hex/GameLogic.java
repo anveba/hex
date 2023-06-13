@@ -186,6 +186,7 @@ public class GameLogic implements Updateable {
 	}
 	
     private void endTurn() {
+
     	if (gameHasStarted()) {
 	    	for (Player p : players) {
 		        if (playerHasWon(p)) {
@@ -194,8 +195,8 @@ public class GameLogic implements Updateable {
 		        }
 	        }
     	}
-        
-    	players.peekFirst().onEndOfTurn();
+
+		players.peekFirst().onEndOfTurn();
 		players.peekFirst().getTimer().addTime(3);
 
     	putCurrentPlayerInTheEndOfTheTurnQueue();

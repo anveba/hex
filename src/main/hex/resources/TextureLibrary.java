@@ -3,6 +3,15 @@ package main.hex.resources;
 import main.engine.ResourceManager;
 import main.engine.graphics.Texture;
 
+/**
+ * This enum is used to store all the textures used in the game.
+ * This is done to avoid having to load the same texture multiple times, but also to abstract the texture paths
+ * away from the rest of the code.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ */
+
+
 public enum TextureLibrary {
     LOGO("textures/gui/misc/logo.png"),
     LIGHT_GREY_TILE("textures/board/light_grey_tile.png"),
@@ -32,7 +41,10 @@ public enum TextureLibrary {
     TOGGLE_SWITCH_BACKGROUND("textures/gui/ButtonsText/ButtonText_OnOffBackground.png"),
     BOX_ORANGE_ROUNDED("textures/gui/BoxesBanners/Box_Orange_Rounded.png"),
     BUTTON_LARGE_ORANGE_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Orange_Square.png"),
-    BLANK_ARROW_LEFT("textures/gui/Icons/Icon_Small_WhiteOutline_Arrow.png");
+    BUTTON_LARGE_GREEN_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Green_Square.png"),
+    BLANK_ARROW_LEFT("textures/gui/Icons/Icon_Small_WhiteOutline_Arrow.png"),
+    MENU_BUTTON("textures/gui/ButtonsText/PremadeButtons_Menu.png"),
+    BOX_ORANGE_SQUARE("textures/gui/BoxesBanners/Box_Orange_Square.png");
 
     private String texturePath;
     TextureLibrary(String texturePath) {

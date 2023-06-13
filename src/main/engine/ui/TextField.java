@@ -14,12 +14,16 @@ import main.engine.ui.callback.TextInputArgs;
 import main.hex.resources.TextureLibrary;
 
 /**
+ *
+ * The text field is a UI element that allows the user to input text, as known from any text editor.
+ * The text field is used in the options frame, to allow the user to change the name of the player, and
+ * could easily be used in other frames as well.
+ *
  * @Author Oliver Grønborg Christensen - s204479
  */
 
 
 public class TextField extends RectElement implements Clickable {
-    //TODO: Add cursor on hover
 
     private boolean isFocused;
     private StringBuilder textString = new StringBuilder();
@@ -73,8 +77,8 @@ public class TextField extends RectElement implements Clickable {
 
     @Override
     protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        image.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
-        text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+        image.draw(renderer, offsetX, offsetY, colour);
+        text.draw(renderer, offsetX, offsetY, colour);
     }
     
 	@Override

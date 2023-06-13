@@ -9,6 +9,18 @@ import main.engine.ui.Frame;
 import main.engine.ui.Image;
 import main.hex.resources.TextureLibrary;
 
+
+/**
+ *
+ * The options frame is used to change the settings of the game.
+ * This frame can be reached from the main menu, and through the pause menu while in a game.
+ * Attached to this frame is a logic class "OptionsFrameLogic", which handles the logic of the frame.
+ *
+ * This class is not tested, as it is mainly consisting of UI, which is tested by inspection.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ */
+
 public class OptionsFrame extends Frame {
 
     private OptionsFrameLogic logic;
@@ -23,6 +35,7 @@ public class OptionsFrame extends Frame {
     private final String FRAME_TITLE = "OPTIONS";
     private final String BACK_BUTTON = "Done";
     private final String SOUND_TITLE = "Sound";
+    private final String MASTER_SETTING = "Master Volume:";
     private final String MUSIC_SETTING = "Music Volume:";
     private final String SOUND_SETTING = "Sound Effects:";
     private final String GRAPHICS_STYLE_SETTING = "Graphics Style:";
@@ -74,7 +87,32 @@ public class OptionsFrame extends Frame {
         soundOptions.addChild(title);
 
         //Music Slider
-        UIGroup musicSection = new UIGroup(0.0f, -0.14f);
+        UIGroup masterVolumeSection = new UIGroup(0.0f, -0.14f);
+        soundOptions.addChild(masterVolumeSection);
+
+        Text masterVolumeText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, MASTER_SETTING, SETTING_FONT_SIZE, SETTING_COLOUR);
+        masterVolumeText.setAnchorPoint(AnchorPoint.Left);
+        masterVolumeSection.addChild(masterVolumeText);
+
+        Slider masterVolumeSlider = new Slider(
+                0.85f,
+                -0.015f,
+                0.7f,
+                0.06f,
+                TextureLibrary.SCROLLBAR_GREY.getTexture(),
+                TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
+                0, 100, logic.getMasterVolume(),
+                args -> logic.setMasterVolume(args.getSliderLevel())
+        );
+        masterVolumeSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
+        masterVolumeSection.addChild(masterVolumeSlider);
+
+
+
+        //Music Slider
+        UIGroup musicSection = new UIGroup(0.0f, -0.26f);
+        soundOptions.addChild(musicSection);
+
         Text musicText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, MUSIC_SETTING, SETTING_FONT_SIZE, SETTING_COLOUR);
         musicText.setAnchorPoint(AnchorPoint.Left);
         musicSection.addChild(musicText);
@@ -86,18 +124,16 @@ public class OptionsFrame extends Frame {
                 0.06f,
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
-                0, 100, 50,
+                0, 100, logic.getMusicVolume(),
                 args -> logic.setMusicVolume(args.getSliderLevel())
         );
         musicSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
         musicSection.addChild(musicSlider);
 
 
-
-        soundOptions.addChild(musicSection);
-
         //Sounds Slider
-        UIGroup soundsSection = new UIGroup(0.0f, -0.28f);
+        UIGroup soundsSection = new UIGroup(0.0f, -0.38f);
+        soundOptions.addChild(soundsSection);
         Text soundsText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, SOUND_SETTING, SETTING_FONT_SIZE, SETTING_COLOUR);
         soundsText.setAnchorPoint(AnchorPoint.Left);
         soundsSection.addChild(soundsText);
@@ -109,19 +145,19 @@ public class OptionsFrame extends Frame {
                 0.06f,
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
-                0, 100, 50,
+                0, 100, logic.getSoundVolume(),
                 args -> logic.setSoundVolume(args.getSliderLevel())
         );
-        soundsSlider.setText(new Text(1.3f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
+        soundsSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
         soundsSection.addChild(soundsSlider);
 
-        soundOptions.addChild(soundsSection);
+
 
         return soundOptions;
     }
 
     private UIGroup createGraphicsOptions() {
-        UIGroup graphicsOptions = new UIGroup(-0.7f, -0.05f);
+        UIGroup graphicsOptions = new UIGroup(-0.7f, -0.10f);
 
         Text title = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, GRAPHICS_TITLE, SETTING_HEADER_FONT_SIZE, SETTING_HEADER_COLOUR);
         title.setAnchorPoint(AnchorPoint.Left);

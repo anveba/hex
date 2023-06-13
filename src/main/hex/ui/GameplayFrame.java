@@ -21,6 +21,16 @@ import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.GameSession;
 import main.hex.serialisation.HexFileSystem;
 
+/**
+ * The gameplay frame is the frame that is shown during gameplay.
+ * It contains the board, the player's HUD, the pause menu, and the win menu.
+ * The board is drawn before the frame (handled by the scene), and is therefore not a part of the frame.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ * @Author Oliver Siggard - s204450
+ */
+
+
 public class GameplayFrame extends Frame {
 
     // Fonts:
@@ -34,8 +44,10 @@ public class GameplayFrame extends Frame {
     private final String PAUSE_MENU_EXIT_BTN = "Exit Game";
 
     private final String WIN_MENU_TITLE = "GAME ENDED";
+    private final String WIN_MENU_TEXT = "{} won the game!";
     private final String WIN_MENU_RESTART_BTN = "Restart Game";
     private final String WIN_MENU_MAIN_MENU_BTN = "Main Menu";
+
     
     private final float pauseMenuAnimationTime = 0.8f;
 
@@ -43,10 +55,13 @@ public class GameplayFrame extends Frame {
     private static final float tileSizeY = tileSizeX * 1.1547005f;
     private GameCustomisation gameCustomisation;
     private GameLogic gameLogic;
+    private UIGroup undoBtnUIGroup;
+    private UIGroup pauseMenuBtnUIGroup;
     private UIGroup pauseMenuUIGroup;
     private UIGroup winMenuUIGroup;
     
     private Animator pauseMenuAnimator;
+    private Text winMenuTitleText;
 
     public GameplayFrame(GameCustomisation gameCustomisation, GameLogic gameLogic) {
 
@@ -74,7 +89,7 @@ public class GameplayFrame extends Frame {
         pauseMenuUIGroup.hide(); //Initially hidden
         root.addChild(pauseMenuUIGroup);
 
-        //Pause menu (added last, so it's on top of everything else)
+        //Win menu (added last, so it's on top of everything else)
         winMenuUIGroup = createWinMenu();
         winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
@@ -83,40 +98,39 @@ public class GameplayFrame extends Frame {
 
     }
 
+    /**
+     *  Author: Oliver Siggaard
+     *  All methods below.
+     */
     private UIGroup createMenuView() {
-        UIGroup menuView = new UIGroup(0.9f, 0.9f);
-
-        ButtonCallback burgerMenuClicked = (args) -> {
-            openPauseMenuBtnClicked();
-        };
-        RectButton burgerMenu = new RectButton(
-                0.0f,
-                0.0f,
-                0.1f,
-                0.1f,
-                TextureLibrary.LARGE_MENU_GREY.getTexture(),
+        pauseMenuBtnUIGroup = new UIGroup(0.0f, 0.0f);
+        RectButton pauseMenuButton = new RectButton(
+                0.9f,
+                0.9f,
+                0.14f,
+                0.14f,
+                TextureLibrary.MENU_BUTTON.getTexture(),
                 FONT_FREDOKA_ONE,
                 "",
                 0.1f,
-                burgerMenuClicked,
+                args -> openPauseMenuBtnClicked(),
                 null,
                 null
         );
-        menuView.addChild(burgerMenu);
+        pauseMenuBtnUIGroup.addChild(pauseMenuButton);
 
-
-        return menuView;
+        return pauseMenuBtnUIGroup;
     }
 
     private UIGroup createUndoView() {
-        UIGroup undoView = new UIGroup(0.0f, 0.0f);
+        undoBtnUIGroup = new UIGroup(0.0f, 0.0f);
         RectButton undoBtn= new RectButton(0.0f, -0.91f, 0.12f, 0.12f, 
         		TextureLibrary.SMALL_UNDO_GREY.getTexture(), FONT_FREDOKA_ONE, "", 
         		0, null, null, null);
         undoBtn.setClickCallback(args -> undoBtnClicked());
-        undoView.addChild(undoBtn);
+        undoBtnUIGroup.addChild(undoBtn);
 
-        return undoView;
+        return undoBtnUIGroup;
     }
 
     private UIGroup createPlayerViews() {
@@ -145,7 +159,7 @@ public class GameplayFrame extends Frame {
     private UIGroup createPlayer2View() {
         UIGroup player2UIGroup = new UIGroup(0.0f, 0.0f);
 
-        player2UIGroup.addChild(createPlayerViewBackground(0.72f, -0.8f));
+        player2UIGroup.addChild(createPlayerViewBackground(0.715f, -0.8f));
         player2UIGroup.addChild(createTileView(0.555f, -0.705f, gameCustomisation.getPlayer2Skin()));
         player2UIGroup.addChild(createPlayerNameView(0.77f, -0.705f, gameCustomisation.getPlayer2Name()));
         player2TimerText = new Text(0.72f, -0.85f, FONT_FREDOKA_ONE, gameLogic.getPlayer2().getTimer().getFormattedTime(), 0.08f);
@@ -154,13 +168,11 @@ public class GameplayFrame extends Frame {
         return player2UIGroup;
     }
 
-    private UIGroup createPlayerViewBackground(float xPos, float yPos) {
-        UIGroup playerViewBackgroundUIGroup = new UIGroup(0.0f, 0.0f);
+    private Image createPlayerViewBackground(float xPos, float yPos) {
         Image playerViewBackground = new Image(xPos, yPos, 0.5f, 0.35f,
                 TextureLibrary.BACKGROUND_SQUARE.getTexture());
-        playerViewBackgroundUIGroup.addChild(playerViewBackground);
 
-        return playerViewBackgroundUIGroup;
+        return playerViewBackground;
     }
 
     private UIGroup createTileView(float xPos, float yPos, PlayerSkin playerSkin) {
@@ -180,6 +192,17 @@ public class GameplayFrame extends Frame {
         return playerNameViewUIGroup;
     }
 
+    @Override
+    public void update(TimeRecord elapsed) {
+        player1TimerText.setText(gameLogic.getPlayer1().getTimer().getFormattedTime());
+        player2TimerText.setText(gameLogic.getPlayer2().getTimer().getFormattedTime());
+    }
+
+
+    /**
+     *  Author: Oliver Grønborg Christensen
+     *  All methods below.
+     */
     private UIGroup createPauseMenu() {
         UIGroup pauseMenu = new UIGroup(0.0f, 0.1f);
 
@@ -199,7 +222,7 @@ public class GameplayFrame extends Frame {
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
         ButtonCallback exitGameClicked = (args) -> exitGameBtnClicked();
         ButtonCallback optionsClicked = (args) -> optionsBtnClicked();
-        ButtonCallback saveGameClicked = (args) -> saveGaneBtnClicked();
+        ButtonCallback saveGameClicked = (args) -> saveGameBtnClicked();
 
         //Creating red "exit pause" button
         pauseMenu.addChild(new RectButton(
@@ -224,18 +247,24 @@ public class GameplayFrame extends Frame {
     }
 
     private UIGroup createWinMenu() {
-        UIGroup winMenu = new UIGroup(0.0f, 0.1f);
-
-        Image winMenuBackground = new Image(0.0f, 0.0f, 1.0f, 1.1f, TextureLibrary.BOX_ORANGE_ROUNDED.getTexture());
-        winMenu.addChild(winMenuBackground);
+        UIGroup winMenu = new UIGroup(0.0f, 0.0f);
 
         //Creating banner
-        UIGroup winMenuBanner = new UIGroup(0.0f, 0.51f);
-        Image winMenuBannerBackground = new Image(0.0f, 0.0f, 0.7f, 0.2f, TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture());
+        UIGroup winMenuBanner = new UIGroup(0.0f, 0.85f);
+        Image winMenuBannerBackground = new Image(0.0f, 0.0f, 0.9f, 0.23f, TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture());
         winMenuBanner.addChild(winMenuBannerBackground);
-        Text bannerText = new Text(0.0f, 0.03f, FONT_FREDOKA_ONE, WIN_MENU_TITLE, 0.11f);
+        Text bannerText = new Text(0.0f, 0.03f, FONT_FREDOKA_ONE, WIN_MENU_TITLE, 0.13f);
         winMenuBanner.addChild(bannerText);
         winMenu.addChild(winMenuBanner);
+
+        //Win Text
+        winMenuTitleText = new Text(0.0f, 0.68f, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
+        winMenu.addChild(winMenuTitleText);
+
+
+        //Restart button box
+        UIGroup winMenuBtnBox = new UIGroup(0.0f, -0.80f);
+        winMenu.addChild(winMenuBtnBox);
 
         //Creating button callbacks:
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
@@ -243,45 +272,39 @@ public class GameplayFrame extends Frame {
 
         RectButton mainMenuBtn = new RectButton(
                 0.0f,
-                -0.17f,
-                0.7f,
-                0.18f,
-                TextureLibrary.BUTTON_TEXT_LARGE_ORANGE_ROUND.getTexture(),
+                0.09f,
+                0.65f,
+                0.16f,
+                TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture(),
                 FONT_FREDOKA_ONE,
                 WIN_MENU_MAIN_MENU_BTN,
-                0.11f,
+                0.1f,
                 mainMenuClicked,
                 null,
                 null
         );
-        winMenu.addChild(mainMenuBtn);
+        winMenuBtnBox.addChild(mainMenuBtn);
 
         RectButton restartGameBtn = new RectButton(
                 0.0f,
-                -0.37f,
-                0.7f,
-                0.18f,
-                TextureLibrary.BUTTON_TEXT_LARGE_GREEN_ROUND.getTexture(),
+                -0.09f,
+                0.65f,
+                0.16f,
+                TextureLibrary.BUTTON_LARGE_GREEN_SQUARE.getTexture(),
                 FONT_FREDOKA_ONE,
                 WIN_MENU_RESTART_BTN,
-                0.10f,
+                0.1f,
                 restartGameClicked,
                 null,
                 null
         );
-        winMenu.addChild(restartGameBtn);
+        winMenuBtnBox.addChild(restartGameBtn);
 
         return winMenu;
     }
 
     public RectButton createPauseMenuButton(int n, Texture texture, String string, ButtonCallback clickCallback) {
         return new RectButton(0.0f, 0.37f - 0.21f * n, 0.7f, 0.18f, texture, FONT_FREDOKA_ONE, string, 0.12f, clickCallback, null, null);
-    }
-
-    @Override
-	public void update(TimeRecord elapsed) {
-        player1TimerText.setText(gameLogic.getPlayer1().getTimer().getFormattedTime());
-        player2TimerText.setText(gameLogic.getPlayer2().getTimer().getFormattedTime());
     }
 
     private void openPauseMenuBtnClicked() {
@@ -315,14 +338,12 @@ public class GameplayFrame extends Frame {
         SceneDirector.resume();
     }
     private void restartGameBtnClicked() {
-
         boolean swapRule = gameCustomisation.getSwapRule();
         Board board = new Board(gameLogic.getBoard().size());
         Player player1 = gameLogic.getPlayer1();
         player1.getTimer().setTime(gameCustomisation.getInitialTimeLimit());
         Player player2 = gameLogic.getPlayer2();
         player2.getTimer().setTime(gameCustomisation.getInitialTimeLimit());
-
         SceneDirector.changeScene(
                 new GameplayScene(
                         new GameLogic(
@@ -333,9 +354,10 @@ public class GameplayFrame extends Frame {
                         ),
                         gameCustomisation)
         );
+        SceneDirector.resume();
     }
 
-    private void saveGaneBtnClicked() {
+    private void saveGameBtnClicked() {
     	HexFileSystem.getInstance().saveGame(new GameSession(gameCustomisation, gameLogic));
     }
 
@@ -350,7 +372,10 @@ public class GameplayFrame extends Frame {
 
     public void onPlayerWin(Player player) {
         SceneDirector.pause();
-        System.out.println("here");
+        pauseMenuUIGroup.hide();
+        pauseMenuBtnUIGroup.hide();
+        undoBtnUIGroup.hide();
+        winMenuTitleText.setText(WIN_MENU_TEXT.replace("{}", player.getName()));
         winMenuUIGroup.show();
     }
 }

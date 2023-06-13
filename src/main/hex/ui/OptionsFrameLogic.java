@@ -4,6 +4,17 @@ import main.engine.ui.FrameStack;
 import main.hex.Preferences;
 import main.hex.serialisation.HexFileSystem;
 
+/**
+ * Logic for the options frame.
+ * This class is mainly a abstraction layer, used to separate the logic from the UI.
+ * The logic class itself does not contain any significant logic, and is mainly calling other static methods
+ * (from the Preferences class), to perform the actual logic.
+ * This class however, acts as a seperation layers, to decouple the Preferences class from the Options frame.
+ *
+ * @Author Oliver Grønborg Christensen - s204479
+ */
+
+
 public class OptionsFrameLogic {
 
     public void exitSettingsButtonPressed() {
@@ -24,13 +35,27 @@ public class OptionsFrameLogic {
     }
 
     public void setSoundVolume(int volume) {
-        System.out.println("Sound Volume set to: " + volume);
-        //TODO: set sound volume
+        Preferences.getCurrent().setSfxVolume(volume/100f);
     }
 
     public void setMusicVolume(int volume) {
-        System.out.println("Music Volume set to: " + volume);
-        //TODO: set sound volume
+        Preferences.getCurrent().setMusicVolume(volume/100f);
+    }
+
+    public void setMasterVolume(int volume) {
+        Preferences.getCurrent().setMasterVolume(volume/100f);
+    }
+
+    public int getSoundVolume() {
+        return (int) (Preferences.getCurrent().getSfxVolume() * 100);
+    }
+
+    public int getMusicVolume() {
+        return (int) (Preferences.getCurrent().getMusicVolume() * 100);
+    }
+
+    public int getMasterVolume() {
+        return (int) (Preferences.getCurrent().getMasterVolume() * 100);
     }
 
 }

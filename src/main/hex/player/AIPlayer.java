@@ -11,8 +11,8 @@ public class AIPlayer extends Player {
 
 	public static final float defaultMaximumProcessingTime = 5.0f;
 
-	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds) {
-		super(playerColour, initialTimerDuration);
+	public AIPlayer(TileColour playerColour, float initialTimerDuration, float timeLimitPerTurnInSeconds, String name) {
+		super(playerColour, initialTimerDuration, name);
 		setTimeLimitPerTurnInSeconds(timeLimitPerTurnInSeconds);
 	}
 
