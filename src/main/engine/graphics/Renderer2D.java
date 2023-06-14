@@ -1,13 +1,7 @@
 package main.engine.graphics;
 
-import static org.lwjgl.opengl.GL33.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import main.engine.*;
-import main.engine.font.*;
-import main.hex.player.PlayerSkin;
+import main.engine.EngineException;
+import main.engine.font.BitmapFont;
 
 /**
  * A class composed of 2D renderers such as a text and sprite renderer.
@@ -18,10 +12,13 @@ public class Renderer2D {
 
 	private SpriteRenderer spriteRenderer;
 	private StringRenderer stringRenderer;
+
+    public final GraphicsContext context;
 	
 	public Renderer2D(GraphicsContext context) {
         if (context == null)
             throw new EngineException("The context is null");
+        this.context = context;
         spriteRenderer = new SpriteRenderer(context);
         stringRenderer = new StringRenderer(context);
     }

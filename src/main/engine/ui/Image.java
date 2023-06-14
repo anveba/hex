@@ -90,10 +90,9 @@ public class Image extends RectElement {
 	public void setColour(Colour c) {
 		colour = c;
 	}
-	
+
 	@Override
 	protected void updateElement(TimeRecord elapsed) {
-		
 	}
 
 	@Override

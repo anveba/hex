@@ -1,12 +1,18 @@
 package main.engine.ui;
 
-import java.util.*;
-
-import main.engine.*;
-import main.engine.graphics.*;
-import main.engine.input.*;
+import main.engine.EngineException;
+import main.engine.TimeRecord;
+import main.engine.graphics.Colour;
+import main.engine.graphics.Renderer2D;
+import main.engine.input.ControlsArgs;
 import main.engine.ui.animation.Animator;
-import main.engine.ui.callback.*;
+import main.engine.ui.callback.ClickArgs;
+import main.engine.ui.callback.HoverArgs;
+import main.engine.ui.callback.TextInputArgs;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a menu in the user interface. Only one frame is active at a time.
