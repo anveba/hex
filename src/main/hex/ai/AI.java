@@ -223,8 +223,10 @@ public class AI {
 
             //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
-                maxValue = child.getValue();
-                maxMove = Optional.of(child);
+                if((maxMove.isEmpty() || maxMove.get().getDepth() < child.getDepth())){
+                    maxValue = child.getValue();
+                    maxMove = Optional.of(child);
+                }
             }
 
             alpha = Double.max(alpha,maxValue);

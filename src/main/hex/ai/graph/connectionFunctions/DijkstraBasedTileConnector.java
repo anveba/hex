@@ -22,7 +22,7 @@ nonAgent - Any -> No connection
 public class DijkstraBasedTileConnector extends TileConnectionFunction{
 
     //Some constant to increase weight with when a tile is uncoloured
-    private final float weightConstant = 1;
+    private final float weightConstant = 5;
 
     @Override
     public void connectTiles(GridGraph gridGraph, Board board, int fromX, int fromY, int toX, int toY, TileColour agentColour) {
@@ -47,7 +47,7 @@ public class DijkstraBasedTileConnector extends TileConnectionFunction{
 
     @Override
     public void connectBridge(GridGraph gridGraph, Bridge b) {
-        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.1);
+        gridGraph.connectXyWithWeight(b.getX1(),b.getY1(), b.getX2(),b.getY2(),0.5);
     }
 
     @Override
