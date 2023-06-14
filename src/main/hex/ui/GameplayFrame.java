@@ -320,7 +320,7 @@ public class GameplayFrame extends Frame {
         float btnYCenter = 0.09f;
         RectButton mainMenuBtn = new RectButton(
                 0.0f,
-                btnYCenter,
+                btnYCenter - 2.f,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture(),
@@ -335,7 +335,7 @@ public class GameplayFrame extends Frame {
 
         RectButton restartGameBtn = new RectButton(
                 0.0f,
-                -btnYCenter,
+                -btnYCenter - 2.f,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_GREEN_SQUARE.getTexture(),
