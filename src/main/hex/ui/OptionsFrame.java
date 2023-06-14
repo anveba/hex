@@ -41,7 +41,6 @@ public class OptionsFrame extends Frame {
     public OptionsFrame() {
         logic = new OptionsFrameLogic();
 
-
         UIGroup root = new UIGroup(0.0f, 0.0f);
         initializeFrameView(root);
         setRoot(root);
@@ -56,7 +55,6 @@ public class OptionsFrame extends Frame {
         settingsMenu.addChild(createSoundOptions());
         settingsMenu.addChild(createGraphicsOptions());
         settingsMenu.addChild(createBackButton());
-
     }
 
     private UIGroup createBackground() {

@@ -155,7 +155,6 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        mainMenuView.removeChild(hexBackground);
         FrameStack.getInstance().push(new OptionsFrame());
     }
 
