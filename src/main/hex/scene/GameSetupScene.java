@@ -3,7 +3,6 @@ package main.hex.scene;
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
-import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.ui.MainMenuFrame;
 
@@ -19,7 +18,7 @@ public class GameSetupScene extends Scene {
 	
 	@Override
 	protected void begin() {
-		FrameStack.getInstance().push(new MainMenuFrame());
+		FrameStack.getInstance().push(new MainMenuFrame(null));
 	}
 	
 	@Override

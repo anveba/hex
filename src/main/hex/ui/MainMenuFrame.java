@@ -31,8 +31,14 @@ public class MainMenuFrame extends Frame {
     private HexBackground hexBackground;
     private RectButton loadGameBtn;
     private RectButton newGameBtn;
+    private UIGroup mainMenuView;
 
-    public MainMenuFrame() {
+    public MainMenuFrame(HexBackground hexBackground) {
+        if (hexBackground == null) {
+            this.hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+        } else {
+            this.hexBackground = hexBackground;
+        }
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
@@ -40,10 +46,9 @@ public class MainMenuFrame extends Frame {
     }
 
     public void initializeMainMenuFrame(UIGroup root) {
-        UIGroup mainMenuView = new UIGroup(0.0f, 0.0f);
+        mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
-        //hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_BLACK.getTexture(), Colour.Grey);
-        hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+
         mainMenuView.addChild(hexBackground);
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
@@ -107,7 +112,8 @@ public class MainMenuFrame extends Frame {
     }
 
     private void newGameClicked() {
-        FrameStack.getInstance().push(new StartGameFrame());
+        mainMenuView.removeChild(hexBackground);
+        FrameStack.getInstance().push(new StartGameFrame(hexBackground));
     }
     
     private Image createBlackOutImage() {
@@ -149,6 +155,7 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
+        mainMenuView.removeChild(hexBackground);
         FrameStack.getInstance().push(new OptionsFrame());
     }
 

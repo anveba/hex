@@ -4,8 +4,6 @@ import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.io.ResourceManager;
 import main.engine.ui.*;
-import main.engine.ui.Frame;
-import main.engine.ui.Image;
 import main.hex.resources.TextureLibrary;
 
 
@@ -210,7 +208,4 @@ public class OptionsFrame extends Frame {
 
         return backButton;
     }
-
-
-
 }
