@@ -248,7 +248,7 @@ public class StartGameFrame extends Frame {
 		// skinImage showcase
 		float c = (float)Math.cos(Math.toRadians(30.0f));
 		Image skinImage = new Image(0.0f, -0.235f, 0.22f * c, 0.22f, 
-				SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(0)), 
+				SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureId(0)),
 				startGameFrameLogic.getPlayerColour(playerIndex));
 		skinCarouselUIGroup.addChild(skinImage);
 
@@ -321,14 +321,14 @@ public class StartGameFrame extends Frame {
 	public void textureCarouselLeft(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.previousTexture(playerIndex);
 		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
-		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 		skinImage.setTexture(texture);
 	}
 
 	public void textureCarouselRight(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
 		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
-		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 		skinImage.setTexture(texture);
 	}
 
