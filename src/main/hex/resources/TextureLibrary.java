@@ -42,9 +42,9 @@ public enum TextureLibrary {
     TOGGLE_SWITCH_BACKGROUND("textures/gui/ButtonsText/ButtonText_OnOffBackground.png"),
     BOX_ORANGE_ROUNDED("textures/gui/BoxesBanners/Box_Orange_Rounded.png"),
     BUTTON_LARGE_ORANGE_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Orange_Square.png"),
-	
 	WHITE_PX("textures/white_px.png"),
-
+    BACKGROUND_TILE_GREYSCALE("textures/background_tile_greyscale.png"),
+    BACKGROUND_TILE_BLACK("textures/background_tile_black.png"),
     BUTTON_LARGE_GREEN_SQUARE("textures/gui/ButtonsText/ButtonText_Large_Green_Square.png"),
     BLANK_ARROW_LEFT("textures/gui/Icons/Icon_Small_WhiteOutline_Arrow.png"),
     MENU_BUTTON("textures/gui/ButtonsText/PremadeButtons_Menu.png"),

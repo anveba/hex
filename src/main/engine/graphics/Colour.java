@@ -39,6 +39,7 @@ public class Colour {
 	public static final Colour Green = new Colour(0.0f, 1.0f, 0.0f, 1.0f);
 	public static final Colour Yellow = new Colour(1.0f, 1.0f, 0.0f, 1.0f);
 	public static final Colour Orange = new Colour(1.0f, 0.15f, 0.0f, 1.0f);
+	public static final Colour Background_Grey = new Colour(0.025f,0.025f,0.027f,0.5f);
 
 	public static Colour add(Colour c1, Colour c2) {
 		if (c1 == null || c2 == null)

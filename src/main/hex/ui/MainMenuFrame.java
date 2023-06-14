@@ -1,5 +1,6 @@
 package main.hex.ui;
 
+import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.io.ResourceManager;
@@ -27,7 +28,7 @@ public class MainMenuFrame extends Frame {
     private float buttonFontSize = 0.10f;
     
     private Image blackOutImage;
-    
+    private HexBackground hexBackground;
     private RectButton loadGameBtn;
     private RectButton newGameBtn;
 
@@ -41,7 +42,9 @@ public class MainMenuFrame extends Frame {
     public void initializeMainMenuFrame(UIGroup root) {
         UIGroup mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
-
+        //hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_BLACK.getTexture(), Colour.Grey);
+        hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+        mainMenuView.addChild(hexBackground);
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
         mainMenuView.addChild(createBlackOutImage());
@@ -151,5 +154,10 @@ public class MainMenuFrame extends Frame {
 
     private void quitClicked() {
     	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
+    }
+
+    @Override
+    public void update(TimeRecord elapsed) {
+        hexBackground.update(elapsed);
     }
 }
