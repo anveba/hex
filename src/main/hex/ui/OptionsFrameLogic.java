@@ -1,5 +1,6 @@
 package main.hex.ui;
 
+import main.engine.sound.SoundPlayer;
 import main.engine.ui.FrameStack;
 import main.hex.Preferences;
 import main.hex.serialisation.HexFileSystem;
@@ -36,17 +37,21 @@ public class OptionsFrameLogic {
 
     public void setSoundVolume(int volume) {
         Preferences.getCurrent().setSfxVolume(volume/100f);
+        SoundPlayer.getInstance().setSfxVolume(volume/100f * getMasterVolume()/100f);
     }
 
     public void setMusicVolume(int volume) {
         Preferences.getCurrent().setMusicVolume(volume/100f);
+        SoundPlayer.getInstance().setMusicVolume(volume/100f * getMasterVolume()/100f);
     }
 
     public void setMasterVolume(int volume) {
         Preferences.getCurrent().setMasterVolume(volume/100f);
+        SoundPlayer.getInstance().setMusicVolume(volume/100f * getMusicVolume()/100f);
+        SoundPlayer.getInstance().setSfxVolume(volume/100f * getSfxVolume()/100f);
     }
 
-    public int getSoundVolume() {
+    public int getSfxVolume() {
         return (int) (Preferences.getCurrent().getSfxVolume() * 100);
     }
 

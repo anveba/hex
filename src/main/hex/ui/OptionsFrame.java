@@ -2,7 +2,6 @@ package main.hex.ui;
 
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
-import main.engine.graphics.Texture;
 import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.Frame;
@@ -145,7 +144,7 @@ public class OptionsFrame extends Frame {
                 0.06f,
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
-                0, 100, logic.getSoundVolume(),
+                0, 100, logic.getSfxVolume(),
                 args -> logic.setSoundVolume(args.getSliderLevel())
         );
         soundsSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));

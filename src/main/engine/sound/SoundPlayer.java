@@ -16,6 +16,10 @@ import main.engine.*;
  */
 public class SoundPlayer {
 
+	private ArrayList<SoundInstance> sfxSounds;
+	private ArrayList<SoundInstance> musicSounds;
+
+
 	private static SoundPlayer instance;
 	public static SoundPlayer getInstance() {
 		if (instance == null)
@@ -24,11 +28,34 @@ public class SoundPlayer {
 	}
 	
 	private SoundPlayer() {
-
+		sfxSounds = new ArrayList<SoundInstance>();
+		musicSounds = new ArrayList<SoundInstance>();
 	}
-	
-	public SoundInstance playSound(Sound sound, PlaybackSettings settings) {
-		
+
+	public void setSfxVolume(float volume) {
+		sfxSounds.forEach(s -> s.getSettings().setVolume(volume));
+	}
+
+	public void setMusicVolume(float volume) {
+		musicSounds.forEach(s -> s.getSettings().setVolume(volume));
+	}
+
+	public void playMusic(Sound sound, PlaybackSettings settings) {
+		musicSounds.removeIf(soundInstance -> !soundInstance.isPlaying());
+
+		SoundInstance soundInstance = playSound(sound, settings);
+		musicSounds.add(soundInstance);
+	}
+	public void playSfx(Sound sound, PlaybackSettings settings) {
+		sfxSounds.removeIf(soundInstance -> !soundInstance.isPlaying());
+
+		SoundInstance soundInstance = playSound(sound, settings);
+		sfxSounds.add(soundInstance);
+	}
+
+
+	private SoundInstance playSound(Sound sound, PlaybackSettings settings) {
+
 		if (settings == null)
 			throw new EngineException("Settings was null");
 		

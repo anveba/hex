@@ -4,7 +4,6 @@ import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
 import main.hex.Preferences;
 import main.hex.ui.OptionsFrameLogic;
-import main.hex.ui.StartGameFrameLogic;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +70,7 @@ public class OptionsFrameLogicTest {
         Assert.assertEquals(0.5f, Preferences.getCurrent().getSfxVolume(), 0.0001);
         optionsFrameLogic.setSoundVolume(75);
         Assert.assertEquals(0.75f, Preferences.getCurrent().getSfxVolume(), 0.0001);
-        Assert.assertEquals(75, optionsFrameLogic.getSoundVolume());
+        Assert.assertEquals(75, optionsFrameLogic.getSfxVolume());
     }
 
     @Test

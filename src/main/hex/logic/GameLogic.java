@@ -209,7 +209,7 @@ public class GameLogic implements Updateable {
     	players.peekFirst().onEndOfTurn();
 		players.peekFirst().getTimer().addTime(extraTimeOnEndOnTurnGiven);
 		
-		SoundPlayer.getInstance().playSound(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
+		SoundPlayer.getInstance().playSfx(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
 
     	putCurrentPlayerInTheEndOfTheTurnQueue();
     }
