@@ -1,6 +1,8 @@
 package test.engine.ui;
 
 import main.engine.TimeRecord;
+import main.engine.graphics.Colour;
+import main.engine.graphics.Renderer2D;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.Clickable;
 import main.engine.ui.callback.ClickArgs;
@@ -31,9 +33,14 @@ class TestClickableElementClass extends TestUIElementClass implements Clickable 
 	public void processControlsInput(ControlsArgs args) {
 
 	}
-	
+
 	@Override
-	public void update(TimeRecord elapsed) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+
+	}
+
+	@Override
+	protected void updateElement(TimeRecord elapsed) {
 		
 	}
 

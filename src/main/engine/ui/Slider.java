@@ -5,16 +5,12 @@ import main.engine.format.Format;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
-import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
-import main.engine.ui.callback.ButtonCallback;
-import main.engine.ui.callback.ButtonCallbackArgs;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.SliderCallback;
 import main.engine.ui.callback.SliderCallbackArgs;
 import main.engine.ui.callback.TextInputArgs;
-import main.hex.resources.TextureLibrary;
 
 /**
  *
@@ -150,14 +146,14 @@ public class Slider extends RectElement implements Clickable {
     }
 
     @Override
-    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         background.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
         sliderBtn.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
         if(text != null) text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
     }
 
     @Override
-    public void update(TimeRecord elapsed) {
+    protected void updateElement(TimeRecord elapsed) {
 
     }
 

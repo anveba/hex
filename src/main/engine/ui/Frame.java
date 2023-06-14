@@ -71,7 +71,7 @@ public class Frame {
 	}
 	
 	public void update(TimeRecord elapsed) {
-		if (root != null && !root.isHidden())
+		if (root != null)
 			root.update(elapsed);
 	}
 	

@@ -129,7 +129,7 @@ public class RectButton extends RectElement implements Clickable {
 	}
 	
 	@Override
-	public void update(TimeRecord elapsed) {
+	protected void updateElement(TimeRecord elapsed) {
 		
 	}
 	
@@ -196,7 +196,7 @@ public class RectButton extends RectElement implements Clickable {
 	}
 
 	@Override
-	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		if (isDown)
 			offsetY += downedOffset;
 		if (isDisabled)

@@ -1,6 +1,8 @@
 package main.engine.ui;
 
 import main.engine.EngineException;
+import main.engine.graphics.Colour;
+import main.engine.graphics.Renderer2D;
 import main.engine.math.Vector2;
 
 public abstract class RectElement extends UIElement {
@@ -49,4 +51,6 @@ public abstract class RectElement extends UIElement {
 	public float getHeight() {
 		return height;
 	}
+
+    protected abstract void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour);
 }

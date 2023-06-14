@@ -92,12 +92,12 @@ public class Image extends RectElement {
 	}
 	
 	@Override
-	public void update(TimeRecord elapsed) {
+	protected void updateElement(TimeRecord elapsed) {
 		
 	}
 
 	@Override
-	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		Colour col = Colour.multiply(getColour(), colour);
 		renderer.drawSprite(getTexture(), getX() + offsetX, getY() + offsetY, getWidth(), getHeight(), 
 				getSourceX(), getSourceY(), getSourceWidth(), getSourceHeight(), col);
