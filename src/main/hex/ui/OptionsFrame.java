@@ -37,6 +37,8 @@ public class OptionsFrame extends Frame {
     private final String SOUND_SETTING = "Sound Effects:";
     private final String GRAPHICS_STYLE_SETTING = "Graphics Style:";
     private final String GRAPHICS_TITLE = "Graphics";
+    private UIGroup backgroundGroup;
+    private HexBackground hexBackground;
 
     public OptionsFrame() {
         logic = new OptionsFrameLogic();
@@ -51,6 +53,8 @@ public class OptionsFrame extends Frame {
         UIGroup settingsMenu = new UIGroup(0.0f, 0.0f);
         root.addChild(settingsMenu);
 
+        backgroundGroup = new UIGroup(0.0f, 0.0f);
+        settingsMenu.addChild(backgroundGroup);
         settingsMenu.addChild(createBackground());
         settingsMenu.addChild(createSoundOptions());
         settingsMenu.addChild(createGraphicsOptions());
@@ -199,11 +203,20 @@ public class OptionsFrame extends Frame {
                 FONT_FREDOKA_ONE,
                 BACK_BUTTON,
                 0.12f,
-                (args) -> logic.exitSettingsButtonPressed(),
+                (args) -> logic.exitSettingsButtonPressed(backgroundGroup),
                 null,
                 null)
         );
 
         return backButton;
+    }
+
+    public HexBackground getHexBackground() {
+        return logic.getHexBackground();
+    }
+
+    public void setHexBackground(HexBackground hexBackground) {
+        backgroundGroup.addChild(hexBackground);
+        logic.setHexBackground(hexBackground);
     }
 }

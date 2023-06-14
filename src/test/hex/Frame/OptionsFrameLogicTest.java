@@ -2,6 +2,7 @@ package test.hex.Frame;
 
 import main.engine.ui.Frame;
 import main.engine.ui.FrameStack;
+import main.engine.ui.UIGroup;
 import main.hex.Preferences;
 import main.hex.ui.OptionsFrameLogic;
 import org.junit.Assert;
@@ -30,7 +31,7 @@ public class OptionsFrameLogicTest {
 
         Assert.assertEquals(frame2,FrameStack.getInstance().peek());
 
-        optionsFrameLogic.exitSettingsButtonPressed();
+        optionsFrameLogic.exitSettingsButtonPressed(mock(UIGroup.class));
 
         Assert.assertEquals(frame1,FrameStack.getInstance().peek());
     }

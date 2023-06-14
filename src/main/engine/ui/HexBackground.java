@@ -7,6 +7,11 @@ import main.engine.graphics.Texture;
 
 import java.util.ArrayList;
 
+/**
+ * The animated background in the menus.
+ * Made up of tiles with new ones being added when needed and old ones being deleted when no longer needed (coming in
+ */
+
 public class HexBackground extends UIElement {
     
     private float x;

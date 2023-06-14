@@ -1,6 +1,5 @@
 package main.hex.ui;
 
-import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.io.ResourceManager;
@@ -155,15 +154,13 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        FrameStack.getInstance().push(new OptionsFrame());
+        mainMenuView.removeChild(hexBackground);
+        OptionsFrame optionsFrame = new OptionsFrame();
+        optionsFrame.setHexBackground(hexBackground);
+        FrameStack.getInstance().push(optionsFrame);
     }
 
     private void quitClicked() {
     	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
-    }
-
-    @Override
-    public void update(TimeRecord elapsed) {
-        hexBackground.update(elapsed);
     }
 }

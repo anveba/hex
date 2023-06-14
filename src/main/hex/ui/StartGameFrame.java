@@ -1,6 +1,5 @@
 package main.hex.ui;
 
-import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.format.TimeFormat;
 import main.engine.graphics.Colour;
@@ -71,7 +70,6 @@ public class StartGameFrame extends Frame {
 	//Constructors
 	public StartGameFrame(HexBackground hexBackground) {
 		this.hexBackground = hexBackground;
-
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultTextureId, "Basic");
@@ -388,13 +386,12 @@ public class StartGameFrame extends Frame {
 		return startGameFrameLogic.getSwapRule();
 	}
 
+	public void setHexBackground(HexBackground hexBackground) {
+		this.hexBackground = hexBackground;
+	}
+
 	public void backToMainMenu() {
 		settingsMenu.removeChild(hexBackground);
 		FrameStack.getInstance().push(new MainMenuFrame(hexBackground));
-	}
-
-	@Override
-	public void update(TimeRecord elapsed) {
-		hexBackground.updateElement(elapsed);
 	}
 }
