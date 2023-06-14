@@ -89,6 +89,7 @@ public class StringRenderer {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             FontCharacterData d = font.getCharacterData(c);
+            if(d == null) continue;
             float cw = (d.x1() - d.x0()) * scaleX / aspectRatio;
             float ch = (d.y1() - d.y0()) * scaleY;
             float xo = d.xOffset() * scaleX;

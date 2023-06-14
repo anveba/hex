@@ -1,5 +1,6 @@
 package main.hex;
 
+import main.engine.sound.SoundPlayer;
 import main.hex.scene.SceneDirector;
 import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.HexFileSystem;

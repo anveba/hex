@@ -8,12 +8,13 @@ import main.engine.graphics.Texture;
  * This is done to avoid having to load the same texture multiple times, but also to abstract the texture paths
  * away from the rest of the code.
  *
+ * This class is not tested, as it is only a collection of constants.
+ *
  * @Author Oliver Grønborg Christensen - s204479
  */
 
 
 public enum TextureLibrary {
-    LOGO("textures/gui/misc/logo.png"),
     LIGHT_GREY_TILE("textures/board/light_grey_tile.png"),
     BORDER("textures/board/border.png"),
     LEFT_BORDER_CORNER("textures/board/left_border_corner.png"),

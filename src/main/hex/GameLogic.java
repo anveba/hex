@@ -1,12 +1,15 @@
 package main.hex;
 
 import main.engine.TimeRecord;
+import main.engine.sound.PlaybackSettings;
+import main.engine.sound.SoundPlayer;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
 import main.hex.player.ConcurrentPlayerResponse;
 import main.hex.player.Player;
 import main.hex.player.PlayerCondition;
+import main.hex.resources.SoundLibrary;
 import main.hex.serialisation.GameStateSerialiser;
 
 import java.util.ArrayDeque;
@@ -95,6 +98,7 @@ public class GameLogic implements Updateable {
 			return false;
 		}
         history.push(new GameStateChange(move, swapped));
+		SoundPlayer.getInstance().playSound(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
         return true;
     }
     

@@ -253,7 +253,7 @@ public class StartGameFrame extends Frame {
 
 		// Texture carousel text
 		Text textureCarouselText = new Text(0.0f, 0.06f, FONT_FREDOKA_ONE,
-				startGameFrameLogic.getPlayerTextureString(playerIndex), skinCarouselFontSize);
+				startGameFrameLogic.getPlayerTextureName(playerIndex), skinCarouselFontSize);
 		skinCarouselUIGroup.addChild(textureCarouselText);
 		// Texture carousel left arrow
 		skinCarouselUIGroup.addChild(carouselButton(-0.22f, 0.05f, 0.07f,
@@ -319,14 +319,16 @@ public class StartGameFrame extends Frame {
 
 	public void textureCarouselLeft(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.previousTexture(playerIndex);
-		textureText.setText(startGameFrameLogic.getPlayerTextureString(playerIndex));
-		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		skinImage.setTexture(texture);
 	}
 
 	public void textureCarouselRight(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
-		textureText.setText(startGameFrameLogic.getPlayerTextureString(playerIndex));
-		skinImage.setTexture(startGameFrameLogic.getHexTexture(startGameFrameLogic.getPlayerTextureIndex(playerIndex)));
+		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		skinImage.setTexture(texture);
 	}
 
 	public void colourCarouselLeft(Image skinImage, Text colourText, int playerIndex) {
@@ -383,11 +385,6 @@ public class StartGameFrame extends Frame {
 
 	public boolean getSwapRule() {
 		return startGameFrameLogic.getSwapRule();
-	}
-	
-	public Texture getHexSkin(int playerIndex) {
-		return startGameFrameLogic.getHexTexture(
-					startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 	}
 
 	public void backToMainMenu() {

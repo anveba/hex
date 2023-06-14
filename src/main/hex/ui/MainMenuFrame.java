@@ -105,7 +105,6 @@ public class MainMenuFrame extends Frame {
 
     private void newGameClicked() {
         FrameStack.getInstance().push(new StartGameFrame());
-        //SceneDirector.currentScene().changeFrame(new StartGameFrame());
     }
     
     private Image createBlackOutImage() {

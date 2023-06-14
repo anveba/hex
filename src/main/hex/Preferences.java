@@ -46,7 +46,6 @@ public class Preferences {
 	}
 
 	public void setMasterVolume(float masterVolume) {
-		System.out.println("Setting master volume to " + masterVolume);
 		this.masterVolume = masterVolume;
 	}
 

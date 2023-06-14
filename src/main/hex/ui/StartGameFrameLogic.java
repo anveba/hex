@@ -154,7 +154,7 @@ public class StartGameFrameLogic {
         return getHexTextureId(playerTextureIndex[playerIndex]);
     }
 
-    public String getPlayerTextureString(int playerIndex) {
+    public String getPlayerTextureName(int playerIndex) {
         return hexTextureMap.get(getPlayerTextureId(playerIndex));
     }
 
@@ -201,10 +201,6 @@ public class StartGameFrameLogic {
     public int getPlayerTextureIndex(int playerIndex) {
         return playerTextureIndex[playerIndex];
     }
-    
-	public Texture getHexTexture(int index) {
-		return SkinDatabase.getInstance().getTextureFromId(getHexTextureId(index));
-	}
 
     public int getPlayerColourIndex(int playerIndex) {
         return playerColourIndex[playerIndex];

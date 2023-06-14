@@ -7,11 +7,14 @@ import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
+import main.engine.sound.PlaybackSettings;
+import main.engine.sound.SoundPlayer;
 import main.engine.ui.callback.ButtonCallback;
 import main.engine.ui.callback.ButtonCallbackArgs;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.TextInputArgs;
+import main.hex.resources.SoundLibrary;
 
 /**
  * Represents a button in the UI with an image and text.
@@ -82,6 +85,9 @@ public class RectButton extends RectElement implements Clickable {
 		isDown = false;
 		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
+
+			SoundPlayer.getInstance().playSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(1.0f,1));
+
 		}
 	}
 	
@@ -129,7 +135,7 @@ public class RectButton extends RectElement implements Clickable {
 	}
 	
 	@Override
-	public void update(TimeRecord elapsed) {
+	protected void updateElement(TimeRecord elapsed) {
 		
 	}
 	
@@ -196,7 +202,7 @@ public class RectButton extends RectElement implements Clickable {
 	}
 
 	@Override
-	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		if (isDown)
 			offsetY += downedOffset;
 		if (isDisabled)

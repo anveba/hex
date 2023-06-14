@@ -64,7 +64,8 @@ public class GameplayFrame extends Frame {
     private RectButton undoBtn;
     private Image blackOutImage;
     private Text toastText;
-    
+
+    private Animator winMenuAnimator;
     private Animator pauseMenuAnimator;
     private Text winMenuTitleText;
 
@@ -99,23 +100,23 @@ public class GameplayFrame extends Frame {
         winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
 
-        blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
+        blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f,
         		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
         blackOutImage.hide();
         root.addChild(blackOutImage);
-        
+
         toastText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "", 0.1f);
         toastText.hide();
         root.addChild(toastText);
     }
-    
+
     public void fadeIn(float time) {
     	if (time <= 0.0f)
     		throw new HexException("Time was not positive");
     	blackOutImage.show();
     	AnimationSequence anim = new AnimationSequence(
     			new Wait(0.4f),
-    			new Ease(blackOutImage, new CubicInOut(), 
+    			new Ease(blackOutImage, new CubicInOut(),
     					0.0f, 0.0f, 0.0f, 2.0f,
     					time),
     			new Wait(time),
@@ -123,13 +124,13 @@ public class GameplayFrame extends Frame {
     			);
     	addAnimator(new Animator(anim));
     }
-    
+
 	private void fadeOut(float time, Runnable onEnd) {
 		if (time <= 0.0f)
     		throw new HexException("Time was not positive");
     	blackOutImage.show();
     	AnimationSequence anim = new AnimationSequence(
-    			new Ease(blackOutImage, new CubicInOut(), 
+    			new Ease(blackOutImage, new CubicInOut(),
     					0.0f, 2.0f, 0.0f, 0.0f,
     					time)
     			);
@@ -163,7 +164,7 @@ public class GameplayFrame extends Frame {
 
     private UIGroup createUndoView() {
         undoBtnUIGroup = new UIGroup(0.0f, 0.0f);
-        undoBtn = new RectButton(0.0f, -0.91f, 0.12f, 0.12f, 
+        undoBtn = new RectButton(0.0f, -0.91f, 0.12f, 0.12f,
         		TextureLibrary.SMALL_UNDO_GREY.getTexture(), FONT_FREDOKA_ONE, "", 
         		0, null, null, null);
         undoBtn.setClickCallback(args -> undoBtnClicked());
@@ -290,10 +291,12 @@ public class GameplayFrame extends Frame {
     }
 
     private UIGroup createWinMenu() {
+
         UIGroup winMenu = new UIGroup(0.0f, 0.0f);
 
         //Creating banner
-        UIGroup winMenuBanner = new UIGroup(0.0f, 0.85f);
+        float bannerYPos = 0.85f;
+        UIGroup winMenuBanner = new UIGroup(0.0f, bannerYPos);
         Image winMenuBannerBackground = new Image(0.0f, 0.0f, 0.9f, 0.23f, TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture());
         winMenuBanner.addChild(winMenuBannerBackground);
         Text bannerText = new Text(0.0f, 0.03f, FONT_FREDOKA_ONE, WIN_MENU_TITLE, 0.13f);
@@ -301,7 +304,8 @@ public class GameplayFrame extends Frame {
         winMenu.addChild(winMenuBanner);
 
         //Win Text
-        winMenuTitleText = new Text(0.0f, 0.68f, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
+        float textYPos = 0.68f;
+        winMenuTitleText = new Text(0.0f, textYPos, FONT_FREDOKA_ONE, "A Player won the Game!", 0.13f);
         winMenu.addChild(winMenuTitleText);
 
 
@@ -313,9 +317,10 @@ public class GameplayFrame extends Frame {
         ButtonCallback mainMenuClicked = (args) -> mainMenuBtnClicked();
         ButtonCallback restartGameClicked = (args) -> restartGameBtnClicked();
 
+        float btnYCenter = 0.09f;
         RectButton mainMenuBtn = new RectButton(
                 0.0f,
-                0.09f,
+                btnYCenter - 2.f,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_ORANGE_SQUARE.getTexture(),
@@ -330,7 +335,7 @@ public class GameplayFrame extends Frame {
 
         RectButton restartGameBtn = new RectButton(
                 0.0f,
-                -0.09f,
+                -btnYCenter - 2.f,
                 0.65f,
                 0.16f,
                 TextureLibrary.BUTTON_LARGE_GREEN_SQUARE.getTexture(),
@@ -341,7 +346,20 @@ public class GameplayFrame extends Frame {
                 null,
                 null
         );
+
         winMenuBtnBox.addChild(restartGameBtn);
+
+
+        //Animations
+        AnimationSequence animationSequence = new AnimationSequence();
+        float animationDelay = 0.0f;
+
+        animationSequence.append(new Ease(mainMenuBtn, new CubicInOut(), 0.0f, btnYCenter - 0.5f, 0.0f, btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(restartGameBtn, new CubicInOut(), 0.0f, -btnYCenter - 0.5f, 0.0f, -btnYCenter, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuTitleText, new CubicInOut(), 0.0f, textYPos + 0.5f, 0.0f, textYPos, 1.1f), new Wait(animationDelay));
+        animationSequence.append(new Ease(winMenuBanner, new CubicInOut(), 0.0f, bannerYPos + 0.5f, 0.0f, bannerYPos, 1.1f), new Wait(animationDelay));
+
+        winMenuAnimator = new Animator(animationSequence);
 
         return winMenu;
     }
@@ -351,15 +369,20 @@ public class GameplayFrame extends Frame {
     }
 
     private void openPauseMenuBtnClicked() {
-    	removeAnimator(pauseMenuAnimator);
-    	pauseMenuAnimator = new Animator(
-    			new Ease(pauseMenuUIGroup, new CubicInOut(),
-    					2.0f, 0.0f, 0.0f, 0.0f, 
-    					pauseMenuAnimationTime));
-    	addAnimator(pauseMenuAnimator);
-        pauseMenuUIGroup.show();
-        SceneDirector.pause();
+        if (SceneDirector.isPaused()) {
+            resumeToGameBtnClicked();
+        } else {
+            removeAnimator(pauseMenuAnimator);
+            pauseMenuAnimator = new Animator(
+                    new Ease(pauseMenuUIGroup, new CubicInOut(),
+                            2.0f, 0.0f, 0.0f, 0.0f,
+                            pauseMenuAnimationTime));
+            addAnimator(pauseMenuAnimator);
+            pauseMenuUIGroup.show();
+            SceneDirector.pause();
+        }
     }
+
     private void resumeToGameBtnClicked() {
     	removeAnimator(pauseMenuAnimator);
     	pauseMenuAnimator = new Animator(
@@ -426,7 +449,7 @@ public class GameplayFrame extends Frame {
     	anim.setOnEndAction(() -> { toastText.hide(); });
     	addAnimator(new Animator(anim));
     }
-    
+
     private void exitGameBtnClicked() {
     	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
     }
@@ -444,6 +467,7 @@ public class GameplayFrame extends Frame {
         pauseMenuBtnUIGroup.hide();
         undoBtnUIGroup.hide();
         winMenuTitleText.setText(WIN_MENU_TEXT.replace("{}", player.getName()));
+        addAnimator(winMenuAnimator);
         winMenuUIGroup.show();
     }
 }

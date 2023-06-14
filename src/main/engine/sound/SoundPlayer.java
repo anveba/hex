@@ -23,20 +23,8 @@ public class SoundPlayer {
 		return instance;
 	}
 	
-	private float masterVolume;
-	
 	private SoundPlayer() {
-		masterVolume = 0.8f;
-	}
-	
-	public void setMasterVolume(float volume) {
-		if (volume < 0.0f || volume > 1.0f)
-			throw new EngineException("Volume wasn't between 0 and 1");
-		masterVolume = volume;
-	}
-	
-	public float getMasterVolume() {
-		return masterVolume;
+
 	}
 	
 	public SoundInstance playSound(Sound sound, PlaybackSettings settings) {
