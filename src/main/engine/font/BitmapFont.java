@@ -20,6 +20,11 @@ import static main.engine.Utility.*;
 import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
+/**
+ * Represents a font that can be used in text rendering.
+ * @author Andreas - s214971
+ *
+ */
 public class BitmapFont {
 
     private FontCharacterData[] chars;

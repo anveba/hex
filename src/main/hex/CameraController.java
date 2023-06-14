@@ -9,6 +9,11 @@ import main.engine.math.Vector3;
 import main.engine.sound.SoundInstance;
 import main.engine.sound.SoundPlayer;
 
+/**
+ * Responsible for controlling the camera in the 3D board scene.
+ * @author Andreas - s214971
+ *
+ */
 public class CameraController implements Updateable {
 
 	private Camera camera;

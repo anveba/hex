@@ -1,5 +1,10 @@
 package main.engine.input;
 
+/**
+ * Enum for (relevant) keys/buttons on a keyboard and mouse.
+ * @author Andreas - s214971
+ *
+ */
 public enum Controls {
     Q, W, E, R, T, Y, U, I, O, P, 
     A, S, D, F, G, H, J, K, L, 

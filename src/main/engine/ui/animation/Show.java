@@ -3,6 +3,11 @@ package main.engine.ui.animation;
 import main.engine.EngineException;
 import main.engine.ui.UIElement;
 
+/**
+ * Animation that shows a UI element.
+ * @author Andreas - s214971
+ *
+ */
 public class Show extends Animation {
 
 	private boolean isDone;

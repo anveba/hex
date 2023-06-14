@@ -5,7 +5,7 @@ import main.engine.TimeRecord;
 
 /**
  * Class responsible for playing an animation. It can only play one animation once.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Animator {

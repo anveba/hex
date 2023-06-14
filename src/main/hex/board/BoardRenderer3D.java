@@ -14,6 +14,11 @@ import main.hex.graphics.*;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 
+/**
+ * Responsible for drawing the board in 3D.
+ * @author Andreas - s214971
+ *
+ */
 public class BoardRenderer3D {
 	
 	private Mesh hexMesh;

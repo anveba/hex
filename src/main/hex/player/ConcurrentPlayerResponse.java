@@ -3,6 +3,12 @@ package main.hex.player;
 import main.hex.HexException;
 import main.hex.Move;
 
+/**
+ * The communication link between the game and the players. The players, for example
+ * the AI, may do processing concurrently, thus this class is thread-safe.
+ * @author Andreas - s214971
+ *
+ */
 public class ConcurrentPlayerResponse {
 	
 	private Move heldMove;

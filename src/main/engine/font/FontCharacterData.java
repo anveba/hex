@@ -1,5 +1,11 @@
 package main.engine.font;
 
+/**
+ * Represents the data of a character/glyph in a bitmap font such as its position
+ * in the bitmap and its advance.
+ * @author Andreas - s214971
+ *
+ */
 public class FontCharacterData {
 
     private int x0;

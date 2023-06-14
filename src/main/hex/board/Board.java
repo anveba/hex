@@ -13,7 +13,7 @@ import main.hex.ai.BoardHasher;
 
 /**
  * Representation of the board. This class does not hold any gameplay logic.
- * @author Andreas
+ * @author ...
  *
  */
 
@@ -54,25 +54,6 @@ public class Board implements IBoard {
     		for (int j = 0; j < size(); j++)
     			b.setTileAtPosition(new Tile(getTileAtPosition(i, j).getColour()), i, j);
     	return b;
-    }
-
-    public void printBoard(){
-        for (Tile[] row: board
-             ) {
-            for(Tile t : row){
-                if(t.getColour() == TileColour.PLAYER2){
-                    System.out.print("R");
-                }
-                if(t.getColour() == TileColour.PLAYER1){
-                    System.out.print("B");
-                }
-                if(t.getColour() == TileColour.WHITE){
-                    System.out.print("W");
-                }
-
-            }
-            System.out.println();
-        }
     }
 
     public boolean equals(Board o){

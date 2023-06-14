@@ -7,7 +7,7 @@ import main.hex.player.PlayerType;
 /**
  * Represents a snapshot of a player's state.
  * This class is meant for serialisation.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class PlayerState {

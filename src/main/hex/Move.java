@@ -1,5 +1,10 @@
 package main.hex;
 
+/**
+ * Represents a move a player can make.
+ * @author Andreas - s214971
+ *
+ */
 public class Move {
 	private short x, y;
 	

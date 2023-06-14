@@ -4,7 +4,7 @@ package main.hex;
  * 
  * Class that contains the user preferences (options/settings) to
  * be used in the game.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Preferences {

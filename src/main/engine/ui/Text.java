@@ -11,7 +11,7 @@ import main.hex.Game;
 /**
  * Represent a piece of text in the user interface. It contains the information
  * used to draw it and which string is drawn.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Text extends UIElement {

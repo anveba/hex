@@ -7,6 +7,11 @@ import main.engine.font.BitmapFont;
 import main.engine.font.FontCharacterData;
 import main.engine.math.Vector2;
 
+/**
+ * Responsible for drawing 2D strings/text.
+ * @author Andreas - s214971
+ *
+ */
 public class StringRenderer {
 
     private static Shader textRendererShader = null;

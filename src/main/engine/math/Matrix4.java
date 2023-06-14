@@ -5,7 +5,8 @@ import java.nio.FloatBuffer;
 import main.engine.EngineException;
 
 /**
- * Immutable.
+ * Immutable. Represents a 4x4 matrix.
+ * @author Andreas - s214971
  */
 public class Matrix4 {
 
@@ -14,6 +15,7 @@ public class Matrix4 {
     private float m20, m21, m22, m23;
     private float m30, m31, m32, m33;
     
+    //Lazily initialised
     private static Matrix4 identity;
     
     public Matrix4(Vector4 col0, Vector4 col1, Vector4 col2, Vector4 col3) {

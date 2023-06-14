@@ -8,6 +8,11 @@ import main.engine.graphics.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Handles and abstracts controls and input to be used in other places in the program.
+ * @author Andreas - s214971
+ *
+ */
 public class ControlsListener {
     
     private List<CursorMoveCallback> onCursorMoveCallbacks;

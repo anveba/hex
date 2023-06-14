@@ -9,9 +9,9 @@ import main.engine.ui.animation.Animator;
 import main.engine.ui.callback.*;
 
 /**
- * Represents a menu in the user interface. Only one frame is active at a time
- * and they are self-contained.
- * @author Andreas
+ * Represents a menu in the user interface. Only one frame is active at a time.
+ * They are self-contained.
+ * @author Andreas - s214971
  *
  */
 public class Frame {

@@ -24,6 +24,11 @@ import static main.engine.Utility.*;
 
 import main.engine.*;
 
+/**
+ * Abstracts a texture (image) that is located in GPU memory. 
+ * @author Andreas - s214971
+ *
+ */
 public class Texture {
 
     private int handle;

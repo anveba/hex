@@ -5,7 +5,7 @@ import main.engine.graphics.Texture;
 
 /**
  * Represents a material for use in 3D rendering. Immutable.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Material {

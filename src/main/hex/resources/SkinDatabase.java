@@ -12,7 +12,7 @@ import java.util.Map;
  * 
  * Singleton.
  * 
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class SkinDatabase {

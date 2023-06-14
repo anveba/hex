@@ -9,6 +9,11 @@ import main.engine.*;
 import main.engine.font.*;
 import main.hex.player.PlayerSkin;
 
+/**
+ * A class composed of 2D renderers such as a text and sprite renderer.
+ * @author Andreas - s214971
+ *
+ */
 public class Renderer2D {
 
 	private SpriteRenderer spriteRenderer;

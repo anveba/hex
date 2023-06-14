@@ -13,7 +13,7 @@ import main.engine.ui.callback.TextInputArgs;
 
 /**
  * Represents a group of UI elements that itself is a UI element.
- * @author Andreas
+ * @author Andreas - s214971
  *
  */
 public class UIGroup extends UIElement implements Clickable {

@@ -8,6 +8,11 @@ import main.engine.EngineException;
 import main.engine.ResourceManager;
 import main.engine.math.Matrix4;
 
+/**
+ * Responsible for drawing sprites in 2D, that is, an image (or a part of an image).
+ * @author Andreas - s214971
+ *
+ */
 public class SpriteRenderer {
 	
     public static final int[] quadIndices = { 0, 1, 2, 2, 3, 0 };

@@ -1,5 +1,10 @@
 package main.hex.board;
 
+/**
+ * Wraps a board object to make it immutable.
+ * @author Andreas - s214971
+ *
+ */
 public class ImmutableBoard implements IBoard {
 
 	private Board wrappedBoard;

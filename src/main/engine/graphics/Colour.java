@@ -4,7 +4,7 @@ import main.engine.EngineException;
 
 /**
  * Represents a colour using rgba values. Immutable.
- * @author Andreas
+ * @author Andreas - s214971
  *
  */
 public class Colour {

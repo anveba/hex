@@ -1,7 +1,11 @@
 package main.engine.graphics;
 
 import main.engine.EngineException;
-
+/**
+ * Represents a camera used in 3D rendering. Has no direct functionality.
+ * @author Andreas - s214971
+ *
+ */
 public class Camera {
 	
 	private float x, y, z;

@@ -3,6 +3,11 @@ package main.engine.ui.animation;
 import main.engine.EngineException;
 import main.engine.ui.UIElement;
 
+/**
+ * Animation that hides a UI element.
+ * @author Andreas - s214971
+ *
+ */
 public class Hide extends Animation {
 
 	private boolean isDone;

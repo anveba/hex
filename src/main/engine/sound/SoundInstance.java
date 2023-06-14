@@ -12,7 +12,7 @@ import main.engine.Utility;
 /**
  * Represents an instance of a played/playing sound. It contains
  * a reference of the sound being played and playback settings.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class SoundInstance {
@@ -45,6 +45,12 @@ public class SoundInstance {
 	
 	public PlaybackSettings getSettings() {
 		return settings;
+	}
+	
+	public void setSettings(PlaybackSettings settings) {
+		if (settings == null)
+			throw new EngineException("Settings was null");
+		this.settings = settings;
 	}
 	
 	public synchronized void stop() {

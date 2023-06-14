@@ -1,5 +1,10 @@
 package main.engine.math;
 
+/**
+ * Represents a 4D vector.
+ * @author Andreas - s214971
+ *
+ */
 public class Vector4 {
 	public float x, y, z, w;
 

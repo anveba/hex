@@ -10,7 +10,12 @@ import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
 
- public abstract class Player implements Updateable {
+/**
+ * The base class for all players. 
+ * @author Andreas - s214971
+ *
+ */
+public abstract class Player implements Updateable {
 
     private TileColour playerColour;
     private PlayerTimer playerTimer;

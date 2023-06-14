@@ -4,6 +4,11 @@ import java.util.*;
 
 import main.engine.EngineException;
 
+/**
+ * Represents a 3D mesh, that is, a collection of triangles.
+ * @author Andreas - s214971
+ *
+ */
 public class Mesh {
 	
 	private List<Vertex> vertices;

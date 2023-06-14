@@ -15,7 +15,7 @@ import main.engine.ui.callback.TextInputArgs;
 
 /**
  * Represents a button in the UI with an image and text.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class RectButton extends RectElement implements Clickable {

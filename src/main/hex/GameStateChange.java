@@ -2,7 +2,7 @@ package main.hex;
 
 /**
  * Represents a change in the game state made by some move by a player.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class GameStateChange {

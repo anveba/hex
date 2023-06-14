@@ -3,6 +3,11 @@ package main.engine.ui.animation;
 import main.engine.EngineException;
 import main.engine.ui.UIElement;
 
+/**
+ * Animation that sets the position of a UI element.
+ * @author Andreas - s214971
+ *
+ */
 public class SetPosition extends Animation {
 
 	private final UIElement element;

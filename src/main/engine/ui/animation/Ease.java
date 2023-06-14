@@ -5,6 +5,13 @@ import main.engine.Utility;
 import main.engine.ui.UIElement;
 import main.engine.ui.animation.easing.EasingFunction;
 
+/**
+ * Represents an easing animation that moves a UI element according to a
+ * given easing function.
+ * @author Andreas - s214971
+ * @see EasingFunction
+ *
+ */
 public class Ease extends Animation {
 
 	private final UIElement element;

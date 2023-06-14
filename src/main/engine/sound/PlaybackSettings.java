@@ -4,7 +4,7 @@ import main.engine.EngineException;
 
 /**
  * Contains settings for audio playback such as volume. Immutable.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class PlaybackSettings {

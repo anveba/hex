@@ -4,6 +4,11 @@ import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.ui.UIElement;
 
+/**
+ * The base class for all UI animations.
+ * @author Andreas - s214971
+ *
+ */
 public abstract class Animation {
 	
 	private Runnable onEndAction;

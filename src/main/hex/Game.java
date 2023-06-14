@@ -10,6 +10,11 @@ import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.FrameStack;
 
+/**
+ * The main, top-most class of the program. Contains the entry-point.
+ * @author Andreas - s214971
+ *
+ */
 public class Game extends GameWindow {
 
     private Renderer2D renderer2D;
@@ -24,6 +29,7 @@ public class Game extends GameWindow {
     public static void main(String[] args) {
         new Game().startGame("Hex", 800, 800);
     }
+    
     private Game() {
     	if (instance != null) {
     		throw new HexException("Several instances of the game was created");

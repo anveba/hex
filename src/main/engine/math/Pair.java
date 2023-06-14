@@ -1,5 +1,10 @@
 package main.engine.math;
 
+/**
+ * Represents a 2-tuple. Immutable.
+ * @author Andreas - s214971
+ *
+ */
 public class Pair<T1, T2> {
 
 	public final T1 first;

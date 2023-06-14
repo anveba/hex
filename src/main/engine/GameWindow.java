@@ -22,6 +22,12 @@ import main.engine.graphics.*;
 import main.engine.input.*;
 import main.engine.ui.FrameStack;
 
+/**
+ * The backbone of the program. Handles windowing and abstracts the low level
+ * operating system details.
+ * @author Andreas - s214971
+ *
+ */
 public abstract class GameWindow implements GraphicsContext {
 
     private long windowHandle;

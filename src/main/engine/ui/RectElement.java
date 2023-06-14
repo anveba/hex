@@ -3,6 +3,11 @@ package main.engine.ui;
 import main.engine.EngineException;
 import main.engine.math.Vector2;
 
+/**
+ * A specific case of UI element that is rectangular.
+ * @author Andreas - s214971
+ *
+ */
 public abstract class RectElement extends UIElement {
 	
 	private float x, y;

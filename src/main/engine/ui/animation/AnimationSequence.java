@@ -5,6 +5,11 @@ import java.util.*;
 import main.engine.EngineException;
 import main.engine.TimeRecord;
 
+/**
+ * Represents a sequence of animations that itself is an animation.
+ * @author Andreas - s214971
+ *
+ */
 public class AnimationSequence extends Animation {
 	
 	private List<Animation> animations;

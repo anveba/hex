@@ -9,6 +9,11 @@ import main.hex.Game;
 
 import main.engine.input.*;
 
+/**
+ * A class composed of 3D renderers such as mesh and skybox renderers.
+ * @author Andreas - s214971
+ *
+ */
 public class Renderer3D {
 	
 	private MeshRenderer meshRenderer;

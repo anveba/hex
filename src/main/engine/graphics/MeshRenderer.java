@@ -11,6 +11,11 @@ import main.engine.math.Matrix4;
 import main.engine.math.Vector3;
 import main.engine.math.Vector4;
 
+/**
+ * Class responsible for drawing meshes.
+ * @author Andreas - s214971
+ *
+ */
 public class MeshRenderer {
     private static Shader meshShader = null;
     

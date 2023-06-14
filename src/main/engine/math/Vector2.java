@@ -3,6 +3,11 @@ package main.engine.math;
 import java.util.Objects;
 import static main.engine.Utility.floatEquals;
 
+/**
+ * Represents a 2D vector.
+ * @author Andreas - s214971
+ *
+ */
 public class Vector2 {
     private float x, y;
 
@@ -34,10 +39,6 @@ public class Vector2 {
     @Override
     public String toString() {
     	return "(" + getX() + ", " + getY() + ")";
-    }
-    
-    public boolean approx(Vector2 other) {
-    	return floatEquals(getX(), other.getX()) && floatEquals(getY(), other.getY());
     }
     
     @Override

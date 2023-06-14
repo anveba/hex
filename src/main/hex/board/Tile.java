@@ -4,7 +4,7 @@ import main.hex.HexException;
 
 /**
  * Immutable.
- *
+ * @author Andreas - s214971
  */
 public class Tile {
 	

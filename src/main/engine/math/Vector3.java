@@ -1,5 +1,10 @@
 package main.engine.math;
 
+/**
+ * Represents a 3D vector.
+ * @author Andreas - s214971
+ *
+ */
 public class Vector3 {
 	public float x, y, z;
 

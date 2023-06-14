@@ -6,8 +6,8 @@ import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 
 /**
- * 
- * @author andreas
+ * The base class for all UI elements. 
+ * @author Andreas - s214971
  *
  */
 public abstract class UIElement {

@@ -6,7 +6,7 @@ import main.engine.graphics.*;
 /**
  * Represents an image in the user interface. Contains information pertaining to
  * how to draw it.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Image extends RectElement {

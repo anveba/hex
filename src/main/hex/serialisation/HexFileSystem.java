@@ -15,7 +15,7 @@ import net.harawata.appdirs.*;
 /**
  * Singleton that manages any persistent data that has to be
  * saved and loaded from execution to execution.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class HexFileSystem extends GameFileSystem {

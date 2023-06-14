@@ -2,12 +2,12 @@ package main.engine.input;
 
 /**
  * Immutable.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class ControlsArgs {
 
-    private Controls c;
+    private final Controls c;
 
     public ControlsArgs(Controls c) {
         this.c = c;

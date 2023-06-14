@@ -15,6 +15,11 @@ import main.engine.math.Matrix4;
 import main.engine.math.Vector3;
 import main.engine.math.Vector4;
 
+/**
+ * Abstracts a shader program, that is, a program that runs on the GPU.
+ * @author Andreas - s214971
+ *
+ */
 public class Shader {
 
     private int handle;

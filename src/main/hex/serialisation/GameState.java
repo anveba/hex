@@ -10,7 +10,7 @@ import main.hex.player.*;
  * Represents a snapshot of a game's state. All information to 
  * rebuild a game is contained.
  * This class is meant for serialisation.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class GameState {

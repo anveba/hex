@@ -8,6 +8,11 @@ import java.nio.file.Path;
 
 import org.lwjgl.BufferUtils;
 
+/**
+ * A static class containing useful pure functions.
+ * @author Andreas - s214971
+ *
+ */
 public class Utility {
 
     public static boolean floatEquals(float f1, float f2) {

@@ -14,6 +14,11 @@ import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
 
+/**
+ * 
+ * @author Andreas - s214971
+ *
+ */
 public class UserPlayer extends Player {
 
 	private Board board;

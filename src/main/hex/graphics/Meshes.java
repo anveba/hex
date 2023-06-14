@@ -3,6 +3,11 @@ package main.hex.graphics;
 import main.engine.graphics.model.*;
 import main.engine.math.Vector3;
 
+/**
+ * Static class for generating 3D meshes procedurally.
+ * @author Andreas - s214971
+ *
+ */
 public class Meshes {
 	public static Mesh buildParallelepipedMesh(Vector3 i, Vector3 j, Vector3 k) {
 		

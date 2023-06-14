@@ -1,4 +1,4 @@
-package test.engine;
+package test.engine.math;
 
 import static main.engine.Utility.floatEquals;
 import static org.junit.Assert.*;

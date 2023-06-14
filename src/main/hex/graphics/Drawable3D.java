@@ -2,8 +2,11 @@ package main.hex.graphics;
 
 import main.engine.graphics.*;
 
-public class Drawable3D {
-	public interface Drawable2D {
-	    void draw(Renderer3D renderer);
-	}
+/**
+ * 
+ * @author Andreas - s214971
+ *
+ */
+public interface Drawable3D {
+    void draw(Renderer3D renderer);
 }

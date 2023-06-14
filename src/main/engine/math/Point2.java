@@ -2,6 +2,11 @@ package main.engine.math;
 
 import java.util.Objects;
 
+/**
+ * Represents an integer point in 2D space.
+ * @author andreas
+ *
+ */
 public class Point2 {
 
     private int x, y;

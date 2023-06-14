@@ -5,8 +5,8 @@ import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
 /**
- * Represents a file system for the game to use.
- * @author andreas
+ * Represents and abstracts a file system for the game to use.
+ * @author Andreas - s214971
  *
  */
 

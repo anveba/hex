@@ -10,7 +10,7 @@ import main.engine.input.ControlsArgs;
 /**
  * Represents a stack of frames. It is the highest level module of the
  * UI framework. Only the topmost frame is active.
- * @author Andreas
+ * @author Andreas - s214971
  * @see Frame
  */
 public class FrameStack {

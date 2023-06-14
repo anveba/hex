@@ -2,6 +2,11 @@ package main.hex.serialisation;
 
 import com.google.gson.*;
 
+/**
+ * Responsible for serialising and deserialising the game state.
+ * @author Andreas - s214971
+ *
+ */
 public class GameStateSerialiser {
 
 	public GameStateSerialiser() {

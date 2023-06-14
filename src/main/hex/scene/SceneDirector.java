@@ -5,6 +5,12 @@ import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Renderer3D;
 import main.hex.HexException;
 
+/**
+ * Responsible for managing and changing scenes.
+ * @author Andreas - s214971
+ * @see Scene
+ *
+ */
 public class SceneDirector {
 	
 	private static SceneDirector instance;

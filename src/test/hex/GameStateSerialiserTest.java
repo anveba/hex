@@ -10,10 +10,7 @@ import main.engine.graphics.Colour;
 import main.hex.*;
 import main.hex.board.*;
 import main.hex.player.*;
-import main.hex.serialisation.GameSession;
-import main.hex.serialisation.GameState;
-import main.hex.serialisation.GameStateSerialiser;
-import main.hex.serialisation.GameStateStringSerialiser;
+import main.hex.serialisation.*;
 
 public class GameStateSerialiserTest {
 	

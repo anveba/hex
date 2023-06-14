@@ -11,7 +11,7 @@ import main.engine.*;
 
 /**
  * Singleton responsible for playing audio.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class SoundPlayer {

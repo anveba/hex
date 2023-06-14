@@ -6,6 +6,11 @@ import main.engine.EngineException;
 import main.engine.ResourceManager;
 import main.engine.math.Matrix4;
 
+/**
+ * Responsible for drawing a skybox, that is, the 'background' in 3D.
+ * @author Andreas - s214971
+ *
+ */
 public class SkyboxRenderer {
 	
     private static Shader skyboxShader = null;

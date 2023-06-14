@@ -9,7 +9,7 @@ import main.engine.EngineException;
 /**
  * Represents some playable piece of audio. This is a container for the
  * data that makes up the audio.
- * @author andreas
+ * @author Andreas - s214971
  *
  */
 public class Sound {
