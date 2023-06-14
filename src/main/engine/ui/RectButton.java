@@ -8,13 +8,13 @@ import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
 import main.engine.sound.PlaybackSettings;
+import main.engine.sound.Sound;
 import main.engine.sound.SoundPlayer;
 import main.engine.ui.callback.ButtonCallback;
 import main.engine.ui.callback.ButtonCallbackArgs;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.TextInputArgs;
-import main.hex.resources.SoundLibrary;
 
 /**
  * Represents a button in the UI with an image and text.
@@ -29,6 +29,9 @@ public class RectButton extends RectElement implements Clickable {
 	private boolean isHovering, isDown;
 	private Colour colour;
 	private boolean isDisabled;
+	
+	private static Sound defaultClickSound;
+	private static PlaybackSettings defaultPlaybackSettings;
 	
 	private static final float downedOffset = -0.01f;
 	
@@ -78,6 +81,13 @@ public class RectButton extends RectElement implements Clickable {
 		this.hoverExitCallback = callback;
 	}
 	
+	public static void setDefaultClickSound(Sound sound, PlaybackSettings settings) {
+		if ((sound == null && settings != null) || (sound != null && settings == null))
+			throw new EngineException("Sound and sound settings don't match");
+		defaultClickSound = sound;
+		defaultPlaybackSettings = settings;
+	}
+	
 	@Override
 	public void processClickRelease(ClickArgs args) {
 		if (isDisabled)
@@ -86,7 +96,8 @@ public class RectButton extends RectElement implements Clickable {
 		if (containsPosition(args.getX(), args.getY()) && clickCallback != null) {
 			clickCallback.call(new ButtonCallbackArgs());
 
-			SoundPlayer.getInstance().playSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(1.0f,1));
+			if (defaultClickSound != null)
+				SoundPlayer.getInstance().playSound(defaultClickSound, defaultPlaybackSettings);
 
 		}
 	}

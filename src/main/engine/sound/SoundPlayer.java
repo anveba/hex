@@ -34,7 +34,9 @@ public class SoundPlayer {
 		
 		SoundInstance playingSound = new SoundInstance(sound, settings);
 		
-		new Thread(() -> playingSound.start()).start();
+		Thread t = new Thread(() -> playingSound.start());
+		t.setDaemon(true);
+		t.start();
 		
 		return playingSound;
 	}

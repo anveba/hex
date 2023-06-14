@@ -98,7 +98,6 @@ public class GameLogic implements Updateable {
 			return false;
 		}
         history.push(new GameStateChange(move, swapped));
-		SoundPlayer.getInstance().playSound(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
         return true;
     }
     
@@ -207,6 +206,8 @@ public class GameLogic implements Updateable {
     	players.peekFirst().stopProcessing();
     	players.peekFirst().onEndOfTurn();
 		players.peekFirst().getTimer().addTime(extraTimeOnEndOnTurnGiven);
+		
+		SoundPlayer.getInstance().playSound(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
 
     	putCurrentPlayerInTheEndOfTheTurnQueue();
     }

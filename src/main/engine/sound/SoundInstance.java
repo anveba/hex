@@ -17,7 +17,7 @@ import main.engine.Utility;
  */
 public class SoundInstance {
 	
-	private final PlaybackSettings settings;
+	private PlaybackSettings settings;
 	private boolean isPlaying;
 	private final Sound sound;
 	private boolean stopped;
@@ -43,11 +43,11 @@ public class SoundInstance {
 		isPlaying = false;
 	}
 	
-	public PlaybackSettings getSettings() {
+	public synchronized PlaybackSettings getSettings() {
 		return settings;
 	}
 	
-	public void setSettings(PlaybackSettings settings) {
+	public synchronized void setSettings(PlaybackSettings settings) {
 		if (settings == null)
 			throw new EngineException("Settings was null");
 		this.settings = settings;
@@ -75,26 +75,29 @@ public class SoundInstance {
             
             setAsPlaying();
             sourceLine.start();
-            
-            if (sourceLine.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-            	
-            	FloatControl gainControl = ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN));
-            	
-            	float gain = Utility.lerp(getSettings().volume,
-            			gainControl.getMinimum(), gainControl.getMaximum());
-            	
-            	gainControl.setValue(gain);
-            }
 
+            PlaybackSettings settings = getSettings();
             for (int i = 0; 
             		(i < settings.repetitions 
             				|| settings.repetitions == PlaybackSettings.LOOP_ENDLESSLY) 
             		&& !isStopped(); i++) {
             	
-	            final int bufferSize = 512;
+	            final int bufferSize = 2048;
 	            int bytesRead = 0;
 	            
 	            while(bytesRead < sound.data.length && !isStopped()) {
+	            	
+	            	settings = getSettings();
+	            	if (sourceLine.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+	                	
+	                	FloatControl gainControl = ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN));
+	                	
+	                	float gain = Utility.lerp(settings.volume,
+	                			gainControl.getMinimum(), gainControl.getMaximum());
+	                	
+	                	gainControl.setValue(gain);
+	                }
+	            	
 	            	int length = Math.min(bufferSize, sound.data.length - bytesRead);
 	            	sourceLine.write(sound.data, bytesRead, length);  
 	            	bytesRead += length;

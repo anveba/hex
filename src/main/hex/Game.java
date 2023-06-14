@@ -1,7 +1,9 @@
 package main.hex;
 
+import main.engine.sound.PlaybackSettings;
 import main.engine.sound.SoundPlayer;
 import main.hex.scene.SceneDirector;
+import main.hex.resources.SoundLibrary;
 import main.hex.scene.GameSetupScene;
 import main.hex.serialisation.HexFileSystem;
 
@@ -10,6 +12,7 @@ import main.engine.graphics.*;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.ui.FrameStack;
+import main.engine.ui.RectButton;
 
 /**
  * The main, top-most class of the program. Contains the entry-point.
@@ -66,6 +69,7 @@ public class Game extends GameWindow {
             FrameStack.getInstance().processTextInput(ch);
         });
 
+        RectButton.setDefaultClickSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(1.0f, 1));
     }
     
     private void setupGraphics() {
