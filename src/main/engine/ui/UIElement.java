@@ -24,7 +24,13 @@ public abstract class UIElement {
 	public abstract float getY();
 	public abstract void setPosition(float x, float y);
 
-	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {};
+	public final void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+		if(isHidden()) return;
+
+		drawElement(renderer, offsetX, offsetY, colour);
+	}
+
+	protected abstract void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour);
     
     void setParent(UIElement parent) {
     	if (parent == null)
@@ -42,8 +48,13 @@ public abstract class UIElement {
     UIElement getParent() {
     	return parent;
     }
-    
-    public abstract void update(TimeRecord elapsed);
+
+	public final void update(TimeRecord elapsed) {
+		if(isHidden()) return;
+
+		updateElement(elapsed);
+	}
+    protected abstract void updateElement(TimeRecord elapsed);
 
 	public void hide() {
 		isHidden = true;

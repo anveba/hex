@@ -6,8 +6,6 @@ import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
-import main.engine.input.InputType;
-import main.engine.math.Vector2;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.TextInputArgs;
@@ -76,7 +74,7 @@ public class TextField extends RectElement implements Clickable {
     }
 
     @Override
-    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         image.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
         text.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
     }
@@ -138,7 +136,7 @@ public class TextField extends RectElement implements Clickable {
     }
 
     @Override
-    public void update(TimeRecord elapsed) {
+    protected void updateElement(TimeRecord elapsed) {
         if (!isFocused) return;
 
         timeTillNextUpdate -= elapsed.elapsedSeconds();

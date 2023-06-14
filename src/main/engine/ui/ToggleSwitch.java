@@ -178,12 +178,12 @@ public class ToggleSwitch extends RectElement implements Clickable {
     }
 
     @Override
-    public void update(TimeRecord elapsed) {
+    protected void updateElement(TimeRecord elapsed) {
 
     }
 
     @Override
-    protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+    protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
         backgroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));
         foregroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));

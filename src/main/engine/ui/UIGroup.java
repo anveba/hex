@@ -92,10 +92,10 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 
 	@Override
-	protected void draw(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
+	protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
 		for (var c : children)
-			if (!c.isHidden())
-				c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+			c.draw(renderer, offsetX + getX(), offsetY + getY(), colour);
+
 	}
 
 	@Override
@@ -164,10 +164,8 @@ public class UIGroup extends UIElement implements Clickable {
 	}
 	
 	@Override
-	public void update(TimeRecord elapsed) {
+	protected void updateElement(TimeRecord elapsed) {
 		for (var child : children) {
-			if (child.isHidden())
-				continue;
 			child.update(elapsed);
 		}
 	}
