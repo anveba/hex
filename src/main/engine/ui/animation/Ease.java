@@ -39,7 +39,7 @@ public class Ease extends Animation {
 	protected void animate(float time) {
 		if (time >= duration) {
 			isDone = true;
-			time = 1.0f;
+			time = duration;
 		}
 		float t = easingFunction.ease(time / duration);
 		t = Utility.clamp(t, 0.0f, 1.0f);

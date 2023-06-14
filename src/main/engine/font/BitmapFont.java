@@ -133,8 +133,11 @@ public class BitmapFont {
     }
 
     public FontCharacterData getCharacterData(char c) {
-        if (c < characterOffset || c >= characterOffset + characterCount)
-        	throw new EngineException("Character <" + c + "> (code " + (int)c + ") not contained or loaded in font");
+        if (c < characterOffset || c >= characterOffset + characterCount) {
+            //throw new EngineException("Character <" + c + "> (code " + (int)c + ") not contained or loaded in font");
+            return null;
+        }
+
         return chars[c - characterOffset];
     }
 
@@ -143,6 +146,7 @@ public class BitmapFont {
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             var d = getCharacterData(c);
+            if(d == null) continue;
             width += d.advance();
             float dh = d.y0() - d.y1();
             height = height > dh ? height : dh;
