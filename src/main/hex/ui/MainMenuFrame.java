@@ -1,8 +1,8 @@
 package main.hex.ui;
 
-import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
+import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.animation.*;
 import main.engine.ui.animation.easing.CubicInOut;

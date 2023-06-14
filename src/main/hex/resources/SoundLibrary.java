@@ -1,6 +1,6 @@
 package main.hex.resources;
 
-import main.engine.ResourceManager;
+import main.engine.io.ResourceManager;
 import main.engine.sound.Sound;
 
 public enum SoundLibrary {

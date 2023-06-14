@@ -1,8 +1,8 @@
 package main.hex.ai;
 
-import main.hex.Move;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.logic.Move;
 
 import java.util.Random;
 

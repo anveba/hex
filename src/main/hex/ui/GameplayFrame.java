@@ -1,19 +1,19 @@
 package main.hex.ui;
 
-import main.engine.ResourceManager;
 import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.animation.*;
 import main.engine.ui.animation.easing.*;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
-import main.hex.GameCustomisation;
-import main.hex.GameLogic;
 import main.hex.HexException;
 import main.hex.board.Board;
+import main.hex.logic.GameCustomisation;
+import main.hex.logic.GameLogic;
 import main.hex.player.Player;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;

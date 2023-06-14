@@ -1,7 +1,7 @@
 package main.hex.graphics;
 
 import main.engine.graphics.Renderer2D;
-import main.hex.GameCustomisation;
+import main.hex.logic.GameCustomisation;
 
 /**
  * 

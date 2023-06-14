@@ -6,7 +6,7 @@ import main.engine.graphics.Texture;
 import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.hex.Game;
-import main.hex.GameCustomisation;
+import main.hex.logic.GameCustomisation;
 import main.hex.resources.TextureLibrary;
 
 public class BoardRenderer2D {

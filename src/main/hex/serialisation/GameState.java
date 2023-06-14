@@ -4,6 +4,9 @@ import main.engine.math.Pair;
 import main.hex.*;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.logic.GameCustomisation;
+import main.hex.logic.GameLogic;
+import main.hex.logic.GameStateChange;
 import main.hex.player.*;
 
 /**

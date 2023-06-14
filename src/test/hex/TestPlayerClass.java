@@ -2,9 +2,9 @@ package test.hex;
 
 import java.util.function.BiConsumer;
 
-import main.hex.Move;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.logic.Move;
 import main.hex.player.ConcurrentPlayerResponse;
 import main.hex.player.Player;
 

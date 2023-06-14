@@ -4,9 +4,9 @@ package main.engine.graphics;
 import static org.lwjgl.opengl.GL33.*;
 
 import main.engine.EngineException;
-import main.engine.ResourceManager;
 import main.engine.graphics.model.Material;
 import main.engine.graphics.model.Mesh;
+import main.engine.io.ResourceManager;
 import main.engine.math.Matrix4;
 import main.engine.math.Vector3;
 import main.engine.math.Vector4;

@@ -1,7 +1,8 @@
-package main.hex;
+package main.hex.player;
 
 import main.engine.TimeRecord;
 import main.engine.Utility;
+import main.hex.Updateable;
 
 /**
  * This class is the logic behind the chess-inspired timers for each of the two players

@@ -1,13 +1,15 @@
-package main.hex;
+package main.hex.graphics;
 
-import main.engine.ResourceManager;
 import main.engine.TimeRecord;
 import main.engine.Utility;
 import main.engine.graphics.Camera;
 import main.engine.input.*;
+import main.engine.io.ResourceManager;
 import main.engine.math.Vector3;
 import main.engine.sound.SoundInstance;
 import main.engine.sound.SoundPlayer;
+import main.hex.Game;
+import main.hex.Updateable;
 
 /**
  * Responsible for controlling the camera in the 3D board scene.

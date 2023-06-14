@@ -1,6 +1,5 @@
 package test.hex.ai;
 
-import main.hex.Move;
 import main.hex.ai.AI;
 import main.hex.ai.AIMove;
 import main.hex.ai.graph.BoardEvaluator;
@@ -9,6 +8,7 @@ import main.hex.ai.graph.heuristicFunctions.DijkstraGraphHeuristic;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.logic.Move;
 import main.hex.player.AIPlayer;
 import main.hex.player.Player;
 

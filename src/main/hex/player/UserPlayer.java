@@ -8,11 +8,11 @@ import main.engine.input.ControlsArgs;
 import main.engine.input.ControlsCallback;
 import main.engine.math.Point2;
 import main.hex.Game;
-import main.hex.Move;
 import main.hex.Preferences;
 import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.logic.Move;
 
 /**
  * 

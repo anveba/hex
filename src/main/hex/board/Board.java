@@ -5,11 +5,11 @@ import main.engine.graphics.*;
 import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.engine.math.Vector3;
-import main.hex.GameCustomisation;
 import main.hex.HexException;
-import main.hex.Move;
 import main.hex.ai.AIMove;
 import main.hex.ai.BoardHasher;
+import main.hex.logic.GameCustomisation;
+import main.hex.logic.Move;
 
 /**
  * Representation of the board. This class does not hold any gameplay logic.

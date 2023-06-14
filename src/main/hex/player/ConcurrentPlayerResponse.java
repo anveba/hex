@@ -1,7 +1,7 @@
 package main.hex.player;
 
 import main.hex.HexException;
-import main.hex.Move;
+import main.hex.logic.Move;
 
 /**
  * The communication link between the game and the players. The players, for example

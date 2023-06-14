@@ -1,6 +1,8 @@
 package main.hex.serialisation;
 
 import main.hex.*;
+import main.hex.logic.GameCustomisation;
+import main.hex.logic.GameLogic;
 
 /**
  * Represents a game session, that is, a match.

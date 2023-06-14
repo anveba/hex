@@ -1,7 +1,7 @@
 package main.hex.resources;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.Texture;
+import main.engine.io.ResourceManager;
 
 /**
  * This enum is used to store all the textures used in the game.

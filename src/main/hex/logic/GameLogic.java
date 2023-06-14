@@ -1,8 +1,10 @@
-package main.hex;
+package main.hex.logic;
 
 import main.engine.TimeRecord;
 import main.engine.sound.PlaybackSettings;
 import main.engine.sound.SoundPlayer;
+import main.hex.HexException;
+import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;

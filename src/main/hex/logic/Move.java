@@ -1,4 +1,4 @@
-package main.hex;
+package main.hex.logic;
 
 /**
  * Represents a move a player can make.

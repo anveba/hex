@@ -1,10 +1,11 @@
 package test.hex;
 
 import main.engine.TimeRecord;
-import main.hex.GameLogic;
-import main.hex.PlayerTimer;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
+import main.hex.logic.GameLogic;
+import main.hex.player.PlayerTimer;
+
 import org.junit.Before;
 import org.junit.Test;
 

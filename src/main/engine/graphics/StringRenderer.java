@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL33.*;
 import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.font.FontCharacterData;
+import main.engine.io.ResourceManager;
 import main.engine.math.Vector2;
 
 /**

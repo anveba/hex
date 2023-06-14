@@ -3,6 +3,9 @@ package test.hex;
 import main.hex.*;
 import main.engine.*;
 import main.hex.board.*;
+import main.hex.logic.GameLogic;
+import main.hex.logic.GameStateChange;
+import main.hex.logic.Move;
 import main.hex.player.PlayerCondition;
 
 import static org.junit.Assert.*;

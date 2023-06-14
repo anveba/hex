@@ -1,4 +1,4 @@
-package main.engine;
+package main.engine.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import main.engine.EngineException;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.*;
 import main.engine.sound.Sound;

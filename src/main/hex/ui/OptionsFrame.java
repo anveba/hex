@@ -1,9 +1,9 @@
 package main.hex.ui;
 
-import main.engine.ResourceManager;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Texture;
+import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.Frame;
 import main.engine.ui.Image;

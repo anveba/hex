@@ -9,6 +9,8 @@ import org.junit.Test;
 import main.engine.graphics.Colour;
 import main.hex.*;
 import main.hex.board.*;
+import main.hex.logic.GameCustomisation;
+import main.hex.logic.GameLogic;
 import main.hex.player.*;
 import main.hex.serialisation.*;
 

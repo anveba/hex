@@ -1,4 +1,4 @@
-package main.hex;
+package main.hex.logic;
 
 import main.engine.graphics.Colour;
 import main.hex.player.PlayerSkin;

@@ -1,4 +1,4 @@
-package main.hex;
+package main.hex.logic;
 
 /**
  * Represents a change in the game state made by some move by a player.

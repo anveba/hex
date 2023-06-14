@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL33.*;
 
 import main.engine.EngineException;
-import main.engine.ResourceManager;
+import main.engine.io.ResourceManager;
 import main.engine.math.Matrix4;
 
 /**

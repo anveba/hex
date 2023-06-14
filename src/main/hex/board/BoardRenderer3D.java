@@ -2,15 +2,15 @@ package main.hex.board;
 
 import main.engine.graphics.Renderer3D;
 import main.engine.graphics.model.*;
+import main.engine.io.ResourceManager;
 import main.engine.math.*;
 
 import java.awt.Color;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.*;
 import main.hex.Game;
-import main.hex.GameCustomisation;
 import main.hex.graphics.*;
+import main.hex.logic.GameCustomisation;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
 

@@ -1,7 +1,7 @@
 package main.hex.resources;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.Texture;
+import main.engine.io.ResourceManager;
 import main.hex.HexException;
 
 import java.util.HashMap;

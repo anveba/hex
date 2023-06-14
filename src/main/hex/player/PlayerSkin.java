@@ -1,7 +1,7 @@
 package main.hex.player;
 
-import main.engine.ResourceManager;
 import main.engine.graphics.*;
+import main.engine.io.ResourceManager;
 import main.hex.resources.SkinDatabase;
 
 public class PlayerSkin {

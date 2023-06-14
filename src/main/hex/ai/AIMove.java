@@ -1,6 +1,6 @@
 package main.hex.ai;
 
-import main.hex.Move;
+import main.hex.logic.Move;
 
 public class AIMove extends Move{
 
