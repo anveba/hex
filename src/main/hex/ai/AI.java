@@ -42,7 +42,7 @@ public class AI {
 
 
     public AI(Board state, Player player){
-        doMoveSorting = true;
+        doMoveSorting = false;
     	this.board = state.clone();
         this.player = player;
         board.doFullHash();
@@ -80,7 +80,7 @@ public class AI {
         int depth = 1;
 
         //Keep searching until the time limit is reached
-        while(true){
+        while(depth < board.size()* board.size()){
             depth++;
 
             //negamax will return none if time limit is reached
