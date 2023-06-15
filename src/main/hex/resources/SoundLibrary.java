@@ -6,7 +6,7 @@ import main.engine.sound.Sound;
 public enum SoundLibrary {
     CLICK1("sounds/ClickOne.wav"),
     CLICK2("sounds/ClickTwo.wav"),
-    BACKGROUND_MUSIC("sounds/game_over.wav");
+    BACKGROUND_MUSIC("sounds/dasoundtrack.wav");
 
     private String soundPath;
     SoundLibrary(String texturePath) {

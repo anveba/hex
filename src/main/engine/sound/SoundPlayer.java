@@ -8,6 +8,9 @@ import javax.sound.sampled.*;
 import javax.sound.sampled.LineEvent.Type;
 
 import main.engine.*;
+import main.engine.ui.RectButton;
+import main.engine.ui.Slider;
+import main.engine.ui.ToggleSwitch;
 
 /**
  * Singleton responsible for playing audio.
@@ -28,12 +31,16 @@ public class SoundPlayer {
 	}
 	
 	private SoundPlayer() {
-		sfxSounds = new ArrayList<SoundInstance>();
-		musicSounds = new ArrayList<SoundInstance>();
+		sfxSounds = new ArrayList<>();
+		musicSounds = new ArrayList<>();
 	}
 
 	public void setSfxVolume(float volume) {
 		sfxSounds.forEach(s -> s.getSettings().setVolume(volume));
+
+		RectButton.getDefaultPlaybackSettings().setVolume(volume);
+		Slider.getDefaultPlaybackSettings().setVolume(volume);
+		ToggleSwitch.getDefaultPlaybackSettings().setVolume(volume);
 	}
 
 	public void setMusicVolume(float volume) {

@@ -2,6 +2,8 @@ package main.hex;
 
 import main.engine.sound.PlaybackSettings;
 import main.engine.sound.SoundPlayer;
+import main.engine.ui.Slider;
+import main.engine.ui.ToggleSwitch;
 import main.hex.scene.SceneDirector;
 import main.hex.resources.SoundLibrary;
 import main.hex.scene.GameSetupScene;
@@ -70,7 +72,11 @@ public class Game extends GameWindow {
             FrameStack.getInstance().processTextInput(ch);
         });
 
-        RectButton.setDefaultClickSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(1.0f, 1));
+        float defaultSfxVolume = Preferences.getCurrent().getSfxVolume() * Preferences.getCurrent().getMasterVolume();
+
+        RectButton.setDefaultClickSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(defaultSfxVolume, 1));
+        Slider.setDefaultClickSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(defaultSfxVolume, 1));
+        ToggleSwitch.setDefaultClickSound(SoundLibrary.CLICK1.getSound(), new PlaybackSettings(defaultSfxVolume, 1));
     }
     
     private void setupGraphics() {
@@ -83,7 +89,8 @@ public class Game extends GameWindow {
     }
 
     private void setupMusic() {
-    	SoundPlayer.getInstance().playMusic(SoundLibrary.BACKGROUND_MUSIC.getSound(), new PlaybackSettings(0.5f, -1));
+        float defaultMusicVolume = Preferences.getCurrent().getMusicVolume() * Preferences.getCurrent().getMasterVolume();
+    	SoundPlayer.getInstance().playMusic(SoundLibrary.BACKGROUND_MUSIC.getSound(), new PlaybackSettings(defaultMusicVolume, -1));
     }
 
     @Override

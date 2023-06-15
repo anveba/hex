@@ -1,10 +1,14 @@
 package main.engine.ui;
 
+import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
+import main.engine.sound.PlaybackSettings;
+import main.engine.sound.Sound;
+import main.engine.sound.SoundPlayer;
 import main.engine.ui.callback.ButtonCallback;
 import main.engine.ui.callback.ButtonCallbackArgs;
 import main.engine.ui.callback.ClickArgs;
@@ -26,6 +30,10 @@ public class ToggleSwitch extends RectElement implements Clickable {
     private boolean isHovering, toggleSwitchOn;
     private Image backgroundImage, foregroundImage;
     private Colour disabledColour, enabledColour;
+
+    private static Sound defaultClickSound;
+
+    private static PlaybackSettings defaultPlaybackSettings;
 
     public ToggleSwitch(float x, float y, float width, float height, boolean initialToggleOn,
                         Texture backgroundTexture,
@@ -118,25 +126,34 @@ public class ToggleSwitch extends RectElement implements Clickable {
     public void processClickRelease(ClickArgs args) {
         if(isHidden()) return;
 
+        if (!containsPosition(args.getX(), args.getY())) return;
+
         if (!toggleSwitchOn) {
-            if (containsPosition(args.getX(), args.getY())) {
-                if (enableCallback != null) {
-                    enableCallback.call(new ButtonCallbackArgs());
-                }
-                toggleSwitchOn = true;
-                backgroundImage.setColour(enabledColour);
-                foregroundImage.setPosition(getWidth()/2 - getHeight()/2, 0.0f);
-             }
-        } else {
-            if (containsPosition(args.getX(), args.getY())) {
-                if (disableCallback != null) {
-                    disableCallback.call(new ButtonCallbackArgs());
-                }
-                toggleSwitchOn = false;
-                backgroundImage.setColour(disabledColour);
-                foregroundImage.setPosition(-getWidth()/2 + getHeight()/2, 0.0f);
+            if (enableCallback != null) {
+                enableCallback.call(new ButtonCallbackArgs());
             }
+            toggleSwitchOn = true;
+            backgroundImage.setColour(enabledColour);
+            foregroundImage.setPosition(getWidth()/2 - getHeight()/2, 0.0f);
+        } else {
+            if (disableCallback != null) {
+                disableCallback.call(new ButtonCallbackArgs());
+            }
+            toggleSwitchOn = false;
+            backgroundImage.setColour(disabledColour);
+            foregroundImage.setPosition(-getWidth()/2 + getHeight()/2, 0.0f);
         }
+
+        if (defaultClickSound != null)
+            SoundPlayer.getInstance().playSfx(defaultClickSound, defaultPlaybackSettings);
+
+    }
+
+    public static void setDefaultClickSound(Sound sound, PlaybackSettings settings) {
+        if ((sound == null && settings != null) || (sound != null && settings == null))
+            throw new EngineException("Sound and sound settings don't match");
+        defaultClickSound = sound;
+        defaultPlaybackSettings = settings;
     }
 
     @Override
@@ -187,5 +204,9 @@ public class ToggleSwitch extends RectElement implements Clickable {
         Colour highlight = isHovering ? Colour.White : Colour.LightGrey;
         backgroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));
         foregroundImage.draw(renderer, offsetX + getX(), offsetY + getY(), Colour.multiply(colour, highlight));
+    }
+
+    public static PlaybackSettings getDefaultPlaybackSettings() {
+        return defaultPlaybackSettings;
     }
 }

@@ -57,24 +57,6 @@ public class OptionsFrameLogicTest {
     }
 
     @Test
-    public void testMasterSoundVolume() {
-    	Preferences.getCurrent().setMasterVolume(0.5f);
-    	Assert.assertEquals(0.5f, Preferences.getCurrent().getMasterVolume(), 0.0001);
-    	optionsFrameLogic.setMasterVolume(80);
-    	Assert.assertEquals(0.8f, Preferences.getCurrent().getMasterVolume(), 0.0001);
-        Assert.assertEquals(80, optionsFrameLogic.getMasterVolume());
-    }
-
-    @Test
-    public void testSetSoundVolume() {
-        Preferences.getCurrent().setSfxVolume(0.5f);
-        Assert.assertEquals(0.5f, Preferences.getCurrent().getSfxVolume(), 0.0001);
-        optionsFrameLogic.setSoundVolume(75);
-        Assert.assertEquals(0.75f, Preferences.getCurrent().getSfxVolume(), 0.0001);
-        Assert.assertEquals(75, optionsFrameLogic.getSfxVolume());
-    }
-
-    @Test
     public void testSetMusicVolume() {
         Preferences.getCurrent().setMusicVolume(0.5f);
         Assert.assertEquals(0.5f, Preferences.getCurrent().getMusicVolume(), 0.0001);

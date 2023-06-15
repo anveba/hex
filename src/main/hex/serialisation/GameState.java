@@ -1,6 +1,5 @@
 package main.hex.serialisation;
 
-import main.engine.math.Pair;
 import main.hex.*;
 import main.hex.board.Board;
 import main.hex.board.TileColour;
