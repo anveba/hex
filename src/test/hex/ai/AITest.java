@@ -33,6 +33,7 @@ public class AITest {
         AI ai = new AI(board, agent);
 
         Move nextMove = ai.getBestMoveWithDepth(2);
+        System.out.println("x: "+nextMove.getX() + " y: "+nextMove.getY());
         assertEquals(1, nextMove.getX());
         assertEquals(1, nextMove.getY());
     }

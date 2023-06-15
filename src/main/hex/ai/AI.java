@@ -74,9 +74,10 @@ public class AI {
     public AIMove getBestMoveWithTimeLimit(float timeLimitInSeconds){
     	if (timeLimitInSeconds <= 0.0f)
     		throw new AIException("Non-positive time limit given");
+        long timeLimitInMillis = (long)(timeLimitInSeconds * 1000.0f + 1.0f) + System.currentTimeMillis();
+
         //Always search with depth 1 first, so that we return something regardless of the time limit
         AIMove bestMove = getBestMoveWithDepth(1);
-        long timeLimitInMillis = (long)(timeLimitInSeconds * 1000.0f + 1.0f) + System.currentTimeMillis();
         int depth = 1;
 
         //Keep searching until the time limit is reached
@@ -176,7 +177,6 @@ public class AI {
             eval *= -1;
         }
 
-
         //If the board state is win/loss, or we've run out of depth, we return no move, but just the value of this state
         if(depth == 0 || eval == Double.POSITIVE_INFINITY || eval == Double.NEGATIVE_INFINITY){
             AIMove newMove = new AIMove(-1,-1, eval,0);
@@ -201,7 +201,6 @@ public class AI {
             sortChildren(children, state, agentColour);
         }
 
-
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
         for (AIMove child : children) {
 
@@ -223,7 +222,11 @@ public class AI {
 
             //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
-                if((maxMove.isEmpty() || maxMove.get().getDepth() < child.getDepth())){
+                if(maxValue == Double.POSITIVE_INFINITY && child.getValue() == Double.POSITIVE_INFINITY && child.getDepth() < maxMove.get().getDepth()){
+                    maxValue = child.getValue();
+                    maxMove = Optional.of(child);
+                }
+                else if((child.getValue() > maxValue ||maxMove.isEmpty())){
                     maxValue = child.getValue();
                     maxMove = Optional.of(child);
                 }
