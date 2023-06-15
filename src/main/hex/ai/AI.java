@@ -200,7 +200,7 @@ public class AI {
         if (doMoveSorting){
             sortChildren(children, state, agentColour);
         }
-        
+
         //For each valid move, we insert the agent colour, and evaluate recursively, to find the maximum value move
         for (AIMove child : children) {
 
@@ -222,7 +222,11 @@ public class AI {
 
             //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
-                if((maxMove.isEmpty() || maxMove.get().getDepth() <= child.getDepth()) || child.getValue() > maxValue){
+                if(maxValue == Double.POSITIVE_INFINITY && child.getValue() == Double.POSITIVE_INFINITY && child.getDepth() < maxMove.get().getDepth()){
+                    maxValue = child.getValue();
+                    maxMove = Optional.of(child);
+                }
+                else if((child.getValue() > maxValue ||maxMove.isEmpty())){
                     maxValue = child.getValue();
                     maxMove = Optional.of(child);
                 }
