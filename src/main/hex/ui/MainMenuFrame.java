@@ -5,7 +5,7 @@ import main.engine.graphics.Colour;
 import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.animation.*;
-import main.engine.ui.animation.easing.CubicInOut;
+import main.engine.ui.animation.easing.*;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.Game;
 import main.hex.HexException;
@@ -111,8 +111,27 @@ public class MainMenuFrame extends Frame {
     }
 
     private void newGameClicked() {
-        mainMenuView.removeChild(hexBackground);
-        FrameStack.getInstance().push(new StartGameFrame(hexBackground));
+    	AnimationSequence anim = new AnimationSequence(
+    			new Ease(getRoot(), new CubicIn(),
+    					0.0f, 0.0f, 0.0f, 2.0f, 
+    					1.0f)
+    			); 
+    	
+    	anim.setOnEndAction(() -> { 
+    		mainMenuView.removeChild(hexBackground);
+    		var sgf = new StartGameFrame(hexBackground);
+    		FrameStack.getInstance().push(sgf); 
+    		getRoot().hide(); 
+	        sgf.getRoot().hide();
+	        AnimationSequence a = new AnimationSequence(
+	        		new Show(sgf.getRoot()),
+	    			new Ease(sgf.getRoot(), new CubicOut(),
+	    					0.0f, -2.0f, 0.0f, 0.0f, 
+	    					1.0f)
+	    			); 
+	    	sgf.addAnimator(new Animator(a));
+    	});
+    	addAnimator(new Animator(anim));
     }
     
     private Image createBlackOutImage() {

@@ -3,7 +3,6 @@ package main.hex.ui;
 import main.engine.graphics.Colour;
 import main.engine.sound.SoundPlayer;
 import main.engine.ui.FrameStack;
-import main.engine.ui.HexBackground;
 import main.engine.ui.UIGroup;
 import main.hex.Preferences;
 import main.hex.resources.TextureLibrary;
