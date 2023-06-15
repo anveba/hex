@@ -9,15 +9,24 @@ import main.engine.ui.UIElement;
 
 import java.util.ArrayList;
 
+/**
+ * The animated background in the menus.
+ * Made up of tiles with new ones being added when needed and old ones being deleted when no longer needed (coming in
+ */
+
 public class HexBackground extends UIElement {
     
-    private float x, y, xSpeed, ySpeed, backgroundTileWidth, backgroundTileHeight;
-    private Texture texture;
-    private Colour colour;
-    private ArrayList<Image> backgroundTiles = new ArrayList<>();
+    private float x;
+    private float y;
+    private final float xSpeed;
+    private final float ySpeed;
+    private final float backgroundTileWidth;
+    private final float backgroundTileHeight;
+    private final Texture texture;
+    private final Colour colour;
+    private final ArrayList<Image> backgroundTiles = new ArrayList<>();
     private float aspectRatio;
-    private Image startTile;
-    
+
     public HexBackground(float x, float y, float xSpeed, float ySpeed, Texture texture, Colour colour) {
         this.x = x;
         this.y = y;
@@ -27,7 +36,7 @@ public class HexBackground extends UIElement {
         this.backgroundTileHeight = (float) texture.height() / 800.0f;
         this.texture = texture;
         this.colour = colour;
-        startTile = new Image(x, y, backgroundTileWidth, backgroundTileHeight, texture, colour);
+        Image startTile = new Image(x, y, backgroundTileWidth, backgroundTileHeight, texture, colour);
         backgroundTiles.add(startTile);
     }
 

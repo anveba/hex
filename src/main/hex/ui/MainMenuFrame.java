@@ -1,6 +1,5 @@
 package main.hex.ui;
 
-import main.engine.TimeRecord;
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
 import main.engine.io.ResourceManager;
@@ -31,8 +30,14 @@ public class MainMenuFrame extends Frame {
     private HexBackground hexBackground;
     private RectButton loadGameBtn;
     private RectButton newGameBtn;
+    private UIGroup mainMenuView;
 
-    public MainMenuFrame() {
+    public MainMenuFrame(HexBackground hexBackground) {
+        if (hexBackground == null) {
+            this.hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+        } else {
+            this.hexBackground = hexBackground;
+        }
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
 
@@ -40,10 +45,9 @@ public class MainMenuFrame extends Frame {
     }
 
     public void initializeMainMenuFrame(UIGroup root) {
-        UIGroup mainMenuView = new UIGroup(0.0f, 0.0f);
+        mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
-        //hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_BLACK.getTexture(), Colour.Grey);
-        hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+
         mainMenuView.addChild(hexBackground);
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
@@ -113,17 +117,21 @@ public class MainMenuFrame extends Frame {
     					1.0f)
     			); 
     	
-    	var sgf = new StartGameFrame();
-    	anim.setOnEndAction(() -> { FrameStack.getInstance().push(sgf); getRoot().hide(); });
-        addAnimator(new Animator(anim));
-        sgf.getRoot().hide();
-        anim = new AnimationSequence(
-        		new Show(sgf.getRoot()),
-    			new Ease(sgf.getRoot(), new CubicOut(),
-    					0.0f, -2.0f, 0.0f, 0.0f, 
-    					1.0f)
-    			); 
-    	sgf.addAnimator(new Animator(anim));
+    	anim.setOnEndAction(() -> { 
+    		mainMenuView.removeChild(hexBackground);
+    		var sgf = new StartGameFrame(hexBackground);
+    		FrameStack.getInstance().push(sgf); 
+    		getRoot().hide(); 
+	        sgf.getRoot().hide();
+	        AnimationSequence a = new AnimationSequence(
+	        		new Show(sgf.getRoot()),
+	    			new Ease(sgf.getRoot(), new CubicOut(),
+	    					0.0f, -2.0f, 0.0f, 0.0f, 
+	    					1.0f)
+	    			); 
+	    	sgf.addAnimator(new Animator(a));
+    	});
+    	addAnimator(new Animator(anim));
     }
     
     private Image createBlackOutImage() {
@@ -165,15 +173,13 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        FrameStack.getInstance().push(new OptionsFrame());
+        mainMenuView.removeChild(hexBackground);
+        OptionsFrame optionsFrame = new OptionsFrame();
+        optionsFrame.setHexBackground(hexBackground);
+        FrameStack.getInstance().push(optionsFrame);
     }
 
     private void quitClicked() {
     	fadeOut(1.0f, () -> Game.getInstance().closeWindow());
-    }
-
-    @Override
-    public void update(TimeRecord elapsed) {
-        hexBackground.update(elapsed);
     }
 }

@@ -1,7 +1,11 @@
 package main.hex.ui;
 
+import main.engine.graphics.Colour;
+import main.engine.sound.SoundPlayer;
 import main.engine.ui.FrameStack;
+import main.engine.ui.UIGroup;
 import main.hex.Preferences;
+import main.hex.resources.TextureLibrary;
 import main.hex.serialisation.HexFileSystem;
 
 /**
@@ -17,9 +21,22 @@ import main.hex.serialisation.HexFileSystem;
 
 public class OptionsFrameLogic {
 
-    public void exitSettingsButtonPressed() {
+    private HexBackground hexBackground;
+
+    public void exitSettingsButtonPressed(UIGroup backgroundGroup) {
     	HexFileSystem.getInstance().savePreferences(Preferences.getCurrent());
-        FrameStack.getInstance().pop();
+        if (FrameStack.getInstance().peekSecond() instanceof MainMenuFrame) {
+            FrameStack.getInstance().clear();
+            HexBackground background = getHexBackground() == null
+                    ? new HexBackground(0.0f, 0.0f, 0.05f, -0.025f,
+                            TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey)
+                    : hexBackground;
+            if (hexBackground != null)
+                backgroundGroup.removeChild(hexBackground);
+            FrameStack.getInstance().push(new MainMenuFrame(background));
+        } else {
+            FrameStack.getInstance().pop();
+        }
     }
 
     public void enable3DGraphics() {
@@ -36,17 +53,21 @@ public class OptionsFrameLogic {
 
     public void setSoundVolume(int volume) {
         Preferences.getCurrent().setSfxVolume(volume/100f);
+        SoundPlayer.getInstance().setSfxVolume(volume/100f * getMasterVolume()/100f);
     }
 
     public void setMusicVolume(int volume) {
         Preferences.getCurrent().setMusicVolume(volume/100f);
+        SoundPlayer.getInstance().setMusicVolume(volume/100f * getMasterVolume()/100f);
     }
 
     public void setMasterVolume(int volume) {
         Preferences.getCurrent().setMasterVolume(volume/100f);
+        SoundPlayer.getInstance().setMusicVolume(volume/100f * getMusicVolume()/100f);
+        SoundPlayer.getInstance().setSfxVolume(volume/100f * getSfxVolume()/100f);
     }
 
-    public int getSoundVolume() {
+    public int getSfxVolume() {
         return (int) (Preferences.getCurrent().getSfxVolume() * 100);
     }
 
@@ -58,4 +79,11 @@ public class OptionsFrameLogic {
         return (int) (Preferences.getCurrent().getMasterVolume() * 100);
     }
 
+    public HexBackground getHexBackground() {
+        return hexBackground;
+    }
+
+    public void setHexBackground(HexBackground hexBackground) {
+        this.hexBackground = hexBackground;
+    }
 }

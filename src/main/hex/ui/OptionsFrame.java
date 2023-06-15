@@ -2,11 +2,8 @@ package main.hex.ui;
 
 import main.engine.font.BitmapFont;
 import main.engine.graphics.Colour;
-import main.engine.graphics.Texture;
 import main.engine.io.ResourceManager;
 import main.engine.ui.*;
-import main.engine.ui.Frame;
-import main.engine.ui.Image;
 import main.hex.resources.TextureLibrary;
 
 
@@ -40,10 +37,11 @@ public class OptionsFrame extends Frame {
     private final String SOUND_SETTING = "Sound Effects:";
     private final String GRAPHICS_STYLE_SETTING = "Graphics Style:";
     private final String GRAPHICS_TITLE = "Graphics";
+    private UIGroup backgroundGroup;
+    private HexBackground hexBackground;
 
     public OptionsFrame() {
         logic = new OptionsFrameLogic();
-
 
         UIGroup root = new UIGroup(0.0f, 0.0f);
         initializeFrameView(root);
@@ -55,11 +53,12 @@ public class OptionsFrame extends Frame {
         UIGroup settingsMenu = new UIGroup(0.0f, 0.0f);
         root.addChild(settingsMenu);
 
+        backgroundGroup = new UIGroup(0.0f, 0.0f);
+        settingsMenu.addChild(backgroundGroup);
         settingsMenu.addChild(createBackground());
         settingsMenu.addChild(createSoundOptions());
         settingsMenu.addChild(createGraphicsOptions());
         settingsMenu.addChild(createBackButton());
-
     }
 
     private UIGroup createBackground() {
@@ -145,7 +144,7 @@ public class OptionsFrame extends Frame {
                 0.06f,
                 TextureLibrary.SCROLLBAR_GREY.getTexture(),
                 TextureLibrary.SCROLLBAR_BUTTON_GREY.getTexture(),
-                0, 100, logic.getSoundVolume(),
+                0, 100, logic.getSfxVolume(),
                 args -> logic.setSoundVolume(args.getSliderLevel())
         );
         soundsSlider.setText(new Text(0.45f, 0.0f, FONT_FREDOKA_ONE, "{}%", SUB_SETTING_FONT_SIZE, SETTING_COLOUR));
@@ -204,7 +203,7 @@ public class OptionsFrame extends Frame {
                 FONT_FREDOKA_ONE,
                 BACK_BUTTON,
                 0.12f,
-                (args) -> logic.exitSettingsButtonPressed(),
+                (args) -> logic.exitSettingsButtonPressed(backgroundGroup),
                 null,
                 null)
         );
@@ -212,6 +211,12 @@ public class OptionsFrame extends Frame {
         return backButton;
     }
 
+    public HexBackground getHexBackground() {
+        return logic.getHexBackground();
+    }
 
-
+    public void setHexBackground(HexBackground hexBackground) {
+        backgroundGroup.addChild(hexBackground);
+        logic.setHexBackground(hexBackground);
+    }
 }

@@ -97,7 +97,7 @@ public class RectButton extends RectElement implements Clickable {
 			clickCallback.call(new ButtonCallbackArgs());
 
 			if (defaultClickSound != null)
-				SoundPlayer.getInstance().playSound(defaultClickSound, defaultPlaybackSettings);
+				SoundPlayer.getInstance().playSfx(defaultClickSound, defaultPlaybackSettings);
 
 		}
 	}

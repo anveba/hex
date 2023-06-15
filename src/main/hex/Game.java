@@ -46,6 +46,7 @@ public class Game extends GameWindow {
     	loadPersistentData();
     	setupGraphics();
     	setupUserInterface();
+        setupMusic();
     	
     	SceneDirector.changeScene(new GameSetupScene());
     }
@@ -79,6 +80,10 @@ public class Game extends GameWindow {
 
         // Purple colour: 0.4f, 0.2f, 0.5f
         setClearColor(0.15f, 0.15f, 0.16f);
+    }
+
+    private void setupMusic() {
+    	SoundPlayer.getInstance().playMusic(SoundLibrary.BACKGROUND_MUSIC.getSound(), new PlaybackSettings(0.5f, -1));
     }
 
     @Override

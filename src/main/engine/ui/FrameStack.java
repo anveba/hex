@@ -1,11 +1,12 @@
 package main.engine.ui;
 
-import java.util.*;
-
 import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.graphics.Renderer2D;
 import main.engine.input.ControlsArgs;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a stack of frames. It is the highest level module of the
@@ -51,6 +52,12 @@ public class FrameStack {
 		assert stack.size() == top;
 		if (top == 0) return null;
 		return stack.get(top-1);
+	}
+
+	public Frame peekSecond() {
+		assert stack.size() == top;
+		if (top <= 1) return null;
+		return stack.get(top-2);
 	}
 	
 	public int size() {

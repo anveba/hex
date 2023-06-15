@@ -3,26 +3,43 @@ package main.engine.sound;
 import main.engine.EngineException;
 
 /**
- * Contains settings for audio playback such as volume. Immutable.
+ * Contains settings for audio playback such as volume.
  * @author Andreas - s214971
  *
  */
 public class PlaybackSettings {
 
-	public static final int LOOP_ENDLESSLY = -1;
+	private static final int LOOP_ENDLESSLY = -1;
 	
-	public final float volume;
-	public final int repetitions;
+	private float volume;
+	private int repetitions;
 	
 	public PlaybackSettings(float volume, int repetitions) {
+		setVolume(volume);
+		setRepetitions(repetitions);
+	}
+
+	public void setVolume(float volume) {
 		if (volume < 0.0f || volume > 1.0f)
 			throw new EngineException("Volume wasn't between 0 and 1");
+		this.volume = volume;
+	}
 
+	public void setRepetitions(int repetitions) {
 		if (repetitions < 1 && repetitions != LOOP_ENDLESSLY)
 			throw new EngineException("Invalid repeition count");
-		
-		this.volume = volume;
 		this.repetitions = repetitions;
 	}
-	
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public int getRepetitions() {
+		return repetitions;
+	}
+
+	public static int getLoopEndlessly() {
+		return LOOP_ENDLESSLY;
+	}
 }

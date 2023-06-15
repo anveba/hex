@@ -1,9 +1,9 @@
 package main.hex.ui;
 
-import main.engine.*;
 import main.engine.font.BitmapFont;
 import main.engine.format.TimeFormat;
-import main.engine.graphics.*;
+import main.engine.graphics.Colour;
+import main.engine.graphics.Texture;
 import main.engine.io.ResourceManager;
 import main.engine.ui.*;
 import main.engine.ui.animation.AnimationSequence;
@@ -19,11 +19,7 @@ import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.logic.GameCustomisation;
 import main.hex.logic.GameLogic;
-import main.hex.player.AIPlayer;
-import main.hex.player.Player;
-import main.hex.player.PlayerSkin;
-import main.hex.player.PlayerType;
-import main.hex.player.UserPlayer;
+import main.hex.player.*;
 import main.hex.resources.SkinDatabase;
 import main.hex.resources.TextureLibrary;
 import main.hex.scene.GameplayScene;
@@ -71,9 +67,12 @@ public class StartGameFrame extends Frame {
 
 	//LOGIC
 	private StartGameFrameLogic startGameFrameLogic;
+	private HexBackground hexBackground;
+	private UIGroup settingsMenu;
 
 	//Constructors
-	public StartGameFrame() {
+	public StartGameFrame(HexBackground hexBackground) {
+		this.hexBackground = hexBackground;
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultTextureId, "Basic");
@@ -105,9 +104,10 @@ public class StartGameFrame extends Frame {
 
 	private void initializeFrameView(UIGroup root) {
 
-		UIGroup settingsMenu = new UIGroup(0.0f, 0.0f);
+		settingsMenu = new UIGroup(0.0f, 0.0f);
 		root.addChild(settingsMenu);
 
+		settingsMenu.addChild(hexBackground);
 		settingsMenu.addChild(createBackground());
 		settingsMenu.addChild(createGameSettings());
 		settingsMenu.addChild(createPlayerSettings());
@@ -249,7 +249,7 @@ public class StartGameFrame extends Frame {
 		// skinImage showcase
 		float c = (float)Math.cos(Math.toRadians(30.0f));
 		Image skinImage = new Image(0.0f, -0.235f, 0.22f * c, 0.22f, 
-				SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(0)), 
+				SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureId(0)),
 				startGameFrameLogic.getPlayerColour(playerIndex));
 		skinCarouselUIGroup.addChild(skinImage);
 
@@ -266,7 +266,7 @@ public class StartGameFrame extends Frame {
 				TextureLibrary.RIGHT_CAROUSEL_ARROW.getTexture(),
 				(args) -> textureCarouselRight(skinImage, textureCarouselText, playerIndex)));
 
-		// Texture carousel text
+		// Colour carousel text
 		Text colourCarouselText = new Text(0.0f, -0.04f, FONT_FREDOKA_ONE,
 				startGameFrameLogic.getPlayerColourString(playerIndex), skinCarouselFontSize);
 		skinCarouselUIGroup.addChild(colourCarouselText);
@@ -322,14 +322,14 @@ public class StartGameFrame extends Frame {
 	public void textureCarouselLeft(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.previousTexture(playerIndex);
 		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
-		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 		skinImage.setTexture(texture);
 	}
 
 	public void textureCarouselRight(Image skinImage, Text textureText, int playerIndex) {
 		startGameFrameLogic.nextTexture(playerIndex);
 		textureText.setText(startGameFrameLogic.getPlayerTextureName(playerIndex));
-		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getHexTextureId(playerIndex));
+		Texture texture = SkinDatabase.getInstance().getTextureFromId(startGameFrameLogic.getPlayerTextureIndex(playerIndex));
 		skinImage.setTexture(texture);
 	}
 
@@ -389,6 +389,10 @@ public class StartGameFrame extends Frame {
 		return startGameFrameLogic.getSwapRule();
 	}
 
+	public void setHexBackground(HexBackground hexBackground) {
+		this.hexBackground = hexBackground;
+	}
+
 	public void backToMainMenu() {
 		AnimationSequence anim = new AnimationSequence(
 				new Ease(getRoot(), new CubicIn(),
@@ -397,7 +401,8 @@ public class StartGameFrame extends Frame {
 				new Wait(2.0f)
 				);
 		anim.setOnEndAction(() -> {
-			FrameStack.getInstance().push(new MainMenuFrame()); getRoot().hide();
+			settingsMenu.removeChild(hexBackground);
+			FrameStack.getInstance().push(new MainMenuFrame(hexBackground)); getRoot().hide();
 		});
 		addAnimator(new Animator(anim));
 	}

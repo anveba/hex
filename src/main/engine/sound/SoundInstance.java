@@ -46,13 +46,7 @@ public class SoundInstance {
 	public synchronized PlaybackSettings getSettings() {
 		return settings;
 	}
-	
-	public synchronized void setSettings(PlaybackSettings settings) {
-		if (settings == null)
-			throw new EngineException("Settings was null");
-		this.settings = settings;
-	}
-	
+
 	public synchronized void stop() {
 		stopped = true;
 	}
@@ -78,8 +72,8 @@ public class SoundInstance {
 
             PlaybackSettings settings = getSettings();
             for (int i = 0; 
-            		(i < settings.repetitions 
-            				|| settings.repetitions == PlaybackSettings.LOOP_ENDLESSLY) 
+            		(i < settings.getRepetitions()
+            				|| settings.getRepetitions() == PlaybackSettings.getLoopEndlessly())
             		&& !isStopped(); i++) {
             	
 	            final int bufferSize = 2048;
@@ -92,7 +86,7 @@ public class SoundInstance {
 	                	
 	                	FloatControl gainControl = ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN));
 	                	
-	                	float gain = Utility.lerp(settings.volume,
+	                	float gain = Utility.lerp(settings.getVolume(),
 	                			gainControl.getMinimum(), gainControl.getMaximum());
 	                	
 	                	gainControl.setValue(gain);
