@@ -1,11 +1,15 @@
 package main.engine.ui;
 
+import main.engine.EngineException;
 import main.engine.TimeRecord;
 import main.engine.format.Format;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
 import main.engine.input.ControlsArgs;
+import main.engine.sound.PlaybackSettings;
+import main.engine.sound.Sound;
+import main.engine.sound.SoundPlayer;
 import main.engine.ui.callback.ClickArgs;
 import main.engine.ui.callback.HoverArgs;
 import main.engine.ui.callback.SliderCallback;
@@ -32,6 +36,9 @@ public class Slider extends RectElement implements Clickable {
     private int min, max, current;
     private float sliderMaxX, sliderMinX;
     private Format format;
+
+    private static Sound defaultClickSound;
+    private static PlaybackSettings defaultPlaybackSettings;
 
     public Slider(float x, float y, float width,float height, 
     		Texture backgroundTexture, Texture sliderTexture, 
@@ -112,6 +119,12 @@ public class Slider extends RectElement implements Clickable {
     	moveSlider((sliderMaxX - sliderMinX) * percent - (sliderMaxX - sliderMinX) / 2);
     }
 
+    public static void setDefaultClickSound(Sound sound, PlaybackSettings settings) {
+        if ((sound == null && settings != null) || (sound != null && settings == null))
+            throw new EngineException("Sound and sound settings don't match");
+        defaultClickSound = sound;
+        defaultPlaybackSettings = settings;
+    }
 
     @Override
     public void updateCursorPosition(HoverArgs args) {
@@ -134,6 +147,9 @@ public class Slider extends RectElement implements Clickable {
 
         if (sliderChangedCallback != null) {
             sliderChangedCallback.call(new SliderCallbackArgs(current));
+
+            if (defaultClickSound != null)
+                SoundPlayer.getInstance().playSfx(defaultClickSound, defaultPlaybackSettings);
         }
     }
 
@@ -215,4 +231,8 @@ public class Slider extends RectElement implements Clickable {
 	public void processControlsInput(ControlsArgs args) {
 		
 	}
+
+    public static PlaybackSettings getDefaultPlaybackSettings() {
+        return defaultPlaybackSettings;
+    }
 }
