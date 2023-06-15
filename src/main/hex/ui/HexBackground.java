@@ -11,7 +11,10 @@ import java.util.ArrayList;
 
 /**
  * The animated background in the menus.
- * Made up of tiles with new ones being added when needed and old ones being deleted when no longer needed (coming in
+ * The background is made up of tiles with new ones being added when needed (about to be seen by the user)
+ * and old ones being deleted when no longer needed (can no longer be seen by the user).
+ *
+ * @Author Oliver Siggaard - s204450
  */
 
 public class HexBackground extends UIElement {
