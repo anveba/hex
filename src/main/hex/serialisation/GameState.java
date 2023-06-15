@@ -41,7 +41,7 @@ public class GameState {
 	private PlayerState generatePlayerStateFromPlayer(Player player, String name, PlayerSkin skin) {
 		PlayerType type;
 		if (player instanceof AIPlayer)
-			type = PlayerType.AI_EASY; //TODO, serialise difficulty.
+			type = PlayerType.AI;
 		else if (player instanceof UserPlayer)
 			type = PlayerType.HUMAN;
 		else
@@ -71,9 +71,7 @@ public class GameState {
 		case HUMAN:
 			p = new UserPlayer(col, state.timeRemaining, state.name);
 			break;
-		case AI_EASY:
-		case AI_NORMAL:
-		case AI_HARD:
+		case AI:
 			p = new AIPlayer(col, state.timeRemaining, AIPlayer.defaultMaximumProcessingTime, state.name);
 			break;
 		default:

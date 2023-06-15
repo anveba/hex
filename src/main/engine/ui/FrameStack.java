@@ -98,7 +98,7 @@ public class FrameStack {
 	public void update(TimeRecord elapsed) {
 		if (top > 0) {
 			stack.get(top - 1).update(elapsed);
-			stack.get(top - 1).animate(elapsed); //TODO perhaps move this to a separate loop
+			stack.get(top - 1).animate(elapsed);
 		}
 	}
 	
