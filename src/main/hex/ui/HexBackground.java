@@ -1,9 +1,11 @@
-package main.engine.ui;
+package main.hex.ui;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
+import main.engine.ui.Image;
+import main.engine.ui.UIElement;
 
 import java.util.ArrayList;
 
