@@ -122,7 +122,7 @@ public class StartGameFrame extends Frame {
 		settingsMenu.addChild(startGameBtn);
 		
 		blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
-        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.DarkGrey);
 		blackOutImage.hide();
 		root.addChild(blackOutImage);
 	}
@@ -397,8 +397,7 @@ public class StartGameFrame extends Frame {
 		AnimationSequence anim = new AnimationSequence(
 				new Ease(getRoot(), new CubicIn(),
 						0.0f, 0.0f, 0.0f, 2.0f, 
-						1.0f),
-				new Wait(2.0f)
+						1.0f)
 				);
 		anim.setOnEndAction(() -> {
 			settingsMenu.removeChild(hexBackground);

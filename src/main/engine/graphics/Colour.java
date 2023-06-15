@@ -30,6 +30,7 @@ public class Colour {
 	public static final Colour White = new Colour(1.0f, 1.0f, 1.0f, 1.0f);
 	public static final Colour Grey = new Colour(0.5f, 0.5f, 0.5f, 1.0f);
 	public static final Colour LightGrey = new Colour(0.75f, 0.75f, 0.75f, 1.0f);
+	public static final Colour DarkGrey = new Colour(0.01f, 0.01f, 0.01f, 1.0f);
 	public static final Colour Black = new Colour(0.0f, 0.0f, 0.0f, 1.0f);
 	public static final Colour Red = new Colour(1.0f, 0.0f, 0.0f, 1.0f);
 	public static final Colour Pink = new Colour(1.0f, 0.2f, 0.9f, 1.0f);

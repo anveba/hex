@@ -140,7 +140,7 @@ public class HexBackground extends UIElement {
     protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
         aspectRatio = (float) renderer.context.getViewportWidth() / renderer.context.getViewportHeight();
         for (Image backgroundTile : backgroundTiles) {
-            backgroundTile.draw(renderer, offsetX, offsetY, colour);
+            backgroundTile.draw(renderer, 0.0f, 0.0f, colour);
         }
     }
 

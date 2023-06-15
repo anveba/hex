@@ -56,10 +56,21 @@ public class MainMenuFrame extends Frame {
     }
 
     private UIGroup createLogoView() {
-        UIGroup logoView = new UIGroup(0.0f, 0.65f);
+        UIGroup logoView = new UIGroup(0.0f, 0.1f);
 
         Image hexLogo = new Image(0.0f, 0.0f, 1.2f, 1.2f * 0.45f, TextureLibrary.HEX_LOGO.getTexture());
         logoView.addChild(hexLogo);
+        
+        logoView.hide();
+        AnimationSequence anim = new AnimationSequence(
+        		new Wait(0.4f),
+        		new Show(logoView),
+        		new Wait(0.7f),
+        		new Ease(logoView, new CubicInOut(),
+        				0.0f, 0.1f, 0.0f, 0.65f,
+        				1.0f)
+        		);
+        addAnimator(new Animator(anim));
 
         return logoView;
     }
@@ -67,7 +78,7 @@ public class MainMenuFrame extends Frame {
     private UIGroup createButtonMenuView() {
         UIGroup buttonMenuView = new UIGroup(0.0f, 0.0f);
         
-        AnimationSequence animSeq = new AnimationSequence();
+        AnimationSequence animSeq = new AnimationSequence(new Wait(1.0f));
         
         newGameBtn = createMenuButton(0, "New Game", (args) -> newGameClicked(), animSeq);
         buttonMenuView.addChild(newGameBtn);
@@ -113,7 +124,7 @@ public class MainMenuFrame extends Frame {
     private void newGameClicked() {
     	AnimationSequence anim = new AnimationSequence(
     			new Ease(getRoot(), new CubicIn(),
-    					0.0f, 0.0f, 0.0f, 2.0f, 
+    					0.0f, 0.0f, 0.0f, -3.0f, 
     					1.0f)
     			); 
     	
@@ -121,12 +132,11 @@ public class MainMenuFrame extends Frame {
     		mainMenuView.removeChild(hexBackground);
     		var sgf = new StartGameFrame(hexBackground);
     		FrameStack.getInstance().push(sgf); 
-    		getRoot().hide(); 
-	        sgf.getRoot().hide();
+    		sgf.getRoot().setPosition(0.0f, -4.0f);
 	        AnimationSequence a = new AnimationSequence(
 	        		new Show(sgf.getRoot()),
 	    			new Ease(sgf.getRoot(), new CubicOut(),
-	    					0.0f, -2.0f, 0.0f, 0.0f, 
+	    					0.0f, 3.0f, 0.0f, 0.0f, 
 	    					1.0f)
 	    			); 
 	    	sgf.addAnimator(new Animator(a));
@@ -136,7 +146,7 @@ public class MainMenuFrame extends Frame {
     
     private Image createBlackOutImage() {
     	blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f, 
-        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.DarkGrey);
 		blackOutImage.hide();
 		return blackOutImage;
     }

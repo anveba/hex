@@ -101,13 +101,14 @@ public class GameplayFrame extends Frame {
         root.addChild(winMenuUIGroup);
 
         blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f,
-        		TextureLibrary.WHITE_PX.getTexture(), Colour.Black);
+        		TextureLibrary.WHITE_PX.getTexture(), Colour.DarkGrey);
         blackOutImage.hide();
         root.addChild(blackOutImage);
 
         toastText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "", 0.1f);
         toastText.hide();
         root.addChild(toastText);
+        
     }
 
     public void fadeIn(float time) {
@@ -132,7 +133,8 @@ public class GameplayFrame extends Frame {
     	AnimationSequence anim = new AnimationSequence(
     			new Ease(blackOutImage, new CubicInOut(),
     					0.0f, 2.0f, 0.0f, 0.0f,
-    					time)
+    					time),
+    			new Wait(time + 0.3f)
     			);
     	anim.setOnEndAction(onEnd);
     	addAnimator(new Animator(anim));
@@ -374,8 +376,8 @@ public class GameplayFrame extends Frame {
         } else {
             removeAnimator(pauseMenuAnimator);
             pauseMenuAnimator = new Animator(
-                    new Ease(pauseMenuUIGroup, new CubicInOut(),
-                            2.0f, 0.0f, 0.0f, 0.0f,
+                    new Ease(pauseMenuUIGroup, new CubicOut(),
+                            5.0f, 0.0f, 0.0f, 0.0f,
                             pauseMenuAnimationTime));
             addAnimator(pauseMenuAnimator);
             pauseMenuUIGroup.show();
@@ -387,8 +389,8 @@ public class GameplayFrame extends Frame {
     	removeAnimator(pauseMenuAnimator);
     	pauseMenuAnimator = new Animator(
     			new AnimationSequence(
-    	    			new Ease(pauseMenuUIGroup, new CubicInOut(),
-    	    					0.0f, 0.0f, -2.0f, 0.0f, 
+    	    			new Ease(pauseMenuUIGroup, new CubicIn(),
+    	    					0.0f, 0.0f, -5.0f, 0.0f, 
     	    					pauseMenuAnimationTime),
     	    			new Wait(pauseMenuAnimationTime),
     	    			new Hide(pauseMenuUIGroup)
