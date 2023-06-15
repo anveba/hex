@@ -11,6 +11,7 @@ import main.engine.ui.animation.Animator;
 import main.engine.ui.animation.Ease;
 import main.engine.ui.animation.Hide;
 import main.engine.ui.animation.Wait;
+import main.engine.ui.animation.easing.CubicIn;
 import main.engine.ui.animation.easing.CubicInOut;
 import main.engine.ui.callback.ButtonCallback;
 import main.hex.HexException;
@@ -389,6 +390,15 @@ public class StartGameFrame extends Frame {
 	}
 
 	public void backToMainMenu() {
-		FrameStack.getInstance().push(new MainMenuFrame());
+		AnimationSequence anim = new AnimationSequence(
+				new Ease(getRoot(), new CubicIn(),
+						0.0f, 0.0f, 0.0f, 2.0f, 
+						1.0f),
+				new Wait(2.0f)
+				);
+		anim.setOnEndAction(() -> {
+			FrameStack.getInstance().push(new MainMenuFrame()); getRoot().hide();
+		});
+		addAnimator(new Animator(anim));
 	}
 }
