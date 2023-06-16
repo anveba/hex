@@ -20,7 +20,11 @@ public class AIPlayer extends Player {
 
 	@Override
 	public void processTurn(Board board, ConcurrentPlayerResponse response) {
-		aiThread = new Thread(() -> response.placeMove(new AI(board, this).getBestMoveWithTimeLimit(timeLimitPerTurnInSeconds)));
+		aiThread = new Thread(() -> 
+			response.placeMove(new AI(board, this)
+					.getBestMoveWithTimeLimit(
+							Math.min(timeLimitPerTurnInSeconds, (float)getTimer().getRemainingTime())))
+		);
 		aiThread.setUncaughtExceptionHandler((th, ex) -> { response.setError(ex); });
 		aiThread.start();
 	}

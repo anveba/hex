@@ -76,7 +76,7 @@ public class SoundInstance {
             				|| settings.getRepetitions() == PlaybackSettings.getLoopEndlessly())
             		&& !isStopped(); i++) {
             	
-	            final int bufferSize = 2048;
+	            final int bufferSize = 1024;
 	            int bytesRead = 0;
 	            
 	            while(bytesRead < sound.data.length && !isStopped()) {
@@ -85,8 +85,8 @@ public class SoundInstance {
 	            	if (sourceLine.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
 	                	
 	                	FloatControl gainControl = ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN));
-	                	
-	                	float gain = Utility.lerp(settings.getVolume(),
+	                	float vol = volumeCurve(settings.getVolume());
+	                	float gain = Utility.lerp(vol,
 	                			gainControl.getMinimum(), gainControl.getMaximum());
 	                	
 	                	gainControl.setValue(gain);
@@ -110,5 +110,10 @@ public class SoundInstance {
         } catch(LineUnavailableException e){
         	throw new EngineException("Could not play sound: " + e.toString());
         }
+	}
+
+	private float volumeCurve(float volume) {
+		assert volume >= 0.0f || volume <= 1.0f;
+		return volume == 1.0f ? 1.0f : 1.0f - (float)Math.pow(2.0f, -10.0f * volume);
 	}
 }

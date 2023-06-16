@@ -1,4 +1,4 @@
-package main.hex.board;
+package main.hex.graphics;
 
 import main.engine.graphics.Renderer3D;
 import main.engine.graphics.model.*;
@@ -9,7 +9,9 @@ import java.awt.Color;
 
 import main.engine.graphics.*;
 import main.hex.Game;
-import main.hex.graphics.*;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 import main.hex.logic.GameCustomisation;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.TextureLibrary;
@@ -40,15 +42,15 @@ public class BoardRenderer3D {
 			0.02f, 0.02f, 0.02f,
 			0.9f, 0.9f, 0.9f,
 			0.2f, 0.2f, 0.2f,
-			256.0f, 0.02f, 0.01f,
+			256.0f, 0.002f, 0.01f,
 			ResourceManager.getInstance().loadTexture("textures/oak.jpg"), null
 			);
 	}
 	
 	public Material buildTileMaterial(PlayerSkin skin, boolean isWhite) {
-		float reflectance = 0.04f;
+		float reflectance = 0.02f;
 		if (!isWhite)
-			reflectance = 0.04f;
+			reflectance = 0.02f;
 		return new Material(
 			0.02f, 0.02f, 0.02f,
 			0.8f, 0.8f, 0.8f,

@@ -51,25 +51,23 @@ vec3 sample_environment(vec3 v)
     v = normalize(v);
 	float blur_amount = u_material.fuzziness;
 
-    float kernel[25] = float[](
-        1,	4,	7,	4,	1,
-        4,	16,	26,	16,	4,
-        7,	26,	41,	26,	7,
-        4,	16,	26,	16,	4,
-        1,	4,	7,	4,	1
+    float kernel[9] = float[](
+        1, 2, 1,
+        2, 4, 2,
+        1, 2, 1
     );
     
     vec3 p1 = normalize(perpendicular(v));
     vec3 p2 = cross(v, p1);
     
     vec3 res = vec3(0);
-    for (int i = 0; i < 5; i++) 
+    for (int i = 0; i < 3; i++) 
     {
-        for (int j = 0; j < 5; j++) 
+        for (int j = 0; j < 3; j++) 
         {
-            vec2 offset_vec = vec2((i - 2) * blur_amount, (j - 2) * blur_amount);
+            vec2 offset_vec = vec2((i - 1) * blur_amount, (j - 1) * blur_amount);
             vec3 sample_vec = offset_vec.x * p1 + offset_vec.y * p2 + v;
-            res += texture(u_skybox, sample_vec).rgb * kernel[i] / 273.0;
+            res += texture(u_skybox, sample_vec).rgb * kernel[i] / 16.0;
         }
     }
     

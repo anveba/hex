@@ -5,9 +5,9 @@ import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.hex.*;
 import main.hex.board.Board;
-import main.hex.board.BoardRenderer2D;
 import main.hex.board.Tile;
 import main.hex.board.TileColour;
+import main.hex.graphics.BoardRenderer2D;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;

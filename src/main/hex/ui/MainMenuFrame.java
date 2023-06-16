@@ -56,18 +56,18 @@ public class MainMenuFrame extends Frame {
     }
 
     private UIGroup createLogoView() {
-        UIGroup logoView = new UIGroup(0.0f, 0.1f);
+        UIGroup logoView = new UIGroup(0.0f, 0.075f);
 
         Image hexLogo = new Image(0.0f, 0.0f, 1.2f, 1.2f * 0.45f, TextureLibrary.HEX_LOGO.getTexture());
         logoView.addChild(hexLogo);
         
         logoView.hide();
         AnimationSequence anim = new AnimationSequence(
-        		new Wait(0.4f),
+        		new Wait(0.5f),
         		new Show(logoView),
-        		new Wait(0.7f),
+        		new Wait(1.0f),
         		new Ease(logoView, new CubicInOut(),
-        				0.0f, 0.1f, 0.0f, 0.65f,
+        				0.0f, 0.075f, 0.0f, 0.65f,
         				1.0f)
         		);
         addAnimator(new Animator(anim));
@@ -78,7 +78,7 @@ public class MainMenuFrame extends Frame {
     private UIGroup createButtonMenuView() {
         UIGroup buttonMenuView = new UIGroup(0.0f, 0.0f);
         
-        AnimationSequence animSeq = new AnimationSequence(new Wait(1.0f));
+        AnimationSequence animSeq = new AnimationSequence(new Wait(1.38f));
         
         newGameBtn = createMenuButton(0, "New Game", (args) -> newGameClicked(), animSeq);
         buttonMenuView.addChild(newGameBtn);
