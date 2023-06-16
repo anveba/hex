@@ -9,7 +9,7 @@ public class AIPlayer extends Player {
 
 	private float timeLimitPerTurnInSeconds;
 
-	public static final float defaultMaximumProcessingTime = 5.0f;
+	public static final float defaultMaximumProcessingTime = 4.0f;
 	
 	private Thread aiThread;
 
