@@ -91,8 +91,6 @@ public class BoardEvaluator {
         }
         double verticalEvaluation = graphHeuristicFunction.computeGraphHeuristic(gridGraph);
 
-
-
         gridGraph.resetAdjacencyList();
         connectStartAndEndNodesHorizontal(tileConnectionFunction);
         connectNeighboursWithColourWeight(horizontalColour,tileConnectionFunction);

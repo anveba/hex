@@ -32,7 +32,7 @@ public class RectButton extends RectElement implements Clickable {
 	
 	private static Sound defaultClickSound;
 	private static PlaybackSettings defaultPlaybackSettings;
-	
+
 	private static final float downedOffset = -0.01f;
 	
 	public RectButton(float x, float y, float width, float height,
@@ -222,5 +222,9 @@ public class RectButton extends RectElement implements Clickable {
 		Colour col = Colour.multiply(Colour.multiply(colour, highlight), getColour());
 		image.draw(renderer, offsetX + getX(), offsetY + getY(), col);
 		text.draw(renderer, offsetX + getX(), offsetY + getY() + text.getHeight() / 5.0f, col);
+	}
+
+	public static PlaybackSettings getDefaultPlaybackSettings() {
+		return defaultPlaybackSettings;
 	}
 }

@@ -59,7 +59,7 @@ public class StartGameFrame extends Frame {
 	private final float startBtnFontSize = 0.10f;
 	private final float playerFontSize = 0.08f;
 	private final float skinCarouselFontSize = 0.06f;
-	private final float headerFontSize = 0.12f;
+	private final float headerFontSize = 0.15f;
 	private final float playerTypeFontSize = 0.05f;
 	
 	private Image blackOutImage;
@@ -94,7 +94,7 @@ public class StartGameFrame extends Frame {
 		startGameFrameLogic.setPlayerColourIndex(1, 3);
 
 		startGameFrameLogic.addPlayerType(PlayerType.HUMAN, "Human Opponent");
-		startGameFrameLogic.addPlayerType(PlayerType.AI_EASY, "AI Opponent");
+		startGameFrameLogic.addPlayerType(PlayerType.AI, "AI Opponent");
 		//startGameFrameLogic.setPlayerTypeIndex(1, 1); //Sets player 2 to initially be an AI.
 
 		UIGroup root = new UIGroup(0.0f, 0.0f);
@@ -147,8 +147,8 @@ public class StartGameFrame extends Frame {
 
 		//Background + Banner + Banner Text
 		UIGroup banner = new UIGroup(0.0f, 0.78f);
-		Image bannerBackground = new Image(0.0f, 0.0f, 1.0f, 0.4f, TextureLibrary.BANNER_GREY.getTexture());
-		Text bannerText = new Text(00.0f, 0.02f, FONT_FREDOKA_ONE, FRAME_TITLE, headerFontSize);
+		Image bannerBackground = new Image(0.0f, 0.0f, 1.0f, 0.29f, TextureLibrary.BUTTON_TEXT_LARGE_SQUARE.getTexture());
+		Text bannerText = new Text(00.0f, 0.032f, FONT_FREDOKA_ONE, FRAME_TITLE, headerFontSize);
 		banner.addChild(bannerBackground);
 		banner.addChild(bannerText);
 

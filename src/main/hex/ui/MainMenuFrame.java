@@ -18,7 +18,7 @@ import main.hex.serialisation.HexFileSystem;
 /**
  * Main menu of the game HEX, which is the first thing shown to the user.
  *
- * @Author Oliver Siggaard - s204450
+ * @author Oliver Siggaard - s204450
  */
 
 public class MainMenuFrame extends Frame {
