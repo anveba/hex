@@ -1,11 +1,9 @@
 package main.hex.ui;
 
 import main.engine.graphics.Colour;
-import main.engine.graphics.Texture;
 import main.engine.ui.Slider;
 import main.engine.ui.TextField;
 import main.hex.player.PlayerType;
-import main.hex.resources.SkinDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ import java.util.Map;
  * fields into a separate class, and creating the belonging getters and setters.
  *
  * @Author Oliver Grønborg Christensen - s204479
- * @Author Oliver Siggaard - s204450 (Texture/Color caoursel)
+ * @Author Oliver Siggaard - s204450 (Texture/Color carousel)
  */
 public class StartGameFrameLogic {
 

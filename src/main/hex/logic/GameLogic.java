@@ -12,13 +12,18 @@ import main.hex.player.ConcurrentPlayerResponse;
 import main.hex.player.Player;
 import main.hex.player.PlayerCondition;
 import main.hex.resources.SoundLibrary;
-import main.hex.serialisation.GameStateSerialiser;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.Stack;
+
+/**
+ * Handles the logic in the game of hex, such as keeping track of player turns, handling moves, undoing moves,
+ * executing the swap rule and handling win for a given player.
+ *
+ * @author Andreas - s214971
+ * @author Oliver Siggaard - s204450
+ */
 
 public class GameLogic implements Updateable {
 

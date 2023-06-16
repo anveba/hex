@@ -4,6 +4,13 @@ import main.engine.graphics.Colour;
 import main.hex.player.PlayerSkin;
 import main.hex.resources.SkinDatabase;
 
+/**
+ * Contains game related information customised to the user's preference, such as player names, player skins, time limit
+ * and if the swap-rule is enabled or not.
+ *
+ * @author Oliver Siggaard - s204450
+ */
+
 public class GameCustomisation {
 
     private final String player1Name, player2Name;
@@ -12,7 +19,7 @@ public class GameCustomisation {
     private final boolean swapRule;
     private boolean playersSwapped;
 
-    private PlayerSkin blankSkin;
+    private final PlayerSkin blankSkin;
     
     public GameCustomisation(String player1Name, String player2Name, 
     		PlayerSkin player1Skin, PlayerSkin player2Skin, 
