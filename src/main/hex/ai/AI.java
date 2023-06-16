@@ -74,7 +74,8 @@ public class AI {
     public AIMove getBestMoveWithTimeLimit(float timeLimitInSeconds){
     	if (timeLimitInSeconds <= 0.0f)
     		throw new AIException("Non-positive time limit given");
-        long timeLimitInMillis = (long)(timeLimitInSeconds * 1000.0f + 1.0f) + System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
+        long timeLimitInMillis = (long)(timeLimitInSeconds * 1000.0f + 1.0f) + startTime;
 
         //Always search with depth 1 first, so that we return something regardless of the time limit
         AIMove bestMove = getBestMoveWithDepth(1);
@@ -96,6 +97,10 @@ public class AI {
 
         System.out.println("Found move with depth: "+depth+ " Value: "+bestMove.getValue());
         System.out.println("X: "+bestMove.getX()+", Y: "+bestMove.getY());
+        while (System.currentTimeMillis() - startTime < 500){
+            //Make sure the AI doesn't instantly return a move
+            //Uses at least .5 seconds
+        }
         return bestMove;
     }
 
