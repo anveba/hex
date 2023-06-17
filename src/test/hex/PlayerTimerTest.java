@@ -12,10 +12,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Tests for PlayerTimer
- */
-
 public class PlayerTimerTest {
 
     private test.hex.TestPlayerClass player1, player2;
