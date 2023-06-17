@@ -2,6 +2,7 @@ package main.hex.ui;
 
 import main.engine.graphics.Colour;
 import main.engine.sound.SoundPlayer;
+import main.engine.ui.Background;
 import main.engine.ui.FrameStack;
 import main.engine.ui.UIGroup;
 import main.hex.Preferences;
@@ -21,18 +22,18 @@ import main.hex.serialisation.HexFileSystem;
 
 public class OptionsFrameLogic {
 
-    private HexBackground hexBackground;
+    private Background background;
 
     public void exitSettingsButtonPressed(UIGroup backgroundGroup) {
     	HexFileSystem.getInstance().savePreferences(Preferences.getCurrent());
         if (FrameStack.getInstance().peekSecond() instanceof MainMenuFrame) {
             FrameStack.getInstance().clear();
-            HexBackground background = getHexBackground() == null
-                    ? new HexBackground(0.0f, 0.0f, 0.05f, -0.025f,
+            Background background = getHexBackground() == null
+                    ? new Background(0.0f, 0.0f, 0.05f, -0.025f,
                             TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey)
-                    : hexBackground;
-            if (hexBackground != null)
-                backgroundGroup.removeChild(hexBackground);
+                    : this.background;
+            if (this.background != null)
+                backgroundGroup.removeChild(this.background);
             FrameStack.getInstance().push(new MainMenuFrame(background));
         } else {
             FrameStack.getInstance().pop();
@@ -79,11 +80,11 @@ public class OptionsFrameLogic {
         return (int) (Preferences.getCurrent().getMasterVolume() * 100);
     }
 
-    public HexBackground getHexBackground() {
-        return hexBackground;
+    public Background getHexBackground() {
+        return background;
     }
 
-    public void setHexBackground(HexBackground hexBackground) {
-        this.hexBackground = hexBackground;
+    public void setHexBackground(Background background) {
+        this.background = background;
     }
 }

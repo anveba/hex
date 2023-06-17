@@ -5,7 +5,6 @@ import main.hex.board.Board;
 import main.hex.board.TileColour;
 import main.hex.logic.GameLogic;
 import main.hex.player.PlayerTimer;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,7 +85,11 @@ public class PlayerTimerTest {
         player1.getTimer().setCallback(callback);
 
         player1.getTimer().startTimer();
-        player1.getTimer().update(new TimeRecord(15.0f, 20.0f));
+
+        TimeRecord timeRecord = mock(TimeRecord.class);
+        when(timeRecord.elapsedSeconds()).thenReturn(15.0f);
+
+        player1.getTimer().update(timeRecord);
 
         verify(callback, times(1)).run();
     }
@@ -97,7 +100,11 @@ public class PlayerTimerTest {
         player2.getTimer().setCallback(callback);
 
         player2.getTimer().startTimer();
-        player2.getTimer().update(new TimeRecord(15.0f, 20.0f));
+
+        TimeRecord timeRecord = mock(TimeRecord.class);
+        when(timeRecord.elapsedSeconds()).thenReturn(15.0f);
+
+        player2.getTimer().update(timeRecord);
 
         verify(callback, times(1)).run();
     }

@@ -1,11 +1,9 @@
-package main.hex.ui;
+package main.engine.ui;
 
 import main.engine.TimeRecord;
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
 import main.engine.graphics.Texture;
-import main.engine.ui.Image;
-import main.engine.ui.UIElement;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,7 @@ import java.util.ArrayList;
  * @author Oliver Siggaard - s204450
  */
 
-public class HexBackground extends UIElement {
+public class Background extends UIElement {
     
     private float x;
     private float y;
@@ -30,7 +28,7 @@ public class HexBackground extends UIElement {
     private final ArrayList<Image> backgroundTiles = new ArrayList<>();
     private float aspectRatio;
 
-    public HexBackground(float x, float y, float xSpeed, float ySpeed, Texture texture, Colour colour) {
+    public Background(float x, float y, float xSpeed, float ySpeed, Texture texture, Colour colour) {
         this.x = x;
         this.y = y;
         this.xSpeed = xSpeed;
@@ -62,46 +60,51 @@ public class HexBackground extends UIElement {
     }
 
     private void updateBackground() {
-        // Adding new tiles:
         if (backgroundTiles.size() <= 500) {
-            ArrayList<Image> newTiles = new ArrayList<>();
-            for (Image backgroundTile : backgroundTiles) {
-                if (backgroundTile.getX() - backgroundTileWidth / 2 >= -aspectRatio) {
-                    if (!tileExistsAtPosition(backgroundTile.getX() - backgroundTileWidth, backgroundTile.getY())) {
-                        Image bt = new Image(backgroundTile.getX() - backgroundTileWidth, backgroundTile.getY(),
-                                backgroundTileWidth, backgroundTileHeight, texture, colour);
-                        newTiles.add(bt);
-                    }
-                }
+            createNewTiles();
+        }
+        deleteUnusedTiles();
+    }
 
-                if (backgroundTile.getX() + backgroundTileWidth / 2 <= aspectRatio) {
-                    if (!tileExistsAtPosition(backgroundTile.getX() + backgroundTileWidth, backgroundTile.getY())) {
-                        Image bt = new Image(backgroundTile.getX() + backgroundTileWidth, backgroundTile.getY(),
-                                backgroundTileWidth, backgroundTileHeight, texture, colour);
-                        newTiles.add(bt);
-                    }
-                }
-
-                if (backgroundTile.getY() - backgroundTileHeight / 2 >= -1.0f) {
-                    if (!tileExistsAtPosition(backgroundTile.getX(), backgroundTile.getY() - backgroundTileHeight)) {
-                        Image bt = new Image(backgroundTile.getX(), backgroundTile.getY() - backgroundTileHeight,
-                                backgroundTileWidth, backgroundTileHeight, texture, colour);
-                        newTiles.add(bt);
-                    }
-                }
-
-                if (backgroundTile.getY() + backgroundTileHeight / 2 <= 1.0f) {
-                    if (!tileExistsAtPosition(backgroundTile.getX(), backgroundTile.getY() + backgroundTileHeight)) {
-                        Image bt = new Image(backgroundTile.getX(), backgroundTile.getY() + backgroundTileHeight,
-                                backgroundTileWidth, backgroundTileHeight, texture, colour);
-                        newTiles.add(bt);
-                    }
+    private void createNewTiles() {
+        ArrayList<Image> newTiles = new ArrayList<>();
+        for (Image backgroundTile : backgroundTiles) {
+            if (backgroundTile.getX() - backgroundTileWidth / 2 >= -aspectRatio) {
+                if (!tileExistsAtPosition(backgroundTile.getX() - backgroundTileWidth, backgroundTile.getY())) {
+                    Image bt = new Image(backgroundTile.getX() - backgroundTileWidth, backgroundTile.getY(),
+                            backgroundTileWidth, backgroundTileHeight, texture, colour);
+                    newTiles.add(bt);
                 }
             }
-            backgroundTiles.addAll(newTiles);
-        }
 
-        // Removing tiles that can no longer be seen
+            if (backgroundTile.getX() + backgroundTileWidth / 2 <= aspectRatio) {
+                if (!tileExistsAtPosition(backgroundTile.getX() + backgroundTileWidth, backgroundTile.getY())) {
+                    Image bt = new Image(backgroundTile.getX() + backgroundTileWidth, backgroundTile.getY(),
+                            backgroundTileWidth, backgroundTileHeight, texture, colour);
+                    newTiles.add(bt);
+                }
+            }
+
+            if (backgroundTile.getY() - backgroundTileHeight / 2 >= -1.0f) {
+                if (!tileExistsAtPosition(backgroundTile.getX(), backgroundTile.getY() - backgroundTileHeight)) {
+                    Image bt = new Image(backgroundTile.getX(), backgroundTile.getY() - backgroundTileHeight,
+                            backgroundTileWidth, backgroundTileHeight, texture, colour);
+                    newTiles.add(bt);
+                }
+            }
+
+            if (backgroundTile.getY() + backgroundTileHeight / 2 <= 1.0f) {
+                if (!tileExistsAtPosition(backgroundTile.getX(), backgroundTile.getY() + backgroundTileHeight)) {
+                    Image bt = new Image(backgroundTile.getX(), backgroundTile.getY() + backgroundTileHeight,
+                            backgroundTileWidth, backgroundTileHeight, texture, colour);
+                    newTiles.add(bt);
+                }
+            }
+        }
+        backgroundTiles.addAll(newTiles);
+    }
+
+    private void deleteUnusedTiles() { // Removing tiles that can no longer be seen
         ArrayList<Image> unusedTiles = new ArrayList<>();
         for (Image backgroundTile : backgroundTiles) {
             if (backgroundTile.getX() + backgroundTileWidth / 2 < -aspectRatio) {
@@ -123,6 +126,38 @@ public class HexBackground extends UIElement {
         backgroundTiles.removeAll(unusedTiles);
     }
 
+    public float getXSpeed() {
+        return xSpeed;
+    }
+
+    public float getYSpeed() {
+        return ySpeed;
+    }
+
+    public float getBackgroundTileWidth() {
+        return backgroundTileWidth;
+    }
+
+    public float getBackgroundTileHeight() {
+        return backgroundTileHeight;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Colour getColour() {
+        return colour;
+    }
+
+    public int getNoOfTiles() {
+        return backgroundTiles.size();
+    }
+
+    public void setAspectRatio(float aspectRatio) {
+        this.aspectRatio = aspectRatio;
+    }
+
     @Override
     public float getX() {
         return x;
@@ -141,7 +176,7 @@ public class HexBackground extends UIElement {
 
     @Override
     protected void drawElement(Renderer2D renderer, float offsetX, float offsetY, Colour colour) {
-        aspectRatio = (float) renderer.context.getViewportWidth() / renderer.context.getViewportHeight();
+        setAspectRatio((float) renderer.context.getViewportWidth() / renderer.context.getViewportHeight());
         for (Image backgroundTile : backgroundTiles) {
             backgroundTile.draw(renderer, 0.0f, 0.0f, colour);
         }
@@ -149,10 +184,10 @@ public class HexBackground extends UIElement {
 
     @Override
     public void updateElement(TimeRecord elapsed) {
-        updateBackground();
         for (Image backgroundTile : backgroundTiles) {
             backgroundTile.setPosition(backgroundTile.getX() + xSpeed * elapsed.elapsedSeconds(),
                     backgroundTile.getY() + ySpeed * elapsed.elapsedSeconds());
         }
+        updateBackground();
     }
 }
