@@ -174,10 +174,12 @@ public class AI {
             eval = Double.POSITIVE_INFINITY;
         }
 
+        //If we are at depth 0, we return a static evaluation
         if(depth == 0){
             eval = g.evaluateBoard();
         }
 
+        //As part of negamax, we have to make one colour negative
         if(agentColour != verticalColour){
             eval *= -1;
         }
@@ -220,6 +222,7 @@ public class AI {
 
             //Note that we multiply the child values by -1, as the recursive call, will try to minimize
             child.setValue(-childEvaluation.get().getValue());
+            child.setDepth(child.getDepth()+1);
 
 
             //We undo the move we made, and undo the change of hash
@@ -227,6 +230,7 @@ public class AI {
 
             //We simply set maxMove = max(maxMove,child)
             if (child.getValue() >= maxValue) {
+                //If we have found a winning path, prioritize the one with fewest moves
                 if(maxValue == Double.POSITIVE_INFINITY && child.getValue() == Double.POSITIVE_INFINITY && child.getDepth() < maxMove.get().getDepth()){
                     maxValue = child.getValue();
                     maxMove = Optional.of(child);
