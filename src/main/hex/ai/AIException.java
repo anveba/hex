@@ -1,10 +1,12 @@
 package main.hex.ai;
 
+import main.hex.HexException;
+
 /*
 Author Nikolaj
 Exception for just about any AI related exceptions
  */
-public class AIException extends RuntimeException {
+public class AIException extends HexException {
     public AIException(Exception ex) {
         super(ex);
     }

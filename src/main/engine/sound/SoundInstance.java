@@ -76,7 +76,7 @@ public class SoundInstance {
             				|| settings.getRepetitions() == PlaybackSettings.getLoopEndlessly())
             		&& !isStopped(); i++) {
             	
-	            final int bufferSize = 1024;
+	            final int bufferSize = 8192;
 	            int bytesRead = 0;
 	            
 	            while(bytesRead < sound.data.length && !isStopped()) {

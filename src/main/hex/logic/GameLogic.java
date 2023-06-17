@@ -4,6 +4,7 @@ import main.engine.TimeRecord;
 import main.engine.sound.PlaybackSettings;
 import main.engine.sound.SoundPlayer;
 import main.hex.HexException;
+import main.hex.Preferences;
 import main.hex.Updateable;
 import main.hex.board.Board;
 import main.hex.board.Tile;
@@ -214,7 +215,9 @@ public class GameLogic implements Updateable {
     	players.peekFirst().onEndOfTurn();
 		players.peekFirst().getTimer().addTime(extraTimeOnEndOnTurnGiven);
 		
-		SoundPlayer.getInstance().playSfx(SoundLibrary.CLICK2.getSound(), new PlaybackSettings(1.0f,1));
+		SoundPlayer.getInstance().playSfx(SoundLibrary.CLICK2.getSound(), 
+				new PlaybackSettings(
+						Preferences.getCurrent().getMasterVolume() * Preferences.getCurrent().getSfxVolume(), 1));
 
     	putCurrentPlayerInTheEndOfTheTurnQueue();
     }

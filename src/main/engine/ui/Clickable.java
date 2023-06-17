@@ -10,7 +10,6 @@ import main.engine.ui.callback.TextInputArgs;
  * 
  */
 public interface Clickable extends Hoverable {
-    void processClickRelease(ClickArgs args);
     
 	boolean containsPosition(float x, float y);
     
@@ -19,4 +18,6 @@ public interface Clickable extends Hoverable {
     void processControlsInput(ControlsArgs args);
 
 	void processClickDown(ClickArgs args);
+	
+	void processClickRelease(ClickArgs args);
 }

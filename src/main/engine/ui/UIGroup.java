@@ -82,7 +82,7 @@ public class UIGroup extends UIElement implements Clickable {
 	@Override
 	public boolean containsPosition(float x, float y) {
 		for (var c : children) {
-			if (!(c instanceof Clickable))
+			if (!(c instanceof Clickable) || c.isHidden())
 				continue;
 			Clickable clickable = (Clickable)c;
 			if (clickable.containsPosition(x - getX(), y - getY()))

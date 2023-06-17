@@ -7,6 +7,7 @@ import main.engine.input.Controls;
 import main.engine.input.ControlsArgs;
 import main.engine.input.ControlsCallback;
 import main.engine.math.Point2;
+import main.engine.ui.FrameStack;
 import main.hex.Game;
 import main.hex.Preferences;
 import main.hex.Updateable;
@@ -39,15 +40,20 @@ public class UserPlayer extends Player {
 		assert response != null;
 		if (response == null)
 			return;
+		
+		float cursorX = Game.getInstance().getControlsListener().getCursorX();
+		float cursorY = Game.getInstance().getControlsListener().getCursorY();
+		if (FrameStack.getInstance().peek() != null &&
+				FrameStack.getInstance().peek().containsPosition(cursorX, cursorY))
+			return;
+		
 		Point2 tileIndex;
 		if (Preferences.getCurrent().is3DEnabled()) {
-			tileIndex = board.screenToTile3D(Game.getInstance().getControlsListener().getCursorX(),
-					Game.getInstance().getControlsListener().getCursorY());
+			tileIndex = board.screenToTile3D(cursorX, cursorY);
 		} else {
-			tileIndex = board.screenToTile2D(Game.getInstance().getControlsListener().getCursorX(),
-				Game.getInstance().getControlsListener().getCursorY());
+			tileIndex = board.screenToTile2D(cursorX, cursorY);
 		}
-        if (!board.isOutOfBounds(tileIndex.getX(), tileIndex.getY())) {
+        if (!board.isOutOfBounds(tileIndex.getX(), tileIndex.getY()) && response.getMove() == null) {
         	response.placeMove(new Move(tileIndex.getX(), tileIndex.getY()));
         }
 	}

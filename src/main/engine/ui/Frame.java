@@ -53,6 +53,13 @@ public class Frame {
 		c.processClickRelease(args);
 	}
 
+	public boolean containsPosition(float x, float y) {
+		if (!(root instanceof Clickable) || root.isHidden())
+			return false;
+		Clickable c = (Clickable)root;
+		return c.containsPosition(x, y);
+	}
+	
 	public void hoverAt(float x, float y) {
 		if (!(root instanceof Hoverable) || root.isHidden())
 			return;
