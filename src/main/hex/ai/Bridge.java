@@ -2,7 +2,10 @@ package main.hex.ai;
 
 import main.hex.ai.graph.Edge;
 
-
+/*
+Author Nikolaj
+A class to represent bridge type virtual connections
+ */
 
 public class Bridge {
     private int x1;

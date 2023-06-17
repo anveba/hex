@@ -42,7 +42,7 @@ public class AI {
 
 
     public AI(Board state, Player player){
-        doMoveSorting = false;
+        doMoveSorting = true;
     	this.board = state.clone();
         this.player = player;
         board.doFullHash();

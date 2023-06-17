@@ -5,6 +5,11 @@ import main.hex.board.TileColour;
 
 import java.util.ArrayList;
 
+/*
+Author Nikolaj
+
+Class that contains a static method to find simple bridges on a board
+ */
 public class BridgeFinder {
 
 
