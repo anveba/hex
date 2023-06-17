@@ -26,9 +26,7 @@ public abstract class GameFileSystem {
 			throw new EngineException("Developer name was empty");
 		
 		AppDirs appDirs = AppDirsFactory.getInstance();
-		var p = appDirs.getUserDataDir(appName, null, devName) + "/";
-		System.out.println(p);
-		return p;
+		return appDirs.getUserDataDir(appName, null, devName) + "/";
 	}
 	
 	public abstract String appName();
