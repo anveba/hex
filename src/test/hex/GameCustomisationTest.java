@@ -1,7 +1,9 @@
 package test.hex;
 
+import main.engine.graphics.Colour;
 import main.hex.logic.GameCustomisation;
 import main.hex.player.PlayerSkin;
+import main.hex.resources.SkinDatabase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,16 +14,9 @@ public class GameCustomisationTest {
 
     private String p1Name, p2Name;
     private PlayerSkin p1Skin, p2Skin;
-
     private final int initialTimeLimit = 300;
-
     private final boolean swapRule = true;
-
     private GameCustomisation gameCustomisation;
-
-    public GameCustomisationTest() {
-    }
-
 
     @Before
     public void setup() {
@@ -59,5 +54,14 @@ public class GameCustomisationTest {
         assertEquals(p2Name, gameCustomisation.getPlayer1Name());
         assertEquals(p1Skin, gameCustomisation.getPlayer2Skin());
         assertEquals(p2Skin, gameCustomisation.getPlayer1Skin());
+    }
+
+    @Test
+    public void getSetBlankSkin() {
+        PlayerSkin blankSkin = new PlayerSkin(SkinDatabase.defaultTextureId, Colour.White);
+
+        gameCustomisation.setBlankSkin(blankSkin);
+
+        assertEquals(blankSkin, gameCustomisation.getBlankSkin());
     }
 }
