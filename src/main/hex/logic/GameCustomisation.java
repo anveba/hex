@@ -18,8 +18,7 @@ public class GameCustomisation {
     private final int initialTimeLimit;
     private final boolean swapRule;
     private boolean playersSwapped;
-
-    private final PlayerSkin blankSkin;
+    private PlayerSkin blankSkin;
     
     public GameCustomisation(String player1Name, String player2Name, 
     		PlayerSkin player1Skin, PlayerSkin player2Skin, 
@@ -66,7 +65,11 @@ public class GameCustomisation {
     public boolean getSwapRule() {
         return swapRule;
     }
-    
+
+    public void setBlankSkin(PlayerSkin blankSkin) {
+        this.blankSkin = blankSkin;
+    }
+
     public PlayerSkin getBlankSkin() {
 		return blankSkin;
 	}
