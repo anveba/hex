@@ -9,8 +9,6 @@ import main.engine.ui.*;
 import main.engine.ui.animation.AnimationSequence;
 import main.engine.ui.animation.Animator;
 import main.engine.ui.animation.Ease;
-import main.engine.ui.animation.Hide;
-import main.engine.ui.animation.Wait;
 import main.engine.ui.animation.easing.CubicIn;
 import main.engine.ui.animation.easing.CubicInOut;
 import main.engine.ui.callback.ButtonCallback;
@@ -67,12 +65,12 @@ public class StartGameFrame extends Frame {
 
 	//LOGIC
 	private StartGameFrameLogic startGameFrameLogic;
-	private HexBackground hexBackground;
+	private Background background;
 	private UIGroup settingsMenu;
 
 	//Constructors
-	public StartGameFrame(HexBackground hexBackground) {
-		this.hexBackground = hexBackground;
+	public StartGameFrame(Background background) {
+		this.background = background;
 		startGameFrameLogic = new StartGameFrameLogic();
 
 		startGameFrameLogic.addHexTextureId(SkinDatabase.defaultTextureId, "Basic");
@@ -107,7 +105,7 @@ public class StartGameFrame extends Frame {
 		settingsMenu = new UIGroup(0.0f, 0.0f);
 		root.addChild(settingsMenu);
 
-		settingsMenu.addChild(hexBackground);
+		settingsMenu.addChild(background);
 		settingsMenu.addChild(createBackground());
 		settingsMenu.addChild(createGameSettings());
 		settingsMenu.addChild(createPlayerSettings());
@@ -389,8 +387,8 @@ public class StartGameFrame extends Frame {
 		return startGameFrameLogic.getSwapRule();
 	}
 
-	public void setHexBackground(HexBackground hexBackground) {
-		this.hexBackground = hexBackground;
+	public void setHexBackground(Background background) {
+		this.background = background;
 	}
 
 	public void backToMainMenu() {
@@ -400,8 +398,8 @@ public class StartGameFrame extends Frame {
 						1.0f)
 				);
 		anim.setOnEndAction(() -> {
-			settingsMenu.removeChild(hexBackground);
-			FrameStack.getInstance().push(new MainMenuFrame(hexBackground)); getRoot().hide();
+			settingsMenu.removeChild(background);
+			FrameStack.getInstance().push(new MainMenuFrame(background)); getRoot().hide();
 		});
 		addAnimator(new Animator(anim));
 	}

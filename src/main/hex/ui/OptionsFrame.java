@@ -38,7 +38,7 @@ public class OptionsFrame extends Frame {
     private final String GRAPHICS_STYLE_SETTING = "Graphics Style:";
     private final String GRAPHICS_TITLE = "Graphics";
     private UIGroup backgroundGroup;
-    private HexBackground hexBackground;
+    private Background background;
 
     public OptionsFrame() {
         logic = new OptionsFrameLogic();
@@ -211,12 +211,12 @@ public class OptionsFrame extends Frame {
         return backButton;
     }
 
-    public HexBackground getHexBackground() {
+    public Background getHexBackground() {
         return logic.getHexBackground();
     }
 
-    public void setHexBackground(HexBackground hexBackground) {
-        backgroundGroup.addChild(hexBackground);
-        logic.setHexBackground(hexBackground);
+    public void setHexBackground(Background background) {
+        backgroundGroup.addChild(background);
+        logic.setHexBackground(background);
     }
 }

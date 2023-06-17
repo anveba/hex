@@ -15,12 +15,6 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.*;
 
-/**
- * Tests for the ToggleSwitch class
- *
- * @Author Oliver Siggaard - s204450
- */
-
 public class ToggleSwitchTest {
 
     private final float x = 0.2f, y = -0.5f, width = 0.4f, height = 0.15f;

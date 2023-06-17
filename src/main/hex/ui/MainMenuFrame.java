@@ -27,16 +27,16 @@ public class MainMenuFrame extends Frame {
     private float buttonFontSize = 0.10f;
     
     private Image blackOutImage;
-    private HexBackground hexBackground;
+    private Background background;
     private RectButton loadGameBtn;
     private RectButton newGameBtn;
     private UIGroup mainMenuView;
 
-    public MainMenuFrame(HexBackground hexBackground) {
-        if (hexBackground == null) {
-            this.hexBackground = new HexBackground(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
+    public MainMenuFrame(Background background) {
+        if (background == null) {
+            this.background = new Background(0.0f, 0.0f, 0.05f, -0.025f, TextureLibrary.BACKGROUND_TILE_GREYSCALE.getTexture(), Colour.Background_Grey);
         } else {
-            this.hexBackground = hexBackground;
+            this.background = background;
         }
         UIGroup root = new UIGroup(0.0f, 0.0f);
         setRoot(root);
@@ -48,7 +48,7 @@ public class MainMenuFrame extends Frame {
         mainMenuView = new UIGroup(0.0f, 0.0f);
         root.addChild(mainMenuView);
 
-        mainMenuView.addChild(hexBackground);
+        mainMenuView.addChild(background);
         mainMenuView.addChild(createLogoView());
         mainMenuView.addChild(createButtonMenuView());
         mainMenuView.addChild(createBlackOutImage());
@@ -129,8 +129,8 @@ public class MainMenuFrame extends Frame {
     			); 
     	
     	anim.setOnEndAction(() -> { 
-    		mainMenuView.removeChild(hexBackground);
-    		var sgf = new StartGameFrame(hexBackground);
+    		mainMenuView.removeChild(background);
+    		var sgf = new StartGameFrame(background);
     		FrameStack.getInstance().push(sgf); 
     		sgf.getRoot().setPosition(0.0f, -4.0f);
 	        AnimationSequence a = new AnimationSequence(
@@ -183,9 +183,9 @@ public class MainMenuFrame extends Frame {
     }
 
     private void optionsClicked() {
-        mainMenuView.removeChild(hexBackground);
+        mainMenuView.removeChild(background);
         OptionsFrame optionsFrame = new OptionsFrame();
-        optionsFrame.setHexBackground(hexBackground);
+        optionsFrame.setHexBackground(background);
         FrameStack.getInstance().push(optionsFrame);
     }
 
