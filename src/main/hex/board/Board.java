@@ -8,6 +8,8 @@ import main.engine.math.Vector3;
 import main.hex.HexException;
 import main.hex.ai.AIMove;
 import main.hex.ai.BoardHasher;
+import main.hex.graphics.BoardRenderer2D;
+import main.hex.graphics.BoardRenderer3D;
 import main.hex.logic.GameCustomisation;
 import main.hex.logic.Move;
 

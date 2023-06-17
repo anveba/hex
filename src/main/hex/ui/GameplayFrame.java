@@ -25,7 +25,7 @@ import main.hex.serialisation.HexFileSystem;
 
 /**
  * The gameplay frame is the frame that is shown during gameplay.
- * It contains the board, the player's HUD, the pause menu, and the win menu.
+ * It contains the board, the player's HUD (where player name, skin and timer is shown), the pause menu, and the win menu.
  * The board is drawn before the frame (handled by the scene), and is therefore not a part of the frame.
  *
  * @Author Oliver Grønborg Christensen - s204479

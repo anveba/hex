@@ -7,7 +7,7 @@ import main.engine.ui.callback.TextInputArgs;
 /**
  * Represents a clickable UI element.
  * @author Andreas - s214971
- *
+ * 
  */
 public interface Clickable extends Hoverable {
     void processClickRelease(ClickArgs args);

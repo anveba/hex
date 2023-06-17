@@ -1,4 +1,4 @@
-package main.hex.board;
+package main.hex.graphics;
 
 import main.engine.graphics.Colour;
 import main.engine.graphics.Renderer2D;
@@ -6,8 +6,17 @@ import main.engine.graphics.Texture;
 import main.engine.math.Point2;
 import main.engine.math.Vector2;
 import main.hex.Game;
+import main.hex.board.Board;
+import main.hex.board.Tile;
+import main.hex.board.TileColour;
 import main.hex.logic.GameCustomisation;
 import main.hex.resources.TextureLibrary;
+
+/**
+ * Responsible for drawing the board with borders in 2D.
+ *
+ * @author Oliver Siggaard - s204450
+ */
 
 public class BoardRenderer2D {
 
