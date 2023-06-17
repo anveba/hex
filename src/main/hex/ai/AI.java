@@ -85,6 +85,9 @@ public class AI {
         while(depth < board.size()* board.size()){
             depth++;
 
+            if (!doMoveSorting)
+            	memoizationTable.clear();
+            
             //negamax will return none if time limit is reached
             Optional<AIMove> searchAtNewDepth = negamaxAB(board,depth,player.getColour(),
             		Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY,

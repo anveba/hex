@@ -39,6 +39,8 @@ public class BoardHashTable {
         return hashMap.containsKey(b.getHash());
     }
 
-
+    public void clear() {
+    	hashMap.clear();
+    }
 
 }
