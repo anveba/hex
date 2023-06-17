@@ -95,8 +95,8 @@ public class AI {
             bestMove = searchAtNewDepth.get();
         }
 
-        System.out.println("Found move with depth: "+depth+ " Value: "+bestMove.getValue());
-        System.out.println("X: "+bestMove.getX()+", Y: "+bestMove.getY());
+        System.out.println("Found move with depth "+depth+ " and value "+bestMove.getValue()
+        		+ ". Position: ("+bestMove.getX()+", "+bestMove.getY() + ")");
         while (System.currentTimeMillis() - startTime < 500){
             //Make sure the AI doesn't instantly return a move
             //Uses at least .5 seconds

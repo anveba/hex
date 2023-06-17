@@ -50,7 +50,6 @@ public class TestPlayerClass extends Player {
 
 	@Override
 	public void stopProcessing() {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -1,3 +1,5 @@
+//Author: Andreas - s214971
+
 #version 330 core
 
 layout (location = 0) in vec2 a_pos;

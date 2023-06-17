@@ -7,6 +7,7 @@ import main.hex.Preferences;
 import main.hex.ui.OptionsFrameLogic;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
