@@ -8,15 +8,12 @@ import main.hex.HexException;
  */
 public class Tile {
 	
-    private TileColour colour;
+    private final TileColour colour;
 
     public Tile(TileColour colour){
-        if (colour == null) {
-            this.colour = TileColour.WHITE;
-        } else {
-            this.colour = colour;
-        }
-
+        if (colour == null) 
+            throw new HexException("Colour was null");
+        this.colour = colour;
     }
 
     public TileColour getColour() {

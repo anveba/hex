@@ -9,7 +9,7 @@ import java.util.Random;
 
 /*
 Author: Nikolaj
-Class that hashes boards using zobrist hashing
+Class that hashes boards using Zobrist hashing
 We can either hash a board from scratch, that being give a board state, and slowly hash all moves
 Or we can toggle a move, meaning that we can from any board hash very quickly find the hash for the corresponding boards children, or parent
  */
@@ -31,7 +31,6 @@ public class BoardHasher {
     public static BoardHasher getInstance(int boardSize) {
         if(instance == null || instance.boardSize != boardSize){
             instance = new BoardHasher(boardSize);
-            System.out.println("Made new instance of boardhasher");
         }
         return instance;
     }

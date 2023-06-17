@@ -60,11 +60,11 @@ public abstract class Player implements Updateable {
     
     public abstract void onEndOfTurn();
 
-     public String getName() {
-         return name;
-     }
+    public String getName() {
+        return name;
+    }
 
-     @Override
+    @Override
 	public void update(TimeRecord elapsed) {
 		
 	}

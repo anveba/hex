@@ -1,3 +1,5 @@
+//Author: Andreas - s214971
+
 #version 330 core
 
 out vec4 frag_col;

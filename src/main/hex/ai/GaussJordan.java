@@ -1,7 +1,7 @@
 package main.hex.ai;
 
 //This is a package taken from https://github.com/thomascoe/java-gaussjordan/blob/master/GaussJordan.java
-//The package is under GNU GPL v2 License, which can be found throught the link above
+//The package is under GNU GPL v2 License, which can be found through the link above
 
 /**
  * A GaussJordan object holds a two dimensional array representing a matrix
