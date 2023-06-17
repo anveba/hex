@@ -1,8 +1,15 @@
 package main.hex.player;
 
-import main.engine.graphics.*;
-import main.engine.io.ResourceManager;
+import main.engine.graphics.Colour;
+import main.engine.graphics.Texture;
 import main.hex.resources.SkinDatabase;
+
+/**
+ * A player skin consists of a texture and a colour, where the colour tints the texture, achieving the desired skin.
+ * PlayerSkin-objects contain the information about texture and colour.
+ *
+ * @author Oliver Siggaard - s204450
+ */
 
 public class PlayerSkin {
 

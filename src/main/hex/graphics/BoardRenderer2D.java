@@ -12,6 +12,12 @@ import main.hex.board.TileColour;
 import main.hex.logic.GameCustomisation;
 import main.hex.resources.TextureLibrary;
 
+/**
+ * Responsible for drawing the board with borders in 2D.
+ *
+ * @author Oliver Siggaard - s204450
+ */
+
 public class BoardRenderer2D {
 
     private boolean hasLoadedResources;
