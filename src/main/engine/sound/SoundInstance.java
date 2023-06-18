@@ -87,7 +87,7 @@ public class SoundInstance {
 	                	FloatControl gainControl = ((FloatControl) sourceLine.getControl(FloatControl.Type.MASTER_GAIN));
 	                	float vol = volumeCurve(settings.getVolume());
 	                	float gain = Utility.lerp(vol,
-	                			gainControl.getMinimum(), gainControl.getMaximum());
+	                			gainControl.getMinimum(), 0.0f);
 	                	
 	                	gainControl.setValue(gain);
 	                }
