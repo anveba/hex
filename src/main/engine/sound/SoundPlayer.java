@@ -15,6 +15,7 @@ import main.engine.ui.ToggleSwitch;
 /**
  * Singleton responsible for playing audio.
  * @author Andreas - s214971
+ * @author Oliver Grønborg Christensen - s204479
  *
  */
 public class SoundPlayer {

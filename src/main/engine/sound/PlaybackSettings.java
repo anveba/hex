@@ -5,6 +5,7 @@ import main.engine.EngineException;
 /**
  * Contains settings for audio playback such as volume.
  * @author Andreas - s214971
+ * @author Oliver Grønborg Christensen - s204479
  *
  */
 public class PlaybackSettings {
