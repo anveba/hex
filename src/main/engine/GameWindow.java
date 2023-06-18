@@ -40,7 +40,7 @@ public abstract class GameWindow implements GraphicsContext {
         initialised = false;
     }
 
-    public void startGame(String name, int width, int height) {
+    public final void startGame(String name, int width, int height) {
         
         if (initialised)
             throw new EngineException("Game already started");
@@ -166,19 +166,19 @@ public abstract class GameWindow implements GraphicsContext {
 
     protected abstract void draw();
 
-    public void clear() {
+    public final void clear() {
         if (!initialised)
             throw new EngineException("window not initialised");
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     }
 
-    public void setClearColor(float r, float g, float b) {
+    public final void setClearColor(float r, float g, float b) {
         if (!initialised)
             throw new EngineException("window not initialised");
         glClearColor(r, g, b, 0.0f);
     }
     
-    public void closeWindow() {
+    public final void closeWindow() {
         if (!initialised)
             throw new EngineException("window not initialised");
         glfwSetWindowShouldClose(windowHandle, true);
