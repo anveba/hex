@@ -100,14 +100,14 @@ public class GameplayFrame extends Frame {
         winMenuUIGroup.hide(); //Initially hidden
         root.addChild(winMenuUIGroup);
 
+        toastText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "", 0.1f);
+        toastText.hide();
+        root.addChild(toastText);
+        
         blackOutImage = new Image(0.0f, 0.0f, 50.0f, 2.0f,
         		TextureLibrary.WHITE_PX.getTexture(), Colour.DarkGrey);
         blackOutImage.hide();
         root.addChild(blackOutImage);
-
-        toastText = new Text(0.0f, 0.0f, FONT_FREDOKA_ONE, "", 0.1f);
-        toastText.hide();
-        root.addChild(toastText);
         
     }
 
