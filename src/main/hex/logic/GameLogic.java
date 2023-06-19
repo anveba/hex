@@ -256,10 +256,7 @@ public class GameLogic implements Updateable {
 	}
 	
 	public int getCurrentTurnNumber() {
-		if (gameHasStarted())
-			return history.size();
-		else
-			throw new HexException("Game hasn't started");
+		return history.size();
 	}
 	
 	public boolean gameHasStarted() {

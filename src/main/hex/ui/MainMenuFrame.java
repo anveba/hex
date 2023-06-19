@@ -172,7 +172,7 @@ public class MainMenuFrame extends Frame {
 	    	try {
 	    		session = HexFileSystem.getInstance().loadGame();
 	    	} catch (Exception e) {
-	    		return;
+	    		throw new HexException(e.toString());
 	    	}
 			
 			SceneDirector.changeScene(
